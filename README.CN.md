@@ -35,31 +35,31 @@
 
 ### Backend
 
-| Technology            | Details              |
-| --------------------- | -------------------- |
-| ![java](java-shield]) | JDK 1.8              |
-| SpringBoot            | 容器+MVC 框架        |
-| SpringSecurity        | 认证和授权框架       |
-| MyBatis               | ORM 框架             |
-| MyBatisGenerator      | 数据层代码生成       |
-| Elasticsearch         | 搜索引擎             |
-| RabbitMQ              | 消息队列             |
-| Redis                 | 分布式缓存           |
-| MongoDB               | NoSql 数据库         |
-| LogStash              | 日志收集工具         |
-| Kibana                | 日志可视化查看工具   |
-| Nginx                 | 静态资源服务器       |
-| Docker                | 应用容器引擎         |
-| Jenkins               | 自动化部署工具       |
-| Druid                 | 数据库连接池         |
-| OSS                   | 对象存储             |
-| MinIO                 | 对象存储             |
-| JWT                   | JWT 登录支持         |
-| Lombok                | 简化对象封装工具     |
-| Hutool                | Java 工具类库        |
-| PageHelper            | MyBatis 物理分页插件 |
-| Swagger-UI            | 文档生成工具         |
-| Hibernator-Validator  | 验证框架             |
+| Technology           | Details              |
+| -------------------- | -------------------- |
+| ![java](java-shield) | JDK 1.8              |
+| SpringBoot           | 容器+MVC 框架        |
+| SpringSecurity       | 认证和授权框架       |
+| MyBatis              | ORM 框架             |
+| MyBatisGenerator     | 数据层代码生成       |
+| Elasticsearch        | 搜索引擎             |
+| RabbitMQ             | 消息队列             |
+| Redis                | 分布式缓存           |
+| MongoDB              | NoSql 数据库         |
+| LogStash             | 日志收集工具         |
+| Kibana               | 日志可视化查看工具   |
+| Nginx                | 静态资源服务器       |
+| Docker               | 应用容器引擎         |
+| Jenkins              | 自动化部署工具       |
+| Druid                | 数据库连接池         |
+| OSS                  | 对象存储             |
+| MinIO                | 对象存储             |
+| JWT                  | JWT 登录支持         |
+| Lombok               | 简化对象封装工具     |
+| Hutool               | Java 工具类库        |
+| PageHelper           | MyBatis 物理分页插件 |
+| Swagger-UI           | 文档生成工具         |
+| Hibernator-Validator | 验证框架             |
 
 -
 -   ![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)
