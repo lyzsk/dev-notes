@@ -36,7 +36,7 @@ Recording personal develop and learning notes.
 
 | Technology                                                                                               | Details                 | Version |
 | -------------------------------------------------------------------------------------------------------- | ----------------------- | ------- |
-| ![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=stackoverflow)                      |                         | JDK1.8  |
+| ![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=intellijidea)                       |                         | JDK1.8  |
 | ![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)                         |                         | Python3 |
 | ![html](https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5)                              |                         | HTML5   |
 | ![CSS](https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3)                                 |                         | CSS3    |
