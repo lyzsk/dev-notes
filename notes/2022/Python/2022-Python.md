@@ -1,3 +1,7 @@
+# 2022-Python
+
+| [Python](#python) | [Jupyter notebook](#jupyter-notebook) | [Anaconda](#anaconda) | [IDE 配置](#ide-配置) | [其他](#其他) |
+
 # Python
 
 字符串转义： %s, %d, %f
@@ -69,8 +73,6 @@ python 里
 \*\*kwargs 关键字传递 kwargs 是 dict 类型, 用 key=value 形式
 
 函数可以作为参数传递
-
----
 
 # Jupyter notebook
 
