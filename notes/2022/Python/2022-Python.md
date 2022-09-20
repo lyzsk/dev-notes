@@ -1,3 +1,5 @@
+# Python
+
 字符串转义： %s, %d, %f
 
 多字符转义方法 1： 用 tuple
@@ -43,7 +45,7 @@ for right in range(len(s)):
 
 ---
 
-python 没有 `++i` {.java}, 只能 `i += 1`{.python}
+python 没有 `++i`, 只能 `i += 1`
 
 ---
 
@@ -69,6 +71,8 @@ python 里
 函数可以作为参数传递
 
 ---
+
+# Jupyter notebook
 
 用 google colab 免费的 GPU:
 
@@ -122,3 +126,142 @@ python 里
     ```
 
 11. 训练结束后从 runs/expx/weights 里把训练好的模型下载下来本地测试就行
+
+---
+
+# Anaconda
+
+```console
+<!-- 创建环境 -->
+conda create -n [env_name] python=3.9
+
+<!-- 激活环境 -->
+conda activate [env_name]
+
+<!-- 检查环境中的包 -->
+conda list [package_name]
+pip list
+
+<!-- 进入python环境 -->
+python
+
+<!-- 退出python环境 -->
+quit()
+```
+
+---
+
+BUG: 双显卡情况下, 即使正确安装 CUDA, 并且 `torch.cuda.is_available() = True` 也会导致报错: `RuntimeError: cuDNN error: CUDNN_STATUS_EXECUTION_FAILED`
+
+解决: 在启动代码的开头添加一行
+
+```python
+torch.backends.cudnn.benchmark = True
+```
+
+原理: 即使 `torch.cuda.is_available() = True`, `torch.backends.cudnn.version()` 能够查到 cudnn 版本号, `torch.backends.cudnn.enabled = True`, 因为代码没法启动 NVIDIA CUDA GPU, 所以在既有 A 卡又有 N 卡的时候应该 4 重检验, 检查 benchmark 是否开启:
+
+```python
+>>> import torch
+>>> torch.cuda.is_available()
+True
+>>> torch.backends.cudnn.version()
+7005
+>>> torch.backends.cudnn.enabled
+True
+>>> torch.backends.cudnn.benchmark
+False
+```
+
+---
+
+BUG:
+
+```python
+>>> tf.test.is_built_with_cuda()
+True
+>>> tf.test.is_gpu_available(cuda_only=False,min_cuda_compute_capability=None)
+False
+```
+
+解决: 本地给 CUDA 安装对应版本的 CUDNN 后, `conda install CUDNN`
+
+原理: Pytorch 是自带 CUDNN 的, 但是 Tensorflow 没有
+
+---
+
+BUG: 更换 CUDA 版本后 `nvidia-smi` 和 `nvcc --version` 显示的版本不同
+
+解决:
+
+更改 Enviornment Variables 环境变量:
+
+1. 在 User variables 的 Path 里添加对应版本: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`, 每次更改版本的时候把这里的版本号也改了
+
+2. 在 System variables 的 Path 里把对应版本的 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\bin` 和 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\libnvvp` Move up 移到所有 CUDA 版本的最上面
+
+```console
+nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 516.59       Driver Version: 516.59       CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+
+nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2022 NVIDIA Corporation
+Built on Tue_May__3_19:00:59_Pacific_Daylight_Time_2022
+Cuda compilation tools, release 11.7, V11.7.64
+Build cuda_11.7.r11.7/compiler.31294372_0
+```
+
+原理:
+
+1. `nvidia-smi` 是 GPU 的版本, `nvcc --version` 是 GPU 的运行版本, 两个不是同一个东西
+2. 安装 CUDA 的时候只会在 System variables 里添加 Path, 不会再 User variables 里添加
+
+---
+
+# IDE 配置
+
+1. Theme 用 VSCode Dark
+2. 无视 warning: Method 'xxx' may be 'static':
+   Settings -> Editor - Inspections -> 取消勾选 Python-Method is not declared static
+3. 取消拼写检查:
+   Settings -> Editor -> Inspections -> 取消勾选 Proofreading-Typo
+4. 安装 plugin: Save Actions
+   勾选 activate save actions on save
+   勾选 Optimize imports
+   勾选 Reformat file
+   勾选 Rearrange fields and methods
+5. 允许小写也能自动补全 pakage, class
+   Settings -> Editor -> General -> Code Completion -> 取消勾选 Match case
+6. Setting -> Editor -> Inspections -> 取消勾选 Shaowing built-ins
+7. Settings -> Editor -> Inspections -> Python -> 取消勾选 Unused local symbols
+
+---
+
+快速配置方法(但是要检查很多东西, 不太好用):
+
+1. 导出: File -> Manage IDE Settings -> Export Settings
+2. 导入: File -> Manage IDE Settings -> Import Settings
+
+需要检查并重新配置:
+
+1. Settings -> Editor -> Inspections 里的所有配置
+2. SaveActions 插件
+
+---
+
+# 其他
+
+Windows 环境下生成项目结构树 tree:
+
+```console
+<!-- 查看项目tree -->
+tree /F
+
+<!-- 保存tree到txt -->
+tree /f > tree.txt
+```
+
+然后用 MS Word 打开 tree.txt, 选择 Text encoding -> MS-DOS
