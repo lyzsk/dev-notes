@@ -1,4 +1,25 @@
-[![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=intellijidea)](#java)
+<p align="center">
+    <a href="#java">
+        <img src="https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=openjdk&logoColor=FFFFFF" />
+    </a>
+    <a href="#eclipse-ide">
+        <img src="https://img.shields.io/badge/-Eclipse-3C415C?style=plastic&logo=eclipse&logoColor=FFFFFF" />
+    </a>
+    <a href="#intellij-idea">
+        <img src="https://img.shields.io/badge/-IntellijIDEA-3C415C?style=plastic&logo=intellijidea&logoColor=FFFFFF" />
+    </a>
+</p>
+<p align="center">
+    <a href="">
+        <img src="https://img.shields.io/badge/-Spring-3C415C?style=plastic&logo=spring&logoColor=6DB33F" />
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/badge/-SpringBoot-3C415C?style=plastic&logo=springboot&logoColor=6DB33F" />
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/badge/-SpringSecurity-3C415C?style=plastic&logo=springsecurity&logoColor=6DB33F" />
+    </a>
+</p>
 
 # 2022-Java-notes
 
@@ -25,6 +46,8 @@ IDEA 全局搜索: `ctrl + shift + r`
 Eclipse 全局搜索: `ctrl + h`
 
 ---
+
+## Eclipse IDE
 
 Eclipse 配置:
 
@@ -75,7 +98,7 @@ Eclipse 快捷配置:
 
 换 workspace 的时候直接 复制粘贴覆盖 即可
 
----
+## Intellij IDEA
 
 IDEA 配置:
 

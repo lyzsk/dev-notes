@@ -1,4 +1,27 @@
-[![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)](#python3)
+<p align="center">
+    <a href="#python3">
+        <img src="https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python&logoColor=3776AB" />
+    </a>
+    <a href="#ide">
+        <img src="https://img.shields.io/badge/-Pycharm-3C415C?style=plastic&logo=pycharm&logoColor=FFFFFF" />
+    </a>
+    <a href="#jupyter-notebook">
+        <img src="https://img.shields.io/badge/-Jupyter-3C415C?style=plastic&logo=jupyter&logoColor=F37626" />
+    </a>
+</p>
+<p align="center">
+    <a href="#anaconda">
+        <img src="https://img.shields.io/badge/-Anaconda-3C415C?style=plastic&logo=anaconda&logoColor=44A833" />
+    </a>
+</p>
+<p align="center">
+    <a href="#anaconda">
+        <img src="https://img.shields.io/badge/-PyTorch-3C415C?style=plastic&logo=pytorch&logoColor=EE4C2C" />
+    </a>
+    <a href="#anaconda">
+        <img src="https://img.shields.io/badge/-TensorFlow-3C415C?style=plastic&logo=tensorflow&logoColor=FF6F00" />
+    </a>
+</p>
 
 # 2022-Python-notes
 
@@ -152,6 +175,26 @@ quit()
 ```
 
 ---
+
+`pip` 安装 `requirements.txt`
+
+```console
+pip install -r requirements.txt
+```
+
+---
+
+`pytorch > 1.7.1` 才有 FP16, FP32
+
+---
+
+训练多分类语义分割的时候, `num_classess < 10` 可以用 Focal loss + Dice loss 代替传统的 CE loss
+
+`Focal loss` 和 `Dice loss` 主要是解决前后景 imbalance 的问题
+
+---
+
+loss 高没关系, 只要 loss 在下降, 就说明了模型在 convegence 收敛, 当然肯定 loss 越低越好
 
 # IDE
 

@@ -1,4 +1,22 @@
-[![html](https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5)](#html5) [![CSS](https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3)](#css3) [![javascript](https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript)](#javascript) [![react](https://img.shields.io/badge/-React-3C415C?style=plastic&logo=react)](#react)
+<p align="center">
+    <a href="#html5">
+        <img src="https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5&logoColor=E34F26" />
+    </a>
+    <a href="#css3">
+        <img src="https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3&logoColor=1572B6" />
+    </a>
+    <a href="#javascript">
+        <img src="https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript&logoColor=F7DF1E" />
+    </a>
+    <a href="#ide">
+        <img src="https://img.shields.io/badge/-VSCode-3C415C?style=plastic&logo=visualstudiocode&logoColor=007ACC" />
+    </a>
+</p>
+<p align="center">
+    <a href="#react">
+        <img src="https://img.shields.io/badge/-React-3C415C?style=plastic&logo=react&logoColor=61DAFB" />
+    </a>
+</p>
 
 # 2022-HTML-CSS-JavaScript
 

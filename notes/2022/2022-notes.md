@@ -1,8 +1,36 @@
-[![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=intellijidea)](./Java/2022-java.md) [![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)](./Python/2022-python.md) [![html](https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![CSS](https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![javascript](https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![react](https://img.shields.io/badge/-React-3C415C?style=plastic&logo=react)](./HTML-CSS-JavaScript/2022-html-css-js.md)
+<p align="center">
+    <img src="https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=openjdk&logoColor=FFFFFF" />
+    <img src="https://img.shields.io/badge/-Eclipse-3C415C?style=plastic&logo=eclipse&logoColor=FFFFFF" />
+    <img src="https://img.shields.io/badge/-IntellijIDEA-3C415C?style=plastic&logo=intellijidea&logoColor=FFFFFF" />
+    <img src="https://img.shields.io/badge/-Spring-3C415C?style=plastic&logo=spring&logoColor=6DB33F" />
+    <img src="https://img.shields.io/badge/-SpringBoot-3C415C?style=plastic&logo=springboot&logoColor=6DB33F" />
+    <img src="https://img.shields.io/badge/-SpringSecurity-3C415C?style=plastic&logo=springsecurity&logoColor=6DB33F" />
+</p>
 
----
+<p align="center">
+    <img src="https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python&logoColor=3776AB">
+    <img src="https://img.shields.io/badge/-Pycharm-3C415C?style=plastic&logo=pycharm&logoColor=FFFFFF">
+    <img src="https://img.shields.io/badge/-Jupyter-3C415C?style=plastic&logo=jupyter&logoColor=F37626">
+    <img src="https://img.shields.io/badge/-PyTorch-3C415C?style=plastic&logo=pytorch&logoColor=EE4C2C">
+    <img src="https://img.shields.io/badge/-TensorFlow-3C415C?style=plastic&logo=tensorflow&logoColor=FF6F00">
+</p>
 
-| [Java-Python-HTML-CSS-JS notes](#java-python-html-css-js-notes) | [Git](#git) | [Windows](#windows) |
+<p align="center">
+    <img src="https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5&logoColor=E34F26">
+    <img src="https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3&logoColor=1572B6">
+    <img src="https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript&logoColor=F7DF1E">
+    <img src="https://img.shields.io/badge/-VSCode-3C415C?style=plastic&logo=visualstudiocode&logoColor=007ACC">
+    <img src="https://img.shields.io/badge/-React-3C415C?style=plastic&logo=react&logoColor=61DAFB">
+</p>
+
+<p align="center">
+    <a href="#git">
+        <img src="https://img.shields.io/badge/-Git-3C415C?style=plastic&logo=git&logoColor=F05032" />
+    </a>
+    <a href="#windows">
+        <img src="https://img.shields.io/badge/-Windows-3C415C?style=plastic&logo=windows&logoColor=0078D6" />
+    </a>
+</p>
 
 # 2022 dev notes
 
