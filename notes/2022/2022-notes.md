@@ -1,26 +1,26 @@
-[![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=intellijidea)](#java) [![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)](#python) [![html](https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5)](#html) [![CSS](https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3)](#css) [![javascript](https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript)](#javascript)
+[![java](https://img.shields.io/badge/-Java-3C415C?style=plastic&logo=intellijidea)](./Java/2022-java.md) [![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)](./Python/2022-python.md) [![html](https://img.shields.io/badge/-HTML-3C415C?style=plastic&logo=html5)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![CSS](https://img.shields.io/badge/-CSS-3C415C?style=plastic&logo=css3)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![javascript](https://img.shields.io/badge/-JavaScript-3C415C?style=plastic&logo=javascript)](./HTML-CSS-JavaScript/2022-html-css-js.md) [![react](https://img.shields.io/badge/-React-3C415C?style=plastic&logo=react)](./HTML-CSS-JavaScript/2022-html-css-js.md)
 
 ---
 
-| [Java-Python-HTML-CSS-JS notes](#clownface-java-python-html-css-js-notes) | [Git](#clownface-git) | [Windows](#clownface-windows) |
+| [Java-Python-HTML-CSS-JS notes](#java-python-html-css-js-notes) | [Git](#git) | [Windows](#windows) |
 
-# :clown_face: Java-Python-HTML-CSS-JS notes
+# 2022 dev notes
 
--   [Java](./Java/2022-Java.md) :hammer:
+-   [Java](./Java/2022-java.md) :hammer:
 
--   [Python](./Python/2022-Python.md) :hammer:
+-   [Python](./Python/2022-python.md) :hammer:
 
--   [HTML](./HTML/2022-HTML.md) :hammer:
+-   [HTML](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
 
--   [CSS](./CSS/2022-CSS.md) :hammer:
+-   [CSS](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
 
--   [JavaScript](./JavaScript/2022-JavaScript.md) :hammer:
+-   [JavaScript](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
 
 -   [Git](#git) :hammer:
 
 -   [Windows](#windows) :hammer:
 
-# :clown_face: Git
+# Git
 
 本地结构:
 
@@ -119,7 +119,7 @@
 
 `git add .` \[加入 new 文件, modified 文件\]; \[不包括 deleted 文件\]
 
-# :clown_face: Windows
+# Windows
 
 Windows 环境下生成项目结构树 tree:
 

@@ -1,8 +1,10 @@
-# 2022-Python
+[![python](https://img.shields.io/badge/-Python-3C415C?style=plastic&logo=python)](#python3)
 
-| [Python](#clownface-python) | [Jupyter notebook](#clownface-jupyter-notebook) | [Anaconda](#clownface-anaconda) | [IDE config](#clownface-ide-config) |
+# 2022-Python-notes
 
-# :clown_face: Python
+| [Python](#python3) | [Jupyter notebook](#jupyter-notebook) | [Anaconda](#anaconda) | [IDE](#ide) | [Bugs](#bugs)
+
+# Python3
 
 字符串转义： %s, %d, %f
 
@@ -74,7 +76,7 @@ python 里
 
 函数可以作为参数传递
 
-# :clown_face: Jupyter notebook
+# Jupyter notebook
 
 用 google colab 免费的 GPU:
 
@@ -129,7 +131,7 @@ python 里
 
 11. 训练结束后从 runs/expx/weights 里把训练好的模型下载下来本地测试就行
 
-# :clown_face: Anaconda
+# Anaconda
 
 ```console
 <!-- 创建环境 -->
@@ -150,6 +152,50 @@ quit()
 ```
 
 ---
+
+# IDE
+
+PyCharm 配置:
+
+1. Theme 用 VSCode Dark
+2. 无视 warning: Method 'xxx' may be 'static':
+
+    Settings -> Editor - Inspections -> 取消勾选 Python-Method is not declared static
+
+3. 取消拼写检查:
+
+    Settings -> Editor -> Inspections -> 取消勾选 Proofreading-Typo
+
+4. 安装 plugin: Save Actions
+
+    勾选 activate save actions on save
+
+    勾选 Optimize imports
+
+    勾选 Reformat file
+
+    勾选 Rearrange fields and methods
+
+5. 允许小写也能自动补全 pakage, class:
+
+    Settings -> Editor -> General -> Code Completion -> 取消勾选 Match case
+
+6. Setting -> Editor -> Inspections -> 取消勾选 Shaowing built-ins
+7. Settings -> Editor -> Inspections -> Python -> 取消勾选 Unused local symbols
+
+---
+
+快速配置方法(但是要检查很多东西, 不太好用):
+
+1. 导出: File -> Manage IDE Settings -> Export Settings
+2. 导入: File -> Manage IDE Settings -> Import Settings
+
+需要检查并重新配置:
+
+1. Settings -> Editor -> Inspections 里的所有配置
+2. SaveActions 插件
+
+# Bugs
 
 BUG: 双显卡情况下, 即使正确安装 CUDA, 并且 `torch.cuda.is_available() = True` 也会导致报错: `RuntimeError: cuDNN error: CUDNN_STATUS_EXECUTION_FAILED`
 
@@ -192,9 +238,7 @@ False
 
 BUG: 更换 CUDA 版本后 `nvidia-smi` 和 `nvcc --version` 显示的版本不同
 
-解决:
-
-更改 Enviornment Variables 环境变量:
+解决: 更改 Enviornment Variables 环境变量:
 
 1. 在 User variables 的 Path 里添加对应版本: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`, 每次更改版本的时候把这里的版本号也改了
 
@@ -218,34 +262,3 @@ Build cuda_11.7.r11.7/compiler.31294372_0
 
 1. `nvidia-smi` 是 GPU 的版本, `nvcc --version` 是 GPU 的运行版本, 两个不是同一个东西
 2. 安装 CUDA 的时候只会在 System variables 里添加 Path, 不会再 User variables 里添加
-
-# :clown_face: IDE config
-
-PyCharm 配置:
-
-1. Theme 用 VSCode Dark
-2. 无视 warning: Method 'xxx' may be 'static':
-   Settings -> Editor - Inspections -> 取消勾选 Python-Method is not declared static
-3. 取消拼写检查:
-   Settings -> Editor -> Inspections -> 取消勾选 Proofreading-Typo
-4. 安装 plugin: Save Actions
-   勾选 activate save actions on save
-   勾选 Optimize imports
-   勾选 Reformat file
-   勾选 Rearrange fields and methods
-5. 允许小写也能自动补全 pakage, class
-   Settings -> Editor -> General -> Code Completion -> 取消勾选 Match case
-6. Setting -> Editor -> Inspections -> 取消勾选 Shaowing built-ins
-7. Settings -> Editor -> Inspections -> Python -> 取消勾选 Unused local symbols
-
----
-
-快速配置方法(但是要检查很多东西, 不太好用):
-
-1. 导出: File -> Manage IDE Settings -> Export Settings
-2. 导入: File -> Manage IDE Settings -> Import Settings
-
-需要检查并重新配置:
-
-1. Settings -> Editor -> Inspections 里的所有配置
-2. SaveActions 插件
