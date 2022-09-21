@@ -34,15 +34,15 @@
 
 # 2022 dev notes
 
--   [Java](./Java/2022-java.md) :hammer:
+-   [Java](./Java/2022-java-notes.md) :hammer:
 
--   [Python](./Python/2022-python.md) :hammer:
+-   [Python](./Python/2022-python-notes.md) :hammer:
 
--   [HTML](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
+-   [HTML](./HTML-CSS-JavaScript/2022-html-css-js-notes.md) :hammer:
 
--   [CSS](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
+-   [CSS](./HTML-CSS-JavaScript/2022-html-css-js-notes.md) :hammer:
 
--   [JavaScript](./HTML-CSS-JavaScript/2022-html-css-js.md) :hammer:
+-   [JavaScript](./HTML-CSS-JavaScript/2022-html-css-js-notes.md) :hammer:
 
 -   [Git](#git) :hammer:
 

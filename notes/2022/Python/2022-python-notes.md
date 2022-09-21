@@ -35,6 +35,8 @@
 
 多字符转义方法 2： 用 str.format(\*args, \*\*kwargs)
 
+用 `r''` 表示 `''`内部的字符串 不转义
+
 ---
 
 编译 compile 和 解释 interpret 的区别：
@@ -98,6 +100,64 @@ python 里
 \*\*kwargs 关键字传递 kwargs 是 dict 类型, 用 key=value 形式
 
 函数可以作为参数传递
+
+---
+
+垃圾 py3 里面的 取模运算符 是: `//`
+
+而且 py3 的取模跟 java 不一样:
+
+比如 [Leetcode0007 整数翻转](https://leetcode.cn/problems/reverse-integer/):
+
+java 版本:
+
+```java
+    public int reverse(int x) {
+        int res = 0;
+        while (x != 0) {
+            if (res > Integer.MAX_VALUE / 10 || res < Integer.MIN_VALUE / 10) {
+                return 0;
+            }
+            int digit = x % 10;
+            x /= 10;
+            res = res * 10 + digit;
+        }
+        return res;
+    }
+```
+
+而 py3 版本:
+
+```python
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        INTEGER_MIN, INTEGER_MAX = -2 ** 31, 2 ** 31 - 1
+
+        res = 0
+        while x != 0:
+            if res > INTEGER_MAX // 10 or res < INTEGER_MIN // 10 + 1:
+                return 0
+            digit = x % 10
+            if x < 0 and digit > 0:
+                digit -= 10
+            x = (x - digit) // 10
+            res = res * 10 + digit
+
+        return res
+
+```
+
+原理:
+
+`INTEGER_MIN` 也是一个负数，不能写成 `res < INTEGER_MIN // 10`
+
+Python3 的取模运算在 x 为负数时也会返回 [0, 9) 以内的结果，因此需要进行特殊判断
+
+同理，Python3 的整数除法在 x 为负数时会向下（更小的负数）取整，因此不能写成 `x //= 10`
 
 # Jupyter notebook
 

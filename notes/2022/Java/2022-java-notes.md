@@ -27,6 +27,29 @@
 
 # Java
 
+对于二维数组, 想要改变它所有索引的值, 不需要用两次遍历, 只要用 `Arras.fill()` 方法:
+
+```java
+Arrays.fill(byte[] a, byte val)
+```
+
+---
+
+`add()` vs `offer()`:
+
+1. `add()`: 添加元素, 如果添加成功则`返回true`, 如果队列是满的, 则`抛出异常`
+2. `offer()`: 添加元素, 如果添加成功则`返回true`, 如果队列是满的, 则`返回false`
+
+`remove()` vs `poll()`:
+
+1. `remove()`: 移除队列头的元素并且返回，如果队列为空则`抛出异常`
+2. `poll()`: 移除队列头的元素并且返回，如果队列为空则`返回null`
+
+`element()` vs `peek()`:
+
+1. `element()`: 返回队列头元素但不移除，如果队列为空，则`抛出异常`
+2. `peek()`: 返回队列头元素但不移除，如果队列为空，则`返回null`
+
 # IDE
 
 Eclipse vs IDEA
