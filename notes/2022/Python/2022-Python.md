@@ -1,8 +1,8 @@
 # 2022-Python
 
-| [Python](#python) | [Jupyter notebook](#jupyter-notebook) | [Anaconda](#anaconda) | [IDE 配置](#ide-配置) | [其他](#其他) |
+| [Python](#clownface-python) | [Jupyter notebook](#clownface-jupyter-notebook) | [Anaconda](#clownface-anaconda) | [IDE config](#clownface-ide-config) |
 
-# Python
+# :clown_face: Python
 
 字符串转义： %s, %d, %f
 
@@ -74,7 +74,7 @@ python 里
 
 函数可以作为参数传递
 
-# Jupyter notebook
+# :clown_face: Jupyter notebook
 
 用 google colab 免费的 GPU:
 
@@ -129,7 +129,7 @@ python 里
 
 11. 训练结束后从 runs/expx/weights 里把训练好的模型下载下来本地测试就行
 
-# Anaconda
+# :clown_face: Anaconda
 
 ```console
 <!-- 创建环境 -->
@@ -219,7 +219,9 @@ Build cuda_11.7.r11.7/compiler.31294372_0
 1. `nvidia-smi` 是 GPU 的版本, `nvcc --version` 是 GPU 的运行版本, 两个不是同一个东西
 2. 安装 CUDA 的时候只会在 System variables 里添加 Path, 不会再 User variables 里添加
 
-# IDE 配置
+# :clown_face: IDE config
+
+PyCharm 配置:
 
 1. Theme 用 VSCode Dark
 2. 无视 warning: Method 'xxx' may be 'static':
@@ -247,17 +249,3 @@ Build cuda_11.7.r11.7/compiler.31294372_0
 
 1. Settings -> Editor -> Inspections 里的所有配置
 2. SaveActions 插件
-
-# 其他
-
-Windows 环境下生成项目结构树 tree:
-
-```console
-<!-- 查看项目tree -->
-tree /F
-
-<!-- 保存tree到txt -->
-tree /f > tree.txt
-```
-
-然后用 MS Word 打开 tree.txt, 选择 Text encoding -> MS-DOS
