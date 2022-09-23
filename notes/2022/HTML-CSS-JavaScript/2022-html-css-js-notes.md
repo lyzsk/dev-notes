@@ -255,6 +255,99 @@ white-space: inherit;
 
 一般来说还是用 `vw, vh` 定义父元素比较多
 
+---
+
+`background-clip` 和 `-webkit-background-clip` 一般要配合 `color: transparent`, `background-size`, `background-repeat` 一起使用:
+
+```css
+background-clip: text;
+-webkit-background-clip: text;
+color: transparent;
+background-size: 80%;
+background-repeat: no-repeat;
+background-position: center;
+```
+
+---
+
+需要用 `:nth-child()` 来设置不同数值的时候, 可以在 `html` 里面对应标签 添加 `style="--i: 1"`, 然后再 `css` 里通过 `calc()` 和 `var(--i)` 函数 调用 并 计算 对应值:
+
+比如:
+
+```html
+<!-- html里八个span标签, 给他从1开始设置--i自定义属性 -->
+<span class="f-word" style="--i: 1">リ</span>
+<span style="--i: 2">コ</span>
+<span style="--i: 3">リ</span>
+<span style="--i: 4">ス</span>&nbsp;&nbsp;
+<span class="s-word" style="--i: 5">リ</span>
+<span style="--i: 6">コ</span>
+<span style="--i: 7">イ</span>
+<span style="--i: 8">ル</span>
+```
+
+1. 麻烦的`:nth-child()` 写法:
+
+```css
+/* f-line 第一行hover特效 */
+.content-box .text-content .f-line:hover span {
+    filter: blur(1rem);
+    opacity: 0;
+    transform: scale(2);
+    -webkit-transform: scale(2);
+}
+
+/* 第一行根据nth-child设置不同延时 */
+.content-box .text-content .f-line:hover span:nth-child(1) {
+    transition-delay: 0.1s;
+    -webkit-transition-delay: 0.1s;
+}
+.content-box .text-content .f-line:hover span:nth-child(2) {
+    transition-delay: 0.2s;
+    -webkit-transition-delay: 0.2s;
+}
+.content-box .text-content .f-line:hover span:nth-child(3) {
+    transition-delay: 0.3s;
+    -webkit-transition-delay: 0.3s;
+}
+.content-box .text-content .f-line:hover span:nth-child(4) {
+    transition-delay: 0.4s;
+    -webkit-transition-delay: 0.4s;
+}
+.content-box .text-content .f-line:hover span:nth-child(5) {
+    transition-delay: 0.5s;
+    -webkit-transition-delay: 0.5s;
+}
+.content-box .text-content .f-line:hover span:nth-child(6) {
+    transition-delay: 0.6s;
+    -webkit-transition-delay: 0.6s;
+}
+.content-box .text-content .f-line:hover span:nth-child(7) {
+    transition-delay: 0.7s;
+    -webkit-transition-delay: 0.7s;
+}
+.content-box .text-content .f-line:hover span:nth-child(8) {
+    transition-delay: 0.8s;
+    -webkit-transition-delay: 0.8s;
+}
+```
+
+2. 更简洁的 `calc()` + `val()` 写法:
+
+```css
+/* f-line 第一行hover特效 */
+.content-box .text-content .f-line:hover span {
+    filter: blur(1rem);
+    opacity: 0;
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    transition-delay: calc(var(--i) * 0.1s);
+    -webkit-transition-delay: calc(var(--i) * 0.1s);
+}
+```
+
+---
+
 # JavaScript
 
 js 没有 `char` 类型
@@ -386,4 +479,29 @@ border: none;
 ```css
 border: none;
 outline: none;
+```
+
+---
+
+Bug: 当 html 标签有多个`class`时, `background-clip: text;` 和 `-webkit-background-clip: text;` 不能用多重名字实现, 比如:
+
+```html
+<div class="content f-content"></div>
+<div class="content s-content"></div>
+```
+
+解决:
+
+1. 把同名 `class` 去掉:
+
+```html
+<div class="f-content"></div>
+<div class="s-content"></div>
+```
+
+2. 分别给两个 `class` 添加 `background-clip` 和 `-webkit-background-clip`:
+
+```css
+background-clip: text;
+-webkit-background-clip: text;
 ```
