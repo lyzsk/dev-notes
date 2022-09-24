@@ -348,6 +348,21 @@ background-position: center;
 
 ---
 
+对 `blink` 闪烁动画, 希望快速的从 `无`->`有`, 可以添加 `49%` 和 `50%` 实现快速转化
+
+```css
+@keyframes blink {
+    0%,
+    49% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+```
+
 # JavaScript
 
 js 没有 `char` 类型
@@ -505,3 +520,84 @@ Bug: 当 html 标签有多个`class`时, `background-clip: text;` 和 `-webkit-b
 background-clip: text;
 -webkit-background-clip: text;
 ```
+
+---
+
+Bug: `typewriter-animation-effect` 里如果把 `h2` 换成 `span` 就无法实现动画特效
+
+解决: 使用 `h1`, `li`, `div` 等 `块级` 元素
+
+原理:
+
+逐字打印特效的对象 必须是 `块级` 元素, 否则无法通过:
+
+```css
+width: 1.375rem;
+white-space: nowrap;
+overflow: hidden;
+```
+
+设置 `不换行` 和 `隐藏溢出` 来使动画逐字打印
+
+---
+
+Bug:
+
+`main-cotainer` 里的元素, 在`.clientHeight` 得到 `100vh` 时, 从 `header` 开始动画;
+
+也就是说, `header` 的 `z-index` 失效了
+
+解决:
+
+-   先根据 `html` 里的标签关系确定要改哪:
+
+    ```html
+    <body>
+        <header>
+            <nav class="nav">
+                <div class="nav-title">rainanimation effect</div>
+            </nav>
+        </header>
+        <div class="main-container">
+            <div class="rain-box"></div>
+        </div>
+        <script src="./0014.js"></script>
+    </body>
+    ```
+
+    这个代码里 最外层 就两个标签: `header` 和 `main-container`;
+
+    就给这两个加上 `position` 属性, 然后给 `header` 加上 `z-index` 属性就好了
+
+-   修改后的 css:
+
+```css
+header nav {
+    width: 100vw;
+    height: 3.125rem;
+    background-color: var(--c-nav-bg);
+    /* 非常重要, 一定要设置position, 否则z-index会失效 */
+    position: relative;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    /* 非常重要! 所有父级元素的position一定要设置, 用来比较z-index */
+    position: relative;
+    background-image: url(./images/72055179_p0.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+```
+
+原理:
+
+`position` 属性的 default value 是 `static` :clown_face:
+
+`z-index` 的 default value 是 `auto` 也就是继承父元素的值
