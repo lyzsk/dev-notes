@@ -207,4 +207,16 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 1. Settings -> Editor -> Inspections 里的所有配置
 2. SaveActions 插件
 
+---
+
+IDEA 快捷键
+
+`ctrl + f4`: 关闭窗口
+
+`ctrl + shift + f`: 全局搜索
+
+`alt + shift + 鼠标选中`: 多选
+
+`shift + f6 + 鼠标选中`: 多选
+
 # Bugs
