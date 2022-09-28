@@ -80,7 +80,7 @@ python 没有 `++i`, 只能 `i += 1`
 
 ---
 
-python 声明 int 数组:
+python 声明 int array 数组:
 
 ```python
 # 记住不能命名成 range, 否则会和 range() 方法冲突

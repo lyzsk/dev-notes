@@ -363,6 +363,35 @@ background-position: center;
 }
 ```
 
+---
+
+常见需要适配浏览器兼容性的属性:
+
+```css
+/* animation 以及相关的 animation-delay...*/
+animation: ;
+-webkit-animation: ;
+-moz-animation: ;
+-o-animation: ;
+
+/* transform */
+transform: ;
+-webkit-transform: ;
+-moz-transform: ;
+-o-transform: ;
+
+/* transition */
+transition: ;
+-webkit-transition: ;
+-moz-transition: ;
+-o-transition: ;
+
+/* background-clip */
+background-clip: ;
+-webkit-background-clip: ;
+-moz-background-clip: ;
+```
+
 # JavaScript
 
 js 没有 `char` 类型
@@ -601,3 +630,55 @@ header nav {
 `position` 属性的 default value 是 `static` :clown_face:
 
 `z-index` 的 default value 是 `auto` 也就是继承父元素的值
+
+---
+
+Bug: `@import url("https://fonts.googleapis.com/css?family=notosanssc");` 导致 Noto Sans SC, TC 的导入问题
+
+解决:
+
+方法 1: 改成加号
+
+```css
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC");
+```
+
+方法 2: 导入 `earlyaccess` 里的 `.css`
+
+```css
+@import url("https://fonts.googleapis.com/earlyaccess/notosanssc.css");
+```
+
+---
+
+Bug: `canvas` 已经设置 `100%` 但是还是会 overflow, 导致出现滚动条
+
+解决:
+
+方法 1: 在 `canvas` 对象内添加
+
+```css
+/* inline -> block */
+display: block;
+```
+
+方法 2: 在 `canvas` 对象内添加
+
+```css
+/* baseline -> top */
+vertical-align: top;
+```
+
+方法 3: 在 `canvas` 的父级元素内添加
+
+```css
+font-size: 0;
+```
+
+原理:
+
+`canvas` 的 default `vertical-align` 是 `baseline`, `display` 是 `inline`,
+
+然后之所以会在下方多处一行是为了给 `英文` 字母比如 `g`, `y` 之类的, 对齐 `basline` 后, 会需要在下方预留空间, 所以在父元素更改 `font-size: 0;` 也可以达到一样的效果
+
+但是我觉得还是 方法 1, 更改 `display: block;` 比较实用

@@ -147,6 +147,83 @@
 
 `git add .` \[加入 new 文件, modified 文件\]; \[不包括 deleted 文件\]
 
+---
+
+个人仓库, 暴力删远程库的 commits 的办法:
+
+方法一: 用转移分支法
+
+Step 1:
+
+利用 `--orphan` 基于当前分支创建一个独立的分支
+
+```git
+git checkout --orphan new_branch
+```
+
+Step 2:
+
+添加所有文件进本地暂存区, 并 commit
+
+```git
+git add -A
+git commit -a -m "init commit"
+```
+
+或者 先把需要的文件转移, 然后
+
+```git
+git rm -rf .
+```
+
+然后把需要的文件放回来, 然后
+
+```git
+git add -A
+git commit -a -m "init commit"
+```
+
+Step 3:
+
+`--delete` \/ `-D` 删除 master 分支, 重命名当前分支为 master
+
+```git
+git branch -D master
+git branch -m master
+```
+
+Step 4:
+
+`--force` \/ `-f` 强制推送远程仓库
+
+```git
+git push -f origin master
+```
+
+方法二: 删 `.git` 法, 同样也使用这个处理 `.git` 太大问题:
+
+```git
+git rm -rf .git
+git init
+git add -A
+git commit -a -m "init commit"
+git remote add origin [github_repo_url]
+git push -f -u origin master
+```
+
+---
+
+`.gitignore` 不生效的问题:
+
+删 cache !!!
+
+```git
+git rm -rf --cached .
+git add .
+git commit -a -m ".gitignore is now working"
+git push origin master
+```
+
 # Windows
 
 Windows 环境下生成项目结构树 tree:
