@@ -27,6 +27,7 @@
     <img src="https://img.shields.io/badge/-Jupyter-3C415C?style=plastic&logo=jupyter&logoColor=F37626">
     <img src="https://img.shields.io/badge/-PyTorch-3C415C?style=plastic&logo=pytorch&logoColor=EE4C2C">
     <img src="https://img.shields.io/badge/-TensorFlow-3C415C?style=plastic&logo=tensorflow&logoColor=FF6F00">
+    <img src="https://img.shields.io/badge/-Anaconda-3C415C?style=plastic&logo=anaconda&logoColor=44A833">
 </p>
 
 <p align="center">

@@ -29,6 +29,30 @@
 
 # Python3
 
+| [HashMap](#hashmap) | [Integer.Max_value Integer.MIN_VALUE](#integermaxvalue-integerminvalue) | [字符串转义](#字符串转义) | [跨平台, compile, interpret](#跨平台-comiple-interpret) | [取模运算](#取模运算) |
+
+---
+
+## HashMap
+
+py `map.remove(key)` 写作: `dict.pop(key)`
+
+## Integer.MAX_VALUE, Integer.MIN_VALUE
+
+py 没有 `Integer.MIN_VALUE` 和 `Integer.MAX_VALUE`
+
+想用的话:
+
+```python
+import sys
+max_size = sys.maxsize
+min_size = -sys.maxsize - 1
+```
+
+---
+
+## 字符串转义
+
 字符串转义： %s, %d, %f
 
 多字符转义方法 1： 用 tuple
@@ -38,6 +62,8 @@
 用 `r''` 表示 `''`内部的字符串 不转义
 
 ---
+
+## 跨平台, comiple, interpret
 
 编译 compile 和 解释 interpret 的区别：
 
@@ -102,6 +128,8 @@ python 里
 函数可以作为参数传递
 
 ---
+
+## 取模运算
 
 垃圾 py3 里面的 取模运算符 是: `//`
 

@@ -394,9 +394,17 @@ background-clip: ;
 
 # JavaScript
 
+| [char](#char) | [int\[\]](#int) | [HashMap](#hashmap) | [Integer.MAX_VALUE, Integer.MIN_VALUE](#integermaxvalue-integerminvalue)
+
+---
+
+## char
+
 js 没有 `char` 类型
 
 ---
+
+## int[]
 
 `new int[]` 在 js 中要记得`fill`:
 
@@ -407,11 +415,21 @@ let range = new Array(2).fill(0);
 
 ---
 
+## HashMap
+
 `map.containsKey()` 在 js 中写作
 
 ```js
 map.has(key);
 ```
+
+---
+
+## Integer.MAX_VALUE, Integer.MIN_VALUE
+
+js 没有 `Integer.MIN_VALUE`, 因为 js 用的是 floating point numbers
+
+想要实现的话, 使用 `-Number.MAX_VALUE`
 
 # React
 
@@ -429,6 +447,12 @@ React 构建页面 UI 的库, 把界面分成一个个独立的组件
 6. 单向响应数据流 比传统数据绑定更简单
 
 # IDE
+
+| [VSCode 配置](#vscode-配置) | [VSCode 快捷键](#vscode-快捷键) |
+
+---
+
+## VSCode 配置
 
 VSCode 配置:
 
@@ -453,6 +477,18 @@ VSCode 快速配置:
 复制粘贴 `C:\Users\sichu\AppData\Roaming\Code\User` 里的 `settings.json`
 
 也可以 `Ctrl+Shift+P` -> `Export settings profile` 然后再 `import`
+
+---
+
+## VSCode 快捷键
+
+`alt + z`: 自动换行
+
+`ctrl + d`： 多选, 按 `esc` 退出多选
+
+`shift + alt + down`: 复制粘贴一整行
+
+---
 
 # Bugs
 
