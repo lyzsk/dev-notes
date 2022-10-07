@@ -23,11 +23,58 @@
 
 # 2022-Java-notes
 
-| [Java](#java) | [Spring](#spring) | [SpringMVC](#springmvc) | [SpringBoot](#springboot) | [IDE](#ide) | [Bugs](#bugs) |
+| [Java](#java) | [Spring](#spring) | [SpringMVC](#springmvc) | [SpringBoot](#springboot) | [Redis](#redis) | [RaabitMQ](#rabbitmq) | [IDE](#ide) | [Bugs](#bugs) |
 
 # Java
 
-| [Java14](#java14) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [使用 Arras.fill() 替换两次遍历](#使用-arrasfill-替换两次遍历) | [add() vs offer()](#add-vs-offer) | [双指针](#双指针) | [回溯-vs-dfs](#回溯-vs-dfs) | [Integer compile](#integer-compile)
+| [Java8](#java8) | [Java14](#java14) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename)
+
+---
+
+## Java8
+
+新增 `java.time.LocalDate`, `java.time.LocalTime`, `java.time.LocalDateTime`
+
+获取日期, 时间:
+
+```java
+// 1.8之前
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+String dateTime = sdf.format(new Date());
+
+// 1.8之后
+LocalDate date = LocalDate.now();
+LocalTime time = LocalTime.now();
+LocalDateTime dateTime = LOcalDateTime.now();
+Instant timestamp = Instant.now();
+```
+
+或者是
+
+```java
+// 1.8之前
+SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+Date now = new Date();
+String formattedDate = dateFormat.format(now);
+Date parsedDate = dateFormat.parse(formattedDate);
+
+// 1.8之后
+LocalDate now = LocalDate.now();
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+String formattedDate = now.format(formatter);
+LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
+```
+
+获取月份天数:
+
+```java
+// 1.8之前
+Calendar calendar = new GregorianCalendar(1990, Calendar.FEBRUARY, 20);
+int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+// 1.8之后
+int daysInMonth = YearMonth.of(1990, 2).lengthOfMonth();
+```
 
 ---
 
@@ -160,7 +207,7 @@ public class CarModelYearComparator implements Comparator<Car> {
 
 ---
 
-## 使用 Arras.fill() 替换两次遍历
+## Arrays.fill()
 
 对于二维数组, 想要改变它所有索引的值, 不需要用两次遍历, 只要用 `Arras.fill()` 方法:
 
@@ -198,13 +245,13 @@ Arrays.fill(byte[] a, byte val)
 
 ---
 
-## 双指针
+## double pointer
 
 指针问题, 需要先排序`(Ologn)`!, 然后再双指针 `O(n)`
 
 ---
 
-## 回溯 vs dfs
+## backtrack vs dfs
 
 -   dfs 本质无序, 访问次序不重要
 
@@ -218,17 +265,74 @@ Arrays.fill(byte[] a, byte val)
 
 ---
 
-## `Integer` compile
+## Integer compile
 
 `Integer x = 123`在编译的时候会变成: `Integer x = Integer.valueOf(123);`
 
 如果该属性所对应的数据库的字段是主键或者是外键时，用 Integer
 
+Integer 值 -2147483648 to 2147483647, 即 \[-2^31, 2^31 - 1\]
+
 ---
+
+## getSimpleName()
+
+```
+Q28. What statement returns true if "nifty" is of type String?
+
+- [ ] `"nifty".getType().equals("String")`
+- [ ] `"nifty".getType() == String`
+- [ ] `"nifty".getClass().getSimpleName() == "String"`
+- [x] `"nifty" instanceof String`
+```
+
+为什么不选 `"nifty".getClass().getSimpleName() == "String"` ?
+
+因为 `.getClass().getSimpleName()` 返回的是 `String` 类型的 `String`， 要用`.equals("Stirng")` 替换题目中的 `== "String"`
+
+---
+
+## get object instance 的方式
+
+实例化对象的方式:
+
+1. `new`关键词, 调用`constructor`
+2. 通过反射机制(reflection), 反射 `Class` 对象, 从 `Class对象中` 提取 `Constructor` 对象, 然后从 `Constructor` 对象中 `newInstance()`
+3. 实现 `Cloneable` 接口，重写 Object 类的 `clone` 方法
+
+    无论何时我们调用一个对象的 `clone` 方法，JVM 就会创建一个新的对象，将前面对象的内容全部拷贝进去
+
+    用 `clone` 方法创建对象并不会调用任何构造函数。
+
+例子如下:
+
+```java
+    public Test() {
+        System.out.println("初始化");
+    }
+
+    public Test(String name) {
+        System.out.println("name" + name);
+    }
+
+    public static void main(String[] args) throws Exception {
+        // 1. new 方法调用
+        Test test1 = new Test("张三");
+        System.out.println(test1);
+        // 2.1. 直接调用 初始化构造器
+        Test test2 = Test.class.newInstance();
+        System.out.println(test2);
+        // 2.2 反射 特定的构造器并用 newInstance 重载
+        Class p1 = Class.forName("cn.sichu.Test");
+        Constructor p2 = p1.getConstructor(String.class);
+        Test test3 = (Test)p2.newInstance("李四");
+        System.out.println(test3);
+    }
+```
 
 # Spring
 
-[IOC 分析](#ioc-思想分析) | [DI 分析](#di-分析)
+[IOC 分析](#ioc) | [DI 分析](#di) | [bean](#bean) |
 
 ---
 
@@ -326,7 +430,7 @@ public class BookDaoImpl implements BookDao {
 
 ---
 
-## IOC 思想分析:
+## IOC
 
 1. 管理什么?
 
@@ -350,7 +454,7 @@ public class BookDaoImpl implements BookDao {
 
 ---
 
-## DI 分析
+## DI
 
 1. 基于 IOC 管理 Bean
 2. Service 中使用 new 形式创建 Dao 对象是否保留?
@@ -375,11 +479,446 @@ public class BookDaoImpl implements BookDao {
 
 ---
 
+## bean
+
+| [bean 实例化](#bean-instantiate) | [bean 生命周期](#bean-life-cycle)
+
+##
+
 bean 的别名, 就是定义多个 `name` 属性, 中间用 `空格`, `逗号`, `分号` 分隔
+
+Spring 默认创建的 bean 就是 `单例模型(singleton model)`:
+
+-   代码 example :
+
+```java
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        BookDao bookDao1 = (BookDao)ctx.getBean("bookDao");
+        BookDao bookDao2 = (BookDao)ctx.getBean("bookDao");
+        System.out.println(bookDao1);
+        System.out.println(bookDao2);
+```
+
+-   输出结果:
+
+```
+cn.sichu.dao.impl.BookDaoImpl@4566e5bd
+cn.sichu.dao.impl.BookDaoImpl@4566e5bd
+```
+
+-   这时修改 `applicationContext.xml`:
+
+```xml
+<bean id="bookDao" name="dao" class="cn.sichu.dao.impl.BookDaoImpl" scope="prototype"/>
+```
+
+-   输出结果:
+
+```
+cn.sichu.dao.impl.BookDaoImpl@4566e5bd
+cn.sichu.dao.impl.BookDaoImpl@1ed4004b
+```
+
+> 为什么 `bean` 默认单例？
+>
+> 如果一个 bean 被声明为单例的时候，在处理多次请求的时候在 Spring 容器里只实例化出一个 bean，后续的请求都公用这个对象，这个对象会保存在一个 map 里面
+>
+> 当有请求来的时候会先从缓存(map)里查看有没有，有的话直接使用这个对象，没有的话才实例化一个新的对象，所以这是个单例的
+>
+> 但是对于原型(prototype)bean 来说当每次请求来的时候直接实例化新的 bean，没有缓存以及从缓存查的过程
+
+-   适合交给 容器 进行管理的 bean:
+    -   表现层对象 servlet
+    -   业务层对象 service
+    -   数据层对象 dao
+    -   工具对象 utils
+-   不适合:
+    -   封装实体的域对象
+        这种对象的特点就是 有状态的, 比如会记录成员变量变化的属性值
+
+---
+
+## bean instantiate
+
+`bean` 本质上就是 对象
+
+1.  方法一: 使用 构造方法 实例化 bean
+    -   而且就算构造方法被 `private` 了, 也能调用到, 也就是说 Spring 是用 反射(reflection) 生成实例的
+    -   而且必须调用 **无参** 的构造方法
+2.  方法二: 使用 静态工厂 实例化 bean
+    -   这种方法可以在 `public static OrderDao getOrderDao() {return new OrderDaoImpl();}` 的 `return` 前干些初始化一些其他配置, 主要是针对早期遗留系统
+3.  方法三: 使用 实例工厂 实例化 bean
+
+4.  改进方法三: 创建 `XXXFactoryBean` 类并实现 `FactoryBean<T>`
+
+    ```java
+    public class UserDaoFactoryBean implements FactoryBean<UserDao> {
+        // 代替原始 实例工厂 中创建对象的方法
+        @Override
+        public UserDao getObject() throws Exception {
+            return new UserDaoImpl();
+        }
+
+        @Override
+        public Class<?> getObjectType() {
+            return UserDao.class;
+        }
+    }
+    ```
+
+    而 实例工厂 还能通过 实现 `isSingleton()` 方法来创建 非单例的 bean:
+
+    ```java
+        @Override
+        public boolean isSingleton() {
+            // return FactoryBean.super.isSingleton();
+            return false;
+        }
+    ```
+
+---
+
+## bean life cycle
+
+bean 生命周期控制 1:
+
+在 xml 中添加 `init-method`, `destroy-method`
+
+```
+<bean id="bookDao" class="cn.sichu.dao.impl.BookDaoImpl" init-method="init" destroy-method="destroy"/>
+```
+
+但是我们是观察不到 destroy 的, 因为 JVM 退出了
+
+解决办法就是在 JVM 关闭前先关闭 Spring 容器
+
+方法 1: 更改创造的 ctx 对象的类别, 然后添加`.close()`方法:
+
+```java
+ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+BookDao bookDao = (BookDao)ctx.getBean("bookDao");
+bookDao.save();
+ctx.close();
+```
+
+方法 2: 添加关闭钩子 `registerShutdownHook()`
+
+```java
+ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+ctx.registerShutdownHook();
+```
+
+`.close()` 比较暴力, 且只能放在最后一行
+
+`.registerShutdownHook()` 可以随便放
+
+bean 生命周期控制 2:
+
+按照 Spring 方法来 implement `InitializingBean, DisposableBean`
+
+```java
+public class BookServiceImpl implements BookService, InitializingBean, DisposableBean {
+
+    ...
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("service destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("service init");
+    }
+}
+```
+
+bean 生命周期
+
+-   初始化容器
+
+1. 创建对象(内存分配)
+2. 执行构造方法
+3. 执行属性注入(set)
+4. 执行 bean 初始化方法
+
+-   使用 bean
+
+1. 执行业务操作
+
+-   关闭/销毁容器
+
+1. 执行 bean 销毁方法
 
 # SpringMVC
 
+| | [Controller 和 业务 bean 加载控制](#springmvc-bean-and-spring-bean-load) | [简化 Config](#simplify-config) | [中文乱码 POST](#post-encoding-filter-config) | [不同参数名称的映射](#mapping-param-with-different-name) | [传 JSON 参数](#request-json) | [@RequestBody vs @RequestParam](#requestbody-vs-requestparam) | [REST](#rest)
+
+##
+
+SpringMVC 与 Servlet 等同, 都是 web 层开发, 即表现层开发
+
+`@Controller` 设置 controller
+
+`@Configuration` `@ComponentScan("cn.sichu.controller")` 配置 controller 路径
+
+`@RequestMapping("/save")` 设置返回路径
+
+`@ResponseBody` 把方法的返回值当作 response 返回的整体
+
+---
+
+## SpringMVC bean and Spring bean load
+
+(demo 是用 maven-archetype:webapp 建的)
+(启动用 maven, 设置 run `tomcat7:run`)
+
+-   SpringMVC bean (表现层 bean)
+-   Spring bean
+    -   业务 bean(Service)
+    -   功能 bean(DataSource)
+
+由于功能不同, 需要 **避免** Spring 加载到 SpringMVC 的 bean
+
+方法 1: Spring 加载 bean 扫面范围, 设置精准范围扫描 (主要用这一种)
+
+方法 2: Spring 加载 bean 扫面范围, 设置大范围扫描, 同时排除掉 controller 包
+
+方法 3: 不区分 Spring, SpringMVC 的环境, 加载到同一个环境中
+
+---
+
+## simplify config
+
+把 `public class ServletContainersInitConfig extends AbstractDispatcherServletInitializer {}` 改成 `public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer{}` 一样也是实现三个方法
+
+---
+
+## POST Encoding Filter config
+
+处理 `POST` 请求的中文支持, 在 `ServletContainerInitConfig`中添加
+
+```java
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        return new Filter[] {filter};
+    }
+```
+
+---
+
+## mapping param with different name
+
+在参数前添加 `@RequetParam()`, 如下:
+
+```java
+public String commonParamDifferentName(@RequestParam("name") String userName, int age)
+```
+
+---
+
+## request JSON
+
+1. `pom.xml` 添加:
+
+```xml
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+```
+
+2. 在 SpringMvcConfig 添加注解 `@EnableWebMvc` 使其能够接受 JSON 数据
+
+3. 因为 JSON 数据是从 POSTMAN Body -> raw -> JSON 传进来的, 他在 ResponseBody 里, 所以更改参数注解:
+
+```java
+// 注意, 是 @RequestBody 而不是 @RequestParam
+public String listParamForJson(@RequestBody List<String> likes)
+```
+
+---
+
+## RequestBody vs RequestParam
+
+-   区别:
+    -   `@RequestParam` 用于接收 url 地址传参, 表单传参 【application/x-www-form-urlencoded】
+    -   `@RequestBody` 用于接收 JSON 数据 【application/json】
+-   应用:
+    -   平常发的主要是 json 数据, `@RequestBody` 用的更多
+    -   但是如果非 json 数据, 还是要选用 `@RequestParam`
+
+---
+
+## date param
+
+如果一个输入 `2022/01/01` 另一个输入 `2023-01-01` 会报错:
+
+```
+[WARNING] Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.util.Date'; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [java.lang.String] to type [java.util.Date] for value '2023-01-01'; nested exception is java.lang.IllegalArgumentException]
+```
+
+这时候要更改 `@DateTimeFormat` 的 `pattern`:
+
+```java
+public String dateParam(Date date1, @DateTimeFormat(pattern = "yyyy-mm-dd") Date date2,
+        @DateTimeFormat(pattern = "yyyy/mm/dd hh:mm:ss") Date date3)
+```
+
+## REST
+
+REST (Representational State Transfer) 表现形式状态转换
+
+-   传统风格:
+    -   `http://localhost/user/getById?id=1`
+    -   `http://localhost/user/saveUser`
+-   REST 风格
+
+    -   `http://localhost/user/1`
+    -   `http://localhost/user`
+
+-   优点:
+
+    1. 隐藏资源访问行为, 无法通过地址得知对资源是如何操作的
+    2. 书写简化
+
+-   常见 REST 风格, 按照访问资源时的 \[行为动作\] 区分对资源进行了何种操作:
+    -   `http://localhost/users` 查询全部用户信息 （GET）查询
+    -   `http://localhost/users/1` 查询指定用户信息 (GET)查询
+    -   `http://localhost/users` 添加用户信息 (POST)修改/保存
+    -   `http://localhost/users` 修改用户信息 (PUT)修改/更新
+    -   `http://localhost/users/1` 删除用户信息 (DELETE)删除
+
+---
+
 # SpringBoot
+
+| [配置文件](#configuration-file) | [更换服务器](#change-server) ||
+
+SpringBoot 核心:
+
+```xml
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+```
+
+所以多模块开发, 这个`<parent>`应该在最外层的 xml 中添加
+
+前后端分离:
+
+1. Maven -> Lifecycles -> package
+2. cmd 到项目的 target 目录
+
+```java
+java -jar xxx.jar
+```
+
+这个可以直接 `java -jar` 是通过下面这个 xml 配置实现的
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+## configuration file
+
+当 `application.properties`, `application.yml`, `application.yaml` 同时存在时, 前者优先级高
+
+一般来说还是写 `yml`多
+
+## change server
+
+使用 exclusions 把默认服务器关了, 更换成 jetty, 版本号不用写, 在他引用的 xml 里面已经配好了
+
+```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>
+```
+
+---
+
+# Redis
+
+启动 redis: cd 到 redis 目录, cmd:
+
+```
+redis-server.exe redis.windows.conf
+```
+
+---
+
+# RabbitMQ
+
+启动 mq: cd 到 rabbitmq/sbin 目录, cmd :
+
+```
+rabbitmq-plugins enable rabbitmq_management
+```
+
+---
+
+# MongoDB
+
+Mongodb 是为快速开发互联网 Web 应用而构建的数据库系统，其数据模型和持久化策略就是为了构建高读/写吞吐量和高自动灾备伸缩性的系统
+
+-   mongo.exe 客户端运行程序
+-   mongod.exe 服务端运行程序
+
+1. 安装路径下创建 data\db 和 data\log 两个文件夹
+2. 在安装路径下创建 mongod.cfg 配置文件
+
+    ```
+    systemLog:
+    destination: file
+    path: C:\dev\MongoDB\data\log\mongod.log
+    storage:
+    dbPath: C:\dev\MongoDB\data\db
+    ```
+
+3. 安装为服务（运行命令需要用管理员权限）
+    ```
+    C:/dev/MongoDB/bin/mongod.exe --config "C:\dev\MongoDB\mongod.cfg" --install
+    ```
+4. 服务相关命令
+   启动服务：net start MongoDB
+   关闭服务：net stop MongoDB
+   移除服务：C:/dev/MongoDB/bin/mongod.exe --remove
+
+# Robo 3T
+
+下载 zip，解压，打开 robo3t.exe,
+
+连接到 localhost:27017
+
+## Global Exception
+
+用 `@RestControllerAdvice`
 
 # IDE
 
@@ -461,13 +1000,13 @@ Eclipse 快捷配置:
 
 ## Intellij IDEA
 
-[配置](#idea-配置) | [快捷键](#idea-快捷键)
+[配置](#idea-config) | [快捷键](#idea-shortcuts)
 
 查看 IDEA 版本: Help -> About
 
 ---
 
-## IDEA 配置:
+## IDEA config
 
 1.  Plugins 安装 VSCode Theme
 
@@ -477,7 +1016,7 @@ Eclipse 快捷配置:
 
     Settings -> Editor -> Code Style -> Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
 
-    Settings -> Editor -> Code Style -> Wrapping and Braces -> Method annotations -> 改成 Wrap always
+    Settings -> Editor -> Code Style -> Wrapping and Braces -> Method annotations 和 class annotations 和 field annotations -> 改成 Wrap always
 
     至于 code template, IDEA 没有直接导入 xml 的功能
 
@@ -567,7 +1106,7 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 ---
 
-## IDEA 快捷键
+## IDEA shortcuts
 
 `ctrl + f4`: 关闭窗口
 
@@ -579,11 +1118,19 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `alt + Enter`: 引入类
 
-`ctrl + alt + B`: 快速实现接口
+`alt + Enter` 或者 `ctrl + alt + B`: 快速实现接口
 
 `ctrl + o`: 查看继承的类 或者 接口中的方法, 以及要实现的方法
 
-`alt + shift + insert`: getter setter
+`alt + shift + insert` 或者 `alt + insert`: constructor getter setter
+
+`ctrl + shift + f10`: run
+
+`ctrl + h`: 查看 hierachy
+
+## IDEA quick-code
+
+`sout`: system.out.println()
 
 # Bugs
 
@@ -617,7 +1164,104 @@ Bug: 父模块的 `pom.xml` 报错: `Unresolved plugin: 'org.springframework.boo
 
 在 `pom.xml` 中添加 `<packaging>pom</packaging>`
 
+---
+
 ```xml
     <description>the back-end project for SubleChat application</description>
     <packaging>pom</packaging>
 ```
+
+##
+
+Bug: IDEA `alt + insert` 失效
+
+解决:
+
+确认 `NUM LOCK` 是开启的
+
+---
+
+##
+
+Bug:
+
+报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
+
+解决: 在 `ctx.getBean()`上一行添加 `ctx.refresh();`
+
+---
+
+##
+
+Bug:
+
+报错: `@ComponentScan ANNOTATION type filter requires an annotation type: interface org.springframework.web.servlet.mvc.Controller`
+
+解决:
+
+Controller 导包倒错了, 注释掉的是导错的
+
+---
+
+```java
+import org.springframework.stereotype.Controller;
+// import org.springframework.web.servlet.mvc.Controller;
+```
+
+##
+
+Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
+
+解决:
+
+方法 1: 把两个 Config 放到 `cn.sichu` 下
+
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+
+方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
+
+原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解`@Configuration`所以他又再次被加载了
+
+---
+
+##
+
+Bug:
+
+```
+SEVERE: Servlet.service() for servlet [dispatcher] in context with path [/springmvc-0003-request-mapping] threw exception [Request processing failed; nested exception is java.lang.IllegalStateException: No primary or default constructor found for interface java.util.List] with root cause
+java.lang.NoSuchMethodException: java.util.List.<init>()
+```
+
+解决: 把 List 当成对象而不是接口, 添加 `@RequestParam`
+
+```java
+public String listParam(@RequestParam List<String> likes) {}
+```
+
+---
+
+##
+
+Bug: 子模块通过 Spring initializer 创建后, 无法被识别为 maven 工程
+
+解决:
+
+1. 右键 `pom.xml` -> add as maven
+2. 更改 `<parent>`标签内的内容关联父模块, 父模块 `pom.xml` 的 `<modules>` 里添加 `<module>`
+
+---
+
+##
+
+Bug: 启动改名后项目, 出现 deserizable, classnotfound 等报错
+
+解决:
+
+因为虽然改了项目名, 但是用到的 model 还是同样的, 这些 model 在 redis 里面缓存了, 简单粗暴的就是 运行 `redis-cli.exe`, 执行:
+
+```
+redis-cli flushall
+```
+
+---

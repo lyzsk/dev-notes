@@ -29,7 +29,7 @@
 
 # Python3
 
-| [HashMap](#hashmap) | [Integer.Max_value Integer.MIN_VALUE](#integermaxvalue-integerminvalue) | [字符串转义](#字符串转义) | [跨平台, compile, interpret](#跨平台-comiple-interpret) | [取模运算](#取模运算) |
+| [HashMap](#hashmap) | [Integer.Max_value Integer.MIN_VALUE](#integermaxvalue-integerminvalue) | [字符串转义](#string-escape) | [跨平台, compile, interpret](#cross-platform-comiple-interpret) | [取模运算](#modulo-operation) |
 
 ---
 
@@ -51,7 +51,7 @@ min_size = -sys.maxsize - 1
 
 ---
 
-## 字符串转义
+## string escape
 
 字符串转义： %s, %d, %f
 
@@ -63,13 +63,13 @@ min_size = -sys.maxsize - 1
 
 ---
 
-## 跨平台, comiple, interpret
+## Cross-platform, comiple, interpret
 
 编译 compile 和 解释 interpret 的区别：
 
-解释型语言： R, Python, Java
-
 编译型语言： C, C++
+
+解释型语言： R, Python, Java
 
 Compile: 把整个程序源代码，翻译成另一种代码，然后等待被执行，在执行之前，产物是 \[另一份代码\]
 
@@ -129,7 +129,7 @@ python 里
 
 ---
 
-## 取模运算
+## Modulo operation
 
 垃圾 py3 里面的 取模运算符 是: `//`
 

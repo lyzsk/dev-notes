@@ -488,6 +488,10 @@ VSCode 快速配置:
 
 `shift + alt + down`: 复制粘贴一整行
 
+`ctrl + shift + p + 输入 fold all`: 折叠所有代码块
+
+`ctrl + g + 输入数字`: 跳转到 \[数字\] 行
+
 ---
 
 # Bugs
