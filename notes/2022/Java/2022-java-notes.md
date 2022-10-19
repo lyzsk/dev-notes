@@ -27,11 +27,13 @@
 
 # Java
 
-| [Java8](#java8) | [Java14](#java14) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename)
+| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char)
 
 ---
 
 ## Java8
+
+## Date
 
 新增 `java.time.LocalDate`, `java.time.LocalTime`, `java.time.LocalDateTime`
 
@@ -74,6 +76,37 @@ int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 // 1.8之后
 int daysInMonth = YearMonth.of(1990, 2).lengthOfMonth();
+```
+
+---
+
+## Comparator.comparingInt
+
+```java
+Arrays.sort(index, (idx1, idx2) -> (nums2[idx1] - nums2[idx2]));
+```
+
+在 1.8 之后可以写成
+
+```java
+Arrays.sort(index, Comparator.comparingInt(idx -> nums2[idx]));
+```
+
+但是非升序排序的时候, 还是得自己写, 因为 `Comparator.comparingInt` 源码是:
+
+```java
+    public static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable)
+            (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
+    }
+```
+
+同理:
+
+```java
+        // Arrays.sort(intervals, (o1, o2) -> Integer.compare(o1[0], o2[0]));
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 ```
 
 ---
@@ -185,6 +218,33 @@ public class CarModelYearComparator implements Comparator<Car> {
 
 ---
 
+## Math.abs
+
+```java
+    // 内置函数 0ms
+    public int mySqrt(int x) {
+        return (int)Math.pow(x, 0.5);
+    }
+
+
+    // 牛顿迭代法 1ms
+    public int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+        double c = x;
+        double x0 = x;
+        while (true) {
+            double xi = 0.5 * (x0 + c / x0);
+            if (Math.abs(x0 - xi) < 1e-15) {
+                break;
+            }
+            x0 = xi;
+        }
+        return (int)x0;
+    }
+```
+
 ## PriorityQueue
 
 `new PriorityQueue<>()` 默认就是 minheap,
@@ -292,7 +352,7 @@ Q28. What statement returns true if "nifty" is of type String?
 
 ---
 
-## get object instance 的方式
+## get object instance
 
 实例化对象的方式:
 
@@ -329,6 +389,33 @@ Q28. What statement returns true if "nifty" is of type String?
         System.out.println(test3);
     }
 ```
+
+---
+
+## int to char
+
+如果通过 `toString` 再 `toCharArray` 的话, 没有依次判断可能性并强转 `(char)` 来的快, 但是感觉平常并不知道有可能有多少位? 可能还是用包比较常用吧
+
+```java
+// 慢
+for (char digit : Integer.toString(cnt).toCharArray()) {
+    chars[res++] = digit;
+}
+
+// 快
+if (cnt / 1000 > 0) {
+    chars[res++] = (char)(cnt / 1000 + '0');
+}
+if (cnt / 100 > 0) {
+    chars[res++] = (char)(cnt % 1000 / 100 + '0');
+}
+if (cnt / 10 > 0) {
+    chars[res++] = (char)(cnt % 100 / 10 + '0');
+}
+chars[res++] = (char)(cnt % 10 + '0');
+```
+
+---
 
 # Spring
 
@@ -1136,6 +1223,46 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 ##
 
+Bug: 启动改名后项目, 出现 deserizable, classnotfound 等报错
+
+解决:
+
+因为虽然改了项目名, 但是用到的 model 还是同样的, 这些 model 在 redis 里面缓存了, 简单粗暴的就是 运行 `redis-cli.exe`, 执行:
+
+```
+redis-cli flushall
+```
+
+---
+
+##
+
+Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
+
+解决:
+
+方法 1: 把两个 Config 放到 `cn.sichu` 下
+
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+
+方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
+
+原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解`@Configuration`所以他又再次被加载了
+
+---
+
+##
+
+Bug:
+
+报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
+
+解决: 在 `ctx.getBean()`上一行添加 `ctx.refresh();`
+
+---
+
+##
+
 Bug: IDEA 右键没有 XML configuration file, 更没有 Spring config 选项
 
 解决:
@@ -1185,42 +1312,16 @@ Bug: IDEA `alt + insert` 失效
 
 Bug:
 
-报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
-
-解决: 在 `ctx.getBean()`上一行添加 `ctx.refresh();`
-
----
-
-##
-
-Bug:
-
 报错: `@ComponentScan ANNOTATION type filter requires an annotation type: interface org.springframework.web.servlet.mvc.Controller`
 
 解决:
 
 Controller 导包倒错了, 注释掉的是导错的
 
----
-
 ```java
 import org.springframework.stereotype.Controller;
 // import org.springframework.web.servlet.mvc.Controller;
 ```
-
-##
-
-Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
-
-解决:
-
-方法 1: 把两个 Config 放到 `cn.sichu` 下
-
-方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
-
-方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
-
-原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解`@Configuration`所以他又再次被加载了
 
 ---
 
@@ -1249,19 +1350,5 @@ Bug: 子模块通过 Spring initializer 创建后, 无法被识别为 maven 工�
 
 1. 右键 `pom.xml` -> add as maven
 2. 更改 `<parent>`标签内的内容关联父模块, 父模块 `pom.xml` 的 `<modules>` 里添加 `<module>`
-
----
-
-##
-
-Bug: 启动改名后项目, 出现 deserizable, classnotfound 等报错
-
-解决:
-
-因为虽然改了项目名, 但是用到的 model 还是同样的, 这些 model 在 redis 里面缓存了, 简单粗暴的就是 运行 `redis-cli.exe`, 执行:
-
-```
-redis-cli flushall
-```
 
 ---
