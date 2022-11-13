@@ -27,7 +27,7 @@
 
 # Java
 
-| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char)
+| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset)
 
 ---
 
@@ -416,6 +416,60 @@ chars[res++] = (char)(cnt % 10 + '0');
 ```
 
 ---
+
+## bit operation
+
+位逻辑运算符
+
+1. `&` 与
+
+    按位 与运算 (AND)
+
+    `4 & 5 = 4`
+
+2. `|` 或
+
+    按位 或运算 (OR)
+
+    `4 | 5 = 5`
+
+3. `~` 非
+
+    按位 异或运算 (XOR)
+
+    `4 ^ 5 = 1`
+
+4. `^` 异或
+
+    按位 取反运算 (NOT)
+
+    `~4 = -5`
+
+位移运算符
+
+1. `8 >> 1 = 4`
+
+2. `9 << 2 = 36`
+
+---
+
+## treeset vs hashset
+
+1. HashSet
+
+    不保证元素排列顺序
+
+    不是同步的
+
+    HashSet 是哈希表实现的, 元素可以是 null, 但只能放一个 null
+
+2. TreeSet
+
+    TreeSet 是 `SortedSet` 接口唯一实现类, 可以 `自然排序` 和 `定制排序`
+
+    TreeSet 判断两个对象不相等的方式是通过 `equals` 方法 返回 false, 或者 `CompareTo` 方法返回 0
+
+    TreeSet 是二叉树实现的, 自动排好序了, 不允许放 null 值
 
 # Spring
 
