@@ -27,7 +27,7 @@
 
 # Java
 
-| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset)
+| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset) | [ArrayList vs LinkedList](#arraylist-vs-linkedlist) | [锁](#lock)
 
 ---
 
@@ -470,6 +470,178 @@ chars[res++] = (char)(cnt % 10 + '0');
     TreeSet 判断两个对象不相等的方式是通过 `equals` 方法 返回 false, 或者 `CompareTo` 方法返回 0
 
     TreeSet 是二叉树实现的, 自动排好序了, 不允许放 null 值
+
+---
+
+## arraylist vs linkedlist
+
+1. `ArrayList` 是基于动态数组的实现
+
+2. `LinkedList` 是基于链表的实现, 占用内存空间比较大, 但在批量插入或删除元素时 速度优于 `ArrayList`
+
+---
+
+## lock
+
+[volatile 关键字](#volatile) | [volatile vs synchronized](#volatile-vs-synchronized) | [FileUtils](#apachecommoniofileutils) | [Reentrant lock vs synchronized](#reentrant-lock-vs-synchronized) | [ReentrantLock 使用场景](#reentrantlock-usage-scenarios)
+
+---
+
+## volatile
+
+volatile, 易挥发的
+
+用于再多线程 Mutil thread 环境下保证 **内存可见性 Memory visibility** 的关键字
+
+---
+
+## volatile vs synchronized
+
+`volatile` 禁止重排序 和 保证线程可见性
+
+`synchronized` 不能禁止重排序 和 保证线程可见性
+
+-   `volatile` read 读操作:
+
+    将本地内存变量置为无效, 然后读取主内存
+
+-   'volatile' write 写操作:
+
+    将本地内存变量刷新到主内存, 保证内存可见性
+
+    所以在计算文件夹存储空间的时候, 不加 `private volatile long totalSize` 的话会导致一直计算不出总大小, 因为存储空间不可见
+
+    而且 `volatile` 禁止重排序, 这样不同线程计算不同文件夹大小, 也方便写代码
+
+---
+
+## apache.common.io.FileUtils
+
+计算文件夹大小可以用 `FileUtils.sizeOfDirectory(@NotNull java.io.File directory)`, 用的是 apache 的包, 要手动依赖注入一下:
+
+```xml
+        <!-- 用来调FileUtils.sizeOfDirectory -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+```
+
+---
+
+## reentrant lock vs synchronized
+
+1. `synchronized` 是一个 Java 内置的关键字
+
+    `ReentrantLock` 是 Java 的一个类
+
+2. `synchronized` 只能是 非公平锁 unfair lock
+
+    `ReentrantLock` 可以实现 `公平锁 fair lock` 和 `非公平锁 unfair lock`
+
+    `ReentrantLock` 默认情况下是 `非公平锁 unfair lock`, 也就是 无序状态, 允许插队, JVM 自动计算调度插队, 速度更快
+
+3. `synchronized` 不能 中断一个等待锁的线程
+
+    `ReentrantLock` 可以中断一个 试图获取锁 的线程
+
+4. `synchronized` 不能设置 超时
+
+    `ReentrantLock` 可以设置 超时
+
+5. `synchronized` 会自动释放锁
+
+    `ReentrantLock` 必须要手动释放锁, 否则锁死
+
+---
+
+## ReentrantLock usage scenarios
+
+1. 如果发现该操作 已经在执行中, 则不再执行
+
+    场景 a. 定时任务:
+
+    如果任务执行时间 可能超过 下次计划执行时间
+
+    为了确保该 有状态任务 只有一个正在执行, 忽略重复触发
+
+    场景 b. 界面交互点击执行较长时间请求操作:
+
+    防止多次点击导致 后台重复执行 (忽略重复触发)
+
+    ```java
+    private ReentrantLock lock = new ReentrantLock();
+    if (lock.tryLock()) {   // 如果已经被lock, 立即返回false, 达到忽略操作的效果
+        try {
+            // 操作
+        } finally {
+            lock.unlock();
+        }
+    }
+    ```
+
+2. 如果发现该操作 已经在执行, 等待一个一个执行 (类似 synchronized 同步执行)
+
+    这种情况主要是 防止资源使用冲突, 保证同一时间内 只有一个操作可以使用资源
+
+    但是这里就涉及 公平锁和非公平锁的区别了
+
+    对于 文件操作, 同步消息发送, 有状态的操作等场景, 判断是否要保持顺序来选择具体使用 公平锁还是非公平锁
+
+    ```java
+    private ReentrantLock lock = new ReentrantLock();   // 默认false, 非公平锁
+    private ReentrantLock lock = new ReentrantLock(true);   // 公平锁
+    try {
+        lock.lock();    // 如果被其他资源锁定, 在这里等待锁释放, 达到暂停的效果
+        // 操作
+    } finally {
+        lock.unlock();
+    }
+    ```
+
+3. 如果发现该操作 已经在执行, 则等待一段时间, 等待超时则不执行 (尝试等待执行)
+
+    这种情况也是 2 的改进
+
+    等待获得锁操作有一个时间限制, 超时则放弃执行
+
+    这样可以防止时间过长导致死锁 (大家都在等待资源, 导致线程队列溢出)
+
+    ```java
+    try {
+        if (lock.tryLock(5, TimeUnit.SECONDS)) {    // 如果已经被锁定, 尝试等待5s
+            try {
+                // 操作
+            } finally {
+                lock.unlock();
+            }
+        }
+    } catch (InterruptedException e) {
+        e.printStackTrace();    // 当前线程被 interrupt 会抛个异常
+    }
+    ```
+
+4. 如果发现操作 已经在执行, 等待执行, 可中断正在进行的操作立刻释放锁进行下一操作
+
+    这种情况也是 2 的改进
+
+    synchronized 与 ReentrantLock 在默认情况下是不会响应中断(interrupt)操作，会继续执行完。lockInterruptibly()提供了 可中断锁 来解决此问题
+
+    通过取消同步操作, 防止不正常的操作长时间占用造成阻塞
+
+    ```java
+    try {
+        lock.lockInterruptibly();
+        // 操作
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } finally {
+        lock.unlock();
+    }
+    ```
+
+---
 
 # Spring
 
@@ -1268,6 +1440,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 `ctrl + shift + f10`: run
 
 `ctrl + h`: 查看 hierachy
+
+`ctrl + d`: 复制行
 
 ## IDEA quick-code
 
