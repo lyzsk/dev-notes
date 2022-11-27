@@ -23,11 +23,11 @@
 
 # 2022-Java-notes
 
-| [Java](#java) | [Spring](#spring) | [SpringMVC](#springmvc) | [SpringBoot](#springboot) | [Redis](#redis) | [RaabitMQ](#rabbitmq) | [IDE](#ide) | [Bugs](#bugs) |
+| [Java](#java) | [Spring](#spring) | [SpringMVC](#springmvc) | [SpringBoot](#springboot) | [MyBatis](#mybatis) | [Redis](#redis) | [RaabitMQ](#rabbitmq) | [IDE](#ide) | [Bugs](#bugs) |
 
 # Java
 
-| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset) | [ArrayList vs LinkedList](#arraylist-vs-linkedlist) | [锁](#lock)
+| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset) | [ArrayList vs LinkedList](#arraylist-vs-linkedlist) | [锁](#lock) | [int vs Integer](#int-vs-integer) | [多线程](#multithread) | [树状数组](#binary-indexed-tree)
 
 ---
 
@@ -435,15 +435,19 @@ chars[res++] = (char)(cnt % 10 + '0');
 
 3. `~` 非
 
+    按位 取反运算 (NOT)
+
+    `~4 = -5`
+
+4. `^` 异或
+
     按位 异或运算 (XOR)
 
     `4 ^ 5 = 1`
 
-4. `^` 异或
+    `x ^ x = 0`
 
-    按位 取反运算 (NOT)
-
-    `~4 = -5`
+    `x ^ 0 = x`
 
 位移运算符
 
@@ -481,9 +485,131 @@ chars[res++] = (char)(cnt % 10 + '0');
 
 ---
 
-## lock
+## int vs integer
+
+1.  `int` 是 primitive data type 原属数据类型
+
+    `Integer` 是 Wrapper class 包装类
+
+2.  `Integer` 必须 instantiate 实例化后才能使用
+
+3.  `int` 直接存储数据值
+
+    `Integer` 实际是 reference of an object 对象的引用, 当 new 一个 Integer 时, 实际上是生成一个指针指向此对象内存地址
+
+    所以 Integer 和 Integer 用 `==` 比较是不会相等的, 因为比较的是地址:
+
+    ```java
+    Integer i = new Integer(100);
+    Integer j = new Integer(100);
+    System.out.print(i == j);   // false
+    System.out.println(i.equals(j));    // true
+    ```
+
+    `Integer` 变量 和 `int` 变量比较时, 只要两个变量值是相等的, 结果位 true, 原理是包装类 Integer 和基本数据类型 int 比较时, java 会自动拆包成 int 然后进行比较, 所以这时候用 `==` 比较会相等:
+
+    ```java
+    Integer i = new Integer(100);
+    int j = 100;
+    System.out.println(i == j); // true
+    ```
+
+    非 new 生成的`Integer`变量和`new Integer()`生成的变量比较时，结果为 false。（因为非 new 生成的 Integer 变量指向的是 java 常量池中的对象，而 new Integer()生成的变量指向堆中新建的对象，两者在内存中的地址不同）
+
+    ```java
+    Integer i = new Integer(100);
+    Integer j = 100;
+    System.out.print(i == j); //false
+    System.out.println(i.equals(j));    // true
+    ```
+
+    对于两个非 new 生成的`Integer`对象，进行比较时，如果两个变量的值在区间 -128 到 127 之间，则比较结果为 true，如果两个变量的值不在此区间，则比较结果为 false, 因为编译非 new 的 `Integer` 对象时, 是翻译成 `Integer.valueOf()`, 而 `Integer.valueOf(int i)` 定义如下:
+
+    ```java
+    Integer i = 100;
+    Integer j = 100;
+    System.out.print(i == j); //true
+    Integer i = 128;
+    Integer j = 128;
+    System.out.print(i == j); //false
+
+    public static Integer valueOf(int i){
+    assert IntegerCache.high >= 127;
+    if (i >= IntegerCache.low && i <= IntegerCache.high){
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    }
+    return new Integer(i);
+    }
+    ```
+
+4.  `int` 默认值是 0
+
+    `Integer` 默认值是 null
+
+---
+
+## multithread
 
 [volatile 关键字](#volatile) | [volatile vs synchronized](#volatile-vs-synchronized) | [FileUtils](#apachecommoniofileutils) | [Reentrant lock vs synchronized](#reentrant-lock-vs-synchronized) | [ReentrantLock 使用场景](#reentrantlock-usage-scenarios)
+
+多线程主要三个知识点:
+
+1. visibility 可见性
+2. orderliness 有序性
+3. atomicity 原子性
+
+`JUC` 是在 Java 5.0 添加的 `java.util.concurrent` 包的简称，目的就是为了更好的支持高并发任务，让开发者利用这个包进行的多线程编程时可以有效的减少竞争条件和死锁线程
+
+## lock
+
+## synchronized
+
+从性能上来说, 能不上锁就不上锁
+
+例子:
+
+```java
+public static void main(String[] args) {
+    Object o = new Object();
+    synchronized(o) {
+        //...
+    }
+}
+```
+
+这种情况 `syncrhonized` 加了一个锁, 然后包含的内容就是 atomic 原子
+
+当一个 thread 执行时, 其他 thread 是进不来的, 也就是 parallel 并行 变 serial 串行
+
+如果不加 `synchronized` 互斥锁 mutex lock 的话, 多线程情况下无法保证 data consistency 数据一致性
+
+例子:
+
+```java
+    private static long n = 0L;
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread[] threads = new Thread[100];
+        CountDownLatch latch = new CountDownLatch(threads.length);
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(() -> {
+                // synchronized (Plus.class) {
+                    for (int j = 0; j < 10000; j++) {
+                        ++n;
+                    }
+                    latch.countDown();
+                // }
+            });
+        }
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        latch.await();
+        System.out.println(n);
+    }
+```
+
+这种情况需要用 synrhonize 把并行变串行才能保证数据一致性
 
 ---
 
@@ -640,6 +766,58 @@ volatile, 易挥发的
         lock.unlock();
     }
     ```
+
+---
+
+# binary indexed tree
+
+树状数组, 又叫 二叉索引树 或 Fenwick 树
+
+能高效的:
+
+1. 数组前缀和 的查询
+
+2. 单点更新
+
+模板:
+
+```java
+    private int lowbit(int x) {
+        return x & -x;
+    }
+
+    private void add(int index, int val) {
+        while (index < tree.length) {
+            tree[index] += val;
+            index += lowbit(index);
+        }
+    }
+
+    private int prefixSum(int index) {
+        int sum = 0;
+        while (index > 0) {
+            sum += tree[index];
+            index -= lowbit(index);
+        }
+        return sum;
+    }
+```
+
+hint:
+
+1. index 代表的是 第 index 个, 也就是从 1 开始 而不是 0
+
+2. `x & -x` 代表的是 最低位的 1 和其他的 0 组成的二进制
+
+    比如: lowbit(5) = 5 & -5 = 1
+
+    1111111111111011
+
+    0000000000000101
+
+    -> 0000000000000001
+
+    -> 1
 
 ---
 
@@ -1186,6 +1364,168 @@ redis-server.exe redis.windows.conf
 
 ---
 
+# MyBatis
+
+MyBatis 前身 iBatis, 是数据持久层框架, 是对 JDBC 的封装
+
+-   特性:
+
+1. 持久层框架 Persistence framework, 支持定制化 SQL, 存储过程 stored procedures, 以及高级映射 (一对多/多对一)
+
+2. 对 JDBCF 封装, 避免几乎所有代码
+
+3. 用 XML 或者 注解, 将 POJO (Plain Old Java Object) 普通 Java 对象 映射成数据库中的记录 (解耦 decoupling)
+
+4. 半自动的 ORM (Object Relation Mapping) 框架
+
+-   缺点:
+
+1. SQL 编写工作量大, 尤其是字段多, 关联表多的时候
+
+2. SQL 语句依赖数据库, 导致数据库移植性差, 不能随便更换数据库
+
+-   核心接口和类:
+
+`SqlSessionFactoryBuilder` --`build()`--> `SqlSessionFactory` -- `openSession()`--> `SqlSession`
+
+## mapper
+
+mapper 接口就相当于 DAO
+
+mapper 的获取: `sqlSession.getMapper();`
+
+## select query
+
+查询标签 select 必须设置 resultType 或者 resultMap:
+
+`resultType`: 自动映射, 用于属性名和表中字段名一致的的情况
+
+    resultType 本质上是传入类型别名Alias, 所以不区分大小写
+
+`resultMap`: 自定义映射, 用于属性名和表中字段名不一致 或者 一对多/多对一
+
+> resultType 如果在配置文件里设置了 `alias` 不区分大小写
+
+MyBatis 的各种查询功能:
+
+1. 若只有一条返回,
+
+    a. 可以通过实体类 Entity class 接收返回数据
+
+    b. 可以通过 集合 接收返回数据
+
+    c. 可以通过 map 接收返回数据, 而且这种方法用的很多, 比如查 json 数据
+
+2. 若有多条返回,
+
+    a. 可以通过实体类类型的 list 集合接收 (一定不能用实体类, 只能用集合, 否则抛异常`TooManyResultsException`)
+
+    b. 可以通过 map 类型的 list 集合接收
+
+    c. 可以在 mapper 接口的方法上用 `@MapKey("")` 使用数据库中唯一标识的字段作为 key, 返回 map 集合
+
+## mybatis-config.xml
+
+配置文件里的标签必须按照顺序:
+
+```
+The content of element type "configuration" must match "(properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,reflectorFactory?,plugins?,environments?,databaseIdProvider?,mappers?)".
+```
+
+## parameters
+
+获取参数两种方式:
+
+1. `${}`
+
+    本质就是字符串拼接, 需要注意`''`单引号的使用
+
+    而且用字符串拼接存在 sql 注入 的风险
+
+2. `#{}`
+
+    本质是占位符赋值
+
+-   MyBatis 获取参数的各种情况:
+
+1. mapper 接口方法的参数为单个字面量类型, 可以通过 `${}` `#{}`以任意的名称获取参数值
+
+在接口对应的映射 xml 文件里使用 `#{}`, `{}`里传的参数名不重要, 值才重要, 所以 `#{username}` 和 `#{aaa}`能够返回同样的结果
+
+`select * from t_user where username = '${username}'` 手动加单引号后返回结果和 `select * from t_user where username = #{username}` 一样
+
+总而言之尽量用 `#{}`
+
+2. mapper 接口方法的参数为多个时
+
+此时 MyBatis 会将这些参数放在一个 map 集合中, 以两种方式存储:
+
+a. `arg0, arg1...` 为 key, 以 参数 为 value
+
+b. `param1, param2...` 为 key, 以 参数 为 value
+
+所以 `#{}` `${}` 里传的是 key 的值
+
+3. 若 mapper 接口方法的参数有多个时, 根据 2, 可以手动设置一个 map
+
+这种情况下依旧是 `#{}` `${}` 里传 key 的值
+
+4. mapper 接口方法的参数是一个实体类类型的参数
+
+通过 `#{}`, `${}` 以属性的方式访问属性值
+
+这种方式也是最普遍的使用方式
+
+5. 使用 `@Param` 命名参数
+
+这种情况可以使用 `param1, param2...` 和 自己设置的 `@Param()`的 value
+
+> 总结: 总的来说分两种情况比较方便 1. 加 `@Param` 的情况; 2. 加实体类型的情况
+
+## special parameters situation
+
+-   模糊查询 Fuzzy search query
+
+方法 1. 这种情况用 `#{}` 会返回错误的值: `select * from t_user where username like '%?%'`
+
+    换成 `${}`: `select * from t_user where username like '%${username}%'` 则可以正确返回
+
+方法 2. 也可以使用 mysql 的字符串拼接函数: `select * from t_user where username like concat('%', #{username}, '%')`, 这种情况就可以继续使用 `#{}`
+
+方法 3. 也可以使用双引号拼接两个百分号: `select * from t_user where username like "%"#{username}"%"`, 这种方法也是最常用的
+
+-   批量删除 batch deletion
+
+只能使用 `delete from t_user where id in (${ids})`, 返回值是 1, 成功
+
+如果使用 `delete from t_user where id in (#{ids})`, 返回值是 0, 而且在 sql 中执行脚本会报错
+
+-   动态设置表名
+
+只能用 `select * from ${tablename}` 不能用 `#{}`
+
+-   添加功能获取自增的主键
+
+使用场景
+
+`t_clazz(clazz_id,clazz_name)`
+
+`t_student(student_id,student_name,clazz_id)`
+
+添加班级信息
+
+获取新添加的班级的 id
+
+为班级分配学生，即将某学的班级 id 修改为新添加的班级的 id
+
+在`mapper.xml`中设置两个属性
+
+`useGeneratedKeys`：设置使用自增的主键
+
+`keyProperty`：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数 user 对象的某个属性中
+
+---
+
 # RabbitMQ
 
 启动 mq: cd 到 rabbitmq/sbin 目录, cmd :
@@ -1405,6 +1745,8 @@ Eclipse 快捷配置:
 
 17. File -> Project Structure -> Project Settings -> Project -> Project language level -> 8!
 
+18. 安装插件 MyBatisX
+
 ---
 
 IDEA 快速配置(但是要检查很多东西, 不太好用):
@@ -1442,6 +1784,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 `ctrl + h`: 查看 hierachy
 
 `ctrl + d`: 复制行
+
+`ctrl + p`: 提示填充内容
 
 ## IDEA quick-code
 
@@ -1578,5 +1922,61 @@ Bug: 子模块通过 Spring initializer 创建后, 无法被识别为 maven 工�
 
 1. 右键 `pom.xml` -> add as maven
 2. 更改 `<parent>`标签内的内容关联父模块, 父模块 `pom.xml` 的 `<modules>` 里添加 `<module>`
+
+---
+
+##
+
+Bug:
+
+```
+<log4j:configuration debug="true"
+    xmlns:log4j='http://jakarta.apache.org/log4j/'>
+```
+
+"http://jakarta.apache.org/log4j/" 报红, URI 报错
+
+解决:
+
+删除 xmlns 后字段:
+
+```
+<log4j:configuration>
+```
+
+---
+
+##
+
+Bug :
+
+```
+org.apache.ibatis.exceptions.PersistenceException:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server.
+```
+
+解决:
+
+更改`mysql-connector-java`, 和 mysql 版本一致
+
+```xml
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+```
+
+依然 Bug:
+
+```
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+```
+
+解决:
+
+更改`mybatis-config.xml`:
+
+```xml
+<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+```
 
 ---

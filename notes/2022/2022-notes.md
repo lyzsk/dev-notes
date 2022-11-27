@@ -224,6 +224,16 @@ git commit -a -m ".gitignore is now working"
 git push origin master
 ```
 
+---
+
+`.gitignore` 需要删除之前提交的文件, 比如 `.idea`, `.iml`
+
+```
+git rm --cached **/*.iml
+git rm --cached -r .idea
+git rm --cached -r **/.idea
+```
+
 # Windows
 
 Windows 环境下生成项目结构树 tree:
