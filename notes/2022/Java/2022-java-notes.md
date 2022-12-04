@@ -27,7 +27,7 @@
 
 # Java
 
-| [Java8](#java8) | [Java14](#java14) | [牛顿迭代法 abs](#mathabs) | [Comparable vs Comparator](#comparable-vs-comparator) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset) | [ArrayList vs LinkedList](#arraylist-vs-linkedlist) | [锁](#lock) | [int vs Integer](#int-vs-integer) | [多线程](#multithread) | [树状数组](#binary-indexed-tree)
+| [Java8](#java8) | [Java14](#java14) | [科学计数](#math) | [Comparable vs Comparator](#comparable-vs-comparator) | [牛顿迭代法 abs](#mathabs) | [PriorityQueue](#priorityqueue) | [Arrays.fill()](#arraysfill) | [add() vs offer()](#add-vs-offer) | [双指针](#double-pointer) | [backtrack-vs-dfs](#backtrack-vs-dfs) | [Integer compile](#integer-compile) | [getSimpleName()](#getsimplename) | [get object instance 的方式](#get-object-instance) | [int 类型转 char 类型](#int-to-char) | [位运算](#bit-operation) | [TreeSet-vs-HashSet](#treeset-vs-hashset) | [ArrayList vs LinkedList](#arraylist-vs-linkedlist) | [锁](#lock) | [int vs Integer](#int-vs-integer) | [多线程](#multithread) | [树状数组](#binary-indexed-tree)
 
 ---
 
@@ -145,6 +145,14 @@ Arrays.sort(index, Comparator.comparingInt(idx -> nums2[idx]));
         }
     }
 ```
+
+---
+
+## math
+
+`10e+8 = 10 * 10^8`
+
+`1e9 = 1 * 10^9`
 
 ---
 
@@ -1523,6 +1531,138 @@ b. `param1, param2...` 为 key, 以 参数 为 value
 `useGeneratedKeys`：设置使用自增的主键
 
 `keyProperty`：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数 user 对象的某个属性中
+
+---
+
+## different name between table and pojo
+
+sql 表里的字段名 和 mapper 里峰驼属性名不一致时 (sql 里是`emp_name`, mapper 里是`empName`):
+
+方法 1:
+
+把 `select * from t_emp` 手动赋予别名 `select eid, emp_name empName, age, gender, email from t_emp`
+
+方法 2:
+
+更改 mybatis 全局配置 `mybatis-config.xml`:
+
+```xml
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+```
+
+方法 3:
+
+更改 mapper.xml, 使用 `ResultMap` 自定义映射关系:
+
+```xml
+    <resultMap id="empResultMap" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="gender" column="gender"></result>
+        <result property="email" column="email"></result>
+    </resultMap>
+
+    <select id="getAllEmp" resultMap="empResultMap">
+        select * from t_emp
+    </select>
+```
+
+## resultmap
+
+`resultMap` 设置自定义映射关系
+
+属性:
+
+    - id: 自定义映射的唯一标识, 不能重复
+
+    - type: 查询时数据要映射的实体类的类型
+
+子标签:
+
+    - id: 主键的映射关系
+
+    - result: 普通字段的映射关系
+
+    子标签里的属性:
+
+        - property: 映射关系中 实体类的属性名
+
+        - column: 映射关系中 表中数据的字段名
+
+---
+
+## multi to one
+
+多对一查询,
+
+方法 1:
+
+使用级联属性赋值, cascade property (使用 `resultMap` 自定义映射)
+
+```xml
+    <resultMap id="empAndDeptResultMapOne" type="emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="gender" column="gender"></result>
+        <result property="email" column="email"></result>
+        <result property="dept.did" column="did"></result>
+        <result property="dept.deptName" column="dept_name"></result>
+    </resultMap>
+```
+
+关键点在于, 对于 `private Dept dept;` 对象, 获取映射关系的是 `dept.did` 和 `dept.deptName`
+
+这种虽然简单, 但是用的并不多...
+
+方法 2:
+
+使用专门处理 多对一 映射关系的 `association` 标签
+
+```xml
+        <association property="dept" javaType="Dept">
+            <id property="did" column="did"></id>
+            <result property="deptName" column="dept_name"></result>
+        </association>
+```
+
+方法 3:
+
+依然使用 `association` 标签, 但是使用的是 **分步查询**
+
+以后 多对一/一对多 的情况用这种方法比较多
+
+```xml
+    <resultMap id="empAndDeptByStepResultMap" type="Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result>
+        <result property="age" column="age"></result>
+        <result property="gender" column="gender"></result>
+        <result property="email" column="email"></result>
+        <association property="dept"
+                     select="cn.sichu.mybatis.mapper.DeptMapper.getEmpAndDeptByStepTwo"
+                     column="did"></association>
+    </resultMap>
+```
+
+---
+
+## association tag
+
+`association` 处理多对一映射关系
+
+`property`: 需要处理多对一映射关系的属性名
+
+`javaType`: 该属性的类型
+
+分步查询时用到的属性:
+
+`select`: 设置分步查询的 sql 唯一标识(namespace.sqlid 或者 mapper 接口的全类名.方法名)
+
+`column`: 分步查询的条件, 也就是两步共有的识别字段, 如 did
 
 ---
 
