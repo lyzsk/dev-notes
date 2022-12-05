@@ -365,7 +365,9 @@ Q28. What statement returns true if "nifty" is of type String?
 实例化对象的方式:
 
 1. `new`关键词, 调用`constructor`
+
 2. 通过反射机制(reflection), 反射 `Class` 对象, 从 `Class对象中` 提取 `Constructor` 对象, 然后从 `Constructor` 对象中 `newInstance()`
+
 3. 实现 `Cloneable` 接口，重写 Object 类的 `clone` 方法
 
     无论何时我们调用一个对象的 `clone` 方法，JVM 就会创建一个新的对象，将前面对象的内容全部拷贝进去
@@ -495,13 +497,13 @@ chars[res++] = (char)(cnt % 10 + '0');
 
 ## int vs integer
 
-1.  `int` 是 primitive data type 原属数据类型
+1. `int` 是 primitive data type 原属数据类型
 
     `Integer` 是 Wrapper class 包装类
 
-2.  `Integer` 必须 instantiate 实例化后才能使用
+2. `Integer` 必须 instantiate 实例化后才能使用
 
-3.  `int` 直接存储数据值
+3. `int` 直接存储数据值
 
     `Integer` 实际是 reference of an object 对象的引用, 当 new 一个 Integer 时, 实际上是生成一个指针指向此对象内存地址
 
@@ -550,7 +552,7 @@ chars[res++] = (char)(cnt % 10 + '0');
     }
     ```
 
-4.  `int` 默认值是 0
+4. `int` 默认值是 0
 
     `Integer` 默认值是 null
 
@@ -956,6 +958,7 @@ public class BookDaoImpl implements BookDao {
 ## DI
 
 1. 基于 IOC 管理 Bean
+
 2. Service 中使用 new 形式创建 Dao 对象是否保留?
 
     否
@@ -1041,14 +1044,18 @@ cn.sichu.dao.impl.BookDaoImpl@1ed4004b
 
 `bean` 本质上就是 对象
 
-1.  方法一: 使用 构造方法 实例化 bean
-    -   而且就算构造方法被 `private` 了, 也能调用到, 也就是说 Spring 是用 反射(reflection) 生成实例的
-    -   而且必须调用 **无参** 的构造方法
-2.  方法二: 使用 静态工厂 实例化 bean
-    -   这种方法可以在 `public static OrderDao getOrderDao() {return new OrderDaoImpl();}` 的 `return` 前干些初始化一些其他配置, 主要是针对早期遗留系统
-3.  方法三: 使用 实例工厂 实例化 bean
+1. 方法一: 使用 构造方法 实例化 bean
 
-4.  改进方法三: 创建 `XXXFactoryBean` 类并实现 `FactoryBean<T>`
+    - 而且就算构造方法被 `private` 了, 也能调用到, 也就是说 Spring 是用 反射(reflection) 生成实例的
+    - 而且必须调用 **无参** 的构造方法
+
+2. 方法二: 使用 静态工厂 实例化 bean
+
+    - 这种方法可以在 `public static OrderDao getOrderDao() {return new OrderDaoImpl();}` 的 `return` 前干些初始化一些其他配置, 主要是针对早期遗留系统
+
+3. 方法三: 使用 实例工厂 实例化 bean
+
+4. 改进方法三: 创建 `XXXFactoryBean` 类并实现 `FactoryBean<T>`
 
     ```java
     public class UserDaoFactoryBean implements FactoryBean<UserDao> {
@@ -1137,8 +1144,11 @@ bean 生命周期
 -   初始化容器
 
 1. 创建对象(内存分配)
+
 2. 执行构造方法
+
 3. 执行属性注入(set)
+
 4. 执行 bean 初始化方法
 
 -   使用 bean
@@ -1272,8 +1282,10 @@ public String dateParam(Date date1, @DateTimeFormat(pattern = "yyyy-mm-dd") Date
 REST (Representational State Transfer) 表现形式状态转换
 
 -   传统风格:
+
     -   `http://localhost/user/getById?id=1`
     -   `http://localhost/user/saveUser`
+
 -   REST 风格
 
     -   `http://localhost/user/1`
@@ -1285,6 +1297,7 @@ REST (Representational State Transfer) 表现形式状态转换
     2. 书写简化
 
 -   常见 REST 风格, 按照访问资源时的 \[行为动作\] 区分对资源进行了何种操作:
+
     -   `http://localhost/users` 查询全部用户信息 （GET）查询
     -   `http://localhost/users/1` 查询指定用户信息 (GET)查询
     -   `http://localhost/users` 添加用户信息 (POST)修改/保存
@@ -1664,6 +1677,591 @@ sql 表里的字段名 和 mapper 里峰驼属性名不一致时 (sql 里是`emp
 
 `column`: 分步查询的条件, 也就是两步共有的识别字段, 如 did
 
+`fetchType`: lazy | eager, 是否强制取消延迟加载
+
+---
+
+## mybatis lazy loading
+
+分步查询的好处就是 可以帮助实现 MyBatis 的延迟加载/懒加载/lazy loading
+
+`lazyLoadingEnabled`: 延迟加载的全局开关, 开启时, 所有关联对象都会延迟加载
+
+`aggressiveLazyLoading`: 开启时, 任何方法的调用都会加载该对象的所有属性, 否则每个属性都会按需加载
+
+此时就可以实现按需加载，获取的数据是什么，就只会执行相应的 sql。此时可通过 association 和 collection 中的 `fetchType` 属性设置当前的分步查询是否使用延迟加载，fetchType="lazy(延迟加载)|eager(立即加载)"
+
+根据文档:
+
+| Setting               | Valid Values  | Default               |
+| --------------------- | ------------- | --------------------- |
+| lazyLoadingEnabled    | true \| false | false                 |
+| aggressiveLazyLoading | true \| false | false (true <= 3.4.1) |
+
+---
+
+## one to multi
+
+一对多查询, 比如一个部门有多个员工, Emp 用 `List<Emp> Emps` 来存储
+
+方法 1: `collection`
+
+```xml
+    <resultMap id="deptAndEmpResultMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps" ofType="Emp">
+            <id property="eid" column="eid"></id>
+            <result property="empName" column="emp_name"></result>
+            <result property="age" column="age"></result>
+            <result property="gender" column="gender"></result>
+            <result property="email" column="email"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getDeptAndEmp" resultMap="deptAndEmpResultMap">
+        select * from t_dept left join t_emp on t_dept.did = t_emp.did
+        where t_dept.did = #{did}
+    </select>
+```
+
+很显然, 使用 `collection` 标签, 我们已经知道 `javaType` 是集合了, 我们需要知道的是里面存储对象是什么类型, 所以需要用 `ofType`
+
+方法 2: 分步查询
+
+```xml
+<!-- DeptMapper.xml -->
+    <resultMap id="deptAndEmpByStepResultMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps"
+                    select="cn.sichu.mybatis.mapper.EmpMapper.getDeptAndEmpByStepTwo"
+                    column="did"
+                    fetchType="lazy"></collection>
+    </resultMap>
+
+    <select id="getDeptAndEmpByStepOne" resultMap="deptAndEmpByStepResultMap">
+        select * from t_dept where t_dept.did = #{did}
+    </select>
+
+<!-- EmpMapper.xml -->
+    <select id="getDeptAndEmpByStepTwo" resultType="cn.sichu.mybatis.pojo.Emp">
+        select * from t_emp where did = #{did}
+    </select>
+```
+
+一般来说 分步查询 第一步`resultMap`, 第二步`resultType`, 但是多表联查有多对多关系时可能都用的`resultMap`
+
+---
+
+## mybatis dynamic sql
+
+方法 1: `<if>` 标签
+
+```xml
+    <select id="getEmpByConditions" resultType="cn.sichu.mybatis.pojo.Emp">
+        select * from t_emp where 1=1
+        <if test="empName != null and empName != ''">
+            emp_name = #{empName}
+        </if>
+        <if test="age != null and age != ''">
+            and age = #{age}
+        </if>
+        <if test="gender != null and gender != ''">
+            and gender = #{gender}
+        </if>
+        <if test="email != null and email !=''">
+            and email = #{email}
+        </if>
+    </select>
+```
+
+通过在 where 后添加 `1=1` 衡成立条件, 防止报错 `Preparing: select * from t_emp where and emp_name = ? and age = ? and gender = ? and email = ? (BaseJdbcLogger.java:137)`, `org.apache.ibatis.exceptions.PersistenceException`, 帮助拼接 `where and ...` 后的条件
+
+方法 2: `<where>` 标签
+
+当 `<where>` 标签中有内容时, 会自动生成 `where` 关键字, 并且将 sql 语句前多余的 `and` 或 `or` 去掉 (不能将 sql 语句后的 and 和 or 去掉)
+
+当 `<where>` 标签中没有内容时, 此时 `<where>` 标签没有任何效果
+
+```xml
+    <select id="getEmpByConditions" resultType="cn.sichu.mybatis.pojo.Emp">
+        select * from t_emp
+        <where>
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+            <if test="gender != null and gender != ''">
+                and gender = #{gender}
+            </if>
+            <if test="email != null and email !=''">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+```
+
+方法 3: `<trim>` 标签
+
+`prefix | suffix`: 将 `<trim>` 标签中内容前面或后面**添加**指定内容
+
+`suffixOverrides | prefixOverrides`: 将 `<trim>` 标签中内容前面或后面**去掉**指定内容
+
+```xml
+    <select id="getEmpByConditions" resultType="cn.sichu.mybatis.pojo.Emp">
+        select * from t_emp
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName} and
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age} or
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender} and
+            </if>
+            <if test="email != null and email !=''">
+                email = #{email}
+            </if>
+        </trim>
+    </select>
+```
+
+方法 4: `<choose>, <when>, <otherwise>` 标签
+
+这一套标签相当于 `if...else`
+
+```xml
+    <select id="getEmpByChoose" resultType="cn.sichu.mybatis.pojo.Emp">
+        select * from t_emp
+        <where>
+            <choose>
+                <when test="empName != null and empName != ''">
+                    emp_name = #{empName}
+                </when>
+                <when test="age != null and age != ''">
+                    age = #{age}
+                </when>
+                <when test="gender != null and gender != ''">
+                    gender = #{gender}
+                </when>
+                <when test="email != null and email != ''">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    did = 2
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+```
+
+方法 5: `<foreach>`
+
+a. 用 `<foreach>` 实现批量删除
+
+> 建议: 除了 实体类对象 和 Map 集合 的情况, 其他情况都加 `@Param()` 来访问
+
+方法 5. a:
+
+```java
+    /**
+     * 通过数组实现批量删除
+     */
+    int deleteMultiByArray(@Param("eids") Integer[] eids);
+```
+
+```xml
+    <delete id="deleteMultiByArray">
+        delete from t_emp where eid in
+        (
+        <foreach collection="eids" item="eid" separator="," open="(" close=")">
+            #{eid}
+        </foreach>
+        )
+    </delete>
+```
+
+方法 5. b:
+
+```xml
+    <delete id="deleteMultiByArrayOne">
+        delete from t_emp where eid in
+        (
+        <foreach collection="eids" item="eid" separator="," open="(" close=")">
+            #{eid}
+        </foreach>
+        )
+    </delete>
+```
+
+b. 用 `<foreach>` 实现批量添加
+
+```java
+    /**
+     * 通过List集合实现批量添加
+     */
+    int insertMultiByList(@Param("emps") List<Emp> emps);
+```
+
+```xml
+    <insert id="insertMultiByList">
+        insert into t_emp values
+        <foreach collection="emps" item="emp" separator=",">
+            (null, #{emp.empName}, #{emp.age}, #{emp.gender}, #{emp.email}, null)
+        </foreach>
+    </insert>
+```
+
+方法 6: `<sql>` 标签
+
+使用 `<sql>` 标签记录常用的 sql 字段 (因为日常开发中很少用 `*` 来作条件, 而是具体的字段)
+
+使用 `<include>` 来引用 `<sql>` 标签的 id
+
+```xml
+    <sql id="empColumns">eid,emp_name,age,gender,email</sql>
+
+    <select id="getEmpByConditions" resultType="cn.sichu.mybatis.pojo.Emp">
+        select <include refid="empColumns"></include> from t_emp
+```
+
+---
+
+## cache in mybatis
+
+## level 1 cache
+
+一级缓存 L1 cache 是 `SqlSession` 级别的, 通过同一个 `SqlSession` 查询的数据会被缓存, 下次查询相同的数据, 会直接从缓存中获取, 没有才会从数据库中取
+
+一级缓存失效的四种情况:
+
+1. 不同的 SqlSession 对应不同的一级缓存
+
+2. 同一个 SqlSession 但是查询条件不同
+
+3. 同一个 SqlSession 两次查询期间执行了任何一次增删改操作
+
+4. 同一个 SqlSession 两次查询期间手动情况了缓存 `sqlSession.clearCache();`
+
+## level 2 cache
+
+二级缓存 L2 Cache 是 `SqlSessionFactory` 级别, 通过同一个 `SqlSessionFactory` 创建的 `SqlSession` 查询的结果会被缓存, 此后若再次执行相同查询语句, 结果会从缓存中获取
+
+二级缓存开启条件:
+
+1. 在核心配置文件中，设置全局配置 (`<settings>` 标签里) 属性 cacheEnabled="true"，默认为 true，不需要设置
+
+2. 在映射文件中设置标签 `<cache />`
+
+3. 二级缓存必须在 SqlSession 关闭或提交之后有效 (每次查询后手动添加 `sqlSession.close();`)
+
+4. 查询的数据所转换的实体类类型必须实现序列化的接口
+
+使二级缓存失效的情况：
+
+1. 两次查询之间执行了任意的增删改，会使一级和二级缓存同时失效
+
+二级缓存的相关配置 (`<cache />`标签的配置)
+
+`eviction`: 缓存回收策略
+
+> LRU（Least Recently Used） – 最近最少使用的：移除最长时间不被使用的对象。
+
+> FIFO（First in First out） – 先进先出：按对象进入缓存的顺序来移除它们。
+
+> SOFT – 软引用：移除基于垃圾回收器状态和软引用规则的对象。
+
+> WEAK – 弱引用：更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+
+> 默认的是 LRU
+
+`flushInterval`: 刷新间隔，单位毫秒
+
+> 默认情况是不设置，也就是没有刷新间隔，缓存仅仅调用语句（增删改）时刷新
+
+`size`: 引用数目，正整数
+
+> 代表缓存最多可以存储多少个对象，太大容易导致内存溢出
+
+`readOnly`: 只读，true/false
+
+> true：只读缓存；会给所有调用者返回缓存对象的相同实例。因此这些对象不能被修改。这提供了很重要的性能优势。
+
+> false：读写缓存；会返回缓存对象的拷贝（通过序列化）。这会慢一些，但是安全，因此默认是 false
+
+---
+
+## mybatis cache queries order
+
+先查询二级缓存，因为二级缓存中可能会有其他程序已经查出来的数据，可以拿来直接使用
+
+如果二级缓存没有命中，再查询一级缓存
+
+如果一级缓存也没有命中，则查询数据库
+
+SqlSession 关闭之后，一级缓存中的数据会写入二级缓存
+
+---
+
+## mybatis ehcache
+
+1. 配置 pom 依赖
+
+```xml
+        <!-- Mybatis EHCache整合包 -->
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <!-- slf4j日志门面的一个具体实现 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+```
+
+2. 创建`ehcache.xml` 模板:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+    <!-- 磁盘保存路径 -->
+    <diskStore path="C:\users\sichu\dev\IDEA-Workspace\ehcache"/>
+    <defaultCache
+            maxElementsInMemory="1000"
+            maxElementsOnDisk="10000000"
+            eternal="false"
+            overflowToDisk="true"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+</ehcache>
+```
+
+3. 设置二级缓存的类型 (第三方库只能更改二级缓存 不能改 mybatis 的一级缓存)
+
+在 `xxxMapeer.xml` 里添加:
+
+```xml
+<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+```
+
+4. 加入 logback 日志
+
+存在 SLF4J 时，作为简易日志的 log4j 将失效，此时我们需要借助 SLF4J 的具体实现 logback 来打印日志。创建 logback 的配置文件`logback.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!-- 指定日志输出的位置 -->
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 日志输出的格式 -->
+            <!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 -->
+            <pattern>[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger] [%msg]%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR -->
+    <!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 -->
+    <root level="DEBUG">
+        <!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender -->
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <!-- 根据特殊需求指定局部日志级别 -->
+    <logger name="com.atguigu.crowd.mapper" level="DEBUG"/>
+</configuration>
+
+```
+
+---
+
+## mybatis mbg
+
+正向工程：先创建 Java 实体类，由框架负责根据实体类生成数据库表。Hibernate 是支持正向工程的
+
+逆向工程：先创建数据库表，由框架负责根据数据库表，反向生成如下资源：
+
+-   Java 实体类
+
+-   Mapper 接口
+
+-   Mapper 映射文件
+
+## create mbg step by step
+
+step1: 添加插件
+
+```xml
+    <build>
+        <!-- 构建过程中用到的插件 -->
+        <plugins>
+            <!-- 具体插件，逆向工程的操作是以构建过程中插件形式出现的 -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.1</version>
+                <!-- 插件的依赖 -->
+                <dependencies>
+                    <!-- 逆向工程的核心依赖 -->
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.3</version>
+                    </dependency>
+                    <!-- 数据库连接池 -->
+                    <dependency>
+                        <groupId>com.mchange</groupId>
+                        <artifactId>c3p0</artifactId>
+                        <version>0.9.5.4</version>
+                    </dependency>
+                    <!-- MySQL驱动 -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.28</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+step2: 创建 MyBatis 的核心配置文件 `mybatis-config.xml`
+
+step3: 创建逆向工程的配置文件 `generatorConfig.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--
+    targetRuntime: 执行生成的逆向工程的版本
+    MyBatis3Simple: 生成基本的CRUD（清新简洁版）
+    MyBatis3: 生成带条件的CRUD（奢华尊享版）
+    -->
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
+        <!-- 数据库的连接信息 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/mybatis"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+        <!-- javaBean的生成策略-->
+        <javaModelGenerator targetPackage="cn.sichu.mybatis.pojo" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- SQL映射文件的生成策略 -->
+        <sqlMapGenerator targetPackage="cn.sichu.mybatis.mapper"
+                         targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- Mapper接口的生成策略 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="cn.sichu.mybatis.mapper" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!-- 逆向分析的表 -->
+        <!-- tableName设置为*号，可以对应所有表，此时不写domainObjectName -->
+        <!-- domainObjectName属性指定生成出来的实体类的类名 -->
+        <table tableName="t_emp" domainObjectName="Emp"/>
+        <table tableName="t_dept" domainObjectName="Dept"/>
+    </context>
+</generatorConfiguration>
+```
+
+如果 `"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">` 报红可以无视, 实测无影响
+
+step4: 执行 MBG 插件的 generate 目标
+
+**注意**: MBG 并不会帮助生成 `constructor`, `toString` 方法, 需要手动给实体类添加
+
+---
+
+## QBC
+
+`selectByExample`：按条件查询，需要传入一个 example 对象或者 null；如果传入一个 null，则表示没有条件，也就是查询所有数据
+
+`example.createCriteria().xxx`：创建条件对象，通过 andXXX 方法为 SQL 添加查询添加，每个条件之间是 and 关系
+
+`example.or().xxx`：将之前添加的条件通过 or 拼接其他条件
+
+> 因为每次链式结构返回的对象都是 `Criteria` 对象, 所以可以使用链式结构 method chaining
+
+`updateByPrimaryKey`：通过主键进行数据修改，如果某一个值为 null，也会将对应的字段改为 null
+
+`updateByPrimaryKeySelective()`：通过主键进行选择性数据修改，如果某个值为 null，则不修改
+
+---
+
+## pagehelper
+
+分页插件使用步骤:
+
+step1: 添加依赖
+
+```xml
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+```
+
+step2: 在 mybatis 核心配置文件中配置分页插件
+
+```xml
+    <plugins>
+        <!--   设置分页插件    -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+```
+
+从 `PageInterceptor` 可以看出, 这就是一个拦截器
+
+分页插件的使用:
+
+```java
+    /**
+     * limit关键词 index, pageSize,
+     * index: 当前页的起始索引
+     * pageSize: 每页显示的条数
+     * pageNum: 当前页的页码
+     * index = (pageNum - 1) * pageSize
+     */
+```
+
+开启分页功能: `PageHelper.startPage()`
+
+分页相关数据:
+
+方法一: 直接输出
+
+```java
+            PageHelper.startPage(3, 5);
+            List<Emp> list = mapper.selectByExample(null);
+            list.forEach(System.out::println);
+```
+
+方法二: 使用 PageHelper 自带的 `PageInfo<>`
+
+```java
+            PageInfo<Emp> page = new PageInfo<>(list, 3);
+            System.out.println(page);
+```
+
 ---
 
 # RabbitMQ
@@ -1684,6 +2282,7 @@ Mongodb 是为快速开发互联网 Web 应用而构建的数据库系统，其�
 -   mongod.exe 服务端运行程序
 
 1. 安装路径下创建 data\db 和 data\log 两个文件夹
+
 2. 在安装路径下创建 mongod.cfg 配置文件
 
     ```
@@ -1695,9 +2294,11 @@ Mongodb 是为快速开发互联网 Web 应用而构建的数据库系统，其�
     ```
 
 3. 安装为服务（运行命令需要用管理员权限）
+
     ```
     C:/dev/MongoDB/bin/mongod.exe --config "C:\dev\MongoDB\mongod.cfg" --install
     ```
+
 4. 服务相关命令
    启动服务：net start MongoDB
    关闭服务：net stop MongoDB
@@ -1744,9 +2345,13 @@ Eclipse 全局搜索: `ctrl + h`
 Eclipse 配置:
 
 1. Preferences -> General -> Theme: DevStyle Theme
+
 2. Preferences -> DevStyle -> Color Themes -> Workbench theme: Darkest Dark -> Icon colors: Pastels -> Editor theme: Eclipse Standard
+
 3. Preferences -> Java-Installed -> JREs -> Add 添加 jdk1.8
+
 4. Preferences -> Java -> Compiler 改成 jdk1.8
+
 5. 从 github 上拉 p3c/p3c-formatter/ 下来
 
     Preferences -> Java -> Code Style -> Formatter -> 本地导入 eclipse-codestyle.xml
@@ -1779,8 +2384,11 @@ Eclipse 配置:
     需要 Help-Install New Software then enter this update site URL https://p3c.alibaba.com/plugin/eclipse/update
 
 7. Preferences -> Java -> Editor -> Save Actions -> 勾选 format code 和 organize imports
+
 8. Window -> Appearance -> Hide Toolbar
+
 9. Window -> Appearance -> Show view -> Console, Search, Git staging, SonarLint Rule Description, Package Explorer, Project Exploer
+
 10. 安装 sonarlint, 不想看的时候在项目右键取消, 然后重启项目
 
 ---
@@ -1801,11 +2409,11 @@ Eclipse 快捷配置:
 
 ## IDEA config
 
-1.  Plugins 安装 VSCode Theme
+1. Plugins 安装 VSCode Theme
 
     Settings -> Appearance -> Theme -> VSCode Dark
 
-2.  Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> Eclipse XML Profile
+2. Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> Eclipse XML Profile
 
     Settings -> Editor -> Code Style -> Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
 
@@ -1829,9 +2437,9 @@ Eclipse 快捷配置:
 
     万一哪天要改可以参考： https://blog.csdn.net/weixin_44519874/article/details/112259616
 
-3.  Plugins 安装 Alibaba Java Coding Guidelines
+3. Plugins 安装 Alibaba Java Coding Guidelines
 
-4.  Plugins 安装 Save Actions
+4. Plugins 安装 Save Actions
 
     Settings -> Save Actions ->
 
@@ -1847,23 +2455,23 @@ Eclipse 快捷配置:
 
     勾选 Add blocks to if/while/for statements
 
-5.  像 Eclipse 一样允许小写也能自动补全 pakage, class:
+5. 像 Eclipse 一样允许小写也能自动补全 pakage, class:
 
     Settings -> Editor -> General -> Code Completion -> 取消勾选 Match case
 
-6.  关闭单词拼写检查:
+6. 关闭单词拼写检查:
 
     Settings -> Editor -> Inspections -> 取消勾选 Proofreading-typo
 
-7.  Settings -> Editor -> General -> Editor Tabs -> Appearance -> 取消勾选 Show tabs in one row
+7. Settings -> Editor -> General -> Editor Tabs -> Appearance -> 取消勾选 Show tabs in one row
 
     Settings -> Editor -> General -> Editor Tabs -> Closing Policy -> Tab limit: 30
 
-8.  设置自动编译:
+8. 设置自动编译:
 
     Settings -> Build, Execution, Deployment -> Compiler -> 勾选 Build project automatically
 
-9.  序列化版本号:
+9. 序列化版本号:
 
     Settings -> Editor -> Inspections -> JVM languages -> 勾选 Serializable class without 'serialVersionUID'
 
