@@ -1316,20 +1316,6 @@ Mongodb 是为快速开发互联网 Web 应用而构建的数据库系统，其�
 
 ##
 
-Bug: 启动改名后项目, 出现 deserizable, classnotfound 等报错
-
-解决:
-
-因为虽然改了项目名, 但是用到的 model 还是同样的, 这些 model 在 redis 里面缓存了, 简单粗暴的就是 运行 `redis-cli.exe`, 执行:
-
-```
-redis-cli flushall
-```
-
----
-
-##
-
 Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
 
 解决:

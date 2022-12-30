@@ -221,21 +221,21 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@31640daf] will not be managed 
 
 这种情况下, 通过 httpServletRequest 方法来获取 user/employee 的 id, 就显得非常难受, 不如 ThreadLocal
 
-# IMPORTANT!
+# MybatisPlus generator bugs
 
-**MP generator 坑一:**
+## @Mapper missing
 
 生成完代码后, 记得要给 `java/**/mapper` 下的接口都手动加上 `@Mapper` 注解 !IMPORTANT
 
 否则就算在 yml 里配置了 `mapper-locations: classpath*:/mapper/**Mapper.xml` 也无法找到 entity
 
-**MP generator 坑二:**
+## @RestController and url path
 
 生成完代码后, 记得要把 `@Controller` 改成 `@RestController`, 并且逐一检查 `@RequestMapping(url)` 里的路径, 如果设置了 `.moduleName("parent_package_name")`, 代码生成的时候会自动在前面加父包名路径, 暂时想到的办法就是不填 moduleName, 然后生成的时候手动复制粘贴进项目里
 
 而且很多时候代码生成器会生成 `-` 而不是 `/`, 暂时还不知道怎么配置...
 
-**MP generator 坑三:**
+## @TableId type is AUTO
 
 自动生成代码的时候, 会自动给主键加上 `@TableId(value = "id", type = IdType.AUTO)`
 
@@ -249,3 +249,7 @@ mybatis-plus:
 ```
 
 记得要把 `IdType` 改成: `@TableId(value = "id", type = IdType.ASSIGN_ID)`
+
+## isXXX is Boolean not Integer
+
+如果表里设置 `isXXX` 是 `tinyint(1)`, 那么理论上实体类里应该是 Integer 类型, 但是 MP generator 会把 `isXXX` 变成 Boolean 类型, 需要手动修改

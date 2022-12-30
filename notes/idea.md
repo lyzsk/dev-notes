@@ -118,6 +118,10 @@ Eclipse 全局搜索: `ctrl + h`
 
 21. 更改自动换行长度: Setting -> Editor -> Code style -> Hard wrap at: 80, 并勾选 Wrap on typing
 
+22. 关闭 ali-check 实时监测, 感觉有点卡, Settings -> Editor -> Inspections -> ali-check -> Serverity 改成 BLOCKER, 以后想要检查的时候右键手动扫描
+
+23. 经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了! Settings -> Editor -> Code Style -> Wrapping and Braces -> Wrap on Typing 改成 NO
+
 ---
 
 IDEA 快速配置(但是要检查很多东西, 不太好用):
@@ -163,3 +167,20 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 `sout`: system.out.println()
 
 `var`: 自动填充 new 的对象的类型, etc.
+
+# Bugs
+
+## Debug mode don't auto clean compile
+
+项目更名后, 用 Debug 模式启动 SpringBoot 项目, 并不会重新 compile 一次, 原因未知... 反正情况就是改了一部分 Redis 代码后, 不更新数据了...一直停留在原来缓存的数据...
+
+Fix:
+
+工具栏 Maven -> clean -> compile
+
+或者手动:
+
+```
+mvn clean
+mvn compile
+```

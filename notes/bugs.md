@@ -201,3 +201,64 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@2228f4e6] will not be managed 
 ```
 redis-cli flushall
 ```
+
+# Required request body is missing
+
+一个弱智想当然导致的错误, 报错:
+
+```
+Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public cn.sichu.fda.common.Result<java.util.List<cn.sichu.fda.entity.AddressBook>> cn.sichu.fda.controller.AddressBookController.list(cn.sichu.fda.entity.AddressBook)]
+```
+
+但是明明在 list 方法里添加了 `@RequestBody` 给 JSON 数据:
+
+```java
+@GetMapping("/list")
+public Result<List<AddressBook>> list(@RequestBody AddressBook addressBook) {
+
+}
+```
+
+排查后发现前端方法不需要传 data, 也就是说不需要传 JSON 进去!!!
+
+```js
+// address.html
+new Vue({
+    el: "#address",
+    data() {
+        return {
+            addressList: [],
+        };
+    },
+    methods: {
+        async initData() {
+            const res = await addressListApi();
+            if (res.code === 1) {
+                this.addressList = res.data;
+            } else {
+                this.$message.error(res.msg);
+            }
+        },
+    },
+});
+
+// address.js
+//获取所有地址
+function addressListApi() {
+    return $axios({
+        url: "/addressBook/list",
+        method: "get",
+    });
+}
+```
+
+所以只要把 list 方法的 `@RequestBody` 去掉就行了:
+
+```java
+@GetMapping("/list")
+public Result<List<AddressBook>> list(AddressBook addressBook) {
+
+}
+```
+
+总结: 不要想当然!!! 写 Controller 方法的时候一个一个对着接口写!!!
