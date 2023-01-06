@@ -1,6 +1,6 @@
 # Java
 
-| [JDK8](#jdk-8) | [JDK14](#jdk-14) |
+| [JDK8](#jdk-8) | [JDK14](#jdk-14) | [位运算](#bit-operation) |
 
 # JDK 8
 
@@ -117,3 +117,51 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
         }
     }
 ```
+
+# bit operation
+
+位逻辑运算符
+
+1. `&` 与
+
+    按位 与运算 (AND), 即把二进制位中最低位的 1 翻转为 0
+
+    ```java
+    // 6 (110), 4 (100)
+    6 & 5 = 4
+    ```
+
+2. `|` 或
+
+    按位 或运算 (OR)
+
+    `4 | 5 = 5`
+
+3. `~` 非
+
+    按位 取反运算 (NOT)
+
+    `~4 = -5`
+
+4. `^` 异或
+
+    按位 异或运算 (XOR)
+
+    `4 ^ 5 = 1`
+
+    `x ^ x = 0`
+
+    `x ^ 0 = x`
+
+    ```java
+    true ^ true = false
+    true ^ false = true
+    false ^ true = true
+    false ^ false = false
+    ```
+
+位移运算符
+
+1. `8 >> 1 = 4`
+
+2. `9 << 2 = 36`

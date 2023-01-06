@@ -12,4 +12,10 @@ Step3. slave 重做中继日志中的事件, 将改变应用到自己的数据�
 
 流程: master <-> data changes <-> binlog <-> I/O thread <-> Relay log <-> SQL thread <-> slave
 
+# double vs demical(length, precision)
+
+`double` types are used when we are not certain of the behavior of our data, the `double` type takes 8 bytes storage size
+
+比如 `decimal(10, 2)` 需要确定数据的小数点位数
+
 # bugs

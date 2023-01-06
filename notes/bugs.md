@@ -262,3 +262,96 @@ public Result<List<AddressBook>> list(AddressBook addressBook) {
 ```
 
 总结: 不要想当然!!! 写 Controller 方法的时候一个一个对着接口写!!!
+
+# Error: error:0308010C:digital envelope routines::unsupported
+
+-   Fix: change `"start": "react-scripts start"` to `"start": "react-scripts --openssl-legacy-provider start"`
+
+    ```js
+    "scripts": {
+        "start": "react-scripts --openssl-legacy-provider start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
+    },
+    ```
+
+但是!!! 如果时 vue2.x 环境, 不支持 `--openssl-legacy-provider`
+
+-   Fix: 卸载 node.js 18+, 重新安装 node.js 16.1.0, 应该 16+ 都行
+
+# Error: Node Sass version 8.0.0 is incompatible with ^4.0.0.
+
+Fix: change `"node-sass": "8.0"` to `"sass": ""`
+
+```js
+    "devDependencies": {
+        "gh-pages": "^2.2.0",
+        "sass": ""
+    }
+```
+
+# Port 8080 was already in use.
+
+Windows:
+
+```
+netstat -ano | findstr 8080
+taskkill /F /pid 1088
+```
+
+# Use Lambda comparator don't use subtraction, use Integer.compare instead!
+
+比如 `Arrays.sort(nums, (o1, o2) -> ...)`, Lambda 表达式里面不能写成 `o1 - o2`, 应该写成 `Integer.compare(o1, o2)`
+
+Example: https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/
+
+这题如果写成 减法形式, 无法通过测试样例 `[[-2147483646,-2147483645],[2147483646,2147483647]]`
+
+其实也就是没有考虑 `o1[1] - o2[1] = 0` 的情况, 也没考虑 int 类型越界情况
+
+IMPORTANT:
+
+    **也不能写成:**
+
+    ```java
+            Arrays.sort(points, new Comparator<int[]>(){
+                public int compare(int[] o1, int[] o2) {
+                    if (o1[1] - o2[1] > 0) {
+                        return 1;
+                    } else if (o1[1] - o2[1] < 0) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+    ```
+
+    因为这种写法本质上还是让 两个 int 类型作减法, 也就是 Lambda表达式: `(o1, o2) -> o1[1] - o2[1]`
+
+    **正确写法1:**
+
+    ```java
+            Arrays.sort(points, new Comparator<int[]>(){
+                public int compare(int[] o1, int[] o2) {
+                    if (o1[1] > o2[1]) {
+                        return 1;
+                    } else if (o1[1] < o2[1]) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+    ```
+
+    也就是让两个 int 类型单纯进行比较!
+
+    **正确写法2 Lambda 表达式:**
+
+    ```java
+    Arrays.sort(points, (o1, o2) -> Integer.compare(o1[1], o2[1]));
+    ```

@@ -56,6 +56,15 @@
 
 `git branch -a` 分支查询
 
+更改本地和远程分支名 (如果是要删除远程 default 分支要先把 default 分支更改):
+
+```
+git checkout [old_name]
+git branch -m [new_name]
+git push origin -u [new_name]
+git push origin --delete [old_name]
+```
+
 # git remote && push with alias
 
 `git remote -V` 查看远程库的 \[别名\]

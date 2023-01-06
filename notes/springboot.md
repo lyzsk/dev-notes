@@ -1,5 +1,7 @@
 # Springboot
 
+| [@ServletComponentScan](#servletcomponentscan) | [domain vs entity vs model](#domain-vs-entity-vs-model) | [repository vs dao vs mapper](#repository-vs-dao-vs-mapper)
+
 # ServletComponentScan
 
 启动类添加 `@ServletComponentScan` 注解后, 就回去扫描带有 `@WebServlet`, `@WebListener`, `@WebFilter` 注解的类, 有的话就会把这三种类型, 有的话就会把这三种类型的类转换成 `@ServletRegistrationBean`, `@ServletListenerRegistrationBean`, `@FilterRegistrationBean`, 然后交给 Spring 容器取解析
@@ -24,6 +26,22 @@ public class LoginCheckFilter implements Filter {
 ## see
 
 https://juejin.cn/post/6844904019391938574
+
+# domain vs entity vs model
+
+entity = model = 实体类
+
+多个 model/entity 组合起来对同一业务的实体类包名叫 domain
+
+# repository vs dao vs mapper
+
+repository = dao = mapper = 映射类
+
+repository 在 hibernate, jpa 里用
+
+mapper 在 mybatis, mybatis plus 里用
+
+还是叫 dao 比较简单...
 
 # Bugs
 
