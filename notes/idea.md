@@ -162,6 +162,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `ctrl + p`: 提示填充内容
 
+`alt + f7`: 查看类的使用
+
 # IDEA quick-code
 
 `sout`: system.out.println()
@@ -184,3 +186,7 @@ Fix:
 mvn clean
 mvn compile
 ```
+
+## pom.xml is ignored as grey
+
+解决: File -> Settings -> Maven -> Ignored Files -> 取消勾选对应模块名

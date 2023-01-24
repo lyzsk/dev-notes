@@ -65,6 +65,18 @@ git push origin -u [new_name]
 git push origin --delete [old_name]
 ```
 
+# git merge
+
+merge 分支内容
+
+1. `git checkout [branch_name]`
+2. `git pull`
+3. `git checkout master`
+4. `git merge [branch_name]`
+5. `git add -A`
+6. `git commit -a -m "xxx"`
+7. `git push origin master`
+
 # git remote && push with alias
 
 `git remote -V` 查看远程库的 \[别名\]

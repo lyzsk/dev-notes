@@ -1,5 +1,40 @@
 # Spring Data JPA
 
+# soft delete (logical delete)
+
+## method 1
+
+在 entity 实体类上添加注解 `@SQLDelete` 和 `@Where`:
+
+```java
+@Entity
+@Table(name = "sys_user")
+@SQLDelete(sql = "update sys_user set is_deleted=1 where id=?")
+@Where(clause = "is_deleted=0")
+public class SysUser implements Serializable {}
+```
+
+但是这个方法, 在联表查询删除的时候, query 里不能写 delete, 而要写成 update 因为 sqldelete 里设置的是根据 id 删除:
+
+```java
+    /**
+     * 根据 user id 删除 SysUserRoleRelations
+     *
+     * @param userId user id
+     */
+    @Transactional
+    @Modifying
+    // @Query(
+    //     value = "delete surr from sys_user_role_relation surr left join sys_user su on surr.user_id = su.id where surr.is_deleted = 0",
+    //     nativeQuery = true)
+    @Query(
+        value = "update sys_user_role_relation surr left join sys_user su on surr.user_id = su.id set surr.is_deleted = 1 where surr.is_deleted = 0",
+        nativeQuery = true)
+    void deleteByUserId(Long userId);
+```
+
+@see: https://www.baeldung.com/spring-jpa-soft-delete
+
 # WARNINGs
 
 ## 'Optional.get()' without 'isPresent()' check

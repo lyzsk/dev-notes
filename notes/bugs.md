@@ -355,3 +355,44 @@ IMPORTANT:
     ```java
     Arrays.sort(points, (o1, o2) -> Integer.compare(o1[1], o2[1]));
     ```
+
+# idea pom.xml is ignored as grey
+
+解决: File -> Settings -> Maven -> Ignored Files -> 取消勾选对应模块名
+
+# Spring MVC found on classpath, which is incompatible with Spring Cloud Gateway
+
+SpringBoot 2.7.x 添加 `@EnableEurekaClient` 启动 Spring Cloud GateWay 的 application 报错: `Spring MVC found on classpath, which is incompatible with Spring Cloud Gateway`
+
+原因:
+
+Spring Cloud Gateway is not compatible with Spring MVC (spring-boot-starter-web)
+
+@see: https://stackoverflow.com/questions/68587832/spring-cloud-gateway-spring-mvc-found-on-classpath-which-is-incompatible-with
+
+Fix:
+
+添加 `spring.main.web-application-type` 配置
+
+```yml
+spring:
+    main:
+        web-application-type: REACTIVE
+```
+
+# Can't resolve 'path' BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+
+报错内容:
+
+```
+Module not found: Error: Can't resolve 'path' in 'C:\Users\sichu\dev\IDEA-Workspace\prosto-hrm\prosto-hrm-vue\src\layout\components\Sidebar'
+
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+```
+
+Fix:
+
+Step1. `npm install path-browserify`
+
+Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
