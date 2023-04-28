@@ -1,5 +1,7 @@
 # Linux
 
+| [install in vm](#install-linux-in-vm) | [commands](#commands) | [install software](#install-softwares-in-linux) |
+
 # install Linux in VM
 
 ## VMware Workstation player
@@ -436,3 +438,29 @@ yum install lrzsz.x86_64
 常用命令:
 
 -   `rz` 上传
+
+# Debian
+
+## Firewall
+
+```bash
+ufw status
+
+ufw enable
+
+ufw disable
+
+ufw allow [port]/tcp
+
+ufw allow [port]
+
+ufw delete allow [port]
+```
+
+# port && PID
+
+```bash
+netstat -ntulp | grep [port]
+
+kill -9 [PID]
+```

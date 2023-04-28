@@ -49,6 +49,8 @@ int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 int daysInMonth = YearMonth.of(1990, 2).lengthOfMonth();
 ```
 
+如果考虑到线程安全, JDK1.8 后用 Instant 代替 Date, LocalDateTime 代替 Calendar, DateTimeFormatter 代替 SimpleDateFormat
+
 ## Comparator
 
 升序排序新增 `Comparator.comparingInt()`
