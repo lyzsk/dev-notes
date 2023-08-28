@@ -167,3 +167,14 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 1. `8 >> 1 = 4`
 
 2. `9 << 2 = 36`
+
+
+# object equals
+
+【强制】Object的equals方法容易抛空指针异常，应使用常量或确定有值的对象来调用equals
+
+正例："test".equals(object); 
+
+反例：object.equals("test");
+
+因为在反例里, 如果对象是 `null`, 汇报空指针, `null. `是没有东西的
