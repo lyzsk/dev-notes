@@ -976,3 +976,366 @@ ssh-copy-id hadoop102
 ssh-copy-id hadoop103
 ssh-copy-id hadoop104
 ```
+
+# hadoop 群起群停脚本
+
+`cd /opt/module/hadoop-3.1.3/sbin`
+
+用 `start-dfs.sh`/`stop-dfs.sh` 群起/群停
+
+还有经常用的: `start-yarn.sh`, `stop-yarn.sh`
+
+`cd /opt/module/hadoop-3.1.3/etc/hadoop`
+
+`cat workers` 发现只有一个 `localhost`, 说明在 102 启动 nn 后读取 workers 然后启动 datanode, 但是就不会在 103, 104 启动 datanode 了, 因为没有声明
+
+```sh
+vim workers
+
+hadoop102
+hadoop103
+hadoop104
+
+esc
+:wq
+```
+
+> NOTE: 切记 workers 文件不能有空格和空行, 如果解析到空的会报错
+
+配置完 102 的 workers 要分发到 103, 104: `my_rsync.sh /opt/module/hadoop-3.1.3/etc/hadoop/workers`
+
+然后在 hadoop102 用 `start-dfs.sh` 群起 `stop-dfs.sh` 群停了, 然后在 hadoop103 用 `start-yarn.sh`/`stop-yarn.sh`
+
+`start-dfs` 启动的是 hdfs datanode
+
+`start-yarn` 启动的是 yarn nodemanager
+
+但是因为 102 `start-dfs`, 103 `start-yarn` 还是太慢了, 而使用 `start-all.sh` 会启动其他内容占用资源, 所以要自己编写脚本同时群起 hdfs + yarn:
+
+```sh
+cd /home/atguigu/bin
+
+touch my_cluster.sh
+chmod 744 my_cluster.sh
+
+vim my_cluster.sh
+```
+
+脚本内容:
+
+```sh
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+    echo "parameter can't be null"
+    exit
+fi
+
+case $1 in
+"start")
+    echo "============Start HDFS============"
+    ssh hadoop102 /opt/module/hadoop-3.1.3/sbin/start-dfs.sh
+    echo "============Start YARN============"
+    ssh hadoop103 /opt/module/hadoop-3.1.3/sbin/start-yarn.sh
+;;
+
+"stop")
+    echo "============Stop HDFS============"
+    ssh hadoop102 /opt/module/hadoop-3.1.3/sbin/stop-dfs.sh
+    echo "============Stop YARN============"
+    ssh hadoop103 /opt/module/hadoop-3.1.3/sbin/stop-yarn.sh
+;;
+
+*)
+    echo "input error"
+    exit
+;;
+esac
+```
+
+编写完脚本后测试: `my_cluster.sh start` `my_cluster.sh stop` (hadoop102 里)
+
+TODO: 写个脚本, 实现在一台机器调取所有机器的 jps 内容
+
+# 测试集群
+
+暂时用图形化界面创建测试文件:
+
+访问 `http://hadoop102:9870/`
+
+点击 `Utilities - Browse the file system`
+
+创建目录 `wcinput`
+
+上传 `hello.txt`:
+
+```
+atguigu atguigu
+ss ss
+cls cls
+jiao
+banzhang
+xue
+hadoop
+sgg sgg sgg
+nihao nihao
+bigdata0111
+laiba
+```
+
+上传好后在 102 执行 `hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount /wcinput /wcoutput`
+
+这里可以直接用 `/` 因为指的是 nn 的根目录, 原理是默认的 xml 配置被从 `file:///` linux 本地改成了 `hdfs://hadoop102:9820`
+
+```xml
+	<!-- 指定NameNode的地址 -->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://hadoop102:9820</value>
+    </property>
+
+  <!-- file system properties -->
+
+<property>
+  <name>fs.defaultFS</name>
+  <value>file:///</value>
+  <description>The name of the default file system.  A URI whose
+  scheme and authority determine the FileSystem implementation.  The
+  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  the FileSystem implementation class.  The uri's authority is used to
+  determine the host, port, etc. for a filesystem.</description>
+</property>
+```
+
+> NOTE: 每次执行 mapreduce, 输出目录不能是用一个目录, 一定要换名字! i.e. `hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount /wcinput hdfs://hadoop102:9820/wcoutput1`
+
+测试完发现只有一个 block0, 是因为文件太小了 (0-128MB), 无法分块
+
+测试一下上传 185MB 的`jdk-8u212-linux-x64.tar.gz`, 发现就有两个 block: block0, block1
+
+> Note: 在 web 端看到的数据在 linux 端是看不到的, web 端是 hadoop 内部映射的结果:
+
+i.e. `cd /opt/module/hadoop-3.1.3/data/dfs/name/current` 可以看到就只有`fsimage_0000000000000000010` 这种的是元数据, 而且就算 `cat fsimage_0000000000000000010` 也看不懂全是二进制内容 (等 HDFS 学完可以)
+
+`cd /opt/module/hadoop-3.1.3/data/dfs/data/current/BP-601714560-192.168.114.130-1693214637588/current/finalized/subdir0/subdir0` 里的 `blk_1073741825` 这种的才是具体的数据块, `cat blk_1073741825` 可以得到:
+
+```
+atguigu atguigu
+ss ss
+cls cls
+jiao
+banzhang
+xue
+hadoop
+sgg sgg sgg
+nihao nihao
+bigdata0111
+laiba
+```
+
+# 配置历史服务器
+
+Q: 是针对谁的历史?
+
+A: MR 程序的历史记录
+
+解释: 先 `my_cluster.sh stop` 停一下集群, 在 103 群起 yarn: `start-yarn.sh`, 再次访问 `http://hadoop103:8088/` 发现测试集群时的两个 MR 程序不见了
+
+配置步骤: `vim /opt/module/hadoop-3.1.3/etc/hadoop/mapred-site.xml`
+
+在之前的内容后添加:
+
+```xml
+    <!-- 历史服务器端地址 -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>hadoop102:10020</value>
+    </property>
+
+    <!-- 历史服务器web端地址 -->
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>hadoop102:19888</value>
+    </property>
+```
+
+然后分发 103, 104: `my_rsync.sh mapred-site.xml`
+
+> NOTE: 目前是把 MR 程序日志分发到 hadoop102 上, 以后一般看哪个服务器比较空闲就分给它
+
+更改完后要在部署的服务器(目前是 102)启动这个历史服务: `mapred --daemon start historyserver`
+
+然后启动 HDFS `my_cluster.sh start` 后, 通过浏览器访问 web 服务器: `http://hadoop102:19888/`
+
+Q: 为什么要启动 HDFS 才能看到 JobHistory?
+
+A: 因为 HDFS 才会存储数据, 同时也存储了历史数据, 比如在 web 端 `hadoop102:9870` 访问 `/tmp/hadoop-yarn/staging/history` 就能看到有 `done` 文件夹, 里面就有历史数据
+
+# 日志聚集
+
+针对 MR 程序运行产生的日志
+
+HDFS 负责 MR 的存储, YARN 负责将来 MR 的运行
+
+在 103 `cd /opt/module/hadoop-3.1.3/logs` 里 `tail -n 200 hadoop-atguigu-resourcemanager-hadoop103.log` 查看 YARN 运行的日志, 但是在 XShell 里看不够友好, 所以需要日志聚集(形成 web 端界面, 其实就是在 job history 里)
+
+在 102 配置 `yarn-site.xml`, 并且分发 103, 104
+
+```sh
+vim /opt/module/hadoop-3.1.3/etc/hadoop/yarn-site.xml
+```
+
+添加以下功能:
+
+```xml
+    <!-- 开启日志聚集功能 -->
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    <!-- 设置日志聚集服务器地址 -->
+    <property>
+        <name>yarn.log.server.url</name>
+        <value>http://hadoop102:19888/jobhistory/logs</value>
+    </property>
+    <!-- 设置日志保留时间为7天 -->
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>604800</value>
+    </property>
+```
+
+然后重启 jobhistory: `mapred --daemon stop historyserver`, `mapred --daemon start historyserver`
+
+> DONE: 把重启 historyserver 加进 `my_cluster.sh` 脚本里
+
+`vim /home/atguigu/bin/my_cluster.sh`
+
+```sh
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+    echo "parameter can't be null"
+    exit
+fi
+
+case $1 in
+"start")
+    echo "============Start HDFS============"
+    ssh hadoop102 /opt/module/hadoop-3.1.3/sbin/start-dfs.sh
+    echo "============Start YARN============"
+    ssh hadoop103 /opt/module/hadoop-3.1.3/sbin/start-yarn.sh
+    echo "============Start HistoryServer============"
+    ssh hadoop102 mapred --daemon start historyserver
+    ssh hadoop103 mapred --daemon start historyserver
+    ssh hadoop104 mapred --daemon start historyserver
+;;
+
+"stop")
+    echo "============Stop HDFS============"
+    ssh hadoop102 /opt/module/hadoop-3.1.3/sbin/stop-dfs.sh
+    echo "============Stop YARN============"
+    ssh hadoop103 /opt/module/hadoop-3.1.3/sbin/stop-yarn.sh
+    echo "============Stop HistoryServer============"
+    ssh hadoop102 mapred --daemon stop historyserver
+    ssh hadoop103 mapred --daemon stop historyserver
+    ssh hadoop104 mapred --daemon stop historyserver
+;;
+
+*)
+    echo "input error"
+    exit
+;;
+esac
+
+```
+
+```sh
+my_rsync.sh /home/atguigu/bin/my_cluster.sh
+```
+
+然后重启集群: `my_cluster.sh stop`, `my_cluster.sh start`
+
+跑完之后在 web 端没有 log, 是因为之前跑 job 的时候还没开启日志聚集, 再在 102 上测试一次 `hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount /wcinput /wcoutput2` 就能看到 log 了
+
+> NOTE: 以后主要看 `Log Type: syslog`, `click here` 展开里面找 `ERROR` 类型的日志
+
+# 集群同步时间
+
+生产环境, 如果服务器能连接外网, 不需要时间同步, 但是如果不能连接外网就需要时间同步
+
+时间同步的方式: 找一个机器作为时间服务器, 所有机器与这台集群时间进行时间同步, i.e. 每隔十分钟同步一次时间
+
+配置时间同步步骤:
+
+## step1 时间服务器配置 (root 用户)
+
+(在 hadoop102 里)
+
+1.  查看所有节点 ntpd 服务状态和开机自启动状态
+
+    `sudo systemctl status ntpd`
+
+    `sudo systemctl is-enabled ntpd`
+
+2.  在所有节点关闭 ntpd 服务和自启动
+
+    `sudo systemctl stop ntpd`
+
+    `sudo systemctl disable ntpd`
+
+3.  修改 hadoop102 的 ntp.conf 配置文件(要将 hadoop102 作为时间服务器)
+
+    `sudo vim /etc/ntp.conf`
+
+    授权 192.168.1.0-192.168.1.255 网段上的所有机器可以从这台机器上查询和同步时间, 所以打开注释:
+
+    `restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap`
+
+    集群在局域网中，不使用其他互联网上的时间, 所以注释:
+
+    `# server 0.centos.pool.ntp.org iburst`
+
+    `# server 1.centos.pool.ntp.org iburst`
+
+    `# server 2.centos.pool.ntp.org iburst`
+
+    `# server 3.centos.pool.ntp.org iburst`
+
+    当该节点丢失网络连接，依然可以采用本地时间作为时间服务器为集群中的其他节点提供时间同步, 所以添加:
+
+    `server 127.127.1.0`
+
+    `fudge 127.127.1.0 stratum 10`
+
+    `sudo vim /etc/sysconfig/ntpd`
+
+    让硬件时间与系统时间一起同步, 添加:
+
+    `SYNC_HWCLOCK=yes`
+
+    重新启动 ntpd 服务: `sudo systemctl start ntpd`
+
+    设置 ntpd 服务开机启动: `sudo systemctl enable ntpd`
+
+## step2 其他机器配置（root 用户）
+
+1. 在其他机器查看定时任务 `sudo crontab -l`, 发现没有, 配置 1 分钟与时间服务器同步一次
+
+    `sudo crontab -e`
+
+    `*/1 * * * * /usr/sbin/ntpdate hadoop102`
+
+    (设每一分钟方便看效果)
+
+2. 修改任意机器时间
+
+    `sudo date -s "2017-9-11 11:11:11"`
+
+3. 1 分钟后查看机器是否与时间服务器同步
+
+    `sudo date`
+
+TODO: 怎么删除定时任务???
