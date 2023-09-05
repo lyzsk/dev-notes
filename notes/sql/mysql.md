@@ -1,6 +1,7 @@
 # MySQL
 
-| [B tree](#b-tree) | |
+-   [B tree](#b-tree)
+-   [Limit && Offset](#limit--offset)
 
 # B tree
 
@@ -81,3 +82,15 @@ alter table table_name modify column_name column_type after column_name_2
 `column_type` 必需填
 
 暂时不知道怎么批量移动...
+
+# limit && offset
+
+-   limit 用法:
+
+    `select * from article limit 10` 取前 10 个数据
+
+    `select * from article limit 1, 3` 从第 2 个数据开始取, 取 3 个数据
+
+-   offset 用法:
+
+    `select * from article limit 3 offset 1` 跳过第 1 个数据, 取 3 个数据
