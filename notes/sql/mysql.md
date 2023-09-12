@@ -94,3 +94,47 @@ alter table table_name modify column_name column_type after column_name_2
 -   offset 用法:
 
     `select * from article limit 3 offset 1` 跳过第 1 个数据, 取 3 个数据
+
+# BUG
+
+## union && union all
+
+https://leetcode.cn/problems/movie-rating/description/
+
+union 会自动压缩多个结果集合中的重复结果，而 union all 则将所有的结果全部显示出来，不管是不是重复
+
+假如出现
+
+```
+Movies =
+| movie_id | title   |
+| -------- | ------- |
+| 1        | Rebecca |
+
+Users =
+| user_id | name    |
+| ------- | ------- |
+| 1       | Rebecca |
+
+MovieRating =
+| movie_id | user_id | rating | created_at |
+| -------- | ------- | ------ | ---------- |
+| 1        | 1       | 5      | 2020-02-12 |
+```
+
+会把输出压缩成
+
+```
+| results |
+| ------- |
+| Rebecca |
+```
+
+预期结果是:
+
+```
+| results |
+| ------- |
+| Rebecca |
+| Rebecca |
+```
