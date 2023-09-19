@@ -28,17 +28,17 @@ Eclipse 全局搜索: `ctrl + h`
 
     Settings -> Appearance -> Theme -> VSCode Dark
 
-2. Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> Eclipse XML Profile
+2. Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> IntelliJ IDEA code style XML
 
-    Settings -> Editor -> Code Style -> Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
+    // Settings -> Editor -> Code Style -> Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
 
-    Settings -> Editor -> Code Style -> Wrapping and Braces -> Method annotations 和 class annotations 和 field annotations -> 改成 Wrap always
+    // Settings -> Editor -> Code Style -> Wrapping and Braces -> Method annotations 和 class annotations 和 field annotations -> 改成 Wrap always
 
     至于 code template, IDEA 没有直接导入 xml 的功能
 
     可以通过创建文件夹时自动填充来实现:
 
-    Settings -> Editor -> File and Code Templates -> Files 里的 class, interface, enum, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
+    Settings -> Editor -> File and Code Templates -> Files 里的 class, interface, enum, record, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
 
     ```java
     /**
@@ -98,7 +98,7 @@ Eclipse 全局搜索: `ctrl + h`
 
 12. Settings -> Build, Execution, Deployment -> Debugger -> Java -> Transport: 从默认的 Socket 改成 Shared memory
 
-13. Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> 手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "Maven/apache-maven-3.8.2/conf/settings.xml"
+13. // Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> 手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "Maven/apache-maven-3.8.2/conf/settings.xml"
 
 14. 安装插件 Spring Boot Assistant
 
@@ -120,7 +120,7 @@ Eclipse 全局搜索: `ctrl + h`
 
 22. 关闭 ali-check 实时监测, 感觉有点卡, Settings -> Editor -> Inspections -> ali-check -> Serverity 改成 BLOCKER, 以后想要检查的时候右键手动扫描
 
-23. 经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了! Settings -> Editor -> Code Style -> Wrapping and Braces -> Wrap on Typing 改成 NO
+23. 经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了! Settings -> Editor -> Code Style -> Java -> Wrapping and Braces -> Wrap on Typing 改成 NO
 
 ---
 
