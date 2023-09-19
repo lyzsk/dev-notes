@@ -107,7 +107,7 @@ server.4=hadoop104:2888:3888
 ```sh
 #!/bin/bash
 
-if [ $# -lt 1]
+if [ $# -lt 1 ]
 then
   echo "parameter can't be null!"
   exit

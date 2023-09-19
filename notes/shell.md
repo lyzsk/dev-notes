@@ -19,3 +19,27 @@
 i.e.1. `nohup hive --service metastore 2>&1 &`
 
 i.e.2. `nohup hive --service hiveserver2 2>&1 &`
+
+# Bugs
+
+## `line 2: [1: command not found`
+
+Before:
+
+```sh
+if [$# -lt 1]
+then
+    xxx
+    exit
+fi
+```
+
+After:
+
+```sh
+if [ $# -lt 1 ]
+then
+    xxx
+    exit
+fi
+```

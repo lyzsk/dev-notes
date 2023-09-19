@@ -63,3 +63,11 @@ install licenses 选 ltsc 2021
 # shorcuts
 
 win + s: windows10 搜索框
+
+# ram
+
+cmd:
+
+```bash
+wmic memorychip get banklabel, capacity, caption, devicelocator, partnumber
+```
