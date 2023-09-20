@@ -1,0 +1,17 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "osumode.enabled": true,
+    "osumode.deleteResetsCombo": false,
+    "osumode.enableComboCounter": false,
+    "osumode.enableComboImage": false,
+    "osumode.enableCursorExplosions": true,
+    "osumode.comboImageInterval": 40,
+    "osumode.explosionSize": 5,
+    "osumode.maxExplosions": 1,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.tabWidth": 4,
+    "workbench.startupEditor": "none",
+    "go.toolsManagement.autoUpdate": true
+}

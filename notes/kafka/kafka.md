@@ -674,6 +674,214 @@ public class KafkaProducerPartitioner {
 }
 ```
 
+## Consumer API
+
+Consumer 消费数据时的可靠性是很容易保证的，因为数据在 Kafka 中是持久化的，故不用担心数据丢失问题
+
+由于 consumer 在消费过程中可能会出现断电宕机等故障，consumer 恢复后，需要从故障前的位置的继续消费，所以 consumer 需要实时记录自己消费到了哪个 offset，以便故障恢复后继续消费。
+
+所以 offset 的维护是 Consumer 消费数据是必须考虑的问题。
+
+## 自动提交 offset
+
+```java
+/**
+ * Kafka Consumer
+ * @author sichu
+ * @date 2023/09/20
+ **/
+public class KafkaConsumerDemo {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop102:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "suibian");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(props);
+        List<String> topics = new ArrayList<>();
+        topics.add("first");
+        topics.add("hello");
+        // 可以订阅不存在的主题, 会默认自动创建一个分区一个副本的topic
+        topics.add("second");
+        kafkaConsumer.subscribe(topics);
+        // 持续消费数据
+        while (true) {
+            ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println("消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : " + record.key() + " : " + record.value());
+            }
+        }
+        // kafkaConsumer.close();
+    }
+}
+```
+
+## 重置 offset
+
+```java
+/**
+ * @author sichu
+ * @date 2023/09/20
+ **/
+public class KafkaConsumerDemo1 {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop102:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "lisi");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(props);
+        List<String> topics = new ArrayList<>();
+        topics.add("first");
+        topics.add("hello");
+        // 可以订阅不存在的主题, 会默认自动创建一个分区一个副本的topic
+        topics.add("second");
+        kafkaConsumer.subscribe(topics);
+        // 持续消费数据
+        while (true) {
+            ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println(
+                    "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
+                        + record.key() + " : " + record.value());
+            }
+        }
+        // kafkaConsumer.close();
+    }
+}
+
+```
+
+## 手动提交 offset
+
+1. 同步提交
+
+```java
+/**
+ * @author sichu
+ * @date 2023/09/20
+ **/
+public class KafkaConsumerDemo2 {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop102:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "lisi");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+        // props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(props);
+        List<String> topics = new ArrayList<>();
+        topics.add("first");
+        topics.add("hello");
+        // 可以订阅不存在的主题, 会默认自动创建一个分区一个副本的topic
+        topics.add("second");
+        kafkaConsumer.subscribe(topics);
+        // 持续消费数据
+        while (true) {
+            System.out.println("进行下一次的消费");
+            ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println(
+                    "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
+                        + record.key() + " : " + record.value());
+                // 同步提交 offset
+                System.out.println("同步提交offset");
+                kafkaConsumer.commitSync();
+                System.out.println(" ");
+            }
+        }
+        // kafkaConsumer.close();
+    }
+}
+```
+
+2. 异步提交
+
+```java
+
+/**
+ * @author sichu
+ * @date 2023/09/20
+ **/
+public class KafkaConsumerDemo2 {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop102:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "lisi");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+        // props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(props);
+        List<String> topics = new ArrayList<>();
+        topics.add("first");
+        topics.add("hello");
+        // 可以订阅不存在的主题, 会默认自动创建一个分区一个副本的topic
+        topics.add("second");
+        kafkaConsumer.subscribe(topics);
+        // 持续消费数据
+        while (true) {
+            System.out.println("进行下一次的消费");
+            ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.println(
+                    "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
+                        + record.key() + " : " + record.value());
+                // 同步提交 offset
+                // System.out.println("同步提交offset");
+                // kafkaConsumer.commitSync();
+
+                // 异步提交 offset
+                kafkaConsumer.commitAsync(new OffsetCommitCallback() {
+                    // offset提交完成后调用该方法
+                    @Override
+                    public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) {
+                        if (e != null) {
+                            System.out.println("提交失败");
+                        } else {
+                            System.out.println("提交后的结果: " + map);
+                        }
+                    }
+                });
+                System.out.println(" ");
+            }
+        }
+        // kafkaConsumer.close();
+    }
+}
+
+```
+
+## 漏消费和重复消费问题
+
+无论是 同步 还是 异步 提交 offset, 都有可能造成漏消费和重复消费的问题
+
+先消费, 后提交 offset 就会导致 重复消费
+
+先提交 offset, 后消费 就会导致 漏消费
+
+想要解决, 就要把 消费过程 和 提交过程 做成事务 (原子性不可分, 要么同时成功要么同时失败), 通过 mysql 之类支持事务的第三方渠道
+
+## Interceptor
+
+Producer 拦截器(interceptor)是在 Kafka 0.10 版本被引入的，主要用于实现 clients 端的定制化控制逻辑。
+
+对于 producer 而言，interceptor 使得用户在消息发送前以及 producer 回调逻辑前有机会对消息做一些定制化需求，比如修改消息等。同时，producer 允许用户指定多个 interceptor 按序作用于同一条消息从而形成一个拦截链(interceptor chain)。Intercetpor 的实现接口是 `org.apache.kafka.clients.producer.ProducerInterceptor`
+
 # Bugs
 
 ## `kafka-topics.sh --list --bootstrap-server hadoop102:9092` 没反应

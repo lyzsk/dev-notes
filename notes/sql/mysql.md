@@ -2,6 +2,9 @@
 
 -   [B tree](#b-tree)
 -   [Limit && Offset](#limit--offset)
+-   [RANK vs DENSE_RANK vs ROW_NUMBER](#rank-vs-dense_rank-vs-row_number)
+-   [IF vs IFNULL vs CASE WHEN](#if-vs-ifnull-vs-case-when)
+-   [GROUP BY vs PARTITION BY](#group-by-vs-partition-by)
 
 # B tree
 
@@ -95,9 +98,66 @@ alter table table_name modify column_name column_type after column_name_2
 
     `select * from article limit 3 offset 1` 跳过第 1 个数据, 取 3 个数据
 
-# BUG
+# rank() vs dense_rank() vs row_number()
 
-## union && union all
+## rank()
+
+syntax:
+
+```sql
+RANK() OVER(
+    PARTITION BY <expression>[{,<expression>...}]
+    ORDER BY <expression> [ASC|DESC], [{,<expression>...}]
+)
+```
+
+`rank()` 是跳跃的, 间断的排名
+
+## dense_rank()
+
+syntax 和 rank 类似
+
+`dense_rank()` 排序的数字是连续的, 不间断的, 当有相同的排名分数时, 排名是并列的
+
+## row_number()
+
+syntax 和 rank 类似
+
+不同的是, mysql 8.0 以上才能用
+
+# if vs ifnull vs case when
+
+## IF
+
+syntax: `IF(expr1, expr2, expr3)`
+
+expr1 条件为 true 则值为 expr2, 为 false 则值为 expr3
+
+## IFNULL
+
+syntax: `IFNULL(expr1, expr2)`
+
+在 expr1 的值不为 null 的情况下返回 expr1, 否则返回 expr2
+
+## CASE WHEN
+
+syntax:
+
+```sql
+CASE column_name
+WHEN condition
+THEN result
+ELSE another_result
+END ALIAS
+```
+
+# group by vs partition by
+
+`GROUP BY` 会改变原表行数
+
+`PARTITION BY` 不会改变原表, 分组后的结果成为窗口, 表示范围
+
+# union vs union all
 
 https://leetcode.cn/problems/movie-rating/description/
 
