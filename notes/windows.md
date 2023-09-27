@@ -69,5 +69,9 @@ win + s: windows10 搜索框
 cmd:
 
 ```bash
+wmic memphysical get maxcapacity
+```
+
+```bash
 wmic memorychip get banklabel, capacity, caption, devicelocator, partnumber
 ```

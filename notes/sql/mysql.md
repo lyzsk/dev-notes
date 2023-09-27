@@ -5,6 +5,10 @@
 -   [RANK vs DENSE_RANK vs ROW_NUMBER](#rank-vs-dense_rank-vs-row_number)
 -   [IF vs IFNULL vs CASE WHEN](#if-vs-ifnull-vs-case-when)
 -   [GROUP BY vs PARTITION BY](#group-by-vs-partition-by)
+-   [temporary table](#temporary-table)
+-   [copy table](#copy-table)
+-   [transaction](#transaction)
+-   [index](#index)
 
 # B tree
 
@@ -198,3 +202,102 @@ MovieRating =
 | Rebecca |
 | Rebecca |
 ```
+
+# Temporary table
+
+```sql
+create temporary table table_name (
+    col_name varchar(50) not null,
+    col_name_2 decimal(12, 2) not null default 0.00
+);
+```
+
+用 `show tables` 看不到 temporary table
+
+可以使用 select 查询临时表数据
+
+退出当前 mysql, 默认删除临时表, 也可以手动用 `drop table temp_table_name` 来删除临时表
+
+# copy table
+
+只复制表结构:
+
+```sql
+-- method1
+create table new_table
+select * from old_table where 1=2
+
+-- method2
+create table new_table like old_table
+```
+
+复制表结构及数据:
+
+```sql
+create table new_table
+select * from old_table
+```
+
+# transaction
+
+mysql 默认事务都是自动提交的
+
+`begin` 或 `start transaction` 显示的开启一个事务
+
+`savepoint sp_name` 声明一个 savepoint
+
+`rollback` 回滚到上次 commit
+
+`rollback to sp_name` 回滚到 savepoint
+
+`release savepoint sp_name` 删除指定 savepoint
+
+# index
+
+```sql
+-- 添加一个主键
+-- 索引值必须是唯一, 且不能为NULL
+alter table tbl_name
+add primary key (col_list);
+
+-- 创建索引的值必须是唯一的 (除NULL外, NULL可以出现多次)
+alter table tbl_name
+add unique index_name (col_list);
+
+-- 添加普通索引
+-- 索引值可出现多次
+alter table tbl_name
+add index index_name (col_list);
+
+-- 指定了索引为 FULLTEXT, 用于全文索引
+alter table tbl_name
+add fulltext index_name (col_list);
+```
+
+可以用 `alter table tbl_name drop index index_name` 删除索引
+
+> Note: 删除主键时只需要 `DROP PRIMARY KEY`, 但是删除索引时必须知道 INDEX_NAME
+
+# 3NF
+
+数据库三范式:
+
+1. 1NF 原子性: 表中每列不可再拆分
+
+2. 2NF 不产生局部依赖, 一张表只描述一件事情
+
+3. 3NF 不产生传递依赖, 表中每一列都直接依赖于主键, 而不是通过其他列间接依赖于主键
+
+三范式和数据库性能是相悖的
+
+-   范式设计:
+
+    -   PROS: 减少数据的冗余, 表更新操作比反范式更快, 体积比反范式更小
+
+    -   CONS: 对多表关联查询, 性能降低, 更难进行索引优化
+
+-   反范式设计:
+
+    -   PROS: 减少表的关联, 更好进行索引优化
+
+    -   CONS: 存在数据冗余及维护异常, 对数据的修改需要更多的成本

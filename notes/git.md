@@ -209,3 +209,11 @@ git rm --cached -r **/.idea
     手动 modify 更改源文件后，用`commit`解决，最终得到整合的 `master` 分支
 
     注意点: 此时 commit 的时候 不可以使用 `git commit -m "comments" [文件名]` 的方法, 应该使用 `git commit -m "comments"` 不加文件名的方法
+
+# Bugs
+
+## git add -A 后丢失进度, 无法 push 最新版本
+
+情况: `git status` 显示 `nothing to commit, working tree clean`, 但是之前已经 `git add -A` 过了, 因为宕机丢失了
+
+`git reflog` 找到 HEAD, 然后用 `git reset --hard xxx`, 然后就可以正常 `git push`
