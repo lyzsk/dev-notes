@@ -396,3 +396,31 @@ Fix:
 Step1. `npm install path-browserify`
 
 Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
+
+# Maven stucks in resolving maven dependencies
+
+解决:
+
+手动修改 `apache-maven-3.8.2/conf/settings.xml`, 添加镜像:
+
+```xml
+	<mirror>
+     <id>nexus-aliyun</id>
+     <mirrorOf>*,!jeecg,!jeecg-snapshots</mirrorOf>
+     <name>Nexus aliyun</name>
+     <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+	</mirror>
+```
+
+然后再在 idea 里 Settings - Build, Execution, Deployment - Build Tools - Maven, 勾选 Use settings from .mvn/maven.config
+
+或者针对某个 project 在 pom.xml 里添加:
+
+```xml
+<repositories>
+    <repository>
+        <id>ali-maven</id>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+    </repository>
+</repositories>
+```

@@ -440,6 +440,330 @@ Block 是 HFile 里的 Block, 每个 Block 64K
 
 用的是 LRU 缓存
 
+## MemStore Flush
+
+```sh
+put 'stu', '1005', 'info:name', 'xiaowu'
+put 'stu', '1005', 'info:sex', 'female'
+put 'stu', '1005', 'info:address', 'shanghai'
+```
+
+现在 `stu` hbase 里有数据(scan 的到), 通过 `http://hadoop102:9870/` Browse Directory, 到`/hbase/data/mydb/mytbl/1d1d205e6458dd8fc5a2fb85ef4de561/info` 看到这个 RegionServer 里没有 data, 因为还没有 flush 刷写进去
+
+`flush 'stu'`
+
+每一次刷写, 都会生成一个新的文件, 而不是追加机制
+
+MemStore 刷写时机：
+
+1.  当某个 memstore 的大小达到了 hbase.hregion.memstore.flush.size（默认值 128M），其所在 region 的所有 memstore 都会刷写。
+
+    当 memstore 的大小达到 hbase.hregion.memstore.flush.size（默认值 128M）hbase.hregion.memstore.block.multiplier（默认值 4）时，会阻止继续往该 memstore 写数据
+
+2.  当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size（默认值 0.4）hbase.regionserver.global.memstore.size.lower.limit（默认值 0.95）region 会按照其所有 memstore 的大小顺序（由大到小）依次进行刷写。直到 region server 中所有 memstore 的总大小减小到上述值以下
+
+    当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size（默认值 0.4）时，会阻止继续往所有的 memstore 写数据
+
+3.  到达自动刷写的时间，也会触发 memstore flush。自动刷新的时间间隔由该属性进行配置 hbase.regionserver.optionalcacheflushinterval（默认 1 小时）
+
+# Java API
+
+```xml
+<dependency>
+    <groupId>org.apache.hbase</groupId>
+    <artifactId>hbase-server</artifactId>
+    <version>2.0.5</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.hbase</groupId>
+    <artifactId>hbase-client</artifactId>
+    <version>2.0.5</version>
+</dependency>
+```
+
+> Note: 要用 aliyun 镜像, 要不然 Maven 导入依赖的时候会死锁卡死
+
+创建 static 的 conf 的时候要与 `/opt/module/hbase-2.0.5/conf/hbase-site.xml` 里填的集群一致:
+
+```java
+    static {
+        Configuration conf = HBaseConfiguration.create();
+        conf.set("hbase.zookeeper.quorum", "hadoop102,hadoop103,hadoop104");
+        try {
+            connection = ConnectionFactory.createConnection(conf);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+```
+
+## DML delete data
+
+先指定 rowkey
+
+```java
+Delete delete = new Delete(Bytes.toBytes(rowkey));
+```
+
+再根据需求选择 add 类型
+
+```java
+        // type=DeleteFamily
+        // delete.addFamily(Bytes.toBytes(cf));
+
+        // type=Delete
+        // delete.addColumn(Bytes.toBytes(cf), Bytes.toBytes(cl));
+
+        // type=DeleteColumn
+        delete.addColumns(Bytes.toBytes(cf), Bytes.toBytes(cl));
+```
+
+`type=Delete` 仅仅删除最新 version 的 column
+
+`type=DeleteColumn` 是把所有 version 的 column 都删除
+
+## DML get data
+
+要用 apache hbase 提供额工具类来获取 cell, 并把 byte[] 转 string:
+
+```java
+    public static void getData(String nameSpaceName, String tableName, String rowkey, String cf, String cl)
+        throws IOException {
+        Table table = connection.getTable(TableName.valueOf(nameSpaceName, tableName));
+        Get get = new Get(Bytes.toBytes(rowkey));
+        Result result = table.get(get);
+        Cell[] cells = result.rawCells();
+        for (Cell cell : cells) {
+            String cellStr =
+                Bytes.toString(CellUtil.cloneRow(cell)) + " : " + Bytes.toString(CellUtil.cloneFamily(cell)) + " : "
+                    + Bytes.toString(CellUtil.cloneQualifier(cell)) + " : " + Bytes.toString(CellUtil.cloneValue(cell));
+            System.out.println(cellStr);
+        }
+        table.close();
+    }
+```
+
+不能写成 `cell.getRowArray()` 来获取 byte[] 数组, 打印不出想要的东西
+
+在 hbase shell 里添加一个列族方便演示:
+
+```sh
+alter 'stu', NAME=>'msg'
+desc 'stu'
+
+put 'stu', '1001', 'info:name', 'xiaowang'
+put 'stu', '1001', 'info:sex', 'male'
+put 'stu', '1001', 'msg:salary', '10000'
+put 'stu', '1001', 'msg:tel', '13888888888'
+```
+
+然后测两次
+
+```java
+getData("", "stu", "1001", "info", "");
+getData("", "stu", "1001", "msg", "");
+```
+
+# HBase optimization
+
+## 预分区
+
+预分区的意思就是建表的时候就先设置好一些 region, 不过如果还是开启 splits, 会继续增加分区 region
+
+1. 手动设定预分区:
+
+```sh
+create 'staff1', 'info', SPLITS=>['1000','2000','3000','4000']
+```
+
+然后在 `http://hadoop102:16010/` 看 table 里的 startkey, endkey
+
+2. 生成 16 进制序列预分区:
+
+```sh
+create 'staff2', 'info', {NUMREGIONS=>15, SPLITALGO=>'HexStringSplit'}
+```
+
+3. 按照文件中设置的规则预分区:
+
+```sh
+cd /opt/module/hbase-2.0.5/
+vim splits.txt
+
+i
+aaaa
+bbbb
+cccc
+dddd
+eeee
+esc
+:wq
+
+cd /opt/module/hbase-2.0.5/
+hbaseshell
+create 'staff3','info',SPLITS_FILE => 'splits.txt'
+```
+
+如果写成
+
+```sh
+aaaa
+bbbb
+dddd
+cccc
+eeee
+```
+
+也不会报错, HBase 会自动重新排序
+
+4. API 创建预分区
+
+new 一个 byte[][], 实际上就是一个一维数组, 因为第二维里面只传一个值
+
+## RowKey Design
+
+一条数据的唯一标识就是 rowkey，那么这条数据存储于哪个分区，取决于 rowkey 处于哪个一个预分区的区间内，设计 rowkey 的主要目的 ，就是让数据均匀的分布于所有的 region 中，在一定程度上防止数据倾斜
+
+-   生成随机数, hash, 散列值
+
+    i.e. rowKey 为 1001，SHA1 后变成：dd01903921ea24941c26a48f2cec24e0bb0e8cc7, 在做此操作之前，一般我们会选择从数据集中抽取样本，来决定什么样的 rowKey 来 Hash 后作为每个分区的临界值
+
+-   字符串反转
+
+    i.e. 20170524000001 转成 10000042507102
+
+-   字符串拼接
+
+    i.e. 20170524000001_a12e
+
+原则: 唯一性, 散列性, 长度
+
+场景:
+
+    大量的运营商通话数据
+
+    138888888(主叫), 139999999(被叫), 2023-09-30 12:12:12 360
+
+业务: 查询某个用户 某天 某月 某年 的通话记录
+
+预分区:
+
+    预计规划 50 个分区
+
+    -无穷大 ~ 00|
+    00| ~ 01|
+    01| ~ 02|
+    ...
+
+分析:
+
+    假如将某个用户某天的数据存到一个分区中, 查某天的数据只需要扫描一个分区;
+
+    假如将某个用户某月的数据存到一个分区中, 查某天 某月的数据只需要扫描一个分区;
+
+rowkey:
+
+    01_138888888_2023-09-29 12:12:12 -> 138888888_2023-09 % 分区数 = 01
+
+    01_138888888_2023-09-30 12:12:12 -> 138888888_2023-09 % 分区数 = 01
+
+    03_137777777_2023-09-29 12:12:12 -> 137777777_2023-09 % 分区数 = 03
+
+这样设计 rowkey, 就把手机号的因素排除掉, 一个人通话多, 一个人通话少导致不同 region 分区内数据不均衡
+
+验证:
+
+    查询 138888888 用户在 2023-09 的通话记录
+
+    1. 计算分区号
+
+    138888888_2023-09 % 50 = 04
+
+    2. rowkey
+
+    04_138888888_2023-09-...
+
+    3. scan
+
+    scan 'teldata', {STARTROW=> '04_138888888_2023-09' STOPROW=>'04_138888888_2023-09|'}
+
+## memory optimization
+
+HBase 操作过程中需要大量的内存开销，毕竟 Table 是可以缓存在内存中的，但是不建议分配非常大的堆内存，因为 GC 过程持续太久会导致 RegionServer 处于长期不可用状态，一般 16~36G 内存就可以了(如果服务器是 128G)，如果因为框架占用内存过高导致系统内存不足，框架一样会被系统服务拖死
+
+## 基础优化
+
+-   Zookeeper 会话超时时间
+
+    Region 与 zk 有会话, RegionServer 要到 zk 注册, Master 监控 zk 得到 RegionServer 状态
+
+    `hbase-site.xml`
+
+    `zookeeper.session.timeout`
+
+    默认值为 90000 毫秒（90s）。当某个 RegionServer 挂掉，90s 之后 Master 才能察觉到。可适当减小此值，以加快 Master 响应，可调整至 60000 毫秒
+
+-   设置 RPC 监听数量
+
+    解决 client 端的读写操作, 因为读写都是打到 RegionServer, 并发量比较大
+
+    `hbase-site.xml`
+
+    `hbase.regionserver.handler.count`
+
+    默认值为 30，用于指定 RPC 监听的数量，可以根据客户端的请求数进行调整，读写请求较多时，增加此值
+
+-   手动控制 Major Compaction
+
+    `hbase-site.xml`
+
+    `hbase.hregion.majorcompaction`
+
+    默认值：604800000 秒（7 天）， Major Compaction 的周期，若关闭自动 Major Compaction，可将其设为 0
+
+-   优化 HStore 文件大小
+
+    `hbase-site.xml`
+
+    `hbase.hregion.max.filesize`
+
+    默认值 10737418240（10GB），如果需要运行 HBase 的 MR 任务，可以减小此值，因为一个 region 对应一个 map 任务，如果单个 region 过大，会导致 map 任务执行时间过长。该值的意思就是，如果 HFile 的大小达到这个数值，则这个 region 会被切分为两个 Hfile
+
+-   优化 HBase 客户端缓存
+
+    `hbase-site.xml`
+
+    `hbase.client.write.buffer`
+
+    默认值 2097152bytes（2M）用于指定 HBase 客户端缓存，增大该值可以减少 RPC 调用次数，但是会消耗更多内存，反之则反之。一般我们需要设定一定的缓存大小，以达到减少 RPC 次数的目的
+
+-   指定 scan.next 扫描 HBase 所获取的行数
+
+    `hbase-site.xml`
+
+    `hbase.client.scanner.caching`
+
+    用于指定 scan.next 方法获取的默认行数，值越大，消耗内存越大
+
+-   BlockCache 占用 RegionServer 堆内存的比例
+
+    `hbase-site.xml`
+
+    `hfile.block.cache.size`
+
+    默认 0.4，读请求比较多的情况下，可适当调大
+
+-   MemStore 占用 RegionServer 堆内存的比例
+
+    `hbase-site.xml`
+
+    `hbase.regionserver.global.memstore.size`
+
+    默认 0.4，写请求较多的情况下，可适当调大
+
+# TODO: Phoenix
+
 # Bug
 
 ## regionserver running as process 3138. Stop it first.

@@ -75,3 +75,15 @@ wmic memphysical get maxcapacity
 ```bash
 wmic memorychip get banklabel, capacity, caption, devicelocator, partnumber
 ```
+
+# Windows 环境下生成项目结构树 tree:
+
+```console
+<!-- 查看项目tree -->
+tree /F
+
+<!-- 保存tree到txt -->
+tree /f > tree.txt
+```
+
+然后用 MS Word 打开 tree.txt, 选择 Text encoding -> MS-DOS

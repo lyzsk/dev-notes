@@ -164,11 +164,15 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `alt + f7`: 查看类的使用
 
+`ctrl + f12`: 等同于 eclipse 的 `ctl + o`, 查看 class 里的 methods
+
 # IDEA quick-code
 
 `sout`: system.out.println()
 
 `var`: 自动填充 new 的对象的类型, etc.
+
+`serr`: system.err.println()
 
 # Bugs
 
