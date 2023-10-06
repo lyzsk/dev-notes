@@ -424,3 +424,11 @@ Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
     </repository>
 </repositories>
 ```
+
+# Windows Environment Path
+
+`C:/Program Files` 在 powershell 里会被识别成`Program/Files`
+
+解决: `C:'Program Files'`
+
+更好的解决: 把工具都装在 `C:/dev` 里, 无空格路径就行!

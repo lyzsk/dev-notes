@@ -129,7 +129,7 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
     按位 与运算 (AND), 即把二进制位中最低位的 1 翻转为 0
 
     ```java
-    // 6 (110), 4 (100)
+    // 6 (110), 5(101), 4 (100)
     6 & 5 = 4
     ```
 
@@ -164,16 +164,17 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 
 位移运算符
 
+<!-- 8(1000), 4(100) -->
+
 1. `8 >> 1 = 4`
 
 2. `9 << 2 = 36`
 
-
 # object equals
 
-【强制】Object的equals方法容易抛空指针异常，应使用常量或确定有值的对象来调用equals
+【强制】Object 的 equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用 equals
 
-正例："test".equals(object); 
+正例："test".equals(object);
 
 反例：object.equals("test");
 

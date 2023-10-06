@@ -122,6 +122,10 @@ Eclipse 全局搜索: `ctrl + h`
 
 23. 经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了! Settings -> Editor -> Code Style -> Java -> Wrapping and Braces -> Wrap on Typing 改成 NO
 
+24. 安装插件 Scala
+
+<!-- 25. Editor -> General -> Appearance, 勾选 Render documentation comments -->
+
 ---
 
 IDEA 快速配置(但是要检查很多东西, 不太好用):

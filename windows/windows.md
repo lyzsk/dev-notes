@@ -87,3 +87,17 @@ tree /f > tree.txt
 ```
 
 然后用 MS Word 打开 tree.txt, 选择 Text encoding -> MS-DOS
+
+# System variables && User variables
+
+JAVA, Maven System variable Home, 一般放 `C:\Program Files\` 里
+
+Home 放压缩路径
+
+Path 放压缩路径下的 bin 路径
+
+# environments
+
+建议以后代码环境都在 `C:/dev` 装
+
+因为: `cd 'C:\Program Files\'` 才能访问带空格的, 有的更新自动填充会识别不了空格, 也不能手动加引号
