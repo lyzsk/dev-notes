@@ -425,6 +425,17 @@ Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
 </repositories>
 ```
 
+上面的方法不够好, 应该改成:
+
+```xml
+	<mirror>
+	  <id>aliyunmaven</id>
+	  <mirrorOf>*</mirrorOf>
+	  <name>阿里云公共仓库</name>
+	  <url>https://maven.aliyun.com/repository/public</url>
+	</mirror>
+```
+
 # Windows Environment Path
 
 `C:/Program Files` 在 powershell 里会被识别成`Program/Files`
