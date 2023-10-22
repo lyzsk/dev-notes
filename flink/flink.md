@@ -143,3 +143,49 @@ public class WordCountStreamUnboundedDemo {
 然后在 VM 里面输入想输入的, idea 控制台就会打印相应的 wordcount 流结果
 
 这就证明 flink 的 stream 是事件驱动型
+
+# deployment
+
+hadoop102 JobManager, Task Manager
+
+hadoop103 TaskManager
+
+hadoop104 TaskManager
+
+`flink-1.17.0-bin-scala_2.12.tgz` 传到 `/opt/software`
+
+`tar -zxvf flink-1.17.0-bin-scala_2.12.tgz -C /opt/module/`
+
+修改 `flink-conf.yaml`, 指定 hadoop102 为 JobManager
+
+```sh
+cd /opt/module/flink-1.17.0/conf
+vim flink-conf.yaml
+```
+
+```yml
+jobmanager.rpc.address: hadoop102
+jobmanager.bind-host: 0.0.0.0
+
+taskmanager.bind-host: 0.0.0.0
+taskmanager.host: hadoop102
+
+rest.address: hadoop102
+rest.bind-address: 0.0.0.0
+```
+
+`vim workers`
+
+```sh
+hadoop102
+hadoop103
+hadoop104
+```
+
+`vim masters`
+
+```sh
+hadoop102:8081
+```
+
+> Note: master 就是 JobManager
