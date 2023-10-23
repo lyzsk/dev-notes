@@ -189,3 +189,111 @@ hadoop102:8081
 ```
 
 > Note: master 就是 JobManager
+
+然后分发整个 flink 目录
+
+```sh
+cd /opt/module
+
+my_rsync.sh flink-1.17.0/
+```
+
+然后在 hadoop103 进一步修改配置
+
+```sh
+cd /opt/module/flink-1.17.0/conf
+
+vim flink-conf.yaml
+
+taskmanager.host: hadoop103
+```
+
+同理, 修改 hadoop104 里的 conf
+
+```sh
+cd /opt/module/flink-1.17.0/conf
+
+vim flink-conf.yaml
+
+taskmanager.host: hadoop104
+```
+
+然后回到 hadoop102, 启动 flink 集群
+
+```sh
+jps
+
+cd /opt/module/flink-1.17.0/
+
+bin/start-cluster.sh
+
+jps
+```
+
+然后打开 web 端 `http://hadoop102:8081/#/overview` 观察
+
+然后拷贝一个 hadoop102, `nc -lk 7777`, 然后修改 `pom.xml`, 添加打包插件, 准备打包 unbound 的 wordcount
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+并且打包前更新下 dependency 的 scope (idea community 别改)
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-clients</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+```
+
+`<scope>provided</scope>` 意思是打包的时候不打包这些, 因为 build plugin 已经是 apache maven-shade-plugin 了, 里面已经有了, 生产环境可以这样配, 但是这样做的问题是本地运行的时候会报错, 解决办法: idea - run - application - configuration - 勾选 Inlude dependencies with "Provided" scope
+
+> Note: 必须改 scope 之前运行过才行这样解决, 或者修改 Defaults - Application - 勾选 Inlude dependencies with "Provided" scope, 但是之前运行过的还是要一个个手动勾选?
+>
+> Note: 但是 community 版本好像没有?
+
+配好配置后 maven - lifecycle - clean 再 package
+
+> Note: 用 maven-shade-plugin 打包插件一定要先 clean 再 package
+
+然后把 `202310-flink-demo-1.0-SNAPSHOT.jar` 通过 web 端 submit new job
+
+然后在 web 端点一下 jar 包, 然后进行配置
+
+把 `WordCountStreamUnboundedDemo.java` 右键 copy reference: `cn.sichu.wc.WordCountStreamUnboundedDemo` 填入 Entry Class, 其他的暂时不填 (Parallelism default = 1)
+
+然后点击 Show Plan 可以看到现在没生成, 然后确认 hadoop102 已经启动了 `nc -lk 7777`, 然后 Submit
+
+Submit 后就默认跳转到了 Jobs - Running Jobs 了
+
+点击 Overview 最后一个图 (Keyed Aggregation 就是 聚合 sum) - 选择 TaskManagers - 选择程序运行的服务器(随机的) 的 More 的 View Taskmanager Log - 自动跳转 Task Managers 页面后选择 Stdout
+
+然后可以点击右上角的 Cancel Job 就停掉了
