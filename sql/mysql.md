@@ -102,6 +102,12 @@ alter table table_name modify column_name column_type after column_name_2
 
     `select * from article limit 3 offset 1` 跳过第 1 个数据, 取 3 个数据
 
+# limit vs max vs min
+
+`order by limit` 没有 `max()` 和 `min()` 函数快
+
+其实就是 O(n) vs O(nlogn) 的区别, sorting 肯定更慢, 而且即使是 worst case, min/max 函数也不会慢多少, 理论上除非整张表太大了, 才可能要先 order by 排序再找 limit
+
 # rank() vs dense_rank() vs row_number()
 
 ## rank()

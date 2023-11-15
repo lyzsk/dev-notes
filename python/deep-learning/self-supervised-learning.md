@@ -160,7 +160,7 @@ regionCL-D
 
 @see: https://arxiv.org/abs/2011.09157
 
-# SimCLR
+# SimCLR v1
 
 属于 Contrastive learning 对比学习/对抗学习
 
@@ -209,9 +209,9 @@ SimCLR 的特色就是训练结束前加入了 nonlinear projection head, 非线
 
 Intro 陈述了目前已知的一些主要是通过 fine-tunes 的时候用一些 labeled examples. 有一种方法把 leverage unlabeled data during supervised learning as a form of regularization, 这种方法依赖于不同的 data augmentation or encourage class label prediction consistency on unlabeled data among different models.
 
-@see: https://arxive.org/abs/2006.10029
+@see: https://arxiv.org/abs/2006.10029
 
-# MOCO
+# MoCo v1
 
 2019/11/13
 
@@ -219,9 +219,13 @@ MOCO: Momentum Contrast
 
 对比学习类
 
-MoCo v1
-
 @see: https://arxiv.org/abs/1911.05722
+
+# MoCo v2
+
+2020/03/09
+
+@see: https://arxiv.org/abs/2003.04297v1
 
 # BYOL
 
@@ -244,3 +248,13 @@ Exploring Simple Siamese Representation Learning
 优势是: 不需要准备大量的负样本
 
 @see:https://arxiv.org/abs/2011.10566
+
+# S2-BNN
+
+2021/02/17
+
+SimSiam Top-1 68.1%
+
+S2-BNN Top-1 68.7%
+
+@see: https://arxiv.org/abs/2102.08946

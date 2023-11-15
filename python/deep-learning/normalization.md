@@ -12,7 +12,7 @@ H/W: feature 的高/宽, 三维表示时将 H/W 压缩至同一纬度
 
 C: feature 的 channel
 
-Normalization 是在 deep neural network 的内部曾(隐藏层)进行, 而 softmax 更多的是在网络的输出层进行
+Normalization 是在 deep neural network 的内部层(隐藏层)进行, 而 softmax 更多的是在网络的输出层进行
 
 # Internal Covariate Shift
 
