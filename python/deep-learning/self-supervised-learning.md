@@ -182,6 +182,18 @@ downstream task 是作为 Supervised Fine-Tuning 存在的, 也就是与训练�
 
 在通过 Base Encoders + Finetuning 得到 Representation 的过程叫 linear evaluation protocol
 
+Encoder 其实就是通过残差网络(residual network)
+
+> Residual Network(ResNet) 解决的问题:
+>
+> 1. 梯度消失/梯度爆炸问题, 当神经网络深度增加, 通过反向传播更新权重的梯度可能快速缩小到 0(梯度消失), 或者快速增加到非常大(梯度爆炸), 使模型无法正常的进行学习
+>
+> 2. 退化问题: 实际训练中, 随着网络的深度增加, 训练误差可能反而增大, 这和过拟合是不一样的, 是退化问题, 优化困难, 而不是模型复杂度过高的问题
+>
+> 残差网络本质就是学习 input/output 之间的残差, 而不是直接学习 input/output 的映射
+
+SimCLR 本质就是提供了 特征提取 的能力, 正样本与正样本之间最大化相似度, 正样本与负样本之间最小化相似度
+
 整个框架其实并没能超过 supervised learning?
 
 SimCLR 主要贡献:
