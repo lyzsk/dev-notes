@@ -9,3 +9,7 @@
 dbeaver 连接时报错: `Public Key Retrieval is not allowed`
 
 解决: Edit Connection -> Driver Properties -> allowPublicKeyRetrieval = True
+
+## Public Key Retrieval is not allowed
+
+Edit Connection - Driver settings - Driver properties - 添加`allowPublicKeyRetrieval = true`

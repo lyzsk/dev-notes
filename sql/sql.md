@@ -1,6 +1,10 @@
 # SQL
 
-| [LIMIT](#limit) | [wildcard](#wildcard) | [COLLATE](#collate) | [IN BETWEEN](#in-between) | [SQL JOIN](#sql-join) | [CONSTRAINTS](#constraints) | [SQL FUNCTIONS](#functions) |
+| [execution order](#execution-order) | [LIMIT](#limit) | [wildcard](#wildcard) | [COLLATE](#collate) | [IN BETWEEN](#in-between) | [SQL JOIN](#sql-join) | [CONSTRAINTS](#constraints) | [SQL FUNCTIONS](#functions) |
+
+# execution order
+
+FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT
 
 # LIMIT
 
