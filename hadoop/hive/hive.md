@@ -505,7 +505,7 @@ TODO:
 
 # Bug
 
-##
+## TIMESTAMP with implicit DEFAULT value is deprecated. Please use--explicit_defaults_for_timestamp server
 
 报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).`
 
@@ -517,7 +517,7 @@ TODO:
 
 > NOTE: 记得用 `sudo vim /etc/my.cnf`
 
-##
+## ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 
 ```sh
 mysql -uroot -p

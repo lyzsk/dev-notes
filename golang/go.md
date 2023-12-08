@@ -10,6 +10,8 @@
 
 # Bug
 
+## gopls: failed to install gopls(golang.org/x/tools/gopls@v0.12.2): Error: Command failed
+
 VS Code 报错:
 
 ```sh

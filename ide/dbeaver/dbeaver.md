@@ -1,3 +1,7 @@
+# shortcuts
+
+ctrl + shift + f6, 切换标签页
+
 # Bugs
 
 ## set sql encoding from cp1252 to utf-8

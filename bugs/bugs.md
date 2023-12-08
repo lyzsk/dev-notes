@@ -293,15 +293,6 @@ Fix: change `"node-sass": "8.0"` to `"sass": ""`
     }
 ```
 
-# Port 8080 was already in use.
-
-Windows:
-
-```
-netstat -ano | findstr 8080
-taskkill /F /pid 1088
-```
-
 # Use Lambda comparator don't use subtraction, use Integer.compare instead!
 
 比如 `Arrays.sort(nums, (o1, o2) -> ...)`, Lambda 表达式里面不能写成 `o1 - o2`, 应该写成 `Integer.compare(o1, o2)`
@@ -443,3 +434,613 @@ Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
 解决: `C:'Program Files'`
 
 更好的解决: 把工具都装在 `C:/dev` 里, 无空格路径就行!
+
+# set sql encoding from cp1252 to utf-8
+
+窗口 -> 常规 -> 工作空间 -> 文本编码 -> 其他 -> UTF-8
+
+# connecting to mysql, Public Key Retrieval is not allowed
+
+dbeaver 连接时报错: `Public Key Retrieval is not allowed`
+
+解决: Edit Connection -> Driver Properties -> allowPublicKeyRetrieval = True
+
+# Public Key Retrieval is not allowed
+
+Edit Connection - Driver settings - Driver properties - 添加`allowPublicKeyRetrieval = true`
+
+# git add -A 后丢失进度, 无法 push 最新版本
+
+情况: `git status` 显示 `nothing to commit, working tree clean`, 但是之前已经 `git add -A` 过了, 因为宕机丢失了
+
+`git reflog` 找到 HEAD, 然后用 `git reset --hard xxx`, 然后就可以正常 `git push`
+
+# gopls: failed to install gopls(golang.org/x/tools/gopls@v0.12.2): Error: Command failed
+
+VS Code 报错:
+
+```sh
+Tools environment: GOPATH=C:\Users\sichu\go
+Installing 1 tool at C:\Users\sichu\go\bin in module mode.
+  gopls@0.12.2
+
+Installing golang.org/x/tools/gopls@v0.12.2 FAILED
+{
+ "code": 1,
+ "killed": false,
+ "signal": null,
+ "cmd": "C:\\Program Files\\Go\\bin\\go.exe install -v golang.org/x/tools/gopls@v0.12.2",
+ "stdout": "",
+ "stderr": "go: golang.org/x/tools/gopls@v0.12.2: golang.org/x/tools/gopls@v0.12.2: Get \"https://proxy.golang.org/golang.org/x/tools/gopls/@v/v0.12.2.info\": dial tcp 142.251.43.17:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.\n"
+}
+
+1 tools failed to install.
+
+gopls: failed to install gopls(golang.org/x/tools/gopls@v0.12.2): Error: Command failed: C:\Program Files\Go\bin\go.exe install -v golang.org/x/tools/gopls@v0.12.2
+go: golang.org/x/tools/gopls@v0.12.2: golang.org/x/tools/gopls@v0.12.2: Get "https://proxy.golang.org/golang.org/x/tools/gopls/@v/v0.12.2.info": dial tcp 142.251.43.17:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+```
+
+解决:
+
+https://mirrors.aliyun.com/golang/?spm=a2c6h.13651104.d-5243.1.5f1b1e57VM6SCA
+
+找对应版本的 msi 下载
+
+# regionserver running as process 3138. Stop it first.
+
+报错:
+
+```bash
+[atguigu@hadoop102 lib]$ start-hbase.sh
+running master, logging to /opt/module/hbase-2.0.5/logs/hbase-atguigu-master-hadoop102.out
+hadoop104: regionserver running as process 3138. Stop it first.
+hadoop103: regionserver running as process 3495. Stop it first.
+hadoop102: regionserver running as process 3412. Stop it first.
+```
+
+进程冲突, 可以用 ps 查看, 确实有进程
+
+```bash
+kill -9 3412
+ssh hadoop103 kill -9 3495
+ssh hadoop104 kill -9 3138
+```
+
+# TIMESTAMP with implicit DEFAULT value is deprecated. Please use--explicit_defaults_for_timestamp server
+
+报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).`
+
+解决:
+
+在 `/opt/my.cnf` 的 `[mysqld]` section 中添加一行:
+
+`explicit_defaults_for_timestamp = 1`
+
+> NOTE: 记得用 `sudo vim /etc/my.cnf`
+
+# ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
+
+```sh
+mysql -uroot -p
+Enter password:
+```
+
+输入完临时密码后, 报错: `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)`
+
+解决:
+
+```sh
+sudo systemctl stop mysqld
+
+su - root
+root
+
+cd /var/lib
+ll
+cd mysql
+ll
+rm -rf ./*
+ll
+
+su - atguigu
+
+cd /opt/software/mysql-rpm/
+```
+
+之后就正常分步安装 rpm 包
+
+# Debug mode don't auto clean compile
+
+项目更名后, 用 Debug 模式启动 SpringBoot 项目, 并不会重新 compile 一次, 原因未知... 反正情况就是改了一部分 Redis 代码后, 不更新数据了...一直停留在原来缓存的数据...
+
+Fix:
+
+工具栏 Maven -> clean -> compile
+
+或者手动:
+
+```
+mvn clean
+mvn compile
+```
+
+# pom.xml is ignored as grey
+
+解决: File -> Settings -> Maven -> Ignored Files -> 取消勾选对应模块名
+
+# SpringConfig console output 乱码
+
+Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
+
+解决:
+
+方法 1: 把两个 Config 放到 `cn.sichu` 下
+
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+
+方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
+
+原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解`@Configuration`所以他又再次被加载了
+
+# org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet
+
+Bug:
+
+报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
+
+解决: 在 `ctx.getBean()`上一行添加 `ctx.refresh();`
+
+---
+
+##
+
+Bug: IDEA 右键没有 XML configuration file, 更没有 Spring config 选项
+
+解决:
+
+手动新建 `applicationContext.xml`, 手动从 https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/xsd-configuration.html 复制粘贴:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+
+</beans>
+```
+
+##
+
+Bug: 父模块的 `pom.xml` 报错: `Unresolved plugin: 'org.springframework.boot:spring-boot-maven-plugin:2.3.4.RELEASE'`
+
+解决:
+
+在 `pom.xml` 中添加 `<packaging>pom</packaging>`
+
+```xml
+    <description>the back-end project for SubleChat application</description>
+    <packaging>pom</packaging>
+```
+
+# IDEA alt + insert 失效
+
+解决:
+
+确认 `NUM LOCK` 是开启的
+
+# @ComponentScan ANNOTATION type filter requires an annotation type: interface org.springframework.web.servlet.mvc.Controller
+
+Bug:
+
+报错: `@ComponentScan ANNOTATION type filter requires an annotation type: interface org.springframework.web.servlet.mvc.Controller`
+
+解决:
+
+Controller 导包倒错了, 注释掉的是导错的
+
+```java
+import org.springframework.stereotype.Controller;
+// import org.springframework.web.servlet.mvc.Controller;
+```
+
+# No primary or default constructor found for interface java.util.List] with root cause java.lang.NoSuchMethodException: java.util.List.<init>()
+
+Bug:
+
+```
+SEVERE: Servlet.service() for servlet [dispatcher] in context with path [/springmvc-0003-request-mapping] threw exception [Request processing failed; nested exception is java.lang.IllegalStateException: No primary or default constructor found for interface java.util.List] with root cause
+java.lang.NoSuchMethodException: java.util.List.<init>()
+```
+
+解决: 把 List 当成对象而不是接口, 添加 `@RequestParam`
+
+```java
+public String listParam(@RequestParam List<String> likes) {}
+```
+
+# 子模块通过 Spring initializer 创建后, 无法被识别为 maven 工程
+
+解决:
+
+1. 右键 `pom.xml` -> add as maven
+2. 更改 `<parent>`标签内的内容关联父模块, 父模块 `pom.xml` 的 `<modules>` 里添加 `<module>`
+
+---
+
+##
+
+Bug:
+
+```
+<log4j:configuration debug="true"
+    xmlns:log4j='http://jakarta.apache.org/log4j/'>
+```
+
+"http://jakarta.apache.org/log4j/" 报红, URI 报错
+
+解决:
+
+删除 xmlns 后字段:
+
+```
+<log4j:configuration>
+```
+
+# org.apache.ibatis.exceptions.PersistenceException Error updating database.
+
+Bug :
+
+```
+org.apache.ibatis.exceptions.PersistenceException:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server.
+```
+
+解决:
+
+更改`mysql-connector-java`, 和 mysql 版本一致
+
+```xml
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+```
+
+依然 Bug:
+
+```
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+```
+
+解决:
+
+更改`mybatis-config.xml`:
+
+```xml
+<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+```
+
+# no package RunWith
+
+本来写 Test 的时候要加 `@RunWith(SpringJUnit4ClassRunner.class)`
+
+但是这是 junit4 的写法, 同时要在 dependency 里面导入 Junit
+
+但是 spring-web 包已经集成了 junit5
+
+Fix:
+
+使用注解: `@ExtendWith(SpringExtension.class)`
+
+# java.lang.IllegalStateException: Ambiguous handler methods mapped for '/sys/2491238552969216':
+
+报错内容: `java.lang.IllegalStateException: Ambiguous handler methods mapped for '/sys/2491238552969216': ...`
+
+原因:
+
+因为有两个 `@GeMapping(value = {id})` 和 `@GetMapping(value = "/{username}")`
+
+不能用同一 REQUESTMETHOD 方法指向同一 url
+
+Fix:
+
+改成 `@GetMapping(value = "/{id}")`, `@PostMapping(value = "/{username}")`
+
+# 不同的 `font-awesome icon` 的 `size` 不同
+
+解决: 在 `url` 末尾加上 ` fa-fw`
+
+要求: 4.0 以上的版本
+
+@see https://fontawesome.com/docs/web/style/fixed-width
+
+# `font-awesome` 的 `<i>` 标签加了 ` fa-fw` 后, 在 `collapse toggle` 折叠切换后 依然无法实现同一个 `size`
+
+解决: 在 `<i>` 标签外 再嵌套一层 `<span>` 标签
+
+i.e.:
+
+```html
+<li class="navibar-item">
+    <span>
+        <i class="fa-solid fa-house fa-fw" id="home"></i>
+    </span>
+    <span class="navibar-item-text">Home</span>
+</li>
+```
+
+---
+
+需求: `<input>` 标签里搜索框会有默认提示, 想要改成自定义提示
+
+解决: 更改 `oninvalid` 的值
+
+```html
+<input
+    type="search"
+    class="search-text"
+    required
+    placeholder="Search"
+    oninvalid="this.setCustomValidity('Can\' be empty')"
+    oninput="setCustomValidity('')"
+/>
+```
+
+注意: `oninput=""` 后面是不带 `this.` 的, 为了在提示后, 成功输入 \[valid\] 值后自动隐藏提示框
+
+# `<button>`标签的坑
+
+问题: `<button>`标签 默认自带 灰色边框
+
+解决: CSS 里加一行
+
+```css
+border: none;
+```
+
+---
+
+`<input>` 标签里 `input type="search"`的坑
+
+问题: `input type="search"`搜索框 在获得焦点时会自带 边框 + 轮廓
+
+解决: CSS 里加两行
+
+```css
+border: none;
+outline: none;
+```
+
+# 当 html 标签有多个`class`时, `background-clip: text;` 和 `-webkit-background-clip: text;` 不能用多重名字实现, 比如:
+
+```html
+<div class="content f-content"></div>
+<div class="content s-content"></div>
+```
+
+解决:
+
+1. 把同名 `class` 去掉:
+
+```html
+<div class="f-content"></div>
+<div class="s-content"></div>
+```
+
+2. 分别给两个 `class` 添加 `background-clip` 和 `-webkit-background-clip`:
+
+```css
+background-clip: text;
+-webkit-background-clip: text;
+```
+
+# `typewriter-animation-effect` 里如果把 `h2` 换成 `span` 就无法实现动画特效
+
+解决: 使用 `h1`, `li`, `div` 等 `块级` 元素
+
+原理:
+
+逐字打印特效的对象 必须是 `块级` 元素, 否则无法通过:
+
+```css
+width: 1.375rem;
+white-space: nowrap;
+overflow: hidden;
+```
+
+设置 `不换行` 和 `隐藏溢出` 来使动画逐字打印
+
+# `main-cotainer` 里的元素, 在`.clientHeight` 得到 `100vh` 时, 从 `header` 开始动画;
+
+也就是说, `header` 的 `z-index` 失效了
+
+解决:
+
+-   先根据 `html` 里的标签关系确定要改哪:
+
+    ```html
+    <body>
+        <header>
+            <nav class="nav">
+                <div class="nav-title">rainanimation effect</div>
+            </nav>
+        </header>
+        <div class="main-container">
+            <div class="rain-box"></div>
+        </div>
+        <script src="./0014.js"></script>
+    </body>
+    ```
+
+    这个代码里 最外层 就两个标签: `header` 和 `main-container`;
+
+    就给这两个加上 `position` 属性, 然后给 `header` 加上 `z-index` 属性就好了
+
+-   修改后的 css:
+
+```css
+header nav {
+    width: 100vw;
+    height: 3.125rem;
+    background-color: var(--c-nav-bg);
+    /* 非常重要, 一定要设置position, 否则z-index会失效 */
+    position: relative;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    /* 非常重要! 所有父级元素的position一定要设置, 用来比较z-index */
+    position: relative;
+    background-image: url(./images/72055179_p0.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+```
+
+原理:
+
+`position` 属性的 default value 是 `static` :clown_face:
+
+`z-index` 的 default value 是 `auto` 也就是继承父元素的值
+
+# `@import url("https://fonts.googleapis.com/css?family=notosanssc");` 导致 Noto Sans SC, TC 的导入问题
+
+解决:
+
+方法 1: 改成加号
+
+```css
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC");
+```
+
+方法 2: 导入 `earlyaccess` 里的 `.css`
+
+```css
+@import url("https://fonts.googleapis.com/earlyaccess/notosanssc.css");
+```
+
+# `canvas` 已经设置 `100%` 但是还是会 overflow, 导致出现滚动条
+
+解决:
+
+方法 1: 在 `canvas` 对象内添加
+
+```css
+/* inline -> block */
+display: block;
+```
+
+方法 2: 在 `canvas` 对象内添加
+
+```css
+/* baseline -> top */
+vertical-align: top;
+```
+
+方法 3: 在 `canvas` 的父级元素内添加
+
+```css
+font-size: 0;
+```
+
+原理:
+
+`canvas` 的 default `vertical-align` 是 `baseline`, `display` 是 `inline`,
+
+然后之所以会在下方多处一行是为了给 `英文` 字母比如 `g`, `y` 之类的, 对齐 `basline` 后, 会需要在下方预留空间, 所以在父元素更改 `font-size: 0;` 也可以达到一样的效果
+
+但是我觉得还是 方法 1, 更改 `display: block;` 比较实用
+
+# 双显卡情况下, 即使正确安装 CUDA, 并且 `torch.cuda.is_available() = True` 也会导致报错: `RuntimeError: cuDNN error: CUDNN_STATUS_EXECUTION_FAILED`
+
+解决: 在启动代码的开头添加一行
+
+```python
+torch.backends.cudnn.benchmark = True
+```
+
+原理: 即使 `torch.cuda.is_available() = True`, `torch.backends.cudnn.version()` 能够查到 cudnn 版本号, `torch.backends.cudnn.enabled = True`, 因为代码没法启动 NVIDIA CUDA GPU, 所以在既有 A 卡又有 N 卡的时候应该 4 重检验, 检查 benchmark 是否开启:
+
+```python
+>>> import torch
+>>> torch.cuda.is_available()
+True
+>>> torch.backends.cudnn.version()
+7005
+>>> torch.backends.cudnn.enabled
+True
+>>> torch.backends.cudnn.benchmark
+False
+```
+
+# tf.test.is_built_with_cuda() True, tf.test.is_gpu_available(cuda_only=False,min_cuda_compute_capability=None) False
+
+```python
+>>> tf.test.is_built_with_cuda()
+True
+>>> tf.test.is_gpu_available(cuda_only=False,min_cuda_compute_capability=None)
+False
+```
+
+解决: 本地给 CUDA 安装对应版本的 CUDNN 后, `conda install CUDNN`
+
+原理: Pytorch 是自带 CUDNN 的, 但是 Tensorflow 没有
+
+# 更换 CUDA 版本后 `nvidia-smi` 和 `nvcc --version` 显示的版本不同
+
+解决: 更改 Enviornment Variables 环境变量:
+
+1. 在 User variables 的 Path 里添加对应版本: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`, 每次更改版本的时候把这里的版本号也改了
+
+2. 在 System variables 的 Path 里把对应版本的 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\bin` 和 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\libnvvp` Move up 移到所有 CUDA 版本的最上面
+
+```console
+nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 516.59       Driver Version: 516.59       CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+
+nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2022 NVIDIA Corporation
+Built on Tue_May__3_19:00:59_Pacific_Daylight_Time_2022
+Cuda compilation tools, release 11.7, V11.7.64
+Build cuda_11.7.r11.7/compiler.31294372_0
+```
+
+原理:
+
+1. `nvidia-smi` 是 GPU 的版本, `nvcc --version` 是 GPU 的运行版本, 两个不是同一个东西
+2. 安装 CUDA 的时候只会在 System variables 里添加 Path, 不会再 User variables 里添加
+
+# zkServer.cmd crash
+
+zkEnv.cmd 启动环境设置
+
+zkServer.cmd windows 启动方式
+
+出现闪退, 编辑 cmd 文件, 在末尾 `endlocal` 前一行加 `pause`
+
+# Invalid config, exiting abnormally
+
+报错 `java.lang.IllegalArgumentException ... zoo.cfg file is missing`, `Invalid config, exiting abnormally` 原因是没法找到配置文件
+
+修改 zkEnv.cmd
+
+```
+# 修改前
+set ZOOCFG=%ZOOCFGDIR%\zoo.cfg
+
+# 修改后
+set ZOOCFG=%ZOOCFGDIR%\zoo_sample.cfg
+```
+
+控制台显示 bind to port 0.0.0.0/0.0.0.0:2181，表示服务端启动成功!
