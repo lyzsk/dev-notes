@@ -1,45 +1,86 @@
-# SPC
+# Systems
 
-SPC: Statistical Process Control
+| Abbreviation | Full form                         | Desc                          |
+| :----------- | :-------------------------------- | :---------------------------- |
+| CIM          | Computer Integrated Manufacturing | 计算机整合制造                |
+| EAP          | Equipment Automation Programming  | 设备自动化                    |
+| APC          | Advanced Process Control          | 先进过程控制                  |
+| AMHS         | Automatic Material Handing System | 自动物料搬送系统              |
+| MCS          | Material Control System           | 物料搬运系统                  |
+| ECS          | Equipment Constraint System       | 机台限制(卡控)系统            |
+| PMS          | Preventive Maintenance System     | 预防性保养维修系统            |
+| EDA          | Equipment Data Acquisition        | 设备数据采集                  |
+| EDC          | Equipment Data Collection         | 设备数据采集                  |
+| MES          | Manufacturing Execution System    | 制造执行系统                  |
+| RMS          | Recipe Management System          | 配方管理系统                  |
+| RTMS         | Reticle Management System         | 掩膜管理系统                  |
+| PRMS         | PhotoResist Management System     | 光刻管理系统                  |
+| WIPM         | Wafer in Process Management       | 晶圆过程控制系统              |
+| SPC          | Statistical Process Control       | 统计过程控制系统              |
+| WPH          | Wafer Per Hour                    | 每小时晶圆数                  |
+| AMS          | Alarm Management System           | 报警管理系统                  |
+| RPT          | Report                            | 生产报表系统                  |
+| SDR          | Sensor Decide Respond             | 感知决策响应 (工厂自动化系统) |
+| FDC          | Fault Detection Classification    | 错误侦测与分类                |
+| RTD          | Real Time Dispatching             | 实时派工系统                  |
+| YMS          | Yield Management                  | 良率管理系统                  |
+| DMS          | Defect Management System          | 缺陷管理系统                  |
+| ADC          | Auto Defect Classification        | 自动缺陷分类系统              |
+| ERP          | Enterprise Resource Planning      | 企业资源经营计划              |
 
-## Cp, Cpk, Pp, Ppk
+## main systems in CIM
 
-Cp: Process Capability Ratio, 过程能力指数
+| Abbreviation | Full form                        | Desc             |
+| :----------- | :------------------------------- | :--------------- |
+| EAP          | Equipment Automation Programming | 设备自动化       |
+| MES          | Manufacturing Execution System   | 制造执行系统     |
+| SPC          | Statistical Process Control      | 统计过程控制系统 |
+| WPH          | Wafer Per Hour                   | 每小时晶圆数     |
+| RTD          | Real Time Dispatching            | 实时派工系统     |
+| RPT          | Report                           | 生产报表系统     |
+| FDC          | Fault Detection Classification   | 错误侦测与分类   |
+| YMS          | Yield Management                 | 良率管理系统     |
+| DMS          | Defect Management System         | 缺陷管理系统     |
+| ADC          | Auto Defect Classification       | 自动缺陷分类系统 |
 
-Cpk: Process Capability K Ration, 过程能力 K 指数
+# Terminology
 
-Pp: Process Performance Ratio, 过程绩效指数
-
-Ppk: Process Performance K Ration, 过程绩效 K 指数
-
-1. Cp, Cpk, Pp 和 Ppk 概念
-
-    Cp, Cpk, Pp 和 Ppk 都是用来体现过程能力的指标，它们是用来测量过程能力的指数（process capability index），不是过程能力本身。
-
-2. 过程能力的定义
-
-    过程能力是指过程本身在没有外因干预、没有漂移（drift）（即统计学意义上可控 under statistical control）的情况下其产出品的均一程度 (uniformity of product)。不难理解，我们不可能直接测量过程本身，而只能通过测量其产出品的某个特性来体现其能力。通常用被测量的特性的离散程度， 即标准方差， （西格玛），来表示过程能力。而且过程能力被量化为 ，即其总宽度为 6 个西格玛。
-
-    e.g. A 过程的西格玛=2，其过程能力=`6*2=12`。B 过程的西格玛=2.5，其过程能力=`6*2.5=15`。A 过程和 B 过程那个好呢？答案是：视情况而定（it depends）。为什么？因为没有判断标准。
-
-3. 衡量过程能力的指标的定义与计算公式
-
-    过程能力的定义与产品的可接受标准(specifications)无关。可是抛开产品的可接受标准，单纯地讲过程能力，又毫无意义。这就是为什么人们要引入“过程能力的指标（Cp, Cpk, Pp 和 Ppk ）”这些概念。
-
-    Cp, Cpk, Pp 和 Ppk 这些指数是过程能力和可接受标准比较的结果，也被称为过程能力比率（process capability ratio）。笔者更倾向于使用过程能力比率，因为它直观。另外这些概念的计算都引入了标准方差或西格玛，因此它们都是统计学意义上的概念，也正是如此它们都没有单位。
-
-4. Cp, Cpk, Pp 和 Ppk 的异同点
-
-    1. 有 k 指数（Cpk 和 Ppk）和没 k 指数（Cp 和 Pp）的区别：
-
-        没 k 指数（Cp 和 Pp）只显示过程的产出品的离散程度和可接受标准的关系
-
-        有 k 指数（Cpk 和 Ppk）除了显示过程的产出品的离散程度和可接受标准的关系外，还关注过程的产出品的均值是否偏离可接受标准的中间值
-
-        其数学关系是：有 k 指数永远不大于没 k 指数
-
-    2. 过程能力指数（Cp 和 Cpk）和过程绩效指数（Pp 和 Ppk）的区别:
-
-        - 过程能力指数（Cp 和 Cpk）表示的是过程在稳定状态下能使其产出品达到可接受标准的程度的指标，也可以理解为过程的"潜在"能力。因为 Cp 和 Cpk 体现的是稳定状态下过程的潜在能力，因此 Cp 和 Cpk 可以用来预测该过程将来在现有过程条件下的最好的情况。
-
-        - 过程绩效指数（Pp 和 Ppk）则是过程在过去某个观察时段内的实际绩效，即是该过程的已经产生的产出品实际达到可接受标准的情况。由于 Pp 和 Ppk 是体现过程在过去的某个时段的绩效，所以 Pp 和 Ppk 被称为"过程绩效指数"。也正因如此，Pp 和 Ppk 仅代表过程过去的情况，并不能用来预测过程将来的状态。
+| Abbreviation   | Full form                                                               | Desc                                                                                                  |
+| :------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| AMC            | Airborne Molecular Contamination                                        | 气态分子污染物                                                                                        |
+| BR             | Business Rule                                                           | 业务规则建模                                                                                          |
+| BSI            | backside illumination                                                   | CMOS 背照式工艺                                                                                       |
+| CEID           | Collect Event ID                                                        | onlinesubstate(4=onlinelocal, 5=onlineremote) <br/> carrierholdtrigger(0 = hostrelease, 1=eqprelease) |
+| CMP            | Chemical Mechanical Polishing                                           | 化学机械抛光 <br/> 目的是磨掉金属介质                                                                 |
+| CP             | Chip probing                                                            | 针对 Wafer 的探针测试 <br/> 目的是剔除加工有故障的 Die                                                |
+| CVD            | Chemical Vapor Deposition                                               | 化学气相沉积 <br/> 用于进行半导体材料设备的专用设备, 包括反应室, 供气系统                             |
+| DIFF           | Diffusion                                                               | 扩散, 可以长膜 <br/> 将掺杂源, 掺杂物和晶圆一起进行高温处理                                           |
+| DN             | Defect Notes                                                            | 缺陷记录                                                                                              |
+| DVID           | Data Variable ID                                                        | 在固定的时机, 伴随着机台事件才能查询出值, 动态                                                        |
+| EPI            | Epitaxial                                                               | 外延层生长衬层, EPI-Wafer                                                                             |
+| FMB            | Fab Monitoring Board                                                    | 监控面板                                                                                              |
+| FT             | Final Test                                                              | 针对封装后的芯片的测试 <br/> 目的是剔除封装有问题的芯片, FT 之后就可以包装出货了                      |
+| GEM            | Generic Model for Communications and Control of Manufacturing Equipment | 通用设备模型 <br/> 定义了通过通信链路所能看到的半导体设备                                             |
+| HSMS           | High-Speed SECS Message Services                                        | 用 TCP/IP 协议, 用网口作为通讯口                                                                      |
+| IMP            | Implant                                                                 | 离子注入金属膜                                                                                        |
+| LDRQ/UDRQ/UDCM | load request / unload request / unload complete                         |                                                                                                       |
+| MC             | Management Control                                                      | EAP 管理工具                                                                                          |
+| METAL          | metal-semiconductor (MS) contact                                        | 金属介质沉积                                                                                          |
+| OHB            | Over Head Buffer                                                        | 空中存储装置                                                                                          |
+| OHT            | Overhead Hoist Transfer                                                 | 天车搬运系统                                                                                          |
+| OOA            | On-Orbit Assembly                                                       | 在轨组装, 打包                                                                                        |
+| OOC            | Out of Cotrol                                                           | 管控线 [-99.5, 100.5]                                                                                 |
+| OOS            | Out of Specification                                                    | 规格线 [-99, 101]                                                                                     |
+| PPID           | Process Program ID                                                      | 物理气相沉积                                                                                          |
+| PR             | PhotoResist                                                             | 光阻                                                                                                  |
+| PVD            | Physical Vapor Deposition                                               | 物理气相沉积                                                                                          |
+| PW             | Product wafer                                                           | 产品晶圆                                                                                              |
+| RC             | RCP_CHANGE                                                              | 配方变化后, 需要 Season 进行测试                                                                      |
+| RI             | RCP_IDLE                                                                | 配方无变化, 闲置时间也需要放 Season 进行测试                                                          |
+| RPTID          | Report ID                                                               | 可以自定义, 一对一, 一对多                                                                            |
+| RSP            | Reticle Pod                                                             | Carrier 的一种, 用于防止 Reticle                                                                      |
+| RTP            | Rapid Thermal Processing                                                | 退火, 快速热处理                                                                                      |
+| STK            | Stocker                                                                 | 晶圆盒储存库                                                                                          |
+| SUP            | Support                                                                 |                                                                                                       |
+| SVID           | Status Variable ID                                                      | 可以在任意时刻都可以查询状态 <br> Temperature, Chamber, Clock, CJSpace, PortAccessNode, Control State |
+| WAT            | Wafer Acceptance Test                                                   | 晶圆可接受测试                                                                                        |
