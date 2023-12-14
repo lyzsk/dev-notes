@@ -13,5 +13,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.tabWidth": 4,
     "workbench.startupEditor": "none",
-    "go.toolsManagement.autoUpdate": true
+    "go.toolsManagement.autoUpdate": true,
+    "markdown.styles": [
+        "https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+    ]
 }

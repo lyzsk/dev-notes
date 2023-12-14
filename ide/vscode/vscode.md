@@ -19,6 +19,9 @@ VSCode 配置:
 6. 插件 IntelliCode API Usage Examples
 7. 插件 ES7+ React/Redux/React-Native snippets
 8. 插件 Scala Syntax (official)
+9. 插件 Markdown Perview Mermaid Support
+10. Vue Language Features (Volar)
+11. Vetur
 
 ---
 
