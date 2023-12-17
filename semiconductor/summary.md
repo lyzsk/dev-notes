@@ -35,7 +35,6 @@
 | Abbreviation | Full form                         | Desc               |
 | :----------- | :-------------------------------- | :----------------- |
 | MES          | Manufacturing Execution System    | 制造执行系统       |
-| AMS          | Alarm Management System           | 报警管理系统       |
 | AMHS         | Automatic Material Handing System | 自动物料搬送系统   |
 | ECS          | Equipment Constraint System       | 机台限制(卡控)系统 |
 | EDC          | Equipment Data Collection         | 量测设备数据采集   |

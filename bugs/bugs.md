@@ -1044,3 +1044,19 @@ set ZOOCFG=%ZOOCFGDIR%\zoo_sample.cfg
 ```
 
 控制台显示 bind to port 0.0.0.0/0.0.0.0:2181，表示服务端启动成功!
+
+#
+
+```bash
+$ git push origin master
+fatal: unable to access 'https://github.com/lyzsk/dev-notes.git/': HTTP/2 stream 1 was not closed cleanly before end of the underlying stream
+```
+
+尝试关 VPN 后
+
+```bash
+$ git push origin master
+fatal: unable to access 'https://github.com/lyzsk/dev-notes.git/': Failed to connect to github.com port 443 after 21089 ms: Timed out
+```
+
+再开启就好了...
