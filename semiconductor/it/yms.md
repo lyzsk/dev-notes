@@ -78,3 +78,11 @@ R^2 范围: `[0, 1]`, 越接近 1, 说明线性回归线与原始数据越吻合
 帕累托图, 排列图
 
 将出现的质量问题和质量改进项目按照重要程度依次排列而采用的一种图表
+
+# hard bin vs soft bin
+
+-   hard bin
+    know the overall reason about the failure
+
+-   soft bin
+    also know the compartment in which it has failed or compartment in which it has been placed
