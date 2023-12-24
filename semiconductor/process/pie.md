@@ -158,3 +158,173 @@ A:
 4. Poly 及 SiON 的 ETCH
 5. ETCH 完后的 ash (plasma 等离子体清洗)及光刻胶去除 (PR strip)
 6. Poly 的 Re-oxidation (二次氧化)
+
+---
+
+Q: Poly 栅极的刻蚀要注意哪些地方?
+
+A:
+
+1. Poly 的 CD, i.e. 尺寸大小控制
+2. 避免 gate oxide 被蚀刻掉, 造成 substrate 受损
+
+---
+
+Q: 何谓 Gate oxide (栅极氧化层) ?
+
+A:
+
+用来当器件的介电层, 利用不同厚度的 gate oxide, 可以调节栅极电压对不同器件进行开关
+
+---
+
+Q: source/drain 的形成步骤可以分为哪些?
+
+A:
+
+1. LDD implant (Light Doped Drain 离子注入)
+2. Spacer 的形成
+3. N+/P+ IMP 高浓度 S/D (源/漏极) 注入及 RTA (Rapid Thermal Anneal 快速热处理)
+
+---
+
+Q: LDD 用途
+
+A:
+
+LDD 是使用较低浓度的 source/drain, 以防止组件产生热载流子效应的一项工艺
+
+---
+
+Q: 何谓 Hot carrier effect (热载流子效应) ?
+
+A:
+
+在线宽小于 0.5um 以下时, 因为 source/drain 间的高浓度所产生的高电场, 导致载流子在移动时被加速产生热载流子效应, 此热载子会对 gate oxide 造成破坏, 造成组件损伤
+
+---
+
+Q: 何谓 Spacer? Spacer 蚀刻时需要注意哪些?
+
+A:
+
+在 poly 栅极的两旁用 dielectric (介电质) 形成的侧壁, 主要由 Ox/SiN/Ox 组成.
+
+蚀刻 spacer 时需要注意 CD 大小, profile (剖面轮廓), remain oxide (残留氧化层的厚度)
+
+---
+
+Q: Spacer 的主要功能?
+
+A:
+
+1. 使用高浓度的 source/drain 与 gate 间产生一段 LDD 区域
+2. 作为 Contact ETCH 时栅极的保护层
+
+---
+
+Q: 为何在离子注入后需要 Thermal Anneal (热处理) 的工艺?
+
+A:
+
+1. 为恢复经离子注入后造成的芯片表面损伤
+2. 使注入离子扩散至适当的深度
+3. 使注入离子移动到适当的晶格位置
+
+---
+
+Q: SAB (Salicide block) 目的为何?
+
+A:
+
+SAB 用于保护硅片表面, 在 RPO (Resist Protect Oxide) 的保护下硅片不与其他 Ti, Co 形成 salicide (硅化物)
+
+---
+
+Q: SAB 工艺的流程中需要注意哪些?
+
+A:
+
+1. SAB 光刻后, 刻蚀后的图案 (特别是小块区域), 要确定有完整的 block 包覆住必需被包覆的地方
+2. remain oxide (残留氧化层的厚度)
+
+---
+
+Q: 何谓 salicide (硅化物)?
+
+A:
+
+Si 与 Ti/Co 形成 TiSix/CoSix, 一般来说是用来降低电阻值 (Rs, Rc)
+
+---
+
+Q: salicide 的形成步骤可以分为哪些?
+
+A:
+
+1. Co/Ti + TiN 的沉积
+2. 第一次 RTA 来形成 Salicide
+3. 将未反应的 Co/Ti 以化学酸去除
+4. 第二次 RTA (用来形成 Ti 的晶相转化, 降低其阻值)
+
+---
+
+Q: MOS 器件的主要特性是什么?
+
+A:
+
+主要是通过栅极 Vg (电压) 来控制 S/D (source/drain) 之间电流, 实现其开关特性
+
+---
+
+Q: 一般用哪些参数来评价 device 的特性?
+
+A:
+
+主要由 Idsat, loff, Vt, Vbk(breakdown), Rs, Rc
+
+一般要求 Idsat, Vbk 值尽量大; loff, Rc 尽量小; Vt, Rs 尽量接近设计值;
+
+---
+
+Q: 什么使 Idsat? Idsat 代表什么意义?
+
+A: 饱和电流. 也就是在栅压 (Vg) 一定时, 源/漏极之间流动的最大电流
+
+---
+
+Q: 在工艺制作过程中哪些工艺可以影响到 Idsat?
+
+A:
+
+Poly CD(多晶硅尺寸), Gate oxide Thk(栅氧化层厚度), AA(有源区)宽度, Vt IMP 条件, LDD IMP 条件, N+/P+ IMP 条件
+
+---
+
+Q: 什么是 Vt? Vt 代表什么意义?
+
+A: 阈值电压 (Threshold Voltage), 就是产生强反转所需的最小电压. 当栅极电压 Vg < Vt 时, MOS 处于关闭状态, 而 Vg >= Vt 时, 源/漏极之间便产生导电沟道, MOS 处于开状态
+
+---
+
+Q: 在工艺制作过程中哪些工艺可以影响到 Vt?
+
+A:
+
+Poly CD, Gate oxide Thk, AA 宽度, Vt IMP 条件
+
+---
+
+Q: 什么是 loff? loff 小有什么好处?
+
+A:
+
+关态电流, Vg = 0 时的 source/drain 之间的电流, 一般要求此电流值越小越好. loff 越小, 表示栅极的控制能力越好, 可以避免不必要的漏电流 (省电)
+
+---
+
+Q: 什么是 device breakdown voltage?
+
+A:
+
+指崩溃电压 (击穿电压), 在 Vg = Vs = 0 时, Vd 所能承受的最大电压. 当 Vd 大于此电压时, source/drain 之间形成的导电沟道不受栅压的影响. 在 device 越做越小的情况下, 这种情况会越来越严重
