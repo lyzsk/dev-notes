@@ -1045,18 +1045,60 @@ set ZOOCFG=%ZOOCFGDIR%\zoo_sample.cfg
 
 控制台显示 bind to port 0.0.0.0/0.0.0.0:2181，表示服务端启动成功!
 
-#
+# Failed to connect to github.com port 443 after 21075 ms: Timed out
 
-```bash
-$ git push origin master
-fatal: unable to access 'https://github.com/lyzsk/dev-notes.git/': HTTP/2 stream 1 was not closed cleanly before end of the underlying stream
-```
+挂着 VPN 的时候 push 的时候一直 Time out
 
-尝试关 VPN 后
-
-```bash
-$ git push origin master
-fatal: unable to access 'https://github.com/lyzsk/dev-notes.git/': Failed to connect to github.com port 443 after 21089 ms: Timed out
-```
+尝试关 VPN 后依然 Timeout
 
 再开启就好了...
+
+但是, 后来又有一次报错 Time out, push 的时候 timeout, 测试 clone 一个新的 repo 也是 timeout, 尝试关闭 ssr 也不行
+
+尝试更改 proxy:
+
+```bash
+git config --global http.proxy http://username:pass@proxy.com:port
+git config --global https.proxy https://username:pass@proxy.com:port
+```
+
+失败, 还原:
+
+```bash
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+尝试 cmd
+
+```bash
+ipconfig /flushdns
+```
+
+失败
+
+尝试:
+
+```bash
+git config --global http.sslverify false
+```
+
+失败, 还原:
+
+```bash
+git config --global --unset http.sslverify
+```
+
+尝试通过 https://tool.lu/ip
+
+查 github.com 的 ip, 然后更改本地 host 文件, 失败
+
+解决:
+
+打开 SSR, 打开 windows system proxy, 打开 Use setup script, 然后复制 Script address 里的 http://ipaddr:port, 然后
+
+```bash
+git config --global http.proxy http://ipaddr:port
+```
+
+成功解决... 之前因为设置代理的地址设成了远程服务器的地址了...
