@@ -171,6 +171,10 @@ git remote add origin [github_repo_url]
 git push -f -u origin master
 ```
 
+# git commit -a -m 更改
+
+`git commit --ammend -m "new message"`
+
 # Bugs
 
 ## `.gitignore` not working

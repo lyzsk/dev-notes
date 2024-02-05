@@ -1095,6 +1095,13 @@ git config --global --unset http.sslverify
 
 解决:
 
+查看 proxy:
+
+```bash
+git config --global --get http.proxy
+git config --global --get https.proxy
+```
+
 打开 SSR, 打开 windows system proxy, 打开 Use setup script, 然后复制 Script address 里的 http://ipaddr:port, 然后
 
 ```bash
@@ -1102,3 +1109,138 @@ git config --global http.proxy http://ipaddr:port
 ```
 
 成功解决... 之前因为设置代理的地址设成了远程服务器的地址了...
+
+# pip install pymobiledevice3 error
+
+```bash
+Downloading pydantic-2.5.3-py3-none-any.whl (381 kB)
+   -------------------------------------- - 368.6/381.9 kB 9.9 kB/s eta 0:00:02
+ERROR: Exception:
+Traceback (most recent call last):
+```
+
+卡在这个位置,
+
+解决:
+
+手动安装 pydantic 后再装 pymobiledevice3
+
+```bash
+pip install pydantic
+conda list pydantic
+pip install pymobiledevice3
+```
+
+推测 pydantic 和 pydantic-core 之间有先后依赖关系?
+
+#
+
+```log
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+ERROR:root:Error running command: Command '['pymobiledevice3', 'developer', 'dvt', 'simulate-location', 'set', '--rsd', xxxxxx]
+```
+
+把 host 和 port 按照 proxy 的(和 git http.proxy 一样)写死:
+
+```py
+    try:
+        global host, port
+        # host = get_host_ip()
+        host = '127.0.0.1'
+        logging.info(f"Detected host IP: {host}")
+
+        # port = find_free_port()
+        port = 1234 # change to real proxy port
+        logging.info(f"Using free port: {port}")
+```
+
+设置 logitude 和 latitude 完运行 ok, 但是 log 报错:
+
+```bash
+2024-01-20 17:19:49 LAPTOP-XXX pymobiledevice3.__main__[5_digits] ERROR Device was disconnected
+```
+
+查看 pymobile 源码
+
+```py
+    except ConnectionAbortedError:
+        logger.error('Device was disconnected')
+```
+
+尝试 cmd
+
+```
+ipconfig
+netstat -a
+```
+
+发现获取的是 `Wireless LAN adapter WiFi` 里的 ipv4 ip,
+
+尝试
+
+```
+telnet ip_address port_num
+```
+
+Connect failed
+
+尝试
+
+```
+netstat -ano | findstr port_num
+taskkill PID_num /F
+```
+
+发现端口并没有被占用
+
+TODO:
+
+#
+
+报错:
+
+```bash
+error: RPC failed; HTTP 413 curl 22 The requested URL returned error: 413 send-pack: unexpected disconnect while reading sideband packet fatal: the remote end hung up unexpectedly
+```
+
+尝试:
+
+```bash
+git remote set-url origin git@github.com:GitUserName/GitRepoName.git
+```
+
+报错:
+
+```bash
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+```
+
+重来, 太大了, repo 超过 10G 了, 分步 push 就行了
+
+# git commit --amend -m "new message" 没写对进到 --amend 里用修改的方式后无法 push
+
+正确写法是 `git commit --amend -m "new message"`
+
+但是写成了 `git commit --ammend`, 然后进入后修改 message 后 `:q!` 了, 然后导致 master 分支和 remotes/origin/master 分支冲突无法 push
+
+解决:
+
+```bash
+git reflog
+git reset --hard xxx
+
+git fetch origin master
+git checkout master
+git merge origin/master
+
+git add -A
+git commit -a -m "xxx"
+git push origin master
+```
+
+但是这样就会产生 3 个 commit...
+
+一切都是因为没输对正确语法, 暂时没想到更好的解决
