@@ -102,7 +102,7 @@ linear LR warm up 方法各有不同:
 
     warmup_lr 会在前两种基础上乘以一个 ratio, `warmup_lr = ratio * LR` 这个 ratio 是 linear 的, 因为 LR 本身是非线性的, 所以最终乘积也是非线性的, 这种方法称为 factor
 
-# Teacher Student
+# Teacher Student KD
 
 ## TEMPORAL ENSEMBLING FOR SEMI-SUPERVISED LEARNING
 
@@ -113,6 +113,22 @@ linear LR warm up 方法各有不同:
 self-ensembling improves the classification accuracy in fully labeled cases as well, and provides tolerance against incorrect labels.
 
 @see: https://arxiv.org/abs/1610.02242
+
+## Model Compression with Two-stage Multi-teacher Knowledge Distillation for Web Question Answering System
+
+2019/10/18
+
+可以用多个 teacher 模型 relevance 关联一个 student 模型
+
+因为不同 teacher 模型训练出来的 bias 可能都会对学生产生影响
+
+博采众家之长的学生, 可以达到师不必强于弟子, 弟子不必不如师
+
+Multi-teacher KD 下最厉害的老师不一定会教出最厉害的学生, 可能的理解解释是教师模型较大, 可以捕捉到数据分布中比较细微的模式并记录在自己的参数中, 而这些参数数据分布不一定能被小的学生模型学到局部数据分布的特点
+
+解决方法就是不固定每个教师模型的权重, 根据学生模型的状态, 动态的调整权重, 即对不同的样本以及在训练的不同阶段, 给不同教师模型分配不同的权重
+
+@see: https://arxiv.org/abs/1910.08381
 
 ## Modeling Teacher-Student Techniques in Deep Neural Networks for Knowledge Distillation
 
@@ -142,6 +158,80 @@ Transfer Methods 做成 multilevel 可以作为 teacher 提供的 information ma
 
 @see: https://arxiv.org/abs/1912.13179
 
+知识蒸馏的意义是随着时代发展, 模型的 params 在短短 4/5 年内从亿级 -> 千亿级 -> 万亿级别, 随着 parameters 的增加, 对于线上 model 的 inference 推理有更严峻的挑战, 因为线上模型有严格的时间延迟限制, 知识蒸馏压缩模型, 把大模型应用到产品中
+
+知识蒸馏过程中学生模型学习教师模型, 不断调整参数, 使学生训练时不断使预测结果和教师模型预测结果相近, 减少差异
+
+## Reinforced Multi-Teacher Selection for Knowledge Distillation
+
+2020/11/11
+
+选择 teacher 是一个策略问题, 优化策略是根据学生的反馈机制
+
+提到用 reinforced multi-teacher KD, 通过用 agent 来选择 1-k 个 teacher model 的 soft label, 计算得到 select or not 的 action, 由学生来通过 agent 选择 teacher 的 representation, soft label, teacher CE loss
+
+teacher 训练到一个指定的 batch 上通过 validation set 查看学生模型的反馈情况, 正确越多, reward 值越高
+
+然后 reward 作为反馈, 用梯度的方法更变策略函数的学习:
+
+1. 选择什么样的教师 feature 来教学
+2. 如何设定学生的 reward
+3. 策略函数本身定义形式
+
+一般实验的时候分成:
+
+-   single teacher KD
+
+    BERT12/RoBERTa12/ALBERT12/XLNet12
+
+-   U-Ensemble Teacher
+
+    assign an equal weight to each teacher model
+
+-   Rand-Single-Ensemble Teacher
+
+    randomly select one teacher from the teacher model candidates at mini-batch level
+
+-   W-Ensemble Teacher
+
+    assign a different weight to each teacher model, weights are fix during the whole distillation
+
+-   Logistic Regression (LR)-Ensemble Teacher
+
+    use LR model to model the best weights for each teacher candidates
+
+-   Best-Single-Ensemble
+
+    an instance-level teacher model selection method
+
+    in the training set, for each instance select the best performance single teacher
+
+    最优教师模型, 对每一个样本, 根据每个教师输出结果比较 ground-truth, 动态的选择教师模型, 作为采纳
+
+根据学生模型的能力, 可能是 batch size? 动态的选择教师模型会更好, 实现逐渐适应的匹配
+
+蒸馏也就是说研究组-产品组, 一个关注创新-一个关注性价比
+
+一般来说模型越大, 整体性能越好, 但平均计算单个参数带来的收益, 模型越大平均收益越小, 需要提高每个参数的效率
+
+@see: https://arxiv.org/abs/2012.06048
+
+## Reinforced Iterative Knowledge Distillation for Cross-Lingual Named Entity Recognition
+
+2021/06/01
+
+不再是单纯的压缩模型, 而是对教师模型进行知识萃取, 通过训练数据的选择把真正有用的知识逐步传递给学生
+
+采用多步迭代的方法, 在每一步迭代中, 学生模型只选择教师模型在部分样本上的输出作为训练数据, 训练完后本轮的学生模型就变成了下一轮迭代的教师模型
+
+经过多次迭代后, student 学习到了真正知识部分的特征, 而抛弃了一些噪音的部分, 模型能力得到了增强
+
+本质就是通过反馈更新策略, 与 curriculum learning 课程学习相似
+
+@see: https://arxiv.org/abs/2106.00241
+
+momentum 超参数常用在权重更新的时候, 目的是得到全局最优解, 引入动量, 在某时刻的梯度与历史时刻梯度方向相似时, 加强该趋势, 反之, 若某时刻的梯度与历史时刻的梯度方向不同, 则减弱, 是否可以认为学生模型的反馈和更新的策略输出的是 momentum?
+
 # DenseCL
 
 2020/11/18
@@ -169,6 +259,9 @@ self-supervised, 用于图像分类任务
 SimCLR 提出了 nonlinear projection head 的概念
 
 重点从 CNN 卷积转向了数据增强, 通过对比学习(Contrastive Learning) + AutoEncoder 来最大化同类型相似度, 最小化不同类型相似度
+
+Data augmentation 可以有: random cropping followed by resize back to the original size, random
+color distortions, random Gaussian blur, roberts filtering, sobel filtering, random flip,
 
 random crop + color distort 效果最好
 
@@ -223,6 +316,8 @@ Intro 陈述了目前已知的一些主要是通过 fine-tunes 的时候用一�
 
 @see: https://arxiv.org/abs/2006.10029
 
+Compared to SimCLR with 2-layer projection head, SimCLRv2 uses a 3-layer projection head and fine-tunes from the 1st layer of projection head, it results in as much as 14% relative improvement in top-1 accuracy when fine-tuned on 1% of labeled examples.
+
 # MoCo v1
 
 2019/11/13
@@ -243,11 +338,29 @@ MOCO: Momentum Contrast
 
 2020/01/13
 
-对比学习类
+对比学习类, 但是不像 simclr, moco 一样需要负样本, 仅需正样本就能训练!
 
 BYOL: Bootstrap your own latent
 
+假如 SimCLR 使用 batch size = 4096, 则 4096 -> 2048 -> 1024 -> 512 到 2048 的批次 BYOL 就能达到相同的 top-1/accuracy, 而到 batch size = 1024/512 BYOL 的性能下降明显比 SimCLR 少, 因为 SimCLR 的数据增强依托于颜色, 而同一张图(同一个正样本)的 color hitogram 色值直方图应该是一样的, 且在 BN 过程中 512 个 batch 同时进入 projection head, 已经能够互相成为正负样本了, 无需人为增强增加负样本
+
+input 一张 image x, 会得到两个 view: `v, v'`, 然后用不同的增强方式(超参数值在每一个分支里是相同的) `f`, 得到不同的特征表示 `y1, y2`, 再通过不同的超参数得到的不同的 `g` , 经过 projection 得到不同的特征向量 `z`, online 的分支还会进行 `q` 将特征向量再次进入 prediction, 向 `v'` 处于的 target 分支结果靠拢, 而在这过程中 target 分支是 `sg` 的, 即暂停梯度
+
+online network 里的 prediction,就是当作预测值, 然后把 target network 里 `sg` 的 `z'` 当作真实值, 进行回归, 让预测值越来越接近真实值, 因为 BYOL 认为从同一张输入图像, 经过两种不同数据增强的图像变化后的 `v, v'` 应该学习到相同的特征向量才是对的
+
+结束上述步骤后会得到一个 `L`, 然后会进行一次 reverse, 将 `v'`作为 online 分支, `v` 作为 target 分支再来一次, 得到 `L'`. 最终的 `L-BYOL = L + L'`
+
+Q: 但是因为没有负样本, 假设输出的 特征值都是 1 呢? 就是 online/target network 在回归的过程中的值都是 1? 不就会导致模型崩塌吗?
+
+A: 因为 `q` 多加了一层 MLP (Multilayer Perceptron), 里面结构是 input projection z -> linear -> BN -> ReLU -> Linear -> prediction, 核心就是 BN, 相当于虽然只是在一个 batch 里的一对 `v, v'`, 但计算 BN 的时候是全局的, 即 `batch size * 2` 个 view, 用到了大量负样本的信息, 提取了大量均值和标准差; 简而言之就是没有直接制造负样本, 而是在计算过程中由 BN 间接引用了负样本的信息
+
+与 GAN 网络类似, 由于 online network 是新的 network, 而 target network 是旧的 networ, 在模型内形成了 GAN 一样的对抗, 使 loss 永远不会降到 0, 也就是 representation space -> higher dim latent space -> aim at a target has momentum
+
+结论是 BYOL 使 sensitive to batch size && optimizer choices, 但是对 batch size 不像 SimCLR 那么敏感
+
 @see: https://arxiv.org/abs/2006.07733
+
+但是 BYOL 的泛化能力可能没有 SimCLR 好, 因为没有直接引入负样本, 但是更可能适用于实际生产环境, 因为实际环境只需要做一种深度学习任务
 
 # SimSiam
 

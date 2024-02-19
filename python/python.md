@@ -74,3 +74,19 @@ conda-env list
 ```
 conda list (package_name)
 ```
+
+#
+
+批量安装 requirements.txt:
+
+```bash
+pip install -r requirements.txt
+```
+
+批量导出:
+
+```bash
+pip freeze > requirements.txt
+```
+
+@see: https://www.cnblogs.com/maxiaodoubao/p/10605850.html
