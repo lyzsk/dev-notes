@@ -73,11 +73,11 @@ CLAHE 算法是一种非常经典的直方图均衡化算法: Contrast Limited A
 
 # depthwise separable convolution vs pointwise separable convolution
 
-dw: depthwise separable convolution
+dw: depthwise separable convolution 深度可分离卷积
 
-pw: pointwise separable convolution
+pw: pointwise separable convolution 逐点可分离卷积
 
-dw 就是 深度可分离卷积, 即逐通道卷积, 一个 3 通道的图像输入, 对于每一个像素, 就有 pixel _ pixel _ channel 的卷积核, 而 dw 经过一次卷积运算, 完全在二维平面内进行, 卷积核的数量和上一层的通道数相同, 所以 3channel 就只会输出 3 个 feature map
+dw 就是 逐通道卷积, 一个 3 通道的图像输入, 对于每一个像素, 就有 pixel _ pixel _ channel 的卷积核, 而 dw 经过一次卷积运算, 完全在二维平面内进行, 卷积核的数量和上一层的通道数相同, 所以 3channel 就只会输出 3 个 feature map
 
 Depthwise Convolution 完成后的 Feature map 数量与输入层的通道数相同，无法扩展 Feature map。而且这种运算对输入层的每个通道独立进行卷积运算，没有有效的利用不同通道在相同空间位置上的 feature 信息。因此需要 Pointwise Convolution 来将这些 Feature map 进行组合生成新的 Feature map
 

@@ -133,6 +133,15 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
     6 & 5 = 4
     ```
 
+    ```java
+    // 1 = 0b1
+    // 2 = 0b10
+    // 4 = 0b100
+    // 6 = 0b1000
+    // e.g. 4 = 0b100, 3 = 0b11, 4 & 3 = 0b100 & 0b11 = 0
+    pow(2, n) & (pow(2, n) - 1) == 0
+    ```
+
 2. `|` 或
 
     按位 或运算 (OR)
