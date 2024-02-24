@@ -126,6 +126,8 @@ Eclipse 全局搜索: `ctrl + h`
 
 <!-- 25. Editor -> General -> Appearance, 勾选 Render documentation comments -->
 
+25. 安装插件 Nyan Progress Bar
+
 ---
 
 IDEA 快速配置(但是要检查很多东西, 不太好用):

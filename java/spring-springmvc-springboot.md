@@ -197,6 +197,25 @@ keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks
 
 然后把生成的 jwt.jks 复制到 resource 目录下
 
+# origin toString() vs lang3 ToStringBuilder()
+
+`org.apache.commons.lang3.ToStringBuilder()` 用法示例:
+
+```java
+@Override
+public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).appen("param1", getParam1()).append("paramn", getParamN()).toString();
+}
+```
+
+有 `DEFAULT_STYLE`, `JSON_STYLE`, `MULTI_LINE_STYLE`, `NO_CLASS_NAME_STYLE`, `NO_FIELD_NAMES_STYLE`, `SHORT_PREFIX_STYLE`, `SIMPLE_STYLE`
+
+优点:
+
+1. 默认的 `toString()` 方法都是用简单的 `+` 拼接, 相当于每次拼接都 new 了一个 String 对象, 容易爆内存, 相当于 ToStringBuilder 用 `append()` 的方式节省了内存消耗
+
+2. ToStringBuilder 比较适合在打印日志时, 输出参数的信息, 特别是再参数为对象时, 能方便自动打印对象中的属性值
+
 # Bugs
 
 ## Required request body is missing

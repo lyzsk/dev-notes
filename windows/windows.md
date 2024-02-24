@@ -101,3 +101,11 @@ Path 放压缩路径下的 bin 路径
 建议以后代码环境都在 `C:/dev` 装
 
 因为: `cd 'C:\Program Files\'` 才能访问带空格的, 有的更新自动填充会识别不了空格, 也不能手动加引号
+
+# kill port
+
+```bash
+netstat -ano | findstr :portNumber
+
+taskkill /PID portNumber /F
+```
