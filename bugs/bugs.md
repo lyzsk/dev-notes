@@ -1244,3 +1244,108 @@ git push origin master
 但是这样就会产生 3 个 commit...
 
 一切都是因为没输对正确语法, 暂时没想到更好的解决
+
+# mybatis cannot resolve symbol "xxx"
+
+用了 MyBatisX 插件生成的 mapper.xml, 所以不是命名规范的问题
+
+前端是 200 OK, 说明不是接口的问题
+
+用 swagger, 调用接口实现类却发现, get 方法没从数据库获取值到后端
+
+排查: mapper 路径, sql syntax
+
+解决:
+
+在 module 的 main/resources 目录下, 发现是 mapper.defectcode 没问题, 但是 open in explore 却发现文件夹名就叫 mapper.defectcode, 理论上应该是 mapper/defectcode/xxxMapper.xml
+
+结论: idea 在 java/ 下用 `.` 连接是会自动生成 package 级联的文件夹, 但是在 resources/ 下不能直接用 `.` 连接
+
+# org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)
+
+用 mysql 数据库的时候
+
+最开始用 if 子查询, 后端会报 `sql syntax error`
+
+```xml
+select
+xxx_id as id,
+(
+    select
+    if(t1.if_xxx = 1, 'XXX', ''),
+    if(t1.if_yyy = 1, 'YYY', '')
+    from t_xxx t1
+) as type
+from t_xxx
+<where>
+    <if test="xxx != null and xxx != ''"> and xxx_id = #{xxx}</if>
+</where>
+```
+
+这种写法, 因为 if_xxx 是 int 类型的, type 是 String 类型的, 而且子查询完的整体查询应该再包一层 alias, 否则在 where 里没法去映射实体类的变量 type, 去做判断
+
+然后用 case when end 的写法却报 `org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)`
+
+解决: 外面套一层 alias 别名, 这样在 xml 的 where 里可以对实体类的参数进行 alias.param = #{param} 的判断
+
+e.g.
+
+```xml
+select param1, type, param2
+from
+(
+    select
+    db_param1 as param1,
+    case
+    when if_xxx = 1 and if_yyy = 0 then 'XXX'
+    when if_xxx = 0 and if_yyy = 1 then 'YYY'
+    when if_xxx = 1 and if_yyy = 1 then 'XXX, YYY'
+    when if_xxx = 0 and if_yyy = 0 then ''
+    end
+    as type,
+    db_param2 as param2
+    from t_xxx
+) as temp
+<where>
+    <if test="param1 != null and param1 != ''"> and temp.db_param1 = #{param1}</if>
+    <if test="type != null and type != ''"> and temp.type = #{type}</if>
+    <if test="param2 != null and param2 != ''"> and temp.db_param2 like concat('%', #{param2}, '%') </if>
+</where>
+```
+
+就不会有问题了
+
+# mysql 使用 group_concat() 函数报错
+
+目的: 把行专列, 让每个同一 param1 下的 每个 param2 以一个用 `, ` 字符串拼接的形式展示:
+
+比如查成:
+
+| param1 |          param2List          |
+| :----: | :--------------------------: |
+| value0 |        100, 200, 300         |
+| value1 | 101, 202, 303, 404, 505, 606 |
+
+解决:
+
+用 group_concat(param) 要把表里除了 param 的参数都 group by 一次
+
+e.g.
+
+```sql
+select
+param1,
+param2,
+param3,
+group_concat(param4) as param4List
+from db
+group by param1, param2, param3
+```
+
+# ruoyi mybatis cannot resolve symbol "xxx"
+
+巨坑, 要把 ruoyi 的 ruoyi-admin 主入口 module 的 `XXXapplication.java` 文件的注解 `@MapperScan(com.xxx.mapper)` 注释掉, 否则有可能:
+
+1. 找不到 Mapper
+2. 找到多个 Mapper, Interface, Service, ServiceImpl
+3. 无法判断 jdbc url

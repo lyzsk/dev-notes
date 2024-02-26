@@ -37,30 +37,30 @@ npm install [dependency_name] --save-dev
 
 标准结构:
 
-```js
+```vue
 <script>
-    // 导包, 导入下面逻辑操作需要用到的函数
-    import {(listPost, getPost, delPost, addPost, updatePost)} from
-    "@api/system/post"; export default {};
+// 导包, 导入下面逻辑操作需要用到的函数
+import {(listPost, getPost, delPost, addPost, updatePost)} from
+"@api/system/post"; export default {};
 
-    // 构建 vue 实例
-    export default {
-        name: "Post",
-        dicts: ['sys_normal_disable'],
-        // 用来给 template 传数据
-        data() {
-            ...
-        },
-        // 初始化方法, 页面加载完毕马上执行(html) --- vue: 模板渲染前加载, 初始化模板数据
-        created() {
-            // 所有也页面加载的起点
-            ...
-        },
-        // 函数, 方法
-        methods: {
-            ...
-        }
+// 构建 vue 实例
+export default {
+    name: "Post",
+    dicts: ['sys_normal_disable'],
+    // 用来给 template 传数据
+    data() {
+        ...
+    },
+    // 初始化方法, 页面加载完毕马上执行(html) --- vue: 模板渲染前加载, 初始化模板数据
+    created() {
+        // 所有也页面加载的起点
+        ...
+    },
+    // 函数, 方法
+    methods: {
+        ...
     }
+}
 </script>
 ```
 
@@ -320,3 +320,37 @@ public class PageUtils extends PageHelper
 ruoyi 的 `startPage()` 本质上就是 `PageHelper.startPage(qo.getPage(), qo.getCurrentPage(), qo.getPageSize())`, ruoyi 是直接写死封装
 
 @see: https://www.bilibili.com/video/BV1684y1X7tK/?p=18&spm_id_from=pageDriver&vd_source=b8cb8db44d97eb71e6c4a2b35f279324
+
+# 一行显示两个查询表
+
+应该是:
+
+```vue
+<template>
+  <div class="app-container" style="width: 100%">
+  <el-row>
+    <el-col :span="12">
+      <el-card class="box-card-left">
+      </el-card>
+    </el-col>
+
+    <el-col :span="12">
+      <el-card class="box-card-right">
+      </el-card>
+    </el-col>
+  </el-row>
+</template>
+
+<style>
+.box-card-left
+.box-card-right {
+  diwth: 100%;
+  display: inline-block;
+}
+.box-card-right {
+  margin-left: 5px
+}
+</style>
+```
+
+这样既能 24 栅格 Layout, 又能用 el-card 看着更舒服
