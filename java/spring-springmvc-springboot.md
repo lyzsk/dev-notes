@@ -4,9 +4,7 @@
 
 启动类添加 `@ServletComponentScan` 注解后, 就回去扫描带有 `@WebServlet`, `@WebListener`, `@WebFilter` 注解的类, 有的话就会把这三种类型, 有的话就会把这三种类型的类转换成 `@ServletRegistrationBean`, `@ServletListenerRegistrationBean`, `@FilterRegistrationBean`, 然后交给 Spring 容器取解析
 
-## Example
-
-比如做登录过滤器的时候, 就可以实现 `Filter` 并加上 `@WebFilter` 注解:
+e.g. 比如做登录过滤器的时候, 就可以实现 `Filter` 并加上 `@WebFilter` 注解:
 
 ```java
 @WebFilter(filterName = "loginCheckFilter", urlPatterns = "/*")
@@ -21,9 +19,7 @@ public class LoginCheckFilter implements Filter {
 }
 ```
 
-## see
-
-https://juejin.cn/post/6844904019391938574
+@see: https://juejin.cn/post/6844904019391938574
 
 # domain vs entity vs model
 
@@ -197,184 +193,272 @@ keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks
 
 然后把生成的 jwt.jks 复制到 resource 目录下
 
-# origin toString() vs lang3 ToStringBuilder()
+# springboot 2.x 日志框架
 
-`org.apache.commons.lang3.ToStringBuilder()` 用法示例:
+默认情况下，Spring Boot 会用 `SLF4J + Logback` 来记录日志，并用 `INFO` 级别输出到控制台
 
-```java
-@Override
-public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).appen("param1", getParam1()).append("paramn", getParamN()).toString();
-}
+也就是说不需要导入 sl4j 的包, 直接就可以通过 `LoggerFactory` 获取 logger 对象
+
+日志级别从低到高分为 TRACE < DEBUG < INFO < WARN < ERROR < FATAL
+
+## `<configuration>`
+
+```xml
+<configuration scan="true" scanPeriod="30 seconds">
+</configuration>
 ```
 
-有 `DEFAULT_STYLE`, `JSON_STYLE`, `MULTI_LINE_STYLE`, `NO_CLASS_NAME_STYLE`, `NO_FIELD_NAMES_STYLE`, `SHORT_PREFIX_STYLE`, `SIMPLE_STYLE`
+scan: 当此属性设置为 true 时, 配置文档如果发生改变, 将会被重新加载, 默认值为 true
 
-优点:
+scanPeriod: 设置监测配置文档是否有修改的时间间隔, 如果没有给出时间单位, 默认单位是毫秒;
+当 scan 为 true 时此属性生效, 默认的时间间隔为 1 分钟
 
-1. 默认的 `toString()` 方法都是用简单的 `+` 拼接, 相当于每次拼接都 new 了一个 String 对象, 容易爆内存, 相当于 ToStringBuilder 用 `append()` 的方式节省了内存消耗
+debug: 当此属性设置为 true 时, 将打印出 logback 内部日志信息, 实时查看 logback 运行状态, 默认值为 false
 
-2. ToStringBuilder 比较适合在打印日志时, 输出参数的信息, 特别是再参数为对象时, 能方便自动打印对象中的属性值
+## `<logger>`
 
-# Bugs
-
-## Required request body is missing
-
-一个弱智想当然导致的错误, 报错:
-
-```
-Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public cn.sichu.fda.common.Result<java.util.List<cn.sichu.fda.entity.AddressBook>> cn.sichu.fda.controller.AddressBookController.list(cn.sichu.fda.entity.AddressBook)]
+```xml
+    <logger name="org.springframework.web" level="info"/>
+    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor"
+            level="INFO"/>
 ```
 
-但是明明在 list 方法里添加了 `@RequestBody` 给 JSON 数据:
+`<logger>` 用来设置某一个包或者具体的某一个类的日志打印级别、
+以及指定 `<appender>`
+`<logger>` 属性: `name`, `level`, `addtivity`
 
-```java
-@GetMapping("/list")
-public Result<List<AddressBook>> list(@RequestBody AddressBook addressBook) {
+`name`: 用来指定受此 logger 约束的某一个包或者具体的某一个类
 
-}
+`level`: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，还有一个特俗值 INHERITED 或者同义词 NULL，代表强制执行上级的级别. 如果未设置此属性，那么当前 logger 将会继承上级的级别
+
+`addtivity`: 是否向上级 logger 传递打印信息, 默认是 true
+
+## `<root>`
+
+使用 mybatis 的时候，sql 语句是 debug 下才会打印，而这里我们只配置了 info，所以想要查看 sql 语句的话，有以下两种操作:
+
+1. 第一种把 `<root level="info">` 改成 `<root level="DEBUG">` 这样就会打印 sql，不过这样日志那边会出现很多其他消息
+2. 第二种就是单独给 dao 下目录配置 debug 模式，代码如下，这样配置 sql 语句会打印，其他还是正常 info 级别：`logging.level.org.mybatis=debug logging.level.dao=debug`
+
+## 配置 example
+
+`resources/application.yml` 配置:
+
+```yml
+logging:
+    level:
+        cn.sichu: debug
+        org.springframework.boot.autoconfigure: warn
+    config:
+        classpath: logback-application.xml
 ```
 
-排查后发现前端方法不需要传 data, 也就是说不需要传 JSON 进去!!!
+`resources/logback-application.xml` 配置:
 
-```js
-// address.html
-new Vue({
-    el: "#address",
-    data() {
-        return {
-            addressList: [],
-        };
-    },
-    methods: {
-        async initData() {
-            const res = await addressListApi();
-            if (res.code === 1) {
-                this.addressList = res.data;
-            } else {
-                this.$message.error(res.msg);
-            }
-        },
-    },
-});
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <!-- 日志存放路径 -->
+    <property name="logPath" value="/java/logs"/>
+    <!--  日志输出格式  -->
+    <property name="logPattern"
+              value="$d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %[%method, %line] - %msg%n"/>
 
-// address.js
-//获取所有地址
-function addressListApi() {
-    return $axios({
-        url: "/addressBook/list",
-        method: "get",
-    });
-}
+    <!-- 文件切割大小 -->
+    <property name="maxFileSize" value="500MB"/>
+    <!-- 文档保留天数 -->
+    <property name="maxHistory" value="20"/>
+    <!-- 文档保留总大小 -->
+    <property name="totalSizeCap" value="50GB"/>
+
+    <!--0. 日志格式和颜色渲染 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr"
+                    converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 彩色日志输出格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!--1. 输出到控制台-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--此日志 appender 是为开发使用, 只配置最底级别, 控制台输出的日志级别是大于或等于此级别的日志信息-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--2. 输出到文档-->
+    <!-- 2.1 level为 DEBUG 日志, 时间滚动输出  -->
+    <appender name="DEBUG_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名 -->
+        <file>${logPath}/web_debug.log</file>
+        <!--日志文档输出格式-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+                - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志归档 -->
+            <fileNamePattern>${logPath}/web-debug-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 日志文档保留天数 -->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文档只记录debug级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 2.2 level为 INFO 日志, 时间滚动输出  -->
+    <appender name="INFO_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名 -->
+        <file>${logPath}/web_info.log</file>
+        <!-- 日志文档输出格式 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+                - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天日志归档路径以及格式 -->
+            <fileNamePattern>${logPath}/web-info-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文档保留天数-->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文档只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 2.3 level为 WARN 日志, 时间滚动输出  -->
+    <appender name="WARN_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名 -->
+        <file>${logPath}/web_warn.log</file>
+        <!--日志文档输出格式-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+                - %msg%n
+            </pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+        <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/web-warn-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文档保留天数-->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文档只记录warn级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 2.4 level为 ERROR 日志, 时间滚动输出  -->
+    <appender name="ERROR_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名 -->
+        <file>${logPath}/web_error.log</file>
+        <!--日志文档输出格式-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
+                - %msg%n
+            </pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+        <!-- 日志记录器的滚动策略, 按日期, 按大小记录 -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/web-error-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文档保留天数-->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文档只记录ERROR级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="org.springframework.web" level="info"/>
+    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor"
+            level="INFO"/>
+
+    <!-- 3. 最终的策略 -->
+    <!-- 3.1 开发环境: 打印控制台-->
+    <!--    <springProfile name="dev">-->
+    <logger name="cn.sichu" level="debug"/><!-- 修改此处扫描包名 -->
+    <!--    </springProfile>-->
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+    <!-- 3.2 生产环境: 输出到文档-->
+    <springProfile name="product">
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DEBUG_FILE"/>
+            <appender-ref ref="INFO_FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
+            <appender-ref ref="WARN_FILE"/>
+        </root>
+    </springProfile>
+</configuration>
 ```
 
-所以只要把 list 方法的 `@RequestBody` 去掉就行了:
+> NOTE: 如果只写`logback.xml`那么该 xml 就会优先于`application.yml`进行扫描，因此无效
 
-```java
-@GetMapping("/list")
-public Result<List<AddressBook>> list(AddressBook addressBook) {
+@see: https://segmentfault.com/a/1190000022556245
 
-}
-```
-
-总结: 不要想当然!!! 写 Controller 方法的时候一个一个对着接口写!!!
-
-## no package RunWith
-
-本来写 Test 的时候要加 `@RunWith(SpringJUnit4ClassRunner.class)`
-
-但是这是 junit4 的写法, 同时要在 dependency 里面导入 Junit
-
-但是 spring-web 包已经集成了 junit5
-
-Fix:
-
-使用注解: `@ExtendWith(SpringExtension.class)`
-
-## java.lang.IllegalStateException: Ambiguous handler methods mapped for '/sys/2491238552969216':
-
-报错内容: `java.lang.IllegalStateException: Ambiguous handler methods mapped for '/sys/2491238552969216': ...`
-
-原因:
-
-因为有两个 `@GeMapping(value = {id})` 和 `@GetMapping(value = "/{username}")`
-
-不能用同一 REQUESTMETHOD 方法指向同一 url
-
-Fix:
-
-改成 `@GetMapping(value = "/{id}")`, `@PostMapping(value = "/{username}")`
-
-## update snowflake id incorrect (different output between backend and frontend and mysql)
-
-后端 console 里输出的 sql 是:
-
-```
-Creating a new SqlSession
-SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@24a0ba3c] was not registered for synchronization because synchronization is not active
-JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@6e15ef51] will not be managed by Spring
-==>  Preparing: UPDATE employee SET status=?, update_time=?, update_user=? WHERE id=?
-==> Parameters: 0(Integer), 2022-12-20T21:29:17.878(LocalDateTime), 1(Long), 1605314025255661600(Long)
-<==    Updates: 0
-```
-
-而 db 里存的 id 是: `1605314025255661569`
-
-然而查前端的 network:
-
-1. `employee` (update 方法 putmapping 是 "/employee") 的 payload 是: `{id: 1605314025255661600, status: 0}`
-
-2. `page?page=1&pageSize=2` (click 更新后 getmapping 是 "/page") 的 response 里是 `{"code":1,"msg":null,"data":{"records":[{"id":1605314025255661569,`
-
-简而言之, 就是 sql 语句执行的 id 和 db 里存的 id 不一致
-
-错误原因:
-
-js 的问题, 损失了精度, 雪花算法生成的 id 是 19 位的, response 里是正确的, 而 js 处理 response 的时候损失了精度, 因为 js 只能保证前 16 位是精确的, 后面的进行了四舍五入 569 -> 600
-
-解决方法:
-
-在给服务端响应 json 数据时把 Long 类型型统一转化为 String 类型
-
-1. 提供对象转换器 `JacksonObjectMapper`, 基于 Jackson 进行 Java 对象到 json 数据的转换
-
-```java
-public class JacksonObjectMapper extends ObjectMapper {
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
-
-    public JacksonObjectMapper() {
-        super();
-        //收到未知属性时不报异常
-        this.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        //反序列化时，属性不存在的兼容处理
-        this.getDeserializationConfig()
-            .withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
-        SimpleModule simpleModule =
-            new SimpleModule().addDeserializer(LocalDateTime.class,
-                    new LocalDateTimeDeserializer(
-                        DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
-                .addDeserializer(LocalDate.class, new LocalDateDeserializer(
-                    DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
-                .addDeserializer(LocalTime.class, new LocalTimeDeserializer(
-                    DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)))
-
-                .addSerializer(BigInteger.class, ToStringSerializer.instance)
-                .addSerializer(Long.class, ToStringSerializer.instance)
-                .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(
-                    DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
-                .addSerializer(LocalDate.class, new LocalDateSerializer(
-                    DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
-                .addSerializer(LocalTime.class, new LocalTimeSerializer(
-                    DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
-
-        //注册功能模块 例如，可以添加自定义序列化器和反序列化器
-        this.registerModule(simpleModule);
-    }
-}
-```
-
-重点在 `.addSerializer(Long.class, ToStringSerializer.instance)`, 也就是遇到 Long 类型 使用 `ToStringSerializer`, 同理对于 LocalDateTime, LocalDate, LocalTime 的转换, 因为前端 json 里日期是: `[date_time]` 的形式, 使用起来不如 String 方便
+@see: https://www.cnblogs.com/lgg20/p/14031108.html

@@ -24,111 +24,218 @@ Eclipse 全局搜索: `ctrl + h`
 
 # IDEA config
 
-1. Plugins 安装 VSCode Theme
+## Plugins
 
-    Settings -> Appearance -> Theme -> VSCode Dark
+### VSCode Theme
 
-2. Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> IntelliJ IDEA code style XML
+Settings -> Appearance:
 
-    // Settings -> Editor -> Code Style -> Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
+-   Theme: VSCode Dark
 
-    // Settings -> Editor -> Code Style -> Wrapping and Braces -> Method annotations 和 class annotations 和 field annotations -> 改成 Wrap always
+### Save Actions
 
-    至于 code template, IDEA 没有直接导入 xml 的功能
+Settings -> Other Settings -> Save Actions:
 
-    可以通过创建文件夹时自动填充来实现:
+-   General:
 
-    Settings -> Editor -> File and Code Templates -> Files 里的 class, interface, enum, record, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
+    -   勾选 activate save actions on save
+    -   勾选 Activate save actions on batch
 
-    ```java
-    /**
+-   Formatting Actions:
+
+    -   勾选 Optimize imports
+    -   勾选 Reformat file
+    -   勾选 Rearrange fields and methods
+
+-   Java Inspection and Quick Fix:
+
+    -   勾选 Add missing @Override annotations
+    -   勾选 Add blocks to if/while/for statements
+
+### Maven Helper
+
+无配置
+
+### Nyan Progress Bar
+
+无配置
+
+### MyBatisX
+
+无配置
+
+### Lombok (Optional)
+
+Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
+
+-   勾选 enable annotation processing
+
+### Scala
+
+无配置
+
+### ZooKeeper
+
+无配置
+
+### JPA Buddy
+
+无配置
+
+### 手动安装插件
+
+手动从 https://plugins.jetbrains.com/ 下载, 在 Plugins 里手动安装插件
+
+## Maven
+
+### maven settings
+
+Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> Importing:
+
+-   勾选 Create module groups for multi-module Maven projects
+
+### mirror
+
+maven 镜像: `maven安装目录/conf/settings.xml`:
+
+```xml
+	<mirror>
+	  <id>aliyunmaven</id>
+	  <mirrorOf>*</mirrorOf>
+	  <name>aliyun maven</name>
+	  <url>https://maven.aliyun.com/repository/public</url>
+	</mirror>
+```
+
+### 手动更改 Maven 配置
+
+Settings -> Build, Execution, Deployment -> Build Tools -> Maven:
+
+-   手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "`目标Maven路径`/apache-maven-3.8.2/conf/settings.xml"
+
+## Code Style
+
+### 更改 scheme
+
+Settings -> Editor -> Code Style:
+
+-   Scheme -> Import Scheme -> IntelliJ IDEA code style XML: P3C-CodeStyle
+
+Settings -> Editor -> Code Style -> Java:
+
+-   Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
+-   Wrapping and Braces -> Method annotations, class annotations, field annotations -> 改成 Wrap always
+
+### 更改自动换行长度 (每个项目都要重新配置一次)
+
+Settings -> Editor -> Code style:
+
+-   Hard wrap at: 80, 并勾选 Wrap on typing
+
+### 关闭自动换行
+
+经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了!
+
+Settings -> Editor -> Code Style -> Java:
+
+-   Wrapping and Braces -> Wrap on Typing 改成 NO
+
+### 类上加注释模板
+
+Settings -> Editor -> File and Code Templates:
+
+-   Files -> class, interface, enum, record, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
+
+```java
+/**
+*
+* @author sichu huang
+* @date ${YEAR}/${MONTH}/${DAY}
+**/
+```
+
+### 方法上加注释模板
+
+Settings -> Editor -> Live Templates:
+
+1. 右上角 `+` Create New Template Group: `JavaMethod`
+2. 在 `JavaMethod` 右上角 `+` 新建一个 Template, Abbreviation: `*`
+3. 左下角 define 里勾选 `Java`
+4. 填写 Template text:
+
+    ```
     *
-    *@author sichu
-    *@date ${YEAR}/${MONTH}/${DAY}
-    **/
+     *
+     * @author $user$
+     * @param $param$
+     * @date $date$
+     * @return $return$
+     **/
     ```
 
-    至于在方法上添加注释的 template，暂时 IDEA 自带的 live template 好像够用了？
+5. 右侧 Expand with: 选择 Enter, 勾选 Reformat according to style, 取消勾选 Shorten FQ names
+6. 右侧 `Edit Variables...`:
+    - user - Default value: `"sichu huang"`
+    - param - Default value: `groovyScript("if(\"${_1}\".length() == 2) {return '';} else {def result=''; def params=\"${_1}\".replaceAll('[\\\\[|\\\\]|\\\\s]', '').split(',').toList();for(i = 0; i < params.size(); i++) {result+='\\n' + ' * @param ' + params[i] + ' '}; return result;}", methodParameters());`
+    - date - Default value: `date("yyyy/MM/dd")`
+    - return - Default value: `methodReturnType()`
 
-    万一哪天要改可以参考： https://blog.csdn.net/weixin_44519874/article/details/112259616
+@see： https://blog.csdn.net/weixin_44519874/article/details/112259616
 
-3. Plugins 安装 Alibaba Java Coding Guidelines
+### 允许小写也能自动补全 pakage, class
 
-4. Plugins 安装 Save Actions
+Settings -> Editor -> General -> Code Completion:
 
-    Settings -> Save Actions ->
+-   取消勾选 Match case
 
-    勾选 activate save actions on save
+### Tabs
 
-    勾选 Optimize imports
+Settings -> Editor -> General -> Editor Tabs:
 
-    勾选 Reformat file
+-   Appearance -> 取消勾选 Show tabs in one row
+-   Closing Policy -> Tab limit: 30
 
-    勾选 Rearrange fields and methods
+### 关闭单词拼写检查 (每个项目都要重新配置一次)
 
-    勾选 Add missing @Override annotations
+Settings -> Editor -> Inspections:
 
-    勾选 Add blocks to if/while/for statements
+-   取消勾选 Proofreading - typo
 
-5. 像 Eclipse 一样允许小写也能自动补全 pakage, class:
+### 序列化版本号
 
-    Settings -> Editor -> General -> Code Completion -> 取消勾选 Match case
+Settings -> Editor -> Inspections -> JVM languages
 
-6. 关闭单词拼写检查:
+-   勾选 Serializable class without 'serialVersionUID'
 
-    Settings -> Editor -> Inspections -> 取消勾选 Proofreading-typo
+### 设置自动编译
 
-7. Settings -> Editor -> General -> Editor Tabs -> Appearance -> 取消勾选 Show tabs in one row
+Settings -> Build, Execution, Deployment -> Compiler:
 
-    Settings -> Editor -> General -> Editor Tabs -> Closing Policy -> Tab limit: 30
+-   勾选 Build project automatically
 
-8. 设置自动编译:
+### Debugger 配置
 
-    Settings -> Build, Execution, Deployment -> Compiler -> 勾选 Build project automatically
+Settings -> Build, Execution, Deployment -> Debugger:
 
-9. 序列化版本号:
+-   Java -> Transport: 从 Socket 改选成 Shared memory
 
-    Settings -> Editor -> Inspections -> JVM languages -> 勾选 Serializable class without 'serialVersionUID'
+### 不显示 class/method unused warning (Optional)
 
-10. 不显示 class/method unused 黄色 warning:
+Settings -> Editor -> Inspections -> Java -> Declaration redundancy:
 
-    Settings -> Editor -> Inspections -> Java -> Declaration redundancy -> 取消勾选 Unused declaration
+-   取消勾选 Unused declaration
 
-11. Settings -> Editor -> Inspections -> Java -> Data flow -> 取消勾选 Redundant local variable
+### 重复变量 warning (Optional)
 
-12. Settings -> Build, Execution, Deployment -> Debugger -> Java -> Transport: 从默认的 Socket 改成 Shared memory
+Settings -> Editor -> Inspections -> Java -> Data flow:
 
-13. // Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> 手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "Maven/apache-maven-3.8.2/conf/settings.xml"
+-   取消勾选 Redundant local variable
 
-14. 安装插件 Spring Boot Assistant
+### 设置项目最高支持的 java 版本 (Optional)
 
-15. 手动从 https://plugins.jetbrains.com/plugin/18622-spring-boot-helper/versions 下载 Spring Boot Helper, 在 Plugins 里手动安装插件
+File -> Project Structure -> Project Settings -> Project -> Project language level -> 8!
 
-16. 安装插件 Maven Helper
-
-17. File -> Project Structure -> Project Settings -> Project -> Project language level -> 8!
-
-18. 安装插件 MyBatisX
-
-19. 安装插件 Lombok
-
-    setting -> build,excecution,deployment -> compiler -> annotation processors -> 勾选 enable annotation processing
-
-20. 安装插件 JPA Buddy
-
-21. 更改自动换行长度: Setting -> Editor -> Code style -> Hard wrap at: 80, 并勾选 Wrap on typing
-
-22. 关闭 ali-check 实时监测, 感觉有点卡, Settings -> Editor -> Inspections -> ali-check -> Serverity 改成 BLOCKER, 以后想要检查的时候右键手动扫描
-
-23. 经常没加分号换地方复制粘贴的时候会自动换行很烦, 所以把自动换行关了! Settings -> Editor -> Code Style -> Java -> Wrapping and Braces -> Wrap on Typing 改成 NO
-
-24. 安装插件 Scala
-
-<!-- 25. Editor -> General -> Appearance, 勾选 Render documentation comments -->
-
-25. 安装插件 Nyan Progress Bar
-
----
+## IDEA config import/export
 
 IDEA 快速配置(但是要检查很多东西, 不太好用):
 
@@ -160,6 +267,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `ctrl + shift + f10`: run
 
+`shift + f9`: debug
+
 `ctrl + h`: 查看 hierachy
 
 `alt + 7`: 查看 structure
@@ -172,31 +281,14 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `ctrl + f12`: 等同于 eclipse 的 `ctl + o`, 查看 class 里的 methods
 
+`ctrl + end`, `ctrl + ↓`: 光标位置开始全选到下一行行头
+
+`alt + j`: 等同于 vscode 的 `ctrl + d`, 向下搜索+选择相同值
+
 # IDEA quick-code
 
-`sout`: system.out.println()
+`sout`: `system.out.println()`
 
 `var`: 自动填充 new 的对象的类型, etc.
 
-`serr`: system.err.println()
-
-# Bugs
-
-## Debug mode don't auto clean compile
-
-项目更名后, 用 Debug 模式启动 SpringBoot 项目, 并不会重新 compile 一次, 原因未知... 反正情况就是改了一部分 Redis 代码后, 不更新数据了...一直停留在原来缓存的数据...
-
-Fix:
-
-工具栏 Maven -> clean -> compile
-
-或者手动:
-
-```
-mvn clean
-mvn compile
-```
-
-## pom.xml is ignored as grey
-
-解决: File -> Settings -> Maven -> Ignored Files -> 取消勾选对应模块名
+`serr`: `system.err.println()`

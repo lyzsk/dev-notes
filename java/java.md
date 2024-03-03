@@ -212,3 +212,61 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 2. 另一方面，由于一般的数据都不会大于 10^9，所以当我们把无穷大加上一个数据时，它并不会溢出（这就满足了“无穷大加一个有穷的数依然是无穷大”），事实上 0x3f3f3f3f+0x3f3f3f3f=2122219134，这非常大但却没有超过 32-bit int 的表示范围，所以 0x3f3f3f3f 还满足了我们“无穷大加无穷大还是无穷大”的需求。
 
 3. 0x3f3f3f3f 还能给我们带来一个意想不到的额外好处：如果我们想要将某个数组清零，我们通常会使用 memset(a,0,sizeof(a))这样的代码来实现（方便而高效），但是当我们想将某个数组全部赋值为无穷大时（例如解决图论问题时邻接矩阵的初始化），就不能使用 memset 函数而得自己写循环了（写这些不重要的代码真的很痛苦），我们知道这是因为 memset 是按字节操作的，它能够对数组清零是因为 0 的每个字节都是 0，现在好了，如果我们将无穷大设为 0x3f3f3f3f，那么奇迹就发生了，0x3f3f3f3f 的每个字节都是 0x3f！所以要把一段内存全部置为无穷大，我们只需要 memset(a,0x3f,sizeof(a))。
+
+# origin toString() vs lang3 ToStringBuilder()
+
+`org.apache.commons.lang3.ToStringBuilder()` 用法示例:
+
+```java
+@Override
+public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).appen("param1", getParam1()).append("paramn", getParamN()).toString();
+}
+```
+
+有 `DEFAULT_STYLE`, `JSON_STYLE`, `MULTI_LINE_STYLE`, `NO_CLASS_NAME_STYLE`, `NO_FIELD_NAMES_STYLE`, `SHORT_PREFIX_STYLE`, `SIMPLE_STYLE`
+
+优点:
+
+1. 默认的 `toString()` 方法都是用简单的 `+` 拼接, 相当于每次拼接都 new 了一个 String 对象, 容易爆内存, 相当于 ToStringBuilder 用 `append()` 的方式节省了内存消耗
+
+2. ToStringBuilder 比较适合在打印日志时, 输出参数的信息, 特别是再参数为对象时, 能方便自动打印对象中的属性值
+
+# String `+` String vs String.concat() vs StringBuffer.append() vs StringBuilder.append()
+
+1. String 的 `+` 方法, 编译器就是用 StringBuilder.append() 进行追加, 相当于每次: `str = new StringBuilder(str).append("x").toString`
+
+但是如果在循环体内, 每次循环都会 new 一个新的 StringBuilder 对象, 然后再调用 toString() 方法转字符串, 开销很大
+
+2. `String.concat()`方法, 其实就是一次数组的拷贝, 在内存中处理时原子操作很快, 但是返回时要 new String 对象
+
+但是如果在循环体内, 限制了效率, 虽然比 `+` 快, 但增加了空间压力
+
+    ```java
+        public String concat(String str) {
+            if (str.isEmpty()) {
+                return this;
+            }
+            int len = value.length;
+            int otherLen = str.length();
+            char buf[] = Arrays.copyOf(value, len + otherLen);
+            str.getChars(buf, len);
+            return new String(buf, true);
+        }
+    ```
+
+3. `StringBuffer`, `StringBuilder` 的 `append()` 方法均使用父类 `AbstractStringBuilder` 的 `append()` 方法
+
+    ```java
+        public AbstractStringBuilder append(String str) {
+            if (str == null)
+                return appendNull();
+            int len = str.length();
+            ensureCapacityInternal(count + len);
+            str.getChars(0, len, value, count);
+            count += len;
+            return this;
+        }
+    ```
+
+    即当数组空间够用的时候, 知识在数组后添加字符/字符串, 并不创建新对象, 最后才通过 `toString()` 方法转字符串, 效率快, 且节省控件

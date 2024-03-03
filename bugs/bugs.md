@@ -1349,3 +1349,43 @@ group by param1, param2, param3
 1. 找不到 Mapper
 2. 找到多个 Mapper, Interface, Service, ServiceImpl
 3. 无法判断 jdbc url
+
+# idea 一直卡在 resolving dependencies
+
+解决: 关掉所有 idea, java 进程, 谢谢!
+
+# `[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!`
+
+```xml
+    <properties>
+        ...
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+```
+
+# 升级 springboot 2.x -> 3.x, 报错: cannot access org.springframework.boot.SpringApplication
+
+报错:
+
+```
+java: cannot access org.springframework.boot.SpringApplication
+  bad class file: /C:/Users/sichu/.m2/repository/org/springframework/boot/spring-boot/3.2.3/spring-boot-3.2.3.jar!/org/springframework/boot/SpringApplication.class
+    class file has wrong version 61.0, should be 52.0
+    Please remove or make sure it appears in the correct subdirectory of the classpath.
+```
+
+解决:
+
+```xml
+    <properties>
+        ...
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+```
+
+并更改 File - Project Structure - SDK 到 17
+
+原理:
+
+springboot 3.x 只支持 jdk17+
