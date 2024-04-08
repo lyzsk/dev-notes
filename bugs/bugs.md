@@ -1389,3 +1389,62 @@ java: cannot access org.springframework.boot.SpringApplication
 原理:
 
 springboot 3.x 只支持 jdk17+
+
+# git push 报错: fetal: Custom certificate bundle not found at path: X:/.../.../ssl/certs/ca-bundle.crt
+
+因为用的 HTTP 传 gitlab, 没法用 SSH
+
+解决: 加个 `-u`
+
+```git
+git push -u origin master
+```
+
+前提是设置了 git user:
+
+```git
+git config --global user.name "xxx"
+git config --global user.email "xxx@xxx"
+```
+
+# maven install warning: Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+
+解决:
+
+pom.xml 的 `<properties>` 添加 `<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>`:
+
+```xml
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+```
+
+# maven package 后运行 jar 包报错: no main manifest attribute, in target\xxx-1.0.0.jar
+
+解决:
+
+在 pom.xml 里添加:
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.sichu.Application</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+打包时不使用 idea 自带的 maven package, 而是 terminal 里手动:
+
+```cmd
+mvn clean install
+mvn package spring-boot:repackage
+```

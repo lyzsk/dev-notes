@@ -109,3 +109,9 @@ netstat -ano | findstr :portNumber
 
 taskkill /PID portNumber /F
 ```
+
+# 查硬件
+
+win + r: `msinfo32`
+
+component 下有 usb 信息

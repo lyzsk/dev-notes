@@ -2,7 +2,7 @@
 
 不能用 12, 否则 python xyz 安装报错
 
-TODO: 研究下 12 怎么做
+Debian7+, 11-:
 
 ```sh
 ufw disable
@@ -15,6 +15,23 @@ chmod +x shadowsocks-all.sh
 
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
+```
+
+@see: https://teddysun.com/486.html
+
+CentOS7:
+
+```sh
+systemctl stop firewalld
+systemctl disable firewalld
+
+yum -y install wget
+
+wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+
+chmod +x shadowsocks-all.sh
+
+./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 ```
 
 ```sh

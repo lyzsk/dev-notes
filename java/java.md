@@ -2,6 +2,19 @@
 
 | [JDK8](#jdk-8) | [JDK14](#jdk-14) | [位运算](#bit-operation) |
 
+# installation
+
+## windows
+
+environment variables - system variables 新增环境变量:
+
+1. `JAVA8_HOME = jdk8路径`
+2. `JAVA17_HOME = jdk17路径`
+3. `JAVA_HOME = %JAVA17_HOME%`
+4. 编辑 Path, 新增 `%JAVA_HOME%\bin`
+
+切换 jdk 版本时只需要修改系统变量的 `JAVA_HOME` 即可
+
 # JDK 8
 
 ## Date
@@ -270,3 +283,7 @@ public String toString() {
     ```
 
     即当数组空间够用的时候, 知识在数组后添加字符/字符串, 并不创建新对象, 最后才通过 `toString()` 方法转字符串, 效率快, 且节省控件
+
+# BigDecimal
+
+等值比较时强制使用 `compareTo()`, `equals()` 方法会比较值和精度 (1.0 与 1.00 返回结果为 false), 而 `compareTo()`则会忽略精度。
