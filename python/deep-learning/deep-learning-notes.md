@@ -87,8 +87,16 @@ Depthwise Convolution 完成后的 Feature map 数量与输入层的通道数相
 
 momentum 超参数常用在权重更新的时候, 目的是得到全局最优解, 引入动量, 在某时刻的梯度与历史时刻梯度方向相似时, 加强该趋势, 反之, 若某时刻的梯度与历史时刻的梯度方向不同, 则减弱, 前者能够加速收敛, 后者能够减小摆动
 
-`w = w- lr * dw`
+`w = w - lr * dw`
 
 `v = mu * v - lr * dw`, `w = w + v` v 初始化为 0, mu 常见设定为 0.9
 
 @see: https://murphypei.github.io/blog/2018/12/dl-momentum
+
+# reward
+
+@see: https://arxiv.org/abs/2208.13298
+
+@see: https://www.tandfonline.com/doi/full/10.1080/09540091.2023.2174078
+
+@see:https://www.tandfonline.com/doi/epdf/10.1080/09540091.2023.2174078?needAccess=true
