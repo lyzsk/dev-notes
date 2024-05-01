@@ -307,3 +307,18 @@ add fulltext index_name (col_list);
     -   PROS: 减少表的关联, 更好进行索引优化
 
     -   CONS: 存在数据冗余及维护异常, 对数据的修改需要更多的成本
+
+# id auto_increment reset to 0
+
+```sql
+alter table table_name auto_increment = 0
+```
+
+# 新增字段
+
+```sql
+alter table table_name
+add column column_name column_type after column_name_before
+```
+
+还可以用 `before` 关键字, 但不明原因经常报错失败

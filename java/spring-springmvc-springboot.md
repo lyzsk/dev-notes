@@ -462,3 +462,94 @@ logging:
 @see: https://segmentfault.com/a/1190000022556245
 
 @see: https://www.cnblogs.com/lgg20/p/14031108.html
+
+# package
+
+在 pom.xml 里添加:
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>cn.sichu.Application</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+打包时不使用 idea 自带的 maven package, 而是 terminal 里手动:
+
+```cmd
+mvn clean install
+mvn package spring-boot:repackage
+```
+
+如果有多环境:
+
+```xml
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+        </profile>
+    </profiles>
+```
+
+并且 dev 环境是 default 的, 但是想打包 prod 环境
+
+```cmd
+mvn clean install
+mvn package spring-boot:repackage -P prod
+```
+
+# application.yml 与 pom.xml 优先级
+
+在 Maven 项目中，application.yml 和 pom.xml 分别用于不同的配置目的. 它们之间并没有直接的优先级关系，而是针对不同的配置层面.
+
+application.yml 是 Spring Boot 应用程序级别的配置文件，用于配置应用程序的各种属性和行为. 它通常用于定义特定于应用程序的配置选项，例如数据源、端口号、日志级别等.
+
+pom.xml 文件，则是 Maven 项目的配置文件，用于定义项目的依赖、构建插件、打包方式等. 它定义了项目的结构和构建过程.
+
+因此，它们两者并不是直接相互比较优先级的，而是用于不同的配置层面. application.yml 控制应用程序行为，pom.xml 控制项目构建.
+
+通常情况下，应用级的配置(application.yml)会覆盖项目级的配置(pom.xml)，因为应用级配置更具体并且更适用于特定的环境.
+
+总结:
+
+即使在 xml 里配置:
+
+```xml
+    <profiles>
+        <profile>
+            <id>dev</id>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+```
+
+在 yml 里配置:
+
+```yml
+spring:
+    profiles:
+        active: dev
+```
+
+启动时启动的还是 dev 环境
+
+所以每次切换环境的时候改 yml 文件即可, xml 只是防止 yml 里没配置

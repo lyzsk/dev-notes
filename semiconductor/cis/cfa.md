@@ -68,4 +68,5 @@ CFA (Color Filter Array, 色彩滤波阵列), 也称作 CMOS 色彩滤镜
 这些彩色滤波器阵列类型在不同的应用和场景中具有各自的优势和特点，选择合适的 CFA 类型取决于具体的需求和应用场景.
 
 @see: https://zhuanlan.zhihu.com/p/21298545
+
 @see: https://zhuanlan.zhihu.com/p/42188821

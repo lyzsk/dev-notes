@@ -503,6 +503,20 @@ OmniVision 这个是
 
 @see: https://www.wecorp.com.cn/newsdetail.asp?newsid=1137
 
+OmniVision 能达到 140dB HDR
+
+DR (动态范围) 指的是一张图像, 明暗差异大, cis 能够识别的最强信号和最弱信号的比值. 人眼的 DR 一般在 130dB 左右, 但是对于车载摄像头而言, 130dB 肯定是不够的, 因为在不同光照条件一直在变化, 汽车出隧道就是典型的暗到亮的 HDR 需求, 理想的 DR 范围肯定是要超过人眼 DR 的
+
+传统 HDR 使用不同曝光时间的多个图像，但对于快速移动物体会产生运动伪影(Motion artefact)
+
+① Split Pixel 分割像素技术：2009 年推出，并分别在 2012 年和 2016 年优化升级. 该技术通过大小像素的分离结构，产生不同的感光度，形成了对不同动态范围的覆盖. 相比其他 HDR 方案，具备避免鬼影和 LED 闪烁抑制的优势
+
+② Deep Well™ DCG 技术：2018 年第一代 DCG 技术面世，后经过优化发展到目前的第三代 DCG 技术. 独特的 DCG 技术通过对转换增益进行两次采样并添加曝光以实现准确的场景再现. 该方案同样能避免高速运动产生的鬼影 (DCG, Dual Conversion Gain, 双转换增益, 双原生 ISO)
+
+@see: https://www.wecorp.com.cn/newsdetail.asp?newsid=1140
+
+@see: https://www.cnblogs.com/dawnlh/p/17718314.html
+
 ## Samsung ISOCELL 技术
 
 旨在提供更高的像素性能、更低的噪声水平和更好的低光性能. ISOCELL 技术包括各种子技术，如 ISOCELL Plus、ISOCELL Bright、ISOCELL Fast 等
