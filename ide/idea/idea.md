@@ -285,6 +285,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `alt + j`: 等同于 vscode 的 `ctrl + d`, 向下搜索+选择相同值
 
+`ctrl + shift + r`: replace in files
+
 # IDEA quick-code
 
 `sout`: `system.out.println()`

@@ -1456,3 +1456,54 @@ mvn package spring-boot:repackage
 虽然 `investment-tool` 没报错但也是侥幸
 
 解决: 正确命名规范, 用 `_` 联接作为数据库名/表名
+
+# idea 无法识别正确的 dependencies/modules/jar
+
+在确认 maven repository 里有正确的 `.jar` 文件后依然不行
+
+解决:
+
+idea -> File -> Invalid Caches
+
+# mysql to gauss db
+
+mysql `sysdate()` -> gaussdb `CURRENT_TIMESTAMP`
+
+`date_formate()` -> `to_char()`
+
+gaussdb 中不能使用 `xxx` 反引号
+
+# 可以 run & debug 但不能 package
+
+场景: 通过 idea - File - Project Structure - 添加 DB jar 包
+
+报错: 找不到引入的 DB jar 包/驱动
+
+解决:
+
+在主入口 module 的 pom.xml 中添加:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>xx.xx.xx</version>
+            <configuration>
+                <!-- 使 devtool 生效 -->
+                <fork>true</fork>
+                <!-- 解决找不到本地lib引入的驱动或jar包 -->
+                <includeSystemScope>true</includeSystemScope>
+            </configuration>
+            <excutions>
+                <excution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </excution>
+            </excutions>
+        </plugin>
+    </plugins>
+</build>
+```
