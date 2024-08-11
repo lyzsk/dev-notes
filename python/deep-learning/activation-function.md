@@ -25,3 +25,19 @@ ReLU 是非线性地, 能够在不影响反向传播梯度地条件下引入非�
 # tanh
 
 将输出结果映射到 (-1, 1) 之间
+
+# SiLU (Swish)
+
+Sigmoid Linear Units
+
+`y = x * sigmoid(beta * x)`, beta = 1 即 SiLU
+
+`f'(x) = f(x) + sigmoid(x) * (1 - f(x))`
+
+优点: ReLU 无上界, 有下界, 导致梯度消失, 而 SiLU 具有平滑的梯度, 不会出现梯度消失的问题, 并且增加了平滑和非单调的特点
+
+缺点: 引入了指数函数计算量大, 速度慢
+
+@see: https://paperswithcode.com/method/silu
+
+@see: https://www.cnblogs.com/chentiao/p/17533831.html

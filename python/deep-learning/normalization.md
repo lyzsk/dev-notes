@@ -73,6 +73,61 @@ LN 可以减轻 ICS, 因为 LN 将每个训练样本都归一化到相同的分�
 
 > Note: LN 可以理解成横向 normalization, 抹杀了不同样本之间的大小关系, 但是保留了一个样本内不同特征之间的大小关系
 
+## RMS Normalization (Root Mean Square Layer Normalization)
+
+相比于普通的 layer norm, RMS Norm 去除了平移部分, 只保留了缩放部分, 也就是减少了计算均值和平移系数的部分, 训练速度更快, 效果基本相当
+
+一般的 LN 公式: `y = ((x - miu) / (sqrt(sigma + epsilon))) * gamma + beta`
+
+其中 miu 为 x 的均值, sigma 为 x 的方差, gamma 和 beta 是可训练的模型参数, gamma 是缩放参数, beta 是平移参数, epsilon 是一个小数, 防止分母为 0
+
+```py
+def layerNorm(feature):
+    size = feature.shape
+    alpha = torch.nn.Parameter(torch.ones(size[-1]))
+    beta = torch.nn.Parameter(torch.ones(size[-1]))
+    input_dtype = feature.dtype
+    feature = torch.nn.Parameter(feature.to(torch.float32))
+
+    mean = feature.mean(-1, keepdim=True)
+    std = feature.std(-1, keepdim=True)
+    feature = alpha * (feature - mean)
+    return (feature / (std + 1e-6) + beta).to(input_dtype)
+```
+
+Intuitively, RMSNorm simplifies LayerNorm by totally removing the mean statistic in Eq. (3) at
+the cost of sacrificing the invariance that mean normalization affords. When the mean of summed
+inputs is zero, RMSNorm is exactly equal to LayerNorm.
+
+直观上, RMS Norm 通过完全删除等式中的均值统计量来简化 LayerNorm Equation (3) 在牺牲均值归一化所提供的不变性的成本. 当求和平均值为输入为零, RMS Norm 恰好等于 Layer Norm
+
+RMS 强制将输入求和到 n-scaled unit sphere, 这样无论输入的缩放如何, 输出部分都保持不变, 分布式权重也不变, 这样有利于激活层的稳定性
+
+@see: https://arxiv.org/abs/1910.07467
+
+```py
+def RMSNorm(feature):
+    size = feature.shape
+    weight = torch.nn.Parameter(torch.ones(size[-1]))
+    input_dtype = feature.dtype
+    feature = torch.nn.Parameter(feature.to(torch.float32))
+
+    variance = feature.pow(2).mean(-1, keepdim=True)
+    feature = feature * torch.rsqrt(variance + 1e-6)
+    return weight * feature.to(input_dtype)
+```
+
+@see: https://juejin.cn/post/7308782796953436210
+
+BN 和 LN 的异同:
+
+-   对于二维矩阵, row = batch-size, col = 样本特征, 那么 BN 就是竖着归一化, LN 就是横着归一化
+-   对于三维矩阵, BN 是对除了 channel 维度的所有参数作归一化, LN 是对除了 batch 维度的所有参数作归一化
+-   如果特征以来不同样本间的统计参数, 则 BN 更有效, 因为其抹杀了不同特征之间的大小关系, 而保留了不同样本之间的大小关系 (CV)
+-   NLP 中 LN 就更合适, 因为其抹杀了不同样本间的大小关系, 但是保留了一个样本内不同特征之间的大小关系, 这对于序列化任务而言, 一条样本的不同特征, 本质就是时序上字符取值的变化, 样本内的特征关系是非常紧密的, 所以为什么说前 padding 和后 padding 会严重影响输出
+
+@see: https://mltalks.medium.com/rmsnorm%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-bfae83f6d464
+
 # Instance Normalization
 
 IN: Instance Normalization
