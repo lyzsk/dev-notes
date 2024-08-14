@@ -124,8 +124,8 @@ continuous state space + long-range dependencies(HiPPO) + Discrete Representatio
 
 mamba 主要两个贡献:
 
-1. 选择性扫描算法, 可以过滤有关和无关的信息
-2. 硬件感知算法, 通过并行扫描, 核融合, 重计算, 有效地存储中间结果
+1. 选择性扫描算法(Selective Scanning Algorithm), 可以过滤有关和无关的信息
+2. 硬件感知算法(Hardware-Aware Algorithm), 通过并行扫描, 核融合, 重计算, 有效地存储中间结果
 
 mamba 本质就是检索式模型, transformer 是生成式模型
 
