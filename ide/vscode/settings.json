@@ -1,20 +1,16 @@
 {
     "security.workspace.trust.untrustedFiles": "open",
     "liveServer.settings.donotShowInfoMsg": true,
-    "osumode.enabled": true,
-    "osumode.deleteResetsCombo": false,
-    "osumode.enableComboCounter": false,
-    "osumode.enableComboImage": false,
-    "osumode.enableCursorExplosions": true,
-    "osumode.comboImageInterval": 40,
-    "osumode.explosionSize": 5,
-    "osumode.maxExplosions": 1,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.tabWidth": 4,
     "workbench.startupEditor": "none",
     "go.toolsManagement.autoUpdate": true,
-    "markdown.styles": [
-        "https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-    ]
+    "markdown-preview-enhanced.codeBlockTheme": "github-dark.css",
+    "markdown-preview-enhanced.previewTheme": "github-dark.css",
+    "editor.inlineSuggest.showToolbar": "always",
+    "git.openRepositoryInParentFolders": "never",
+    "fittencode.languagePreference.displayPreference": "en",
+    "fittencode.languagePreference.commentPreference": "en",
+    "vue.autoInsert.dotValue": true
 }

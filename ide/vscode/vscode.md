@@ -20,8 +20,10 @@ VSCode 配置:
 7. 插件 ES7+ React/Redux/React-Native snippets
 8. 插件 Scala Syntax (official)
 9. 插件 Markdown Perview Mermaid Support
-10. Vue Language Features (Volar)
-11. Vetur
+ <!-- 10. Vue Language Features (Volar)
+10. Vetur -->
+11. Vue Official
+12. Vite
 
 ---
 
@@ -30,6 +32,12 @@ VSCode 快速配置:
 复制粘贴 `C:\Users\sichu\AppData\Roaming\Code\User` 里的 `settings.json`
 
 也可以 `Ctrl+Shift+P` -> `Export settings profile` 然后再 `import`
+
+---
+
+Vue3 的 ref 要 .value 很麻烦, 在 **Vue - Official** 设置(可能跟着 settings.json 一起不用手动配置)
+
+extension settings - 勾选 Auto-complete Ref value with `.value`
 
 ---
 
@@ -48,3 +56,7 @@ VSCode 快速配置:
 `ctrl + k + o`: 打开文件夹
 
 `ctrl + l` 全选一行
+
+# VSCode Terminal
+
+`clear` = `cls` 清楚内容

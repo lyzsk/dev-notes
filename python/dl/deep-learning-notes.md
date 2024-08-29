@@ -100,3 +100,7 @@ momentum 超参数常用在权重更新的时候, 目的是得到全局最优解
 @see: https://www.tandfonline.com/doi/full/10.1080/09540091.2023.2174078
 
 @see:https://www.tandfonline.com/doi/epdf/10.1080/09540091.2023.2174078?needAccess=true
+
+# Multimodal Learning 多模态学习
+
+多模态模型是指能够处理和融合多种不同类型数据的模型, 这些数据可以包括文本, 图像, 音频, 视频等不同模态的数据
