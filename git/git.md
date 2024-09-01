@@ -1,5 +1,24 @@
 # Git
 
+安装并连接 Github
+
+> 注意在 user 目录下用 git 创建 .ssh 文件夹
+
+```bash
+git conifg --global user.name "your name"
+git config --global user.email "your email"
+
+ssh-keygen -t rsa -C “your_email@example.com”
+```
+
+然后在 Github 配置 pub SSH(id_rsa.pub)
+
+```bash
+ssh -T git@github.com
+```
+
+测试通过即成功
+
 # local structure
 
 本地结构:

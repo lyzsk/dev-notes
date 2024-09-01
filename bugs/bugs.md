@@ -396,11 +396,12 @@ Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
 
 ```xml
 	<mirror>
-     <id>nexus-aliyun</id>
-     <mirrorOf>*,!jeecg,!jeecg-snapshots</mirrorOf>
-     <name>Nexus aliyun</name>
-     <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+	  <id>aliyunmaven</id>
+	  <mirrorOf>*</mirrorOf>
+	  <name>aliyun maven</name>
+	  <url>https://maven.aliyun.com/repository/public</url>
 	</mirror>
+</mirror>
 ```
 
 然后再在 idea 里 Settings - Build, Execution, Deployment - Build Tools - Maven, 勾选 Use settings from .mvn/maven.config

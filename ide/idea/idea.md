@@ -32,7 +32,7 @@ Settings -> Appearance:
 
 -   Theme: VSCode Dark
 
-### Save Actions
+### Save Actions / Save Actions X
 
 Settings -> Other Settings -> Save Actions:
 
@@ -52,10 +52,6 @@ Settings -> Other Settings -> Save Actions:
     -   勾选 Add missing @Override annotations
     -   勾选 Add blocks to if/while/for statements
 
-### Maven Helper
-
-无配置
-
 ### Nyan Progress Bar
 
 无配置
@@ -64,23 +60,31 @@ Settings -> Other Settings -> Save Actions:
 
 无配置
 
-### Lombok (Optional)
-
-Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
-
--   勾选 enable annotation processing
-
-### Scala
+### Fitten Code
 
 无配置
 
-### ZooKeeper
+<!-- ### Maven Helper
+
+无配置 -->
+
+<!-- ### Lombok (Optional)
+
+Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
+
+-   勾选 enable annotation processing -->
+
+<!-- ### Scala
+
+无配置 -->
+
+<!-- ### ZooKeeper
 
 无配置
 
 ### JPA Buddy
 
-无配置
+无配置 -->
 
 ### 手动安装插件
 
@@ -182,7 +186,7 @@ Settings -> Editor -> Live Templates:
 
 @see： https://blog.csdn.net/weixin_44519874/article/details/112259616
 
-### 允许小写也能自动补全 pakage, class
+<!-- ### 允许小写也能自动补全 pakage, class
 
 Settings -> Editor -> General -> Code Completion:
 
@@ -193,7 +197,7 @@ Settings -> Editor -> General -> Code Completion:
 Settings -> Editor -> General -> Editor Tabs:
 
 -   Appearance -> 取消勾选 Show tabs in one row
--   Closing Policy -> Tab limit: 30
+-   Closing Policy -> Tab limit: 30 -->
 
 ### 关闭单词拼写检查 (每个项目都要重新配置一次)
 
@@ -213,11 +217,11 @@ Settings -> Build, Execution, Deployment -> Compiler:
 
 -   勾选 Build project automatically
 
-### Debugger 配置
+<!-- ### Debugger 配置
 
 Settings -> Build, Execution, Deployment -> Debugger:
 
--   Java -> Transport: 从 Socket 改选成 Shared memory
+-   Java -> Transport: 从 Socket 改选成 Shared memory -->
 
 ### 不显示 class/method unused warning (Optional)
 

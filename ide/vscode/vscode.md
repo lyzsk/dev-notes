@@ -4,7 +4,7 @@
 
 VSCode 配置:
 
-1. 插件 Prettier
+<!-- 1. 插件 Prettier
 
     Settings -> User -> Deafult Formatter -> Prettier
 
@@ -19,11 +19,19 @@ VSCode 配置:
 6. 插件 IntelliCode API Usage Examples
 7. 插件 ES7+ React/Redux/React-Native snippets
 8. 插件 Scala Syntax (official)
-9. 插件 Markdown Perview Mermaid Support
+9. 插件 Markdown Perview Mermaid Support -->
  <!-- 10. Vue Language Features (Volar)
 10. Vetur -->
-11. Vue Official
-12. Vite
+<!-- 11. Vue Official
+12. Vite -->
+
+1. Prettier
+2. Live Server
+3. Live Preview
+4. Vue Official
+5. Vite
+6. Markdown Preview Mermaid Support
+7. Fitten Code
 
 ---
 
