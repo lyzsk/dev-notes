@@ -16,6 +16,12 @@ IDEA 全局搜索: `ctrl + shift + r`
 
 Eclipse 全局搜索: `ctrl + h`
 
+# idea 2023.3.8 vs 2024.1+
+
+idea 2023.3.8 为最后支持 java8 的版本, idea 2024.1 开始只支持 java17
+
+好像不是...只是因为 project settings 里有 jdk17 的选项删了就好...(待确认)
+
 # content
 
 | [配置](#idea-config) | [快捷键](#idea-shortcuts) | [简写](#idea-quick-code) |
@@ -185,6 +191,20 @@ Settings -> Editor -> Live Templates:
     - return - Default value: `methodReturnType()`
 
 @see： https://blog.csdn.net/weixin_44519874/article/details/112259616
+
+更新 idea2023.3:
+
+不要用 `$user$`, 没用, 直接填名字, 其他不变, 而且填 default value 和 expression 效果一样:
+
+```
+*
+ *
+ * @author sichu huang
+ * @param $param$
+ * @date $date$
+ * @return $return$
+ **/
+```
 
 <!-- ### 允许小写也能自动补全 pakage, class
 

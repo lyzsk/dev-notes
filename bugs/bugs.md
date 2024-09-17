@@ -1508,3 +1508,13 @@ gaussdb 中不能使用 `xxx` 反引号
     </plugins>
 </build>
 ```
+
+# Cannot run program "C:\Program Files\Java\jdk-17\bin\java.exe" (in directory "C:\Users\Administrator\AppData\Local\JetBrains\IdeaIC2024.2\compile-server"): CreateProcess error=2, The system cannot find the file specified
+
+明明是 springboot 2.x 项目, 用的 java8 环境却无法运行
+
+原因: idea2024.1 开始不支持 jdk8 了
+
+解决: https://www.jetbrains.com/legal/third-party-software/?product=iic&version=2023.3.8 安装 idea 2023 最后的版本
+
+好像不是...只是因为 project settings 里有 jdk17 的选项删了就好...(待确认)

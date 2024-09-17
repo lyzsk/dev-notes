@@ -314,6 +314,19 @@ add fulltext index_name (col_list);
 alter table table_name auto_increment = 0
 ```
 
+常和 delete 一起用:
+
+```sql
+delete from table_name;
+alter table table_name auto_increment = 0;
+```
+
+# 重命名字段
+
+```sql
+alter table table_name change oldcolname newcolname datatype(length);
+```
+
 # 新增字段
 
 ```sql
@@ -328,6 +341,8 @@ add column column_name column_type comment 'column_comment' after column_name_be
 DATE 类型存储的是年, 月, 日, 没有时分秒信息, 格式为 YYYY-MM-DD
 
 DATETIME 类型存储的是年, 月, 日, 时, 分, 秒, 格式为 YYYY-MM-DD HH:MM:SS
+
+date 类型不能指定长度, datetime(3) 可以精确到毫秒 yyyy-MM-dd HH:mm:ss.SSS
 
 # datetime vs timestamp
 

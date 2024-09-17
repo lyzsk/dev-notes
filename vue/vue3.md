@@ -182,6 +182,8 @@ npm config get registry
 }
 ```
 
+## basic guid with e.g. and description
+
 ## `App.vue`
 
 ```vue
@@ -192,7 +194,7 @@ npm config get registry
 <style></style>
 ```
 
-# setup()
+## setup()
 
 用了 setup 就不需要 `data(){}, methods: {}` 了, 但是非要用 data, methods, 在 setup 外可以写出来,而且在 data, methods 仍然能用 this, 读取 setup 里的数据
 
@@ -265,7 +267,7 @@ export default defineConfig({
 
 还有种情况就是 components 里每个 vue 文件都叫 index.vue,比如 components/a/index.uve, components/b/index.vue, 这种情况下, 就需要改名了
 
-# ref reactive
+## ref reactive
 
 上面 setup() 里 let 的对象都不是响应式的
 
@@ -319,7 +321,7 @@ function changeB() {
 1. 如果是自定义的 ref 对象, 必须用 .value
 2. 如果是 reactive 包裹的 ref 对象, 不需要 .value, 读取的时候会自动拆包读 .value 属性
 
-# toRefs & toRef
+## toRefs & toRef
 
 都是用来解构的
 
@@ -359,7 +361,7 @@ function changeAge() {
 
 toRef 用的不多, 就是仅仅把 reactive 中某一个层级修改成 ref 对象
 
-# computed
+## computed
 
 ```js
 import { computed } from "vue";
@@ -414,7 +416,7 @@ function changeFullName() {
 </script>
 ```
 
-# watch
+## watch
 
 作用: 监视数据的变化
 
@@ -427,7 +429,7 @@ function changeFullName() {
 
 watch 是一个函数, 返回的是一个停止函数
 
-## 情况一
+### 情况一
 
 ```vue
 <template>
@@ -456,7 +458,7 @@ const stopWatch = watch(sum, (oldValue, newValue) => {
 </script>
 ```
 
-## 情况二
+### 情况二
 
 ```vue
 <template>
@@ -505,7 +507,7 @@ Q: 为什么 newValue 和 oldValue 没变?
 
 A: 因为监听的都是 person 的地址值, 而没有监听新 new 出来的对象, 实际也不会用 old, new value, 直接一个 `(value) => {}` 就好了, 拿到的就是默认最新的值
 
-## 情况三
+### 情况三
 
 ```vue
 <template>
@@ -563,7 +565,7 @@ watch(obj, (newValue, oldValue) => {
 </script>
 ```
 
-## 情况四
+### 情况四
 
 ```vue
 <template>
@@ -657,7 +659,7 @@ watch(
 </script>
 ```
 
-## 情况五
+### 情况五
 
 ```vue
 <template>
@@ -717,7 +719,7 @@ watch(
 </script>
 ```
 
-# watchEffect
+## watchEffect
 
 实际开发用的比 watch 多
 
@@ -760,24 +762,24 @@ watchEffect(() => {
 </script>
 ```
 
-## watchEffect vs watch
+### watchEffect vs watch
 
 都能监听响应式数据的变化, 不同的是监听数据变化的方法不同
 
 -   watch: 需要指出监听的数据
 -   watchEffect: 函数中用到哪些属性, 就监听哪些属性, 不用明确指出监听的数据
 
-# 标签 ref & 组件 ref
+## 标签 ref & 组件 ref
 
 html 标签加 ref, 避免使用 getElementById, 而是 ref.value, 防止组件之间冲突
 
 组件加 ref, 需要在子组件添加 `import {defineExpose} from 'vue'` 并且在 script 末端声明 `defineExpose({a,b,c})` 需要暴露的值, 之后就能在父组件通过 ref.value 获取, 如果没有 defineExpose, 父组件只能获取子组件的实例对象
 
-# ts interface
+## ts interface
 
 一般在 src/types/index.ts 定义 interface, 必须用 index.ts 命名, 否则 import 的时候就要写全路径名加文件名
 
-## 写法一
+### 写法一
 
 ```ts
 export interface IPerson {
@@ -807,7 +809,7 @@ let personList: Array<IPerson> = [
 ];
 ```
 
-## 写法二
+### 写法二
 
 ```ts
 export interface IPerson {
@@ -835,7 +837,7 @@ let personList: Persons = [
 </script>
 ```
 
-## reactive 泛型
+### reactive 泛型
 
 ```ts
 export interface IPerson {
@@ -867,7 +869,7 @@ let personList = reactive<Persons>([
 </script>
 ```
 
-# props
+## props
 
 ```vue
 <template>
@@ -957,7 +959,7 @@ withDefaults(defineProps<{ list?: Persons }>(), {
 </script>
 ```
 
-# 生命周期
+## 生命周期
 
 组件的生命周期: 创建(created), 挂载(mounted), 更新, 销毁
 
@@ -977,7 +979,7 @@ vue3 生命周期:
 
 常用的钩子: onMounted(挂载完毕), onUpdated(更新完毕), onBeforeUnmount(卸载之前)
 
-# custom hooks
+## custom hooks
 
 `npm i axios`
 
@@ -1084,7 +1086,7 @@ img {
 
 钩子封装了 let 的对象和 function, 可以在封装的 ts 里继续引用 vue3 自带钩子 onMounted, computed, etc.
 
-# 路由
+## 路由
 
 对前后端而言:
 
@@ -1102,9 +1104,9 @@ vue-router: route 规则: xxx.xxx:port/abc => abc 组件
 
 `npm i vue-router`
 
-## e.g.
+### e.g.
 
-### 创建 src/router/index.ts
+#### 创建 src/router/index.ts
 
 ```ts
 import { createRouter, createWebHistory } from "vue-router";
@@ -1144,7 +1146,7 @@ app.use(router);
 app.mount("#app");
 ```
 
-### 创建 src/components/Header.vue
+#### 创建 src/components/Header.vue
 
 ```js
 <template>
@@ -1169,7 +1171,7 @@ app.mount("#app");
 
 ```
 
-### 创建 src/views/Home.vue, src/views/About.vue, src/views/News.vue
+#### 创建 src/views/Home.vue, src/views/About.vue, src/views/News.vue
 
 Home.vue:
 
@@ -1332,7 +1334,7 @@ import Header from "@/components/Header.vue";
 
 ```
 
-## 路由工作模式
+### 路由工作模式
 
 -   history 模式
     -   Vue2: `mode: "history"`
@@ -1349,11 +1351,11 @@ import Header from "@/components/Header.vue";
     -   pros: 兼容性更好, 因为不需要服务器端处理路径
     -   cons: URL 带有 # 不美观, 且在 SEO 优化方面较差
 
-## RouterLink to && RoterLink :to
+### RouterLink to && RoterLink :to
 
 `<RouterLink :to={path: '/xxx'}></RouterLink>` 或者`<RouterLink :to={name: '/xxx'}></RouterLink>`这种写法其实更好, 随着路由深度加深更方便修改
 
-### e.g.
+#### e.g.
 
 修改 src/router/index.ts
 
@@ -1409,11 +1411,11 @@ export default router;
 </template>
 ```
 
-## 嵌套路由
+### 嵌套路由
 
 注意: 子路由 children 里的 path 不需要添加 `/`
 
-### e.g.
+#### e.g.
 
 src/views/News.vue:
 
@@ -1511,9 +1513,9 @@ const router = createRouter({
 export default router;
 ```
 
-## route query
+### route query
 
-### e.g.
+#### e.g.
 
 src/views/News.vue:
 
@@ -1668,11 +1670,11 @@ const router = createRouter({
 export default router;
 ```
 
-## route params
+### route params
 
 params 在 template 标签中只能使用 `name` 而不能使用 `path` 去连接 route
 
-### e.g.
+#### e.g.
 
 src/router/index.ts:
 
@@ -1765,11 +1767,11 @@ console.log(route);
 </script>
 ```
 
-## route props
+### route props
 
 router/index.ts 添加 props 参数, 相当于把路由收到的所有 params 参数传给 props
 
-### e.g.
+#### e.g.
 
 src/router/index.ts:
 
@@ -1867,7 +1869,7 @@ defineProps(["id", "title", "content"]);
 </script>
 ```
 
-## route replace
+### route replace
 
 1. 作用: 控制路由跳转时操作浏览器历史记录的模式
 2. 浏览器历史记录两种写入方式: `push` && `replace`
@@ -1876,13 +1878,13 @@ defineProps(["id", "title", "content"]);
 3. 开启 replace 模式
     - `<RouterLink replace ...>ComponentName></RouterLink>`
 
-## 编程式导航
+### 编程式导航
 
 之前用的都是 RouterLink 组件, 会被浏览器编译成 html 标签
 
 如果只用 RouterLink 就会使所有 html 都变成 `<a>` 标签
 
-### e.g. 1
+#### e.g. 1
 
 src/views/Home.vue
 
@@ -1904,7 +1906,7 @@ onMounted(() => {
 
 一般用户登录经常使用这种方法, 符合条件 -> 跳转到页面
 
-### e.g. 2
+#### e.g. 2
 
 src/views/News.vue:
 
@@ -1969,9 +1971,9 @@ router.replace() 和 router.push() 可以放两个类型: 字符串, 对象
 
 放对象的时候写法和 `:to` 写法一样, 且 vue3 在两种都存在时不会报错, 但 vue2 会报错
 
-## 路由重定向
+### 路由重定向
 
-### e.g.
+#### e.g.
 
 src/router/index.ts:
 
@@ -2018,7 +2020,7 @@ const router = createRouter({
 export default router;
 ```
 
-# pinia
+## pinia
 
 pinia 是 vue3 的集中式状态管理工具, 比 vuex(vue2) 简单, react 用的 redux
 
@@ -2785,7 +2787,7 @@ export const useTalkStore = defineStore("talk", () => {
 });
 ```
 
-# 组件通信
+## 组件通信
 
 **`Vue3`组件通信和`Vue2`的区别：**
 
@@ -2870,7 +2872,7 @@ export const useTalkStore = defineStore("talk", () => {
 
     注意: 具名插槽和作用域插槽, 最外层都只能用 `<template>` 标签包裹, 不能用 `<div>` 标签包裹, 否则会报错
 
-## e.g.
+### e.g.
 
 准备工作:
 
@@ -3901,15 +3903,15 @@ h2 {
 
 ```
 
-# 其他 API
+## 其他 API
 
-## shallowRef & shallowReactive
+### shallowRef & shallowReactive
 
 shallowRef 如果有嵌套深层对象, 则不会在 `xxx.value.yyy` 更新变化, 只能对整个 ref 对象集体更新
 
 shallowReactive 同 shallowRef, 只能对整个对象集体更新, 不能更新深层对象
 
-### `shallowRef`
+#### `shallowRef`
 
 1. 作用：创建一个响应式数据，但只对顶层属性进行响应式处理。
 
@@ -3933,7 +3935,7 @@ shallowReactive 同 shallowRef, 只能对整个对象集体更新, 不能更新�
 
 3. 特点：对象的顶层属性是响应式的，但嵌套对象的属性不是。
 
-### e.g.
+#### e.g.
 
 删了 views, router, utils 目录
 
@@ -4024,9 +4026,9 @@ const app = createApp(App);
 app.mount("#app");
 ```
 
-## readonly & shallowReadonly
+### readonly & shallowReadonly
 
-### **`readonly`**
+#### **`readonly`**
 
 1. 作用：用于创建一个对象的深只读副本。
 
@@ -4046,7 +4048,7 @@ app.mount("#app");
     - 创建不可变的状态快照。
     - 保护全局状态或配置不被修改。
 
-### **`shallowReadonly`**
+#### **`shallowReadonly`**
 
 1. 作用：与 `readonly` 类似，但只作用于对象的顶层属性。
 
@@ -4063,7 +4065,7 @@ app.mount("#app");
 
     - 适用于只需保护对象顶层属性的场景。
 
-### e.g.
+#### e.g.
 
 src/App.vue:
 
@@ -4128,11 +4130,11 @@ button {
 
 ```
 
-## toRaw && markRow
+### toRaw && markRow
 
 `npm i mockjs`
 
-### `toRaw`
+#### `toRaw`
 
 1. 作用：用于获取一个响应式对象的原始对象， `toRaw` 返回的对象不再是响应式的，不会触发视图更新。
 
@@ -4186,7 +4188,7 @@ button {
     let citys2 = reactive(citys);
     ```
 
-### e.g.
+#### e.g.
 
 src/App.vue:
 
@@ -4240,7 +4242,7 @@ button {
 
 ```
 
-## customRef
+### customRef
 
 作用：创建一个自定义的`ref`，并对其依赖项跟踪和更新触发进行逻辑控制。
 
@@ -4270,7 +4272,7 @@ export default function (initValue: string, delay: number) {
 }
 ```
 
-### e.g.
+#### e.g.
 
 src/App.vue:
 
@@ -4356,7 +4358,7 @@ export default function (initValue: string, delay: number) {
 }
 ```
 
-## teleport
+### teleport
 
 -   什么是 Teleport？—— Teleport 是一种能够将我们的**组件 html 结构**移动到指定位置的技术。
 
@@ -4370,7 +4372,7 @@ export default function (initValue: string, delay: number) {
 </teleport>
 ```
 
-### e.g.
+#### e.g.
 
 App.vue:
 
@@ -4408,7 +4410,7 @@ img {
 
 ```
 
-## suspense
+### suspense
 
 -   等待异步组件时渲染一些额外内容，让应用有更好的用户体验
 -   使用步骤：
@@ -4436,7 +4438,7 @@ const Child = defineAsyncComponent(() => import("./Child.vue"));
 </template>
 ```
 
-### e.g.
+#### e.g.
 
 src/App.vue:
 
@@ -4503,4 +4505,36 @@ console.log(content);
 }
 </style>
 
+```
+
+# vite 手动创建 vue3
+
+`npm create vite@latest`
+
+项目名随便填
+
+选 typescript
+
+# vue router install
+
+1. `npm install vue-router@4`
+
+@see: https://router.vuejs.org/installation.html
+
+# custom router
+
+vite.config.ts
+
+```ts
+export default defineConfig({
+    plugins: [vue()],
+    server: {
+        port: 8081,
+    },
+    resolve: {
+        alias: {
+            "@": fileURLToPath(new URL("./src", import.meta.url)),
+        },
+    },
+});
 ```
