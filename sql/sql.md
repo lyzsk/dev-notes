@@ -378,3 +378,61 @@ ifnull(
 <div style="text-align: right;">
 <a href="#sql">back to top</a>
 </div>
+
+# truncate, delete, drop
+
+truncate : `truncate table table_name` 或者 `truncate table_name`
+
+drop: `drop table table_name` 或者 `drop table IF EXISTS table_name`
+
+delete: `delete from table_name where condition`
+
+> > 注意: delete 操作后可以使用 `optimize talbe table_name` 立刻释放磁盘空间, 不管是 innodb 还是 myisam
+
+truncate 的作用是清空表或者说是截断表，只能作用于表. truncate 的语法很简单，后面直接跟表名即可，
+
+执行 truncate 语句需要拥有表的 drop 权限，从逻辑上讲，truncate table 类似于 delete 删除所有行的语句或 drop table 然后再 create table 语句的组合.
+
+为了实现高性能，它绕过了删除数据的 DML 方法，因此，它不能回滚. 尽管 truncate table 与 delete 相似，但它被分类为 DDL 语句而不是 DML 语句.
+
+## truncate vs delete vs drop
+
+truncate 与 drop 是 DDL 语句，执行后无法回滚; delete 是 DML 语句，可回滚.
+
+truncate 只能作用于表; delete，drop 可作用于表、视图等.
+
+**truncate 会清空表中的所有行，但表结构及其约束、索引等保持不变; drop 会删除表的结构及其所依赖的约束、索引等.**
+
+**truncate 会重置表的自增值; delete 不会.**
+
+truncate 不会激活与表有关的删除触发器; delete 可以.
+
+truncate 后会使表和索引所占用的空间会恢复到初始大小; delete 操作不会减少表或索引所占用的空间，drop 语句将表所占用的空间全释放掉.
+
+从逻辑上说，TRUNCATE 语句与 DELETE 语句作用相同，但是在某些情况下，两者在使用上有所区别.
+
+DELETE 是 DML 类型的语句; TRUNCATE 是 DDL 类型的语句. 它们都用来清空表中的数据.
+
+DELETE 是逐行一条一条删除记录的; TRUNCATE 则是直接删除原来的表，再重新创建一个一模一样的新表，而不是逐行删除表中的数据，执行数据比 DELETE 快.
+
+因此需要删除表中全部的数据行时，尽量使用 TRUNCATE 语句， 可以缩短执行时间.
+
+DELETE 删除数据后，配合事件回滚可以找回数据; TRUNCATE 不支持事务的回滚，数据删除后无法找回.
+
+DELETE 删除数据后，系统不会重新设置自增字段的计数器; TRUNCATE 清空表记录后，系统会重新设置自增字段的计数器.
+
+DELETE 的使用范围更广，因为它可以通过 WHERE 子句指定条件来删除部分数据; 而 TRUNCATE 不支持 WHERE 子句，只能删除整体.
+
+DELETE 会返回删除数据的行数，但是 TRUNCATE 只会返回 0，没有任何意义.
+
+## 使用场景
+
+-   如果想删除部分数据用 delete，注意带上 where 子句; 如果想删除表，当然用 drop; 如果想保留表而将所有数据删除且和事务无关，用 truncate 即可;
+
+-   如果和事务有关，或者想触发 trigger，还是用 delete; 如果是整理表内部的碎片，可以用 truncate 然后再重新插入数据.
+
+# listagg
+
+`select listagg(col_name, ',') within group (order by col_name) from table_name where condition`
+
+列转行, 把每一个字段用 `,` 拼接

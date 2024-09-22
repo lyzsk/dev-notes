@@ -67,4 +67,37 @@ extension settings - 勾选 Auto-complete Ref value with `.value`
 
 # VSCode Terminal
 
+快捷键: "ctrl + `"
+
 `clear` = `cls` 清楚内容
+
+# snippets
+
+左下角齿轮 - snippets
+
+输入 vue -> 自动跳转 vue.json
+
+```json
+{
+    "vue3": {
+        "prefix": "vue3",
+        "body": [
+            "<template>",
+            "",
+            "</template>",
+            "",
+            "<script setup lang=\"ts\">",
+            "",
+            "</script>",
+            "",
+            "<style scoped>",
+            "",
+            "</style>",
+            ""
+        ],
+        "description": "vue3 template"
+    }
+}
+```
+
+以后直接输入 `vue3` 就会自动创建模板

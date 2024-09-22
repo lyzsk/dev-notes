@@ -4,7 +4,17 @@
 
 # installation
 
-## windows
+## windows 切换不同版本 java
+
+### 方法 1
+
+1. `JAVA8_HOME = jdk8路径`
+2. `JAVA17_HOME = jdk17路径`
+3. 在 system variables PATH 里新增 `%JAVA8_HOME%\bin` 和 `%JAVA17_HOME%\bin`
+
+切换 jdk: 调整两个上下顺序即可
+
+### 方法 2
 
 environment variables - system variables 新增环境变量:
 

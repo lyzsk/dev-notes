@@ -29,64 +29,15 @@ pip install package_name -i http://mirrors.aliyun.com/pypi/simple/
 | 中国科技大学     |  https://pypi.mirrors.ustc.edu.cn/simple/  |
 | 中国科学技术大学 |  http://pypi.mirrors.ustc.edu.cn/simple/   |
 
-# anaconda create-active-deactive-remove enviornment
+永久替换:
 
-查看 python version, cmd
+windwos: %APPDATA%
 
-```bash
-python --version
-```
+在这个目录中新建一个 pip 文件夹，然后在 pip 文件夹中新建个 pip.ini 文件
 
-1. 创建虚拟环境
-
-```bash
-conda create -n env_name python=py_version
-```
-
-2. 激活虚拟环境
-
-```bash
-conda activate env_name
-```
-
-3. 退出虚拟环境
-
-```bash
-conda deactivate
-```
-
-4. 删除虚拟环境
-
-```bash
-conda remove -n env_name --all
-```
-
-5. 查看所有 anaconda 环境
-
-```bash
-conda-env list
-```
-
-6. 查看环境内 all packages/package 版本
-
-进入环境后
+在创建的 pip.ini 文件中修改:
 
 ```
-conda list (package_name)
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 ```
-
-#
-
-批量安装 requirements.txt:
-
-```bash
-pip install -r requirements.txt
-```
-
-批量导出:
-
-```bash
-pip freeze > requirements.txt
-```
-
-@see: https://www.cnblogs.com/maxiaodoubao/p/10605850.html

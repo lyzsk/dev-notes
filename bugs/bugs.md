@@ -1518,3 +1518,9 @@ gaussdb 中不能使用 `xxx` 反引号
 解决: https://www.jetbrains.com/legal/third-party-software/?product=iic&version=2023.3.8 安装 idea 2023 最后的版本
 
 好像不是...只是因为 project settings 里有 jdk17 的选项删了就好...(待确认)
+
+# Environment Variables PATH 不是列表
+
+原因: 因为调整了 system variable PATH 的顺序, 第一个变量是 `%` 开头的, 导致不能以列表形式
+
+解决: 用盘符 e.g. `C:\` 开始的变量作为第一个

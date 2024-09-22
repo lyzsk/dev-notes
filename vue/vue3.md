@@ -1,3 +1,124 @@
+创建项目:(`node -v` v20.17.0)
+
+vscode 打开文件夹, 打开 vscode terminal:
+
+1. `npm create vite@latest`
+2. 其他全选 no
+3. open with vscode 打开新项目 terminal `npm i`
+4. `npm run dev` 测试通过
+
+`npm install element-plus`
+`npm install @element-plus/icons-vue`
+
+@see: https://element-plus.org/zh-CN/guide/quickstart.html
+
+`npm install -D @types/node`
+
+main.ts:
+
+```ts
+import { createApp } from "vue";
+import App from "@/App.vue";
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+
+const app = createApp(App);
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component);
+}
+app.use(ElementPlus, {
+    locale: zhCn,
+});
+app.mount("#app");
+```
+
+关于别名 alias, 用上面的办法创建自动就有别名 '@' 了
+
+# env
+
+`.env.development`, `.env.production` 必须这样命名, 否则取不到
+
+在 package.json 的 scripts 中配置:
+
+```json
+    "scripts": {
+        "dev": "vite --open",
+        "build:prod": "vue-tsc && vite build --mode production"
+    },
+```
+
+TypeScript 智能提示:
+
+修改 `env.d.ts`:
+
+```ts
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+    readonly VITE_APP_TITLE: string;
+    // 更多环境变量...
+}
+
+interface ImportMeta {
+    readonly env: ImportMetaEnv;
+}
+```
+
+之后就能用 import.meta.env 获取环境变量
+
+# svg 图标
+
+`npm i vite-plugin-svg-icons -D`
+`npm i fast-glob -D`
+
+vite.config.ts:
+
+```ts
+import { fileURLToPath, URL } from "node:url";
+
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+    plugins: [
+        vue(),
+        createSvgIconsPlugin({
+            iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
+            symbolId: "icon-[dir]-[name]",
+        }),
+    ],
+    resolve: {
+        alias: {
+            "@": fileURLToPath(new URL("./src", import.meta.url)),
+        },
+    },
+});
+```
+
+并在入口 main.ts 引入:
+
+```ts
+import "virtual:svg-icons-register";
+```
+
+阿里图标下载 @see: https://www.iconfont.cn/
+
+> > 注意: 复制/下载 svg 代码时记得关闭 darkreader, 否则会自动识别(默认填充要是 fill)
+
+# mock
+
+`npm i -D vite-plugin-mock@2.9.6`
+
+`npm i axios`
+
+#
+
 Vue3 推荐 组合式 API + TS + setup 语法糖
 
 核心: ref, reactive, computed, watch, 生命周期
