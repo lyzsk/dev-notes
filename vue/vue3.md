@@ -2,7 +2,7 @@
 
 vscode 打开文件夹, 打开 vscode terminal:
 
-1. `npm create vite@latest`
+1. `npm create vite@latest` / `npm create vue@latest`(推荐) / `npm init vite@latest {project-name} --template vue-ts`
 2. 其他全选 no
 3. open with vscode 打开新项目 terminal `npm i`
 4. `npm run dev` 测试通过
@@ -115,17 +115,58 @@ import "virtual:svg-icons-register";
 
 `npm i -D vite-plugin-mock@2.9.6`
 
+# axios
+
 `npm i axios`
 
-#
+# router
+
+`npm i vue-router`
+
+# pinia
+
+`npm i pinia`
+
+# async
+
+async 函数返回 Promise 对象
+
+# v-for vs v-if vs v-show
+
+优先级:
+
+1. v-for: 这个指令总是首先被处理. 当你在列表上使用 v-for 时，Vue 会基于提供的数组创建一个项目列表.
+2. v-if: 这个指令在 v-for 之后进行评估. 当你在同一个元素上同时使用 v-for 和 v-if 时，v-if 不会应用于整个列表；相反，它会在列表被创建后应用于每个项目. 这意味着只有满足 v-if 条件的项目会被渲染.
+3. v-show: 这个指令最后被评估. 它并不真正从 DOM 中移除元素，而是使用 CSS 切换它们的可见性. 由于它是在 v-for 和 v-if 之后应用的，因此它会用于显示或隐藏已经渲染的项目.
+
+总结:
+
+1. 总是先使用 v-for
+2. 然后应用 v-if 条件性地渲染列表中的元素
+3. 最后使用 v-show 切换可见性而不移除 DOM 中的元素
+
+# 进度条
+
+`npm i nprogress`
+
+`npm i --save-dev @types/nprogress`
+
+修改进度条颜色:
+
+node_modules/nprogress/nprogress.css
+
+```css
+#nprogress .bar {
+}
+```
+
+# Vue3 vs Vue2
 
 Vue3 推荐 组合式 API + TS + setup 语法糖
 
 核心: ref, reactive, computed, watch, 生命周期
 
 常用: hooks, 自定义 ref, 路由, pinia, mitt
-
-# Vue3 vs Vue2
 
 1. 打包减少 41%
 2. 初次渲染快 55%, 更新渲染快 133%
@@ -2284,10 +2325,10 @@ import axios from "axios";
 import { nanoid } from "nanoid";
 
 let talkList = reactive([
-    { id: "dijsfaofnw01", title: "我最近要换个造型。什么造型？没你不行。" },
+    { id: "dijsfaofnw01", title: "我最近要换个造型. 什么造型？没你不行. " },
     {
         id: "dijsfaofnw02",
-        title: "你累不累啊？不累。可是你都在我心里跑了一天了。",
+        title: "你累不累啊？不累. 可是你都在我心里跑了一天了. ",
     },
     { id: "dijsfaofnw03", title: "今天你有点怪，哪里怪？怪好看的！" },
     { id: "dijsfaofnw04", title: "草莓、蓝莓、蔓越莓，今天想我了没？" },
@@ -2410,11 +2451,11 @@ export const useTalkStore = defineStore("talk", {
             talkList: [
                 {
                     id: "dijsfaofnw01",
-                    title: "我最近要换个造型。什么造型？没你不行。",
+                    title: "我最近要换个造型. 什么造型？没你不行. ",
                 },
                 {
                     id: "dijsfaofnw02",
-                    title: "你累不累啊？不累。可是你都在我心里跑了一天了。",
+                    title: "你累不累啊？不累. 可是你都在我心里跑了一天了. ",
                 },
                 {
                     id: "dijsfaofnw03",
@@ -2575,11 +2616,11 @@ export const useTalkStore = defineStore("talk", {
             talkList: [
                 {
                     id: "dijsfaofnw01",
-                    title: "我最近要换个造型。什么造型？没你不行。",
+                    title: "我最近要换个造型. 什么造型？没你不行. ",
                 },
                 {
                     id: "dijsfaofnw02",
-                    title: "你累不累啊？不累。可是你都在我心里跑了一天了。",
+                    title: "你累不累啊？不累. 可是你都在我心里跑了一天了. ",
                 },
                 {
                     id: "dijsfaofnw03",
@@ -2912,12 +2953,12 @@ export const useTalkStore = defineStore("talk", () => {
 
 **`Vue3`组件通信和`Vue2`的区别：**
 
--   移出事件总线，使用`mitt`代替。
+-   移出事件总线，使用`mitt`代替.
 
-*   `vuex`换成了`pinia`。
-*   把`.sync`优化到了`v-model`里面了。
-*   把`$listeners`所有的东西，合并到`$attrs`中了。
-*   `$children`被砍掉了。
+*   `vuex`换成了`pinia`.
+*   把`.sync`优化到了`v-model`里面了.
+*   把`$listeners`所有的东西，合并到`$attrs`中了.
+*   `$children`被砍掉了.
 
 1. props
 
@@ -4034,7 +4075,7 @@ shallowReactive 同 shallowRef, 只能对整个对象集体更新, 不能更新�
 
 #### `shallowRef`
 
-1. 作用：创建一个响应式数据，但只对顶层属性进行响应式处理。
+1. 作用：创建一个响应式数据，但只对顶层属性进行响应式处理.
 
 2. 用法：
 
@@ -4042,7 +4083,7 @@ shallowReactive 同 shallowRef, 只能对整个对象集体更新, 不能更新�
     let myVar = shallowRef(initialValue);
     ```
 
-3. 特点：只跟踪引用值的变化，不关心值内部的属性变化。
+3. 特点：只跟踪引用值的变化，不关心值内部的属性变化.
 
 ### `shallowReactive`
 
@@ -4054,7 +4095,7 @@ shallowReactive 同 shallowRef, 只能对整个对象集体更新, 不能更新�
     const myObj = shallowReactive({ ... });
     ```
 
-3. 特点：对象的顶层属性是响应式的，但嵌套对象的属性不是。
+3. 特点：对象的顶层属性是响应式的，但嵌套对象的属性不是.
 
 #### e.g.
 
@@ -4151,7 +4192,7 @@ app.mount("#app");
 
 #### **`readonly`**
 
-1. 作用：用于创建一个对象的深只读副本。
+1. 作用：用于创建一个对象的深只读副本.
 
 2. 用法：
 
@@ -4162,11 +4203,11 @@ app.mount("#app");
 
 3. 特点：
 
-    - 对象的所有嵌套属性都将变为只读。
-    - 任何尝试修改这个对象的操作都会被阻止（在开发模式下，还会在控制台中发出警告）。
+    - 对象的所有嵌套属性都将变为只读.
+    - 任何尝试修改这个对象的操作都会被阻止（在开发模式下，还会在控制台中发出警告）.
 
 4. 应用场景：
-    - 创建不可变的状态快照。
+    - 创建不可变的状态快照.
     - 保护全局状态或配置不被修改。
 
 #### **`shallowReadonly`**

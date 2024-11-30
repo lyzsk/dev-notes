@@ -31,3 +31,14 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
 ```
+
+# xs
+
+小于 768, 只显示左侧栅格:
+
+```js
+        <el-row>
+            <el-col :span="12" :xs="0">left</el-col>
+            <el-col :span="12" :xs="24">right</el-col>
+        </el-row>
+```

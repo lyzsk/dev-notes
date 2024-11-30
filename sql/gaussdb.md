@@ -1,4 +1,4 @@
-## gaussdb 分区
+# gaussdb 分区
 
 单表分区, 如按月分区, 方便快速索引
 
@@ -23,7 +23,7 @@ TABLESPACE "TABLENAME"
 alter table "table_name" add partition PART_202408 VALUES LESS THAN ('2024-09-01 00:00:00.000') TABLESPACE "TABLENAME_PART";
 ```
 
-## gaussdb 自增
+# gaussdb 自增
 
 如 id 忘记加自增了, 可以在无生产环境管理员权限下执行:
 
@@ -31,7 +31,7 @@ alter table "table_name" add partition PART_202408 VALUES LESS THAN ('2024-09-01
 alter table "table_name" modify "id" auto_increment;
 ```
 
-## gaussdb 主键
+# gaussdb 主键
 
 如 id 忘记加主键了, 可以在无生产环境管理员权限下执行:
 
@@ -39,7 +39,7 @@ alter table "table_name" modify "id" auto_increment;
 alter table "table_name" add primary key ("id");
 ```
 
-## gaussdb 去重
+# gaussdb 去重
 
 gaussdb 没有内置的 dual 函数, 但可以用笨办法:
 
@@ -56,4 +56,18 @@ where id in
     )
     where id != mid
 )
+```
+
+# gaussdb 重命名
+
+`alter table table_name rename column old_name to new_name;`
+
+# to_char % to_timestap & count()
+
+业务场景: 先把 yyyy-MM-dd HH:mm:ss.SSS 的 timestamp(8) 按小时划分成 varchar, 再转回 timestap(8) 方便 ORM 映射
+
+```sql
+select col_name1, col_nam2, to_timestamp(to_char(col_name3, 'yyyy-MM-dd HH24'), 'yyyy-MM-dd HH24:MI:SS.FF3') as nick_name, coalesce(count(1), 0) as count
+from table_name
+group by col_name1, col_nam2, to_timestamp(to_char(col_name3, 'yyyy-MM-dd HH24'), 'yyyy-MM-dd HH24:MI:SS.FF3');
 ```

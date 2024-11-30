@@ -331,10 +331,10 @@ alter table table_name change oldcolname newcolname datatype(length);
 
 ```sql
 alter table table_name
-add column column_name column_type comment 'column_comment' after column_name_before
+add column column_name column_type comment 'column_comment' before column_name_before
 ```
 
-还可以用 `before` 关键字, 但不明原因经常报错失败
+还可以用 `after` 关键字, 但不明原因经常报错失败
 
 # datetime vs date
 

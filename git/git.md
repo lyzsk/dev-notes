@@ -194,49 +194,6 @@ git push -f -u origin master
 
 `git commit --ammend -m "new message"`
 
-# Bugs
+# git lfs
 
-## `.gitignore` not working
-
-`.gitignore` 不生效的问题, 核心是要删 cache
-
-```
-git rm -rf --cached .
-git add .
-git commit -a -m ".gitignore is now working"
-git push origin master
-```
-
-`.gitignore` 需要删除之前提交的文件, 比如 `.idea`, `.iml`
-
-```
-git rm --cached **/*.iml
-git rm --cached -r .idea
-git rm --cached -r **/.idea
-```
-
-## merge conflict
-
-分支合并冲突
-
--   bug:
-
-    \[master\] 分支 `commit` 内容: "添加内容 by master"
-
-    \[branch01\] 分支 `commit` 内容: "添加内容 by branch01"
-
-    如果此时 `git checkout master` 切换到 \[master\] 分支后, `git merge branch01` 会报错: `merge conflict`
-
--   fix:
-
-    手动 modify 更改源文件后，用`commit`解决，最终得到整合的 `master` 分支
-
-    注意点: 此时 commit 的时候 不可以使用 `git commit -m "comments" [文件名]` 的方法, 应该使用 `git commit -m "comments"` 不加文件名的方法
-
-# Bugs
-
-## git add -A 后丢失进度, 无法 push 最新版本
-
-情况: `git status` 显示 `nothing to commit, working tree clean`, 但是之前已经 `git add -A` 过了, 因为宕机丢失了
-
-`git reflog` 找到 HEAD, 然后用 `git reset --hard xxx`, 然后就可以正常 `git push`
+https://git-lfs.com/

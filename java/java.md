@@ -1,6 +1,6 @@
 # Java
 
-| [JDK8](#jdk-8) | [JDK14](#jdk-14) | [位运算](#bit-operation) |
+| [install](#installation) | [JDK8](#jdk-8) | [JDK14](#jdk-14) | [位运算](#bit-operation) | [object equals](#object-equals) | [set infinity = 0x3f3f3f3f vs 32-bit max 0x7fffffff](#set-infinity--0x3f3f3f3f-vs-32-bit-max-0x7fffffff) | [toString() vs lang3 ToStringBuilder()](#origin-tostring-vs-lang3-tostringbuilder) | [String `+` String vs String.concat() vs StringBuffer.append() vs StringBuilder.append()](#string--string-vs-stringconcat-vs-stringbufferappend-vs-stringbuilderappend) | [BigDecimal](#bigdecimal) | [stream vs for](#stream-vs-for) | [loglevel](#loglevel) | [regex](#regex) |
 
 # installation
 
@@ -304,7 +304,7 @@ public String toString() {
 
 stream().forEach() 不保证元素的遍历顺序
 
-# 日志等级
+# loglevel
 
 log4j 日志等级:
 
@@ -371,3 +371,29 @@ FATAL 相当于服务已经挂了, 而 ERROR 相当于好死不如赖活着, 然
 通过该种日志, 可以查看某一个操作每一步的执行过程, 可以准确定位是何种操作, 何种参数, 何种顺序导致了某种错误的发生. 可以保证在不重现错误的情况下, 也可以通过 DEBUG（或 TRACE）级别的日志对问题进行诊断.
 
 需要注意的是, DEBUG 日志也需要规范日志格式, 应该保证除了记录日志的开发人员自己外, 其他的如运维, 测试人员等也可以通过 DEBUG（或 TRACE）日志来定位问题.
+
+# regex
+
+@see: https://www.cnblogs.com/yinzhengjie/p/8860824.html
+
+`w` 表示字母数字字符
+
+`*` 出现零次或多次
+
+`+` 出现一次或多次
+
+`?` 出现一次或一次的也没有
+
+e.g.
+
+匹配 `K:[V]`
+
+```java
+Pattern pattern  = Pattern.compile("(\\w+)=(\\[(\\w*[-|.|/|:|\\s|_|\\(|\\)]?)*\\])");
+Mathcer matcher = pattern.machter(str);
+while(matcher.find()) {
+    String key = matcher.group(1);
+    String value = matcher.group(2);
+    ...
+}
+```

@@ -64,3 +64,43 @@ MyBatis 映射出的是 java.util.Date 类型, java.sql.Date/Timestamp/time 都�
 ```java
 param.setUsername("%CD%");
 ```
+
+# 业务场景: 表中只有一个 time 字段, 但是前端要返回 startTime, endTime 两个值做范围查询
+
+ruoyi 框架用的是后端 Map params 映射, 前端传固定 params 值:
+
+```js
+export function addDateRange(params, dateRange, propName) {
+    let search = params;
+    search.params =
+        typeof search.params === "object" &&
+        search.params !== null &&
+        !Array.isArray(search.params)
+            ? search.params
+            : {};
+    dateRange = Array.isArray(dateRange) ? dateRange : [];
+    if (typeof propName === "undefined") {
+        search.params["beginTime"] = dateRange[0];
+        search.params["endTime"] = dateRange[1];
+    } else {
+        search.params["begin" + propName] = dateRange[0];
+        search.params["end" + propName] = dateRange[1];
+    }
+    return search;
+}
+```
+
+但是这样做法不好,偷懒方法适配二次开发, 科学的做法其实应该是在后端创建 entity 对应的 query 对象:
+
+```java
+public class AlarmEmailQuery {
+    String applicationName;
+    String startTime;
+    String endTime;
+    String alarmType;
+
+    ...
+}
+```
+
+这里因为 el-date-picker 组件返回的是字符串传给后端(如果前端没有转化的话)
