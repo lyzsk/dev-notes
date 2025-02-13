@@ -83,7 +83,7 @@ RAPTOR (Recursive Abstractive Processing for Tree-Organized Retrieval)
 
 经过微调后的 Embedding 模型在召回上会有大幅地提升, top 5 召回达到 100%, 而且不同 Embedding 模型微调后的召回差异在 1 个点之内, 模型的参数规模影响极小
 
-### SFT & DPO 答案生成
+### SFT & DPO(Direct Preference Optimization) 答案生成
 
 1. 数据标注难度大: 业务人员虽然知道正确答案, 但难以标注出满足一致性和多样性要求的模型微调数据. 因此, 我们需要在获取基础答案后, 通过模型润色改写答案或增加 COT 的语言逻辑, 以提高数据的多样性和一致性
 2. 问答种类多样: 业务需要模型能够正确回答/拒答不相关问题/反问以获取完整信息, 需要通过构造特定的数据来训练提升模型在这些方面的能力

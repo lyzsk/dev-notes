@@ -160,7 +160,7 @@ Settings -> Editor -> File and Code Templates:
 /**
 *
 * @author sichu huang
-* @date ${YEAR}/${MONTH}/${DAY}
+* @since ${YEAR}/${MONTH}/${DAY}
 **/
 ```
 
@@ -178,7 +178,7 @@ Settings -> Editor -> Live Templates:
      *
      * @author $user$
      * @param $param$
-     * @date $date$
+     * @since $since$
      * @return $return$
      **/
     ```
@@ -187,7 +187,7 @@ Settings -> Editor -> Live Templates:
 6. 右侧 `Edit Variables...`:
     - user - Default value: `"sichu huang"`
     - param - Default value: `groovyScript("if(\"${_1}\".length() == 2) {return '';} else {def result=''; def params=\"${_1}\".replaceAll('[\\\\[|\\\\]|\\\\s]', '').split(',').toList();for(i = 0; i < params.size(); i++) {result+='\\n' + ' * @param ' + params[i] + ' '}; return result;}", methodParameters());`
-    - date - Default value: `date("yyyy/MM/dd")`
+    - since - Default value: `date("yyyy/MM/dd")`
     - return - Default value: `methodReturnType()`
 
 @see： https://blog.csdn.net/weixin_44519874/article/details/112259616
@@ -201,7 +201,7 @@ Settings -> Editor -> Live Templates:
  *
  * @author sichu huang
  * @param $param$
- * @date $date$
+ * @since $since$
  * @return $return$
  **/
 ```
