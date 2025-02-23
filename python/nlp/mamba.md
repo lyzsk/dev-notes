@@ -826,9 +826,9 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 
 返回（y，h）
 
-    - y: (batch, seqlen, d_model) 输出
+-   y: (batch, seqlen, d_model) 输出
 
-    - h：处理“u”后更新推理缓存
+-   h：处理“u”后更新推理缓存
 
 ### mamba2 step3: in_projection 第一次投影(包含在 step 函数中, 即 mamba block)
 
