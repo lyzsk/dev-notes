@@ -1374,3 +1374,37 @@ generate 生成过程 通过 逐步处理输入序列并生成新的 token, 其�
     ```
 
     2. 综上实现了 实际的文本序列化, 用于模型的推理和生成任务
+
+## update 2025-03-17
+
+补充实现步骤和公式(Conv SSM+recurrenct SSM + HiPPO maxtrix 公式)
+
+@see: https://srush.github.io/annotated-s4/
+
+State Space Models(SSM) [ssm](#ssm-state-space-models)
+
+-> Structured State Spaces for sequences(S4) [s4](#s4-structured-state-spaces-for-sequences)
+
+-> selective state spaces(我认为就是 Selective Scanning Structured State Space Sequence, S6?) [selective](#selective-state-spaces)
+
+1. SSM -> S4:
+
+    1. 对状态空间进行连续化处理得到 continuous state space model (CSSM)
+    2. 引入 long-range dependencies 长距离依赖(HiPPO 算法, 即结合了递归记忆（Recurrent Memory）和最优多项式投影（Optimal Polynomial Projections）的概念)
+    3. 对 CSSM+long-range dependencies 进行离散化得到 discrete representations for continuous state space model (离散化且具有长距离依赖的连续状态空间)
+    4. 注解: 在 mamba block 中的 convolution 模块中进行这种处理, 在 training 阶段即训练是 convolution 卷积, 在 inference 阶段即推理阶段是 recurrence 循环迭代, 也就是推理速度 > 训练速度
+
+2. S4 -> S6:
+
+    1. 选择性扫描算法(Selective Scanning Algorithm), 让 A 参数恒定, 存储与 DRAM 主内存中, 维持全局静态的状态矩阵 B 与 C 被设计为依赖于输入步长 delta，即对于每个输入标记，都会生成相应的动态 B、C
+    2. 硬件感知算法(Hardware-Aware Algorithm), 每个状态 h 由前一时刻状态（乘以 A）与当前输入（乘以动态 B）的和更新，由于 B、C 的动态性，传统上只能通过循环计算，导致依赖性较强、无法充分并行化, 采用了硬件感知算法, 假定扫描操作的顺序无关紧要，从而可以将长序列划分为若干部分并行处理，状态向量 h 被存储在 SRAM 显卡缓存中，以便快速更新
+
+建议主要看:
+
+@see: https://cloud.tencent.com/developer/article/2390382
+@see: https://srush.github.io/annotated-s4/
+
+补充看:
+
+Mamba1 @see: https://arxiv.org/abs/2312.00752
+Mamba2 @see: https://arxiv.org/abs/2405.21060
