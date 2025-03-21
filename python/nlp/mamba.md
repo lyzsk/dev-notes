@@ -1408,3 +1408,15 @@ State Space Models(SSM) [ssm](#ssm-state-space-models)
 
 Mamba1 @see: https://arxiv.org/abs/2312.00752
 Mamba2 @see: https://arxiv.org/abs/2405.21060
+
+Selective: Emphasizes that the model incorporates a selective scanning algorithm to dynamically filter relevant versus irrelevant information.
+Scanning: Highlights the use of a scanning mechanism that processes the sequence in a way that’s optimized for parallel computation.
+Structured State Space Sequence: Inherits from the original S4 design that uses a structured state space approach for sequence modeling.
+
+mamba1 vs mamba2:
+
+@see: https://goombalab.github.io/blog/2024/mamba2-part1-model/#ssd-vs-state-space-models
+
+## update 2025-03-20
+
+Mamba-2 本身并不是专门的检索大语言模型（Retrieval-Augmented Language Model），而是一种基于状态空间模型（State Space Model, SSM）的通用序列建模架构. 如果结合检索增强技术（比如通过外部知识库或上下文检索），Mamba-2 理论上也可以被改造成检索增强模型（类似 RAG，Retrieval-Augmented Generation）
