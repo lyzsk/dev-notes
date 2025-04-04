@@ -1420,3 +1420,5 @@ mamba1 vs mamba2:
 ## update 2025-03-20
 
 Mamba-2 本身并不是专门的检索大语言模型（Retrieval-Augmented Language Model），而是一种基于状态空间模型（State Space Model, SSM）的通用序列建模架构. 如果结合检索增强技术（比如通过外部知识库或上下文检索），Mamba-2 理论上也可以被改造成检索增强模型（类似 RAG，Retrieval-Augmented Generation）
+
+@see: https://cloud.tencent.com/developer/article/2425236
