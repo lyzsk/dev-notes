@@ -22,7 +22,7 @@ hadoop102, `cd /opt/software`, 上传 `apache-flume-1.9.0-bin.tar.gz`
 
 `sudo vim /etc/profile.d/my_env.sh`
 
-添加 flume 环境变量 (因为要用到 `flume-1.9.0/bin` 里的脚本):
+添加 flume 环境变量(因为要用到 `flume-1.9.0/bin` 里的脚本):
 
 ```sh
 # flume
@@ -555,7 +555,7 @@ a3.sources.r1.channels = c1
 a3.sinks.k1.channel = c1
 ```
 
-启动: (创建三个窗口, flume1, flume2, flume3 分别启动, 方便看)
+启动:(创建三个窗口, flume1, flume2, flume3 分别启动, 方便看)
 
 ```sh
 flume-ng agent -c $FLUME_HOME/conf -f $FLUME_HOME/jobs/replicating/flume3.conf -n a3 -Dflume.root.logger=INFO,console
@@ -862,7 +862,7 @@ flume-ng agent -c $FLUME_HOME/conf -f $FLUME_HOME/jobs/failover/flume1.conf -n a
 
 -   案例需求：
 
-    Flume1 (hadoop102) 监控文件内容, Flume2 (hadoop103) 监控端口数据, Flume1 和 Flume2 将监控到的数据发往 Flume3, Flume3 (hadoop104) 将内容打印到控制台
+    Flume1(hadoop102) 监控文件内容, Flume2(hadoop103) 监控端口数据, Flume1 和 Flume2 将监控到的数据发往 Flume3, Flume3(hadoop104) 将内容打印到控制台
 
 可以每个 Flume 都往 HDFS 里写, 但是这样对 HDFS 写压力太大, 可以聚合在一个 Flume 里写操作, 减少并发写操作
 
@@ -1231,7 +1231,7 @@ a1.sinks.k1.channel = c1
 
 启动: `flume-ng agent -c $FLUME_HOME/conf -f $FLUME_HOME/jobs/mysource-flume-logger.conf -n a1 -Dflume.root.logger=INFO,console`
 
-就可以看到一直循环调用生成带 header 的 uuid (uuid 没显示全, 需要自定义 sink)
+就可以看到一直循环调用生成带 header 的 uuid(uuid 没显示全, 需要自定义 sink)
 
 # 自定义 Sink
 

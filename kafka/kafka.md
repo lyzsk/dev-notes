@@ -1,6 +1,6 @@
 # Kafka
 
-Kafka 是一个分布式的基于发布/订阅模式 (distributed publish-subscribe messaging system) 的消息队列（Message Queue），主要应用于大数据实时处理领域
+Kafka 是一个分布式的基于发布/订阅模式(distributed publish-subscribe messaging system) 的消息队列(Message Queue)，主要应用于大数据实时处理领域
 
 # Pros for using Message Queue
 
@@ -26,33 +26,33 @@ Kafka 是一个分布式的基于发布/订阅模式 (distributed publish-subscr
 
 # MQ 2 modes
 
-1. 点对点模式（一对一，消费者主动拉取数据，消息收到后消息清除）
+1. 点对点模式(一对一，消费者主动拉取数据，消息收到后消息清除)
 
-2. 发布/订阅模式（一对多，消费者消费数据之后不会清除消息）
+2. 发布/订阅模式(一对多，消费者消费数据之后不会清除消息)
 
-    producer -> (publish) -> Topics -> (subscribe) -> consumers
+    producer ->(publish) -> Topics ->(subscribe) -> consumers
 
-> NOTE: Kafka 用的是 拉取 的方式把 Topics 里的内容传输给 Consumers (如果用推送, 就只能根据 consumer 最低承载力推送, 对资源会有浪费)
+> NOTE: Kafka 用的是 拉取 的方式把 Topics 里的内容传输给 Consumers(如果用推送, 就只能根据 consumer 最低承载力推送, 对资源会有浪费)
 
 # Kafka 基础架构
 
-1）Producer ：消息生产者，就是向 kafka broker 发消息的客户端；
+1)Producer ：消息生产者，就是向 kafka broker 发消息的客户端；
 
-2）Consumer ：消息消费者，向 kafka broker 取消息的客户端；
+2)Consumer ：消息消费者，向 kafka broker 取消息的客户端；
 
-3）Consumer Group （CG）：消费者组，由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费；消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。
+3)Consumer Group(CG)：消费者组，由多个 consumer 组成。消费者组内每个消费者负责消费不同分区的数据，一个分区只能由一个组内消费者消费；消费者组之间互不影响。所有的消费者都属于某个消费者组，即消费者组是逻辑上的一个订阅者。
 
-4）Broker ：一台 kafka 服务器就是一个 broker。一个集群由多个 broker 组成。一个 broker 可以容纳多个 topic。
+4)Broker ：一台 kafka 服务器就是一个 broker。一个集群由多个 broker 组成。一个 broker 可以容纳多个 topic。
 
-5）Topic ：可以理解为一个队列，生产者和消费者面向的都是一个 topic；
+5)Topic ：可以理解为一个队列，生产者和消费者面向的都是一个 topic；
 
-6）Partition：为了实现扩展性，一个非常大的 topic 可以分布到多个 broker（即服务器）上，一个 topic 可以分为多个 partition，每个 partition 是一个有序的队列；
+6)Partition：为了实现扩展性，一个非常大的 topic 可以分布到多个 broker(即服务器)上，一个 topic 可以分为多个 partition，每个 partition 是一个有序的队列；
 
-7）Replica：副本，为保证集群中的某个节点发生故障时，该节点上的 partition 数据不丢失，且 kafka 仍然能够继续工作，kafka 提供了副本机制，一个 topic 的每个分区都有若干个副本，一个 leader 和若干个 follower。
+7)Replica：副本，为保证集群中的某个节点发生故障时，该节点上的 partition 数据不丢失，且 kafka 仍然能够继续工作，kafka 提供了副本机制，一个 topic 的每个分区都有若干个副本，一个 leader 和若干个 follower。
 
-8）leader：每个分区多个副本的“主”，生产者发送数据的对象，以及消费者消费数据的对象都是 leader。
+8)leader：每个分区多个副本的“主”，生产者发送数据的对象，以及消费者消费数据的对象都是 leader。
 
-9）follower：每个分区多个副本中的“从”，实时从 leader 中同步数据，保持和 leader 数据的同步。leader 发生故障时，某个 follower 会成为新的 leader。
+9)follower：每个分区多个副本中的“从”，实时从 leader 中同步数据，保持和 leader 数据的同步。leader 发生故障时，某个 follower 会成为新的 leader。
 
 > NOTE: 高版本 Kafka 趋势是脱离对 Zookeeper 的依赖
 
@@ -137,7 +137,7 @@ fi
 
 `get /brokers/ids/0` 可以看到 hadoop102 相关的信息
 
-`get /controller` 可以看到大哥 (大概率是 102, 因为先启动的 102, 根据争抢机制)
+`get /controller` 可以看到大哥(大概率是 102, 因为先启动的 102, 根据争抢机制)
 
 停止使用: `cd /opt/module/kafka/bin`, `kafka-server-stop.sh`
 
@@ -228,9 +228,9 @@ kafka-topics.sh --list --bootstrap-server hadoop102:9092
 
 在 consumer1, `kafka-console-consumer.sh --bootstrap-server hadoop102:9092 --topic first`, 进入 consumer1 界面等待消费数据
 
-再启动一个 consumer2, `kafka-console-consumer.sh --bootstrap-server hadoop102:9092 --topic first`, 启动后不能消费到数据 (涉及到 consumer offset 重置问题),
+再启动一个 consumer2, `kafka-console-consumer.sh --bootstrap-server hadoop102:9092 --topic first`, 启动后不能消费到数据(涉及到 consumer offset 重置问题),
 
-但是如果用 `kafka-console-consumer.sh --bootstrap-server hadoop102:9092 --topic first --from-beginning` 就可以消费到 (但是顺序不是按照 producer 生产消息的顺序一样, 因为数据放的分区不同, 只能保证分区内有序, 在消费的时候不知道先消费哪个分区)
+但是如果用 `kafka-console-consumer.sh --bootstrap-server hadoop102:9092 --topic first --from-beginning` 就可以消费到(但是顺序不是按照 producer 生产消息的顺序一样, 因为数据放的分区不同, 只能保证分区内有序, 在消费的时候不知道先消费哪个分区)
 
 ## consumer group
 
@@ -275,7 +275,7 @@ topic 是逻辑上的概念，而 partition 是物理上的概念，每个 parti
 
 ## 生产者发送数据到 topic partition 的可靠性保证
 
-为保证 producer 发送的数据，能可靠的发送到指定的 topic，topic 的每个 partition 收到 producer 发送的数据后，都需要向 producer 发送 ack（acknowledgement 确认收到），如果 producer 收到 ack，就会进行下一轮的发送，否则重新发送数据
+为保证 producer 发送的数据，能可靠的发送到指定的 topic，topic 的每个 partition 收到 producer 发送的数据后，都需要向 producer 发送 ack(acknowledgement 确认收到)，如果 producer 收到 ack，就会进行下一轮的发送，否则重新发送数据
 
 ## Topic partition 存储数据的可靠性保证
 
@@ -293,7 +293,7 @@ Kafka 副本数据同步策略:
 
 leader 收到数据，所有 follower 都开始同步数据，但有一个 follower，因为某种故障，迟迟不能与 leader 进行同步，那 leader 就要一直等下去，直到它完成同步，才能发送 ack。这个问题怎么解决呢？
 
-Leader 维护了一个动态的 in-sync replica set (ISR)，意为和 leader 保持同步的 follower 集合。当 ISR 中的 follower 完成数据的同步之后，leader 就会给 producer 发送 ack。如果 follower 长时间未向 leader 同步数据，则该 follower 将被踢出 ISR，该时间阈值由 replica.lag.time.max.ms 参数设定。Leader 发生故障之后，就会从 ISR 中选举新的 leader
+Leader 维护了一个动态的 in-sync replica set(ISR)，意为和 leader 保持同步的 follower 集合。当 ISR 中的 follower 完成数据的同步之后，leader 就会给 producer 发送 ack。如果 follower 长时间未向 leader 同步数据，则该 follower 将被踢出 ISR，该时间阈值由 replica.lag.time.max.ms 参数设定。Leader 发生故障之后，就会从 ISR 中选举新的 leader
 
 2. ack 应答级别
 
@@ -322,7 +322,7 @@ At Least Once 可以保证数据不丢失，但是不能保证数据不重复；
 
 ## 消费方式
 
-consumer 采用 pull（拉）模式从 broker 中读取数据
+consumer 采用 pull(拉)模式从 broker 中读取数据
 
 pull 模式不足之处是，如果 kafka 没有数据，消费者可能会陷入循环中，一直返回空数据。针对这一点，Kafka 的消费者在消费数据时会传入一个时长参数 timeout，如果当前没有数据可供消费，consumer 会等待一段时间之后再返回，这段时长即为 timeout
 
@@ -379,9 +379,9 @@ Kafka 数据持久化是直接持久化到 Pagecache 中，这样会产生以下
 
     - I/O Scheduler 会尝试将一些写操作重新按顺序排好，从而减少磁盘头的移动时间
 
-    - 充分利用所有空闲内存（非 JVM 内存）。如果使用应用层 Cache（即 JVM 堆内存），会增加 GC 负担
+    - 充分利用所有空闲内存(非 JVM 内存)。如果使用应用层 Cache(即 JVM 堆内存)，会增加 GC 负担
 
-    - 读操作可直接在 Page Cache 内进行。如果消费和生产速度相当，甚至不需要通过物理磁盘（直接通过 Page Cache）交换数据
+    - 读操作可直接在 Page Cache 内进行。如果消费和生产速度相当，甚至不需要通过物理磁盘(直接通过 Page Cache)交换数据
 
     - 如果进程重启，JVM 内的 Cache 会失效，但 Page Cache 仍然可用
 
@@ -466,7 +466,7 @@ linger.ms：如果数据迟迟未达到 batch.size，sender 等待 linger.time �
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<String, String>(props);
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             kafkaProducer.send(new ProducerRecord<String, String>("first", "abc" + i));
         }
         kafkaProducer.close();
@@ -479,7 +479,7 @@ i.e. 测试指定 partition:
 关了重开 consumer1, 并再启动一个窗口 consumer2 `kafka-console-consumer.sh --topic first --bootstrap-server hadoop102:9092 --group bb`, for 循环改成:
 
 ```java
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             // kafkaProducer.send(new ProducerRecord<String, String>("first", "abc" + i));
             kafkaProducer.send(new ProducerRecord<String, String>("first", 0, null,"abc--" + i));
         }
@@ -488,7 +488,7 @@ i.e. 测试指定 partition:
 i.e. 测试指定 key:
 
 ```java
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             // kafkaProducer.send(new ProducerRecord<String, String>("first", "abc" + i));
             // kafkaProducer.send(new ProducerRecord<String, String>("first", 1, null,"abc--" + i));
             kafkaProducer.send(new ProducerRecord<String, String>("first", 1, UUID.randomUUID().toString(),"abc -- " + i));
@@ -498,7 +498,7 @@ i.e. 测试指定 key:
 i.e. 测试指定黏性:
 
 ```java
-        for (int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 1000; i++) {
             // kafkaProducer.send(new ProducerRecord<String, String>("first", "abc" + i));
             // kafkaProducer.send(new ProducerRecord<String, String>("first", 1, null,"abc--" + i));
             // kafkaProducer.send(new ProducerRecord<String, String>("first", UUID.randomUUID().toString(),"abc --> " + i));
@@ -509,7 +509,7 @@ i.e. 测试指定黏性:
 i.e. 测试带回调:
 
 ```java
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             // kafkaProducer.send(new ProducerRecord<String, String>("first", "abc" + i));
             // kafkaProducer.send(new ProducerRecord<String, String>("first", 1, null,"abc--" + i));
             // kafkaProducer.send(new ProducerRecord<String, String>("first", UUID.randomUUID().toString(),"abc --> " + i));
@@ -522,7 +522,7 @@ i.e. 测试带回调:
                  */
                 @Override
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                    if (e != null) {
+                    if(e != null) {
                         System.out.println("error message: " + e.getMessage());
                     } else {
                         System.out.println("Success: " + recordMetadata.topic() + " : " + recordMetadata.partition() + " : " + recordMetadata.offset() + " : " + recordMetadata.timestamp());
@@ -554,7 +554,7 @@ public class KafkaProducerDemo2 {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<String, String>(props);
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
 
             Future<RecordMetadata> future =
                 kafkaProducer.send(new ProducerRecord<String, String>("first", "abc$$$" + i), new Callback() {
@@ -565,7 +565,7 @@ public class KafkaProducerDemo2 {
                      */
                     @Override
                     public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                        if (e != null) {
+                        if(e != null) {
                             System.out.println("error message: " + e.getMessage());
                         } else {
                             System.out.println(
@@ -606,7 +606,7 @@ public class MyPartitioner implements Partitioner {
      */
     @Override
     public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
-        if (value.toString().contains("atguigu")) {
+        if(value.toString().contains("atguigu")) {
             return 0;
         }
         return 1;
@@ -646,9 +646,9 @@ public class KafkaProducerPartitioner {
         // 设置分区类
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "cn.sichu.kafka.partitioner.MyPartitioner");
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<String, String>(props);
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             String value = "";
-            if (i % 2 == 0) {
+            if(i % 2 == 0) {
                 value = "atguigu ==>" + i;
             } else {
                 value = UUID.randomUUID().toString() + "==>" + i;
@@ -661,7 +661,7 @@ public class KafkaProducerPartitioner {
                  */
                 @Override
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                    if (e != null) {
+                    if(e != null) {
                         System.out.println("error message: " + e.getMessage());
                     } else {
                         System.out.println("Success: " + recordMetadata.topic() + " : " + recordMetadata.partition() + " : " + recordMetadata.offset() + " : " + recordMetadata.timestamp());
@@ -707,9 +707,9 @@ public class KafkaConsumerDemo {
         topics.add("second");
         kafkaConsumer.subscribe(topics);
         // 持续消费数据
-        while (true) {
+        while(true) {
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
-            for (ConsumerRecord<String, String> record : records) {
+            for(ConsumerRecord<String, String> record : records) {
                 System.out.println("消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : " + record.key() + " : " + record.value());
             }
         }
@@ -745,9 +745,9 @@ public class KafkaConsumerDemo1 {
         topics.add("second");
         kafkaConsumer.subscribe(topics);
         // 持续消费数据
-        while (true) {
+        while(true) {
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
-            for (ConsumerRecord<String, String> record : records) {
+            for(ConsumerRecord<String, String> record : records) {
                 System.out.println(
                     "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
                         + record.key() + " : " + record.value());
@@ -788,10 +788,10 @@ public class KafkaConsumerDemo2 {
         topics.add("second");
         kafkaConsumer.subscribe(topics);
         // 持续消费数据
-        while (true) {
+        while(true) {
             System.out.println("进行下一次的消费");
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
-            for (ConsumerRecord<String, String> record : records) {
+            for(ConsumerRecord<String, String> record : records) {
                 System.out.println(
                     "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
                         + record.key() + " : " + record.value());
@@ -834,10 +834,10 @@ public class KafkaConsumerDemo2 {
         topics.add("second");
         kafkaConsumer.subscribe(topics);
         // 持续消费数据
-        while (true) {
+        while(true) {
             System.out.println("进行下一次的消费");
             ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(2));
-            for (ConsumerRecord<String, String> record : records) {
+            for(ConsumerRecord<String, String> record : records) {
                 System.out.println(
                     "消费到: " + record.topic() + " : " + record.partition() + " : " + record.offset() + " : "
                         + record.key() + " : " + record.value());
@@ -850,7 +850,7 @@ public class KafkaConsumerDemo2 {
                     // offset提交完成后调用该方法
                     @Override
                     public void onComplete(Map<TopicPartition, OffsetAndMetadata> map, Exception e) {
-                        if (e != null) {
+                        if(e != null) {
                             System.out.println("提交失败");
                         } else {
                             System.out.println("提交后的结果: " + map);
@@ -874,7 +874,7 @@ public class KafkaConsumerDemo2 {
 
 先提交 offset, 后消费 就会导致 漏消费
 
-想要解决, 就要把 消费过程 和 提交过程 做成事务 (原子性不可分, 要么同时成功要么同时失败), 通过 mysql 之类支持事务的第三方渠道
+想要解决, 就要把 消费过程 和 提交过程 做成事务(原子性不可分, 要么同时成功要么同时失败), 通过 mysql 之类支持事务的第三方渠道
 
 ## Interceptor
 

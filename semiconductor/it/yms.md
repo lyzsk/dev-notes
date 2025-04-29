@@ -1,6 +1,6 @@
 mean 均值, 反应了数列的集中趋势
 
-variance 方差, 反应一组数据时离散程度 (sigma^2)
+variance 方差, 反应一组数据时离散程度(sigma^2)
 
 standard deviation 标准差: 就是方差开根号, 在大样本中一般使用样本的标准差近似代替总体的标准差, 标准差可以计算钟型曲线(正态分布)
 
@@ -29,11 +29,11 @@ e.g.
 
 ANOVA null hypothesis 零假设: miuA = miuB = miuC
 
-MSB (mean squared between) 组间均方, 就是总体数据的方差
+MSB(mean squared between) 组间均方, 就是总体数据的方差
 
-MSE (mean squared error) 组内均方
+MSE(mean squared error) 组内均方
 
-MSE = (varianceA + varianceB + varianceC) / count
+MSE =(varianceA + varianceB + varianceC) / count
 
 F-statistics
 
@@ -49,11 +49,11 @@ F = MSB / MSE
 
 3. MSB 约等于 MSE, 则 F 小, 无法拒绝零假设
 
-F 分布有两个重要的参数: d1, d2 (分子 MSB 的自由度, 分母 MSE 的自由度)
+F 分布有两个重要的参数: d1, d2(分子 MSB 的自由度, 分母 MSE 的自由度)
 
 `d1 = N - 1`, e.g. 3 组数据, 分子自由度为 2
 
-`d2 = N * (k - 1)`, e.g. 3 组数据, 每组 34 个数据, 分母自由度为 `3 * (34 - 1) = 99`
+`d2 = N *(k - 1)`, e.g. 3 组数据, 每组 34 个数据, 分母自由度为 `3 *(34 - 1) = 99`
 
 P 值通过查表? 没懂
 

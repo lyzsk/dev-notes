@@ -12,8 +12,8 @@ Params: 指模型训练中需要训练的总参数数
 > 2. 模型大小约为参数量的 4 倍
 > 3. 一个卷积层 converlution layer = `h * w * c * n`(c = input channel, n = output channel), output feature map = `H' * W'`
 >
->     - `params = n * (h * w * c + 1)`
->     - FLOPS = `H' * W' * n * (h * w * c + 1)`, 即 FLOPS = `H' * W' * params`
+>     - `params = n *(h * w * c + 1)`
+>     - FLOPS = `H' * W' * n *(h * w * c + 1)`, 即 FLOPS = `H' * W' * params`
 
 MAC: memory access cost, 内存访问成本
 
@@ -23,7 +23,7 @@ e.g.
 from torchstat import stat
 from torchvision.models import resnet50
 model = resnet50()
-stat(model, (3, 224, 224))
+stat(model,(3, 224, 224))
 ```
 
 @see: https://www.cvmart.net/community/detail/5746
@@ -48,7 +48,7 @@ stat(model, (3, 224, 224))
 
 ---
 
-点运算最基本的就是统计 RGB 图片的 color histogram (直方图):
+点运算最基本的就是统计 RGB 图片的 color histogram(直方图):
 
 -   对图片数据/特征分布的一种统计
 
@@ -56,20 +56,20 @@ stat(model, (3, 224, 224))
     -   梯度/边缘, 形状, 纹理
     -   局部特征点, 视觉词汇
 
--   区间/数据空间 (bin) 量化
+-   区间/数据空间(bin) 量化
     -   具有一定的统计或物理意义
     -   一种数据或特征的代表
     -   需要预定义或基于数据进行学习
     -   数值是一种统计量: 概率, 频数
 
-用自适应直方图均衡 (AHE) 算法通过局部区域进行直方图均衡:
+用自适应直方图均衡(AHE) 算法通过局部区域进行直方图均衡:
 
 -   移动模板在原始图片上按照特定步长华东
 -   每次移动后, 模板区域内作直方图均衡, 映射后的结果赋值给模板区域内所有点
 -   每个点会有多次赋值, 最终的取值为这些赋值的均值
 
-CLAHE 算法是一种非常经典的直方图均衡化算法: Contrast Limited Adaptive Histogram Equalization, 目的就是 image enhancement, 一般就是 低对比度 (low contrast) -> 对比度拉伸
-(contrast stretching) -> 直方图均衡 (histogram equalization)
+CLAHE 算法是一种非常经典的直方图均衡化算法: Contrast Limited Adaptive Histogram Equalization, 目的就是 image enhancement, 一般就是 低对比度(low contrast) -> 对比度拉伸
+(contrast stretching) -> 直方图均衡(histogram equalization)
 
 # depthwise separable convolution vs pointwise separable convolution
 

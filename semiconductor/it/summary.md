@@ -57,14 +57,14 @@
 >
 > SPC 内不仅有 MES 传来的 SPC Chart 参数, 还有温度, 压力等参数
 >
-> SPC 会返回 OCAP Flow Number 给 MES, 但 OCAP 规则由 MES 定义 (包括 wafer 完整性校验规则) , 所以即使是 small lot 也会触发 OCAP
+> SPC 会返回 OCAP Flow Number 给 MES, 但 OCAP 规则由 MES 定义(包括 wafer 完整性校验规则) , 所以即使是 small lot 也会触发 OCAP
 
 ## RTD
 
-| Abbreviation | Full form             | Desc                          |
-| :----------- | :-------------------- | :---------------------------- |
-| RTD          | Real Time Dispatching | 实时派工系统                  |
-| SDR          | Sensor Decide Respond | 感知决策响应 (工厂自动化系统) |
+| Abbreviation | Full form             | Desc                         |
+| :----------- | :-------------------- | :--------------------------- |
+| RTD          | Real Time Dispatching | 实时派工系统                 |
+| SDR          | Sensor Decide Respond | 感知决策响应(工厂自动化系统) |
 
 > Note:
 >
@@ -111,7 +111,7 @@
 | PVD          | Physical Vapor Deposition        | 物理气相沉积                                                              |
 | EPI          | Epitaxial                        | 外延层生长衬层, EPI-Wafer                                                 |
 | IMP          | Implant                          | 离子注入金属膜                                                            |
-| METAL        | metal-semiconductor (MS) contact | 金属介质沉积                                                              |
+| METAL        | metal-semiconductor(MS) contact  | 金属介质沉积                                                              |
 | PR           | PhotoResist                      | 光阻                                                                      |
 | PW           | Product wafer                    | 产品晶圆                                                                  |
 | SUP          | Support                          |                                                                           |

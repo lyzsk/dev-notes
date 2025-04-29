@@ -46,7 +46,7 @@ ONBOOT=yes
 
 ## finalshell
 
-SSH (Secure Shell), 建立在应用层基础上的安全协议, 通过 SSH 连接工具可以实现本地连接远程 Linux 服务器
+SSH(Secure Shell), 建立在应用层基础上的安全协议, 通过 SSH 连接工具可以实现本地连接远程 Linux 服务器
 
 Http://www.hostbuf.com/downloads/finalshell_install.exe
 
@@ -63,7 +63,7 @@ Http://www.hostbuf.com/downloads/finalshell_install.exe
 | `mkdir [目录名]`  |    make directory    |         创建目录         |
 |   `rm [文件名]`   |        remove        |       删除指定文件       |
 
-如果出现乱码 || 不喜欢提示中文, 修改 Linux 编码 (1. 追加编码文件到 profile; 2. 重新加载 profile):
+如果出现乱码 || 不喜欢提示中文, 修改 Linux 编码(1. 追加编码文件到 profile; 2. 重新加载 profile):
 
 ```
 echo 'LANG="en_US.UTF-8"' >> /etc/profile
@@ -197,7 +197,7 @@ yum install vim
         1. 底行模式可以通过命令对文件进行查找, 显示行号, 退出等操作
         2. 在 Command mode 下按 `:`, `/` 任意一个进入
         3. 通过 `/` 方式进入 Last line mode, 可以对文件进行查找
-        4. 通过 `:`进入 Last line mode, 可以通过 `wq` (保存并退出), `q!` (不保存退出), `set nu` (显示行号)
+        4. 通过 `:`进入 Last line mode, 可以通过 `wq`(保存并退出), `q!`(不保存退出), `set nu`(显示行号)
 
 ## find
 
@@ -287,7 +287,7 @@ cd bin
 sh startup.sh
 ```
 
-确认是否成功 (三种都行):
+确认是否成功(三种都行):
 
 ```
 more /usr/local/apache-tomcat-8.5.84/logs/catalina.out
@@ -295,7 +295,7 @@ tail -50 /usr/local/apache-tomcat-8.5.84/logs/catalina.out
 ps -ef | grep tomcat
 ```
 
-停止 Tomcat 服务 (两种都行, 但推荐优先用 kill):
+停止 Tomcat 服务(两种都行, 但推荐优先用 kill):
 
 1. 运行 shutdown 的 shell 脚本
 
@@ -342,7 +342,7 @@ rpm -qa | grep mysql
 rpm -qa | grep mariadb
 ```
 
-卸载冲突软件 (`rpm -e --nodeps softwareName`):
+卸载冲突软件(`rpm -e --nodeps softwareName`):
 
 ```
 rpm -e --nodeps mariadb-libs-5.5.60-1.el7_5.x86_64
@@ -383,7 +383,7 @@ ps -ef | grep mysql
 
 ### 5.7
 
-登录 MySQL 数据库, 查阅临时密码 (`-uroot -p` 输入密码时不会显示)
+登录 MySQL 数据库, 查阅临时密码(`-uroot -p` 输入密码时不会显示)
 
 ```
 cat /var/log/mysqld.log | grep password
@@ -404,7 +404,7 @@ flush privileges;
 用 5.7 的操作方法会报错:
 
 ```
-ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
+ERROR 1820(HY000): You must reset your password using ALTER USER statement before executing this statement.
 ```
 
 解决:

@@ -8,7 +8,7 @@ transformer 是 tokenized 的模型, mamba 更像 RNN, 但事实 selective state
 
 transformer 采用 self-attention 机制, 但 mamba 采用 selective state spaces, 即每个状态变量只与当前时刻的输入有关, 而不与历史输入有关. 因此, mamba 具有更高的计算效率, 且不用 attention 机制, 也不用 MLP 模块, 因此更适合长序列的处理.
 
-transformer 的一个主要优点是, 无论它接收到多长的输入, 它都使用序列中的任何令牌信息 (无论序列有多长)来对输入数据进行处理
+transformer 的一个主要优点是, 无论它接收到多长的输入, 它都使用序列中的任何令牌信息(无论序列有多长)来对输入数据进行处理
 
 但是为了获得全局信息, 注意力机制在长序列上非常耗费显存
 
@@ -16,11 +16,11 @@ transformer 的 encoder-decoder 结构把所有文本相关的任务都干了, �
 
 transformer attention 机制就是在每个 encoder 里, feed-forward 这样 attetion 创建一个 matrix, matrix 里 token 与 token 进行矩阵计算相关性, = 1 就是 high attention, 而计算下一个注意力的时候前一个 attention 已经算完了, 但是这种迭代耗显存
 
-而 mamba 借鉴 RNN, 只需要考虑之前的隐藏状态和当前的输入, 不会重新计算之前的隐藏状态, 这样比 transformer 快, 并且理论上是无限的上下文长度, 不管输入序列长短, 内存占用都很稳定 (每个隐藏状态都是以前所有隐藏状态的聚合), 但 RNN 的致命缺点就是不能并行化训练, 所以推理快, 训练慢, SSM 就解决了这个问题, 具体看下面链接的公式
+而 mamba 借鉴 RNN, 只需要考虑之前的隐藏状态和当前的输入, 不会重新计算之前的隐藏状态, 这样比 transformer 快, 并且理论上是无限的上下文长度, 不管输入序列长短, 内存占用都很稳定(每个隐藏状态都是以前所有隐藏状态的聚合), 但 RNN 的致命缺点就是不能并行化训练, 所以推理快, 训练慢, SSM 就解决了这个问题, 具体看下面链接的公式
 
 @see: https://cloud.tencent.com/developer/article/2390382
 
-## SSM (State Space Models)
+## SSM(State Space Models)
 
 mamba 用的是 linear attention
 
@@ -28,9 +28,9 @@ SSM 本身就定义了一个线性映射, 半可分离矩阵有着特殊的低�
 
 @see: https://www.qbitai.com/2024/06/149893.html
 
-一般任意带掩码的注意力机制, 都可以表示为 4 个张量缩井 (Contraction), 其中 QKV 对应注意力中的 query, key, value, L 对应掩码矩阵
+一般任意带掩码的注意力机制, 都可以表示为 4 个张量缩井(Contraction), 其中 QKV 对应注意力中的 query, key, value, L 对应掩码矩阵
 
-借助线性注意力, 加上结构化掩码注意力 SMA (Structured Masked Attention), 就可以让注意力的掩码矩阵是半可分离的, 就与 SSM 等价了, 然后就有了 mamba 的核心思想: 状态空间二元性 SSD (Structured State Space Duality)
+借助线性注意力, 加上结构化掩码注意力 SMA(Structured Masked Attention), 就可以让注意力的掩码矩阵是半可分离的, 就与 SSM 等价了, 然后就有了 mamba 的核心思想: 状态空间二元性 SSD(Structured State Space Duality)
 
 一般 SSMs 包括以下组成:
 
@@ -76,15 +76,15 @@ Output equation 还能添加观测噪声向量 vt: y(t) = Ch(t) + Dx(t) + vt, �
 
 在 mamba 中, A,B,C,D:
 
-step size delta: 输入的离散化表示 (discretization parameter of the input)
+step size delta: 输入的离散化表示(discretization parameter of the input)
 
-Matrix A: 当前状态空间如何随时间演化 (How the current state evolves over time)
+Matrix A: 当前状态空间如何随时间演化(How the current state evolves over time)
 
-Matrix B: 输入矩阵如何影响状态空间 (How the input influences the state)
+Matrix B: 输入矩阵如何影响状态空间(How the input influences the state)
 
-Matrix C: 当前状态空间如何映射到输出矩阵 (How the current state translates to the output)
+Matrix C: 当前状态空间如何映射到输出矩阵(How the current state translates to the output)
 
-## S4 (Structured State Spaces for sequences)
+## S4(Structured State Spaces for sequences)
 
 而 mamba 是将 SSM 升级到 S4(State Space Models for sequences), 即离散化 SSM, 循环/卷积表示, 基于 HiPPO 处理长序列
 
@@ -96,7 +96,7 @@ Matrix C: 当前状态空间如何映射到输出矩阵 (How the current state t
 
 Discretized matrix A = `exp(delta A)`
 
-Discretized matrix B = `(delta A)-1 * (exp(delta A) - I) * delta B`
+Discretized matrix B = `(delta A)-1 *(exp(delta A) - I) * delta B`
 
 也就是离散参数矩阵 A, B 变成了 mamba 的参数, SSM 转变成了离散 SSM, x(t) -> y(t) 的函数变成了序列 xk -> yk, 注意这里用 k 而不是 t 表示时间的步长, 因为连续信号的采样步长是可学习的, 而离散信号的采样步长是固定的, 所以用 k 表示, 也可以理解成 k 代表是一段时间范围而不是一个 t 时间点
 
@@ -106,7 +106,7 @@ Discretized matrix B = `(delta A)-1 * (exp(delta A) - I) * delta B`
 
 如何保留大上下文大小的方式创建矩阵 A 呢?
 
-HiPPO 的模型结合了递归记忆（Recurrent Memory）和最优多项式投影（Optimal Polynomial Projections）的概念，这种投影技术可以显著改善递归记忆的性能，特别是在处理长序列和长期依赖关系时。
+HiPPO 的模型结合了递归记忆(Recurrent Memory)和最优多项式投影(Optimal Polynomial Projections)的概念，这种投影技术可以显著改善递归记忆的性能，特别是在处理长序列和长期依赖关系时。
 
 @see: https://proceedings.neurips.cc/paper/2020/hash/102f0bb6efb3a6128a3c750dd16729be-Abstract.html
 
@@ -143,13 +143,13 @@ mamba 处理矩阵 4 个重要参数: B(batch size), L(sequence length), D(size 
 
 为了让扫描能并行化, mamba 通过关联属性假定执行操作的顺序无关紧要, 这样就可以计算部分序列并迭代组, 这样还有一个好处是因为顺序不重要合它们, 也可以省略掉 Transformer 的位置编码
 
-也就是 x -> B -> h (循环调用 A 更新状态 h) -> C -> y 公式中, 将 h 放在 SRAM 里, 也就是缓存里, A 因为是静态, 而且包含整个序列的状态信息的所以放在 DRAM 里
+也就是 x -> B -> h(循环调用 A 更新状态 h) -> C -> y 公式中, 将 h 放在 SRAM 里, 也就是缓存里, A 因为是静态, 而且包含整个序列的状态信息的所以放在 DRAM 里
 
 ## mamba block
 
 选择性 SSM 可以作为一个 block 块, 就像在 Transformer 中的的注意力模块一样, 可以堆叠多个块, 并使用它们的输出作为下一个块的输入
 
-mamba block 用的不是单纯的 Layer Norm, 而是 RMS Norm (Root Mean Square Layer Normalization)
+mamba block 用的不是单纯的 Layer Norm, 而是 RMS Norm(Root Mean Square Layer Normalization)
 
 相比于普通的 layer norm, RMS Norm 去除了平移部分, 只保留了缩放部分, 也就是减少了计算均值和平移系数的部分, 训练速度更快, 效果基本相当
 
@@ -185,7 +185,7 @@ Mamba2 跑分更高, 侧面证明 Attention 和 SSM 两种机制可以互为补�
 
 ---
 
-Mamba2（即 Mamba-2）是一种改进的选择性状态空间模型（Selective State Space Model, SSM），其核心在于通过结构化状态空间对偶性（SSD）理论将状态空间模型（SSM）与 Transformer 的注意力机制统一，从而在长序列建模中实现高效性与灵活性。以下是其连续状态空间的输入、输出、作用及数据处理方式的详细分析：
+Mamba2(即 Mamba-2)是一种改进的选择性状态空间模型(Selective State Space Model, SSM)，其核心在于通过结构化状态空间对偶性(SSD)理论将状态空间模型(SSM)与 Transformer 的注意力机制统一，从而在长序列建模中实现高效性与灵活性。以下是其连续状态空间的输入、输出、作用及数据处理方式的详细分析：
 
 ---
 
@@ -194,12 +194,12 @@ Mamba2（即 Mamba-2）是一种改进的选择性状态空间模型（Selective
 -   **输入**：  
     Mamba2 的输入是**连续的序列数据**，例如语言模型中的文本序列、视觉任务中的图像补丁序列或时间序列数据。具体来说，输入序列会被建模为连续时间信号，通过状态空间模型的动态系统进行转换。
 
-    -   在连续时间视角下，输入信号通过零阶保持（Zero-Order Hold, ZOH）技术进行离散化处理，将离散的输入序列转换为连续的信号，以适应 SSM 的数学框架。
+    -   在连续时间视角下，输入信号通过零阶保持(Zero-Order Hold, ZOH)技术进行离散化处理，将离散的输入序列转换为连续的信号，以适应 SSM 的数学框架。
 
 -   **输出**：  
     输出是**经过状态空间模型处理的序列**，通常包括两部分：
-    1. **隐藏状态的更新**：通过状态方程（如\( h\_{t+1} = A h_t + B u_t \)）动态调整，捕捉序列中的长期依赖关系。
-    2. **预测结果**：通过输出方程（如\( y_t = C h_t \)）将隐藏状态映射到目标输出，例如语言模型的预测词或图像分类的类别概率。
+    1. **隐藏状态的更新**：通过状态方程(如\( h\_{t+1} = A h_t + B u_t \))动态调整，捕捉序列中的长期依赖关系。
+    2. **预测结果**：通过输出方程(如\( y_t = C h_t \))将隐藏状态映射到目标输出，例如语言模型的预测词或图像分类的类别概率。
 
 ---
 
@@ -210,14 +210,14 @@ Mamba2 的连续状态空间设计主要解决以下问题：
 1. **长序列建模效率**：
 
     - 通过状态空间模型的线性时间复杂度和并行扫描技术，避免了 Transformer 的二次计算复杂度，尤其适用于百万级长度的序列处理。
-    - 在视觉任务中，双向状态空间模型（如 Vision Mamba, Vim）通过四向扫描策略捕捉全局空间信息，替代了传统自注意力机制。
+    - 在视觉任务中，双向状态空间模型(如 Vision Mamba, Vim)通过四向扫描策略捕捉全局空间信息，替代了传统自注意力机制。
 
 2. **动态选择性机制**：
 
-    - 通过选择性 SSM（S6），模型可根据输入内容动态调整参数（如状态转移矩阵 A、输入投影矩阵 B），从而聚焦关键信息，忽略噪声或冗余数据。
+    - 通过选择性 SSM(S6)，模型可根据输入内容动态调整参数(如状态转移矩阵 A、输入投影矩阵 B)，从而聚焦关键信息，忽略噪声或冗余数据。
 
 3. **硬件优化**：
-    - 结合 GPU 的并行计算特性，采用核融合（Kernel Fusion）和重计算（Recomputation）技术，减少内存访问开销，提升训练和推理速度。
+    - 结合 GPU 的并行计算特性，采用核融合(Kernel Fusion)和重计算(Recomputation)技术，减少内存访问开销，提升训练和推理速度。
 
 ---
 
@@ -225,20 +225,20 @@ Mamba2 的连续状态空间设计主要解决以下问题：
 
 Mamba2 对输入数据的处理主要包括以下步骤：
 
-1. **离散化与零阶保持（ZOH）**：
+1. **离散化与零阶保持(ZOH)**：
 
-    - 将离散输入序列（如文本或图像补丁）转换为连续信号，通过 ZOH 保持每个输入值的持续时间，并由可学习的步长参数 Δ 控制离散化过程。
+    - 将离散输入序列(如文本或图像补丁)转换为连续信号，通过 ZOH 保持每个输入值的持续时间，并由可学习的步长参数 Δ 控制离散化过程。
 
 2. **结构化参数化**：
 
-    - 使用 HiPPO 矩阵（High-order Polynomial Projection Operators）捕捉输入信号的历史信息，通过多项式基函数逼近连续信号，增强对长程依赖的建模能力。
+    - 使用 HiPPO 矩阵(High-order Polynomial Projection Operators)捕捉输入信号的历史信息，通过多项式基函数逼近连续信号，增强对长程依赖的建模能力。
 
 3. **多维数据扩展**：
 
-    - 针对视觉数据，将 2D 图像分割为补丁序列，通过交叉扫描模块（Cross-Scan Module, CSM）进行四向扫描，解决传统 SSM 单向建模的局限性。
+    - 针对视觉数据，将 2D 图像分割为补丁序列，通过交叉扫描模块(Cross-Scan Module, CSM)进行四向扫描，解决传统 SSM 单向建模的局限性。
 
 4. **动态参数调整**：
-    - 选择性机制通过输入相关的参数（如 Δ、B、C）动态调整状态转移和输入投影，使模型能够适应不同数据模式（如语言中的关键词或图像中的关键区域）。
+    - 选择性机制通过输入相关的参数(如 Δ、B、C)动态调整状态转移和输入投影，使模型能够适应不同数据模式(如语言中的关键词或图像中的关键区域)。
 
 ---
 
@@ -246,8 +246,8 @@ Mamba2 对输入数据的处理主要包括以下步骤：
 
 与 Transformer 和传统 SSM 相比，Mamba2 的创新体现在：
 
--   **理论统一性**：通过 SSD 理论揭示了 SSM 与注意力机制在数学上的等价性，例如将注意力掩码矩阵映射为半可分矩阵（Semi-Separable Matrix），实现计算加速。
--   **效率优势**：在 ImageNet 分类任务中，Vision Mamba（Vim）的推理速度比 DeiT 快 2.8 倍，内存占用减少 86.8%。
+-   **理论统一性**：通过 SSD 理论揭示了 SSM 与注意力机制在数学上的等价性，例如将注意力掩码矩阵映射为半可分矩阵(Semi-Separable Matrix)，实现计算加速。
+-   **效率优势**：在 ImageNet 分类任务中，Vision Mamba(Vim)的推理速度比 DeiT 快 2.8 倍，内存占用减少 86.8%。
 
 ---
 
@@ -271,7 +271,7 @@ GPU 的缺陷： SRAM 和 DRAM 之间的频繁通信导致的计算瓶颈
 
 硬件感知算法不会保存中间状态，而是在后向传递时对中间状态进行重新计算；因为重新计算的成本，比从相对较慢的 DRAM 中读取中间状态的成本更低
 
-Tensor 实际上就是一个多维数组（multidimensional array）
+Tensor 实际上就是一个多维数组(multidimensional array)
 
 Tensor 的目的是能够创造更高维度的矩阵、向量
 
@@ -299,23 +299,23 @@ def segsum(x):
 
 ```
 
-1. T = x.size(-1)：获取张量 x 在最后一个维度上的尺寸，记为 T。这通常意味着 x 是一个形状为 (batch_size, sequence_length, dimension) 的张量，其中 T 对应于 sequence_length。
+1. T = x.size(-1)：获取张量 x 在最后一个维度上的尺寸，记为 T。这通常意味着 x 是一个形状为(batch_size, sequence_length, dimension) 的张量，其中 T 对应于 sequence_length。
 
-2. x = repeat(x, "... d -> ... d e", e=T)：使用 repeat 函数将张量 x 在一个新的维度上进行重复。具体来说，假设 x 原本的形状是 (batch_size, sequence_length, dimension)，经过这一步后，x 的形状会变成 (batch_size, sequence_length, dimension, T)。这里的 ... 表示前面对应的所有维度，d 和 e 分别代表最后一个和新添加的维度。新添加的维度 T 上的元素都是 x 中对应元素的重复。
+2. x = repeat(x, "... d -> ... d e", e=T)：使用 repeat 函数将张量 x 在一个新的维度上进行重复。具体来说，假设 x 原本的形状是(batch_size, sequence_length, dimension)，经过这一步后，x 的形状会变成(batch_size, sequence_length, dimension, T)。这里的 ... 表示前面对应的所有维度，d 和 e 分别代表最后一个和新添加的维度。新添加的维度 T 上的元素都是 x 中对应元素的重复。
 
 3. mask = torch.tril(torch.ones(T, T, device=x.device, dtype=bool), diagonal=-1)：创建一个下三角矩阵掩码，其中对角线以上的元素为 False，对角线及以下的元素为 True。这里的 diagonal=-1 表示对角线以上的部分也需要填充为 False。
 
 4. x = x.masked_fill(~mask, 0)：将 x 中对应于 mask 为 False 的位置的元素填充为 0。这样可以确保在后续的累积和计算中，只考虑下三角部分的元素。
 
-5. x_segsum = torch.cumsum(x, dim=-2)：在倒数第二个维度（即 T 这个新添加的维度）上计算累积和。这一步的目的是为了计算分段和，即在 T 维度上，逐行累加元素的值。
+5. x_segsum = torch.cumsum(x, dim=-2)：在倒数第二个维度(即 T 这个新添加的维度)上计算累积和。这一步的目的是为了计算分段和，即在 T 维度上，逐行累加元素的值。
 
 6. mask = torch.tril(torch.ones(T, T, device=x.device, dtype=bool), diagonal=0)：创建一个新的下三角矩阵掩码，其中对角线及以上的元素为 True，对角线以下的元素为 False。这里的 diagonal=0 表示对角线部分也需要填充为 True。
 
-7. x_segsum = x_segsum.masked_fill(~mask, -torch.inf)：再次使用掩码，将 x_segsum 中对应于 mask 为 False 的位置的元素填充为负无穷 -torch.inf。这一步的目的是确保在后续的操作中，只保留下三角部分的累积和结果，大于对角线的部分会被填充为负无穷，从而在需要时（例如取最大值）可以忽略这些位置的值。
+7. x_segsum = x_segsum.masked_fill(~mask, -torch.inf)：再次使用掩码，将 x_segsum 中对应于 mask 为 False 的位置的元素填充为负无穷 -torch.inf。这一步的目的是确保在后续的操作中，只保留下三角部分的累积和结果，大于对角线的部分会被填充为负无穷，从而在需要时(例如取最大值)可以忽略这些位置的值。
 
-8. return x_segsum：返回计算得到的分段和张量 x_segsum，其形状为 (batch_size, sequence_length, dimension, T)，并且只保留了下三角部分的有效累积和结果。
+8. return x_segsum：返回计算得到的分段和张量 x_segsum，其形状为(batch_size, sequence_length, dimension, T)，并且只保留了下三角部分的有效累积和结果。
 
-segsum 函数可以处理任意维度的输入张量 x，而不仅仅是 3 维矩阵。具体来说，输入张量 x 的最后一个维度的大小被用来计算段和（segment sum），即 T = x.size(-1)。函数的主要目的是计算一个特定的段和矩阵，该矩阵在某些情况下用于生成半可分矩阵（semi-separable matrix），这种矩阵在处理长序列时可以提高效率
+segsum 函数可以处理任意维度的输入张量 x，而不仅仅是 3 维矩阵。具体来说，输入张量 x 的最后一个维度的大小被用来计算段和(segment sum)，即 T = x.size(-1)。函数的主要目的是计算一个特定的段和矩阵，该矩阵在某些情况下用于生成半可分矩阵(semi-separable matrix)，这种矩阵在处理长序列时可以提高效率
 
 1. 输入形状处理
 
@@ -325,7 +325,7 @@ segsum 函数可以处理任意维度的输入张量 x，而不仅仅是 3 维�
 
     ```
 
-    这里使用 repeat 函数将输入张量 x 在最后一个维度之后增加了一个新的维度，使得 x 的形状变为 (..., d, T, T)，其中 d 是 x 的倒数第二个维度的大小（或其他维度大小，用 ... 表示），T 是序列的长度。这样做是为了准备后续的矩阵运算。
+    这里使用 repeat 函数将输入张量 x 在最后一个维度之后增加了一个新的维度，使得 x 的形状变为(..., d, T, T)，其中 d 是 x 的倒数第二个维度的大小(或其他维度大小，用 ... 表示)，T 是序列的长度。这样做是为了准备后续的矩阵运算。
 
 2. 创建掩码
 
@@ -335,7 +335,7 @@ segsum 函数可以处理任意维度的输入张量 x，而不仅仅是 3 维�
 
     ```
 
-    使用 torch.tril 创建一个下三角掩码矩阵，其中只有下三角部分（不包括对角线）为 True，其余部分为 False。然后，使用 masked_fill 函数将 x 中对应掩码为 False 的位置填充为 0。这一步是为了确保只有序列中较早的时间点可以对后面的时间点产生影响
+    使用 torch.tril 创建一个下三角掩码矩阵，其中只有下三角部分(不包括对角线)为 True，其余部分为 False。然后，使用 masked_fill 函数将 x 中对应掩码为 False 的位置填充为 0。这一步是为了确保只有序列中较早的时间点可以对后面的时间点产生影响
 
 3. 计算累计和
 
@@ -344,7 +344,7 @@ segsum 函数可以处理任意维度的输入张量 x，而不仅仅是 3 维�
 
     ```
 
-    在新的倒数第二个维度（即 ... d e 中的 e）上计算累积和。这一步将 x 中的值累积起来，形成一个累积和矩阵
+    在新的倒数第二个维度(即 ... d e 中的 e)上计算累积和。这一步将 x 中的值累积起来，形成一个累积和矩阵
 
 4. 再次应用掩码
 
@@ -362,11 +362,11 @@ segsum 函数的核心功能是通过累积和和掩码操作生成一个特定�
 
 然后这些高维矩阵(tensor) 会进行:
 
-1. 离散化与零阶保持（ZOH）: 将离散的输入序列转换为连续信号。每个输入值在一段持续时间内保持不变，这个持续时间由可学习参数 delta 控制
+1. 离散化与零阶保持(ZOH): 将离散的输入序列转换为连续信号。每个输入值在一段持续时间内保持不变，这个持续时间由可学习参数 delta 控制
 
-2. 映射到状态空间模型: 通过线性变换和结构化掩码注意力（SMA），将输入信号映射到状态空间模型中。在这个过程中，A, B, C, 和 D 矩阵会被用到，其中 A 和 C 是静态的，而 B 和 C 是动态的，可以根据输入内容进行调整
+2. 映射到状态空间模型: 通过线性变换和结构化掩码注意力(SMA)，将输入信号映射到状态空间模型中。在这个过程中，A, B, C, 和 D 矩阵会被用到，其中 A 和 C 是静态的，而 B 和 C 是动态的，可以根据输入内容进行调整
 
-3. 进入 segsum 函数: segsum 函数用于计算段和（segment sum），在 Mamba2 中主要用于生成状态空间模型中的掩码矩阵。这里的输入张量 x 通常是经过离散化和线性变换后的结果，它可能是一个三维矩阵（例如 [batch_size, sequence_length, n_heads]），但在 segsum 函数中，它会被处理为一个更高维度的张量，以便进行段和计算
+3. 进入 segsum 函数: segsum 函数用于计算段和(segment sum)，在 Mamba2 中主要用于生成状态空间模型中的掩码矩阵。这里的输入张量 x 通常是经过离散化和线性变换后的结果，它可能是一个三维矩阵(例如 [batch_size, sequence_length, n_heads])，但在 segsum 函数中，它会被处理为一个更高维度的张量，以便进行段和计算
 
 segsum 函数返回的 x_segsum 是一个四维张量，包含了段和计算的结果，这些结果会被用于后续的状态空间模型的计算中
 
@@ -378,23 +378,23 @@ segsum 函数返回的 x_segsum 是一个四维张量，包含了段和计算的
 
 3. Projection: 归一化后的张量会被投影到更高维度的空间。这个投影通常是通过线性变换, 型变成 [batch_size, sequence_length, n_heads, d_head] 然后应用[segsum](#segsum) , 投影后的张量包含了更丰富的特征表示, 为后续的 SSM 处理做准备
 
-4. Convolution: 投影后的张量会通过卷积层进行特征提取, 卷积层可以捕捉输入序列中的局部模式和依赖关系, 将 [batch_size, sequence_length, n_heads, d_state] 的 tensor 在时间步长上进行操作, 提取特征并生成新的 [batch_size, sequence_length, n_heads, d_head] 卷积层的输出通常经过 SiLU（Sigmoid Linear Unit）激活函数进行非线性变换
+4. Convolution: 投影后的张量会通过卷积层进行特征提取, 卷积层可以捕捉输入序列中的局部模式和依赖关系, 将 [batch_size, sequence_length, n_heads, d_state] 的 tensor 在时间步长上进行操作, 提取特征并生成新的 [batch_size, sequence_length, n_heads, d_head] 卷积层的输出通常经过 SiLU(Sigmoid Linear Unit)激活函数进行非线性变换
 
 5. SiLU: SiLU 激活函数会对卷积层的输出进行非线性变换，使得模型能够学习更复杂的特征表示, `SiLU(x) = x * sig(x)`, 直接调用 Sigmoid 函数
 
 6. Selective SSM: 经过卷积和 SiLU 激活函数处理后的张量会被输入到选择性 SSM 中, 选择性 SSM 是 Mamba2 的核心部分，它能够根据输入内容动态调整状态转移和输入投影，从而聚焦关键信息，忽略噪声或冗余数据。选择性 SSM 处理后的输出是一个形状为 [batch_size, sequence_length, n_heads, d_head] 的张量，这个张量包含了隐藏状态与目标预测的结合
 
-7. Projection: 选择性 SSM 的输出可能会再次经过一个投影层，将特征映射到原始的输出空间中，形状为 (batch, length, n_heads, d_head)。这个步骤通常是可选的，具体取决于 Mamba2 的实现细节
+7. Projection: 选择性 SSM 的输出可能会再次经过一个投影层，将特征映射到原始的输出空间中，形状为(batch, length, n_heads, d_head)。这个步骤通常是可选的，具体取决于 Mamba2 的实现细节
 
 segsum 函数的作用是计算段和，以优化长序列的处理，从而减少 SRAM 和 DRAM 之间的频繁通信，提高计算效率
 
 AI 生成的:
 
-Mamba2 实际上并不是非 tokenized 的模型。虽然它在架构上借鉴了 RNN 和选择性状态空间模型（SSM）的理念，但本质上仍然是处理 token 序列的模型，类似于 Transformer。这种误解可能源于 Mamba2 使用了更高效的方式来处理这些 token 序列，避免了像 Transformer 那样的自注意力机制，而是通过状态空间模型来捕捉长序列中的依赖关系。
+Mamba2 实际上并不是非 tokenized 的模型。虽然它在架构上借鉴了 RNN 和选择性状态空间模型(SSM)的理念，但本质上仍然是处理 token 序列的模型，类似于 Transformer。这种误解可能源于 Mamba2 使用了更高效的方式来处理这些 token 序列，避免了像 Transformer 那样的自注意力机制，而是通过状态空间模型来捕捉长序列中的依赖关系。
 
-具体来说，Mamba2 的输入序列 input_ids 是 token 序列，这些 token 是通过分词器（tokenizer）将文本或其他序列数据转换成的离散整数序列。在 Mamba2LMHeadModel 的 forward 方法中，首先将这些 token 序列通过嵌入层（embedding layer）映射成连续的向量表示，然后通过多层的状态空间处理模块（SSM block）来逐步处理这些向量序列。
+具体来说，Mamba2 的输入序列 input_ids 是 token 序列，这些 token 是通过分词器(tokenizer)将文本或其他序列数据转换成的离散整数序列。在 Mamba2LMHeadModel 的 forward 方法中，首先将这些 token 序列通过嵌入层(embedding layer)映射成连续的向量表示，然后通过多层的状态空间处理模块(SSM block)来逐步处理这些向量序列。
 
-最终，经过所有层的处理后，输出会被通过一个线性层（lm_head），将处理后的向量映射回 token 的词汇表空间，从而得到每个 token 的预测概率分布。因此，logits 的输出维度是 (batch, seqlen, vocab_size)，表示每个序列中的每个 token 对应的词汇表中每个 token 的预测概率
+最终，经过所有层的处理后，输出会被通过一个线性层(lm_head)，将处理后的向量映射回 token 的词汇表空间，从而得到每个 token 的预测概率分布。因此，logits 的输出维度是(batch, seqlen, vocab_size)，表示每个序列中的每个 token 对应的词汇表中每个 token 的预测概率
 
 ---
 
@@ -409,13 +409,13 @@ Mamba2 实际上并不是非 tokenized 的模型。虽然它在架构上借鉴�
 ```py
 @dataclass
 class Mamba2Config:
-    d_model: int  # model dimension (D)
+    d_model: int  # model dimension(D)
     n_layer: int = 24  # number of Mamba-2 layers in the language model
-    d_state: int = 128  # state dimension (N)
+    d_state: int = 128  # state dimension(N)
     d_conv: int = 4  # convolution kernel size
-    expand: int = 2  # expansion factor (E)
-    headdim: int = 64  # head dimension (P)
-    chunk_size: int = 64  # matrix partition size (Q)
+    expand: int = 2  # expansion factor(E)
+    headdim: int = 64  # head dimension(P)
+    chunk_size: int = 64  # matrix partition size(Q)
     vocab_size: int = 50277
     pad_vocab_size_multiple: int = 16
 
@@ -424,7 +424,7 @@ class Mamba2Config:
         assert self.d_inner % self.headdim == 0
         self.nheads = self.d_inner // self.headdim
         if self.vocab_size % self.pad_vocab_size_multiple != 0:
-            self.vocab_size += (
+            self.vocab_size +=(
                 self.pad_vocab_size_multiple
                 - self.vocab_size % self.pad_vocab_size_multiple
             )
@@ -435,8 +435,8 @@ class Mamba2Config:
 
 ```py
 class InferenceCache(NamedTuple):
-    conv_state: Tensor  # (batch, d_inner + 2 * d_state, d_conv)
-    ssm_state: Tensor  # (batch, nheads, headdim, d_state)
+    conv_state: Tensor  #(batch, d_inner + 2 * d_state, d_conv)
+    ssm_state: Tensor  #(batch, nheads, headdim, d_state)
 
     @staticmethod
     def alloc(batch_size: int, args: Mamba2Config, device: Device = None):
@@ -510,14 +510,14 @@ class Mamba2LMHeadModel(nn.Module):
     ) -> tuple[LongTensor, list[InferenceCache]]:
         """
         Arguments
-            input_ids: (batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
+            input_ids:(batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
             h: hidden states for inference step. If present the constant-time
-               (wrt sequence length) inference path will be taken, input_ids
-               should have shape (batch, 1) containing the next batch of prompt
+             (wrt sequence length) inference path will be taken, input_ids
+               should have shape(batch, 1) containing the next batch of prompt
                token.
 
-        Return (logits, h)
-            logits: (batch, seqlen, vocab_size)
+        Return(logits, h)
+            logits:(batch, seqlen, vocab_size)
             h: updated inference cache after processing `input_ids`
         """
         seqlen = input_ids.shape[1]
@@ -546,10 +546,10 @@ class Mamba2LMHeadModel(nn.Module):
         prefix, tokens = input_ids[:-1], input_ids[-1:].unsqueeze(0)
 
         # Process prompt
-        # The input sequence to forward (non-inference path) must have length multiple that of chunk_size.
+        # The input sequence to forward(non-inference path) must have length multiple that of chunk_size.
         # We split out excess tokens so that n_chunked tokens can be processed by one forward call and
         # process the rest in multiple inference steps.
-        n_chunked = (prefix.shape[0] // self.args.chunk_size) * self.args.chunk_size
+        n_chunked =(prefix.shape[0] // self.args.chunk_size) * self.args.chunk_size
         if n_chunked > 0:
             _, h = self(prefix[:n_chunked].unsqueeze(0), None)
         else:
@@ -601,7 +601,7 @@ class Mamba2(nn.Module):
         self.args = args
         self.device = device
 
-        # Order: (z, x, B, C, dt)
+        # Order:(z, x, B, C, dt)
         d_in_proj = 2 * args.d_inner + 2 * args.d_state + args.nheads
         self.in_proj = nn.Linear(args.d_model, d_in_proj, bias=False, device=device)
 
@@ -634,14 +634,14 @@ class Mamba2(nn.Module):
     ) -> tuple[LongTensor, list[InferenceCache]]:
         """
         Arguments
-            input_ids: (batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
+            input_ids:(batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
             h: hidden states for inference step. If present the constant-time
-               (wrt sequence length) inference path will be taken, input_ids
-               should have shape (batch, 1) containing the next batch of prompt
+             (wrt sequence length) inference path will be taken, input_ids
+               should have shape(batch, 1) containing the next batch of prompt
                token.
 
-        Return (logits, h)
-            logits: (batch, seqlen, vocab_size)
+        Return(logits, h)
+            logits:(batch, seqlen, vocab_size)
             h: updated inference cache after processing `input_ids`
         """
         seqlen = input_ids.shape[1]
@@ -663,18 +663,18 @@ class Mamba2(nn.Module):
     def forward(self, u: Tensor, h: InferenceCache | None = None):
         """
         Arguments
-            u: (batch, seqlen, d_model) input. seqlen should be a multiple of chunk_size.
+            u:(batch, seqlen, d_model) input. seqlen should be a multiple of chunk_size.
             h: hidden states for inference step. Initialized to 0s if not present.
 
-        Return (y, h)
-            y: (batch, seqlen, d_model) output
+        Return(y, h)
+            y:(batch, seqlen, d_model) output
             h: updated inference cache after processing `u`
         """
         if h:
             return self.step(u, h)
 
-        A = -torch.exp(self.A_log)  # (nheads,)
-        zxbcdt = self.in_proj(u)  # (batch, seqlen, d_in_proj)
+        A = -torch.exp(self.A_log)  #(nheads,)
+        zxbcdt = self.in_proj(u)  #(batch, seqlen, d_in_proj)
         z, xBC, dt = torch.split(
             zxbcdt,
             [
@@ -684,20 +684,20 @@ class Mamba2(nn.Module):
             ],
             dim=-1,
         )
-        dt = F.softplus(dt + self.dt_bias)  # (batch, seqlen, nheads)
+        dt = F.softplus(dt + self.dt_bias)  #(batch, seqlen, nheads)
 
         # Pad or truncate xBC seqlen to d_conv
         conv_state = F.pad(
-            rearrange(xBC, "b l d -> b d l"), (self.args.d_conv - u.shape[1], 0)
+            rearrange(xBC, "b l d -> b d l"),(self.args.d_conv - u.shape[1], 0)
         )
 
         xBC = silu(
             self.conv1d(xBC.transpose(1, 2)).transpose(1, 2)[:, : u.shape[1], :]
-        )  # (batch, seqlen, d_inner + 2 * d_state))
+        )  #(batch, seqlen, d_inner + 2 * d_state))
         x, B, C = torch.split(
             xBC, [self.args.d_inner, self.args.d_state, self.args.d_state], dim=-1
         )
-        x = rearrange(x, "b l (h p) -> b l h p", p=self.args.headdim)
+        x = rearrange(x, "b l(h p) -> b l h p", p=self.args.headdim)
         y, ssm_state = ssd(
             x * dt.unsqueeze(-1),
             A * dt,
@@ -707,7 +707,7 @@ class Mamba2(nn.Module):
             device=self.device,
         )
         y = y + x * self.D.unsqueeze(-1)
-        y = rearrange(y, "b l h p -> b l (h p)")
+        y = rearrange(y, "b l h p -> b l(h p)")
         y = self.norm(y, z)
         y = self.out_proj(y)
 
@@ -741,7 +741,7 @@ class RMSNorm(nn.Module):
         self.args = args
         self.device = device
 
-        # Order: (z, x, B, C, dt)
+        # Order:(z, x, B, C, dt)
         d_in_proj = 2 * args.d_inner + 2 * args.d_state + args.nheads
         self.in_proj = nn.Linear(args.d_model, d_in_proj, bias=False, device=device)
 
@@ -768,18 +768,18 @@ class RMSNorm(nn.Module):
     def forward(self, u: Tensor, h: InferenceCache | None = None):
         """
         Arguments
-            u: (batch, seqlen, d_model) input. seqlen should be a multiple of chunk_size.
+            u:(batch, seqlen, d_model) input. seqlen should be a multiple of chunk_size.
             h: hidden states for inference step. Initialized to 0s if not present.
 
-        Return (y, h)
-            y: (batch, seqlen, d_model) output
+        Return(y, h)
+            y:(batch, seqlen, d_model) output
             h: updated inference cache after processing `u`
         """
         if h:
             return self.step(u, h)
 
-        A = -torch.exp(self.A_log)  # (nheads,)
-        zxbcdt = self.in_proj(u)  # (batch, seqlen, d_in_proj)
+        A = -torch.exp(self.A_log)  #(nheads,)
+        zxbcdt = self.in_proj(u)  #(batch, seqlen, d_in_proj)
         z, xBC, dt = torch.split(
             zxbcdt,
             [
@@ -789,20 +789,20 @@ class RMSNorm(nn.Module):
             ],
             dim=-1,
         )
-        dt = F.softplus(dt + self.dt_bias)  # (batch, seqlen, nheads)
+        dt = F.softplus(dt + self.dt_bias)  #(batch, seqlen, nheads)
 
         # Pad or truncate xBC seqlen to d_conv
         conv_state = F.pad(
-            rearrange(xBC, "b l d -> b d l"), (self.args.d_conv - u.shape[1], 0)
+            rearrange(xBC, "b l d -> b d l"),(self.args.d_conv - u.shape[1], 0)
         )
 
         xBC = silu(
             self.conv1d(xBC.transpose(1, 2)).transpose(1, 2)[:, : u.shape[1], :]
-        )  # (batch, seqlen, d_inner + 2 * d_state))
+        )  #(batch, seqlen, d_inner + 2 * d_state))
         x, B, C = torch.split(
             xBC, [self.args.d_inner, self.args.d_state, self.args.d_state], dim=-1
         )
-        x = rearrange(x, "b l (h p) -> b l h p", p=self.args.headdim)
+        x = rearrange(x, "b l(h p) -> b l h p", p=self.args.headdim)
         y, ssm_state = ssd(
             x * dt.unsqueeze(-1),
             A * dt,
@@ -812,7 +812,7 @@ class RMSNorm(nn.Module):
             device=self.device,
         )
         y = y + x * self.D.unsqueeze(-1)
-        y = rearrange(y, "b l h p -> b l (h p)")
+        y = rearrange(y, "b l h p -> b l(h p)")
         y = self.norm(y, z)
         y = self.out_proj(y)
 
@@ -820,13 +820,13 @@ class RMSNorm(nn.Module):
         return y, h
 ```
 
-u：（batch、seqlen、d_model）输入。 seqlen 应该是 chunk_size 的倍数。
+u：(batch、seqlen、d_model)输入。 seqlen 应该是 chunk_size 的倍数。
 
 h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 
-返回（y，h）
+返回(y，h)
 
--   y: (batch, seqlen, d_model) 输出
+-   y:(batch, seqlen, d_model) 输出
 
 -   h：处理“u”后更新推理缓存
 
@@ -835,7 +835,7 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 首先通过 in_proj 将输入进行线性变换，生成多个相关的矩阵，包括 z, xBC, 和 dt, 其中 xBC 是进一步用于状态空间模型中的 B 和 C，而 dt 是用于调整步长的参数
 
 ```py
-        zxbcdt = self.in_proj(u.squeeze(1))  # (batch, d_in_proj)
+        zxbcdt = self.in_proj(u.squeeze(1))  #(batch, d_in_proj)
         z, xBC, dt = torch.split(
             zxbcdt,
             [
@@ -848,9 +848,9 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 
 ```
 
--   z 的维度为 (batch, seqlen, d_inner)
--   xBC 的维度为 (batch, seqlen, d_inner + 2 \* d_state)
--   dt 的维度为 (batch, seqlen, nheads)
+-   z 的维度为(batch, seqlen, d_inner)
+-   xBC 的维度为(batch, seqlen, d_inner + 2 \* d_state)
+-   dt 的维度为(batch, seqlen, nheads)
 -   归一化后的 tensor 会被投影到更高维度的空间。这个投影(in_projection)通常是通过线性变换, 投影后的张量包含了更丰富的特征表示, 为后续的 SSM 处理做准备
 
 ### mamba2 step4: convolution
@@ -869,8 +869,8 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
         xBC = silu(xBC)
 ```
 
--   conv_state 的维度为 (batch, d_inner + 2 \* d_state, d_conv)
--   经过卷积后的 xBC 维度为 (batch, seqlen, d_inner + 2 \* d_state)
+-   conv_state 的维度为(batch, d_inner + 2 \* d_state, d_conv)
+-   经过卷积后的 xBC 维度为(batch, seqlen, d_inner + 2 \* d_state)
 -   这里用到了 SiLU 激活函数:
 
     激活方式(在 forward 函数中复用):
@@ -878,7 +878,7 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
     ```py
     xBC = silu(
         self.conv1d(xBC.transpose(1, 2)).transpose(1, 2)[:, : u.shape[1], :]
-    )  # (batch, seqlen, d_inner + 2 * d_state))
+    )  #(batch, seqlen, d_inner + 2 * d_state))
     ```
 
     调用了函数:
@@ -897,7 +897,7 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 
     ```py
     def silu(x):
-        """Applies the Sigmoid Linear Unit (SiLU), element-wise.
+        """Applies the Sigmoid Linear Unit(SiLU), element-wise.
         手动定义它，因为 torch 的版本似乎不适用于 MPS(GPU M1用的, 实际用A100可以换torch的方法)
         """
         return x * F.sigmoid(x)
@@ -910,9 +910,9 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
 这里主要是:
 
 1. `x, B, C = torch.split(xBC, [self.args.d_inner, self.args.d_state, self.args.d_state], dim=-1)`
-2. `x = rearrange(x, "b (h p) -> b h p", p=self.args.headdim)` (batch, seqlen, n_heads, d_head)
-3. `B = rearrange(B, "b l n -> b l 1 n")` (batch, seqlen, 1, d_state)
-4. `C = rearrange(C, "b l n -> b l 1 n")` (batch, seqlen, 1, d_state)
+2. `x = rearrange(x, "b(h p) -> b h p", p=self.args.headdim)`(batch, seqlen, n_heads, d_head)
+3. `B = rearrange(B, "b l n -> b l 1 n")`(batch, seqlen, 1, d_state)
+4. `C = rearrange(C, "b l n -> b l 1 n")`(batch, seqlen, 1, d_state)
 
 调用的是 einops 包中的 rearrange 方法:
 
@@ -927,17 +927,17 @@ h：推理步骤的隐藏状态。如果不存在则初始化为 0。
         x, B, C = torch.split(
             xBC, [self.args.d_inner, self.args.d_state, self.args.d_state], dim=-1
         )
-        A = -torch.exp(self.A_log)  # (nheads,)
+        A = -torch.exp(self.A_log)  #(nheads,)
 
         # SSM step
-        dt = F.softplus(dt + self.dt_bias)  # (batch, nheads)
-        dA = torch.exp(dt * A)  # (batch, nheads)
-        x = rearrange(x, "b (h p) -> b h p", p=self.args.headdim)
+        dt = F.softplus(dt + self.dt_bias)  #(batch, nheads)
+        dA = torch.exp(dt * A)  #(batch, nheads)
+        x = rearrange(x, "b(h p) -> b h p", p=self.args.headdim)
         dBx = torch.einsum("bh, bn, bhp -> bhpn", dt, B, x)
         h.ssm_state.copy_(h.ssm_state * rearrange(dA, "b h -> b h 1 1") + dBx)
         y = torch.einsum("bhpn, bn -> bhp", h.ssm_state, C)
         y = y + rearrange(self.D, "h -> h 1") * x
-        y = rearrange(y, "b h p -> b (h p)")
+        y = rearrange(y, "b h p -> b(h p)")
         y = self.norm(y, z)
         y = self.out_proj(y)
 
@@ -970,8 +970,8 @@ def segsum(x):
     return x_segsum
 ```
 
--   输入 x 的维度为 (batch, seqlen, n_heads)
--   输出 x_segsum 的维度为 (batch, seqlen, n_heads, seqlen)
+-   输入 x 的维度为(batch, seqlen, n_heads)
+-   输出 x_segsum 的维度为(batch, seqlen, n_heads, seqlen)
 
 ### mamba2 step5.2: step6 前的准备, SSD 函数
 
@@ -981,60 +981,60 @@ def segsum(x):
 def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
     """
     Arguments:
-        X: (batch, length, n_heads, d_head)
-        A: (batch, length, n_heads)
-        B: (batch, length, n_heads, d_state)
-        C: (batch, length, n_heads, d_state)
+        X:(batch, length, n_heads, d_head)
+        A:(batch, length, n_heads)
+        B:(batch, length, n_heads, d_state)
+        C:(batch, length, n_heads, d_state)
     Return:
-        Y: (batch, length, n_heads, d_head)
+        Y:(batch, length, n_heads, d_head)
     """
     assert X.dtype == A.dtype == B.dtype == C.dtype
     assert X.shape[1] % block_len == 0
 
     # Rearrange into blocks/chunks
-    X, A, B, C = [rearrange(x, "b (c l) ... -> b c l ...", l=block_len) for x in (X, A, B, C)]
+    X, A, B, C = [rearrange(x, "b(c l) ... -> b c l ...", l=block_len) for x in(X, A, B, C)]
 
     A = rearrange(A, "b c l h -> b h c l")
     A_cumsum = torch.cumsum(A, dim=-1)
 
-    # 1. Compute the output for each intra-chunk (diagonal blocks)
+    # 1. Compute the output for each intra-chunk(diagonal blocks)
     L = torch.exp(segsum(A))
     Y_diag  = torch.einsum("bclhn,bcshn,bhcls,bcshp->bclhp", C, B, L, X)
 
     # 2. Compute the state for each intra-chunk
-    # (right term of low-rank factorization of off-diagonal blocks; B terms)
+    #(right term of low-rank factorization of off-diagonal blocks; B terms)
     decay_states = torch.exp((A_cumsum[:, :, :, -1:] - A_cumsum))
     states = torch.einsum("bclhn,bhcl,bclhp->bchpn", B, decay_states, X)
 
     # 3. Compute the inter-chunk SSM recurrence; produces correct SSM states at chunk boundaries
-    # (middle term of factorization of off-diag blocks; A terms)
+    #(middle term of factorization of off-diag blocks; A terms)
     if initial_states is None:
         initial_states = torch.zeros_like(states[:, :1])
     states = torch.cat([initial_states, states], dim=1)
-    decay_chunk = torch.exp(segsum(F.pad(A_cumsum[:, :, :, -1], (1, 0))))
+    decay_chunk = torch.exp(segsum(F.pad(A_cumsum[:, :, :, -1],(1, 0))))
     new_states = torch.einsum("bhzc,bchpn->bzhpn", decay_chunk, states)
     states, final_state = new_states[:, :-1], new_states[:, -1]
 
     # 4. Compute state -> output conversion per chunk
-    # (left term of low-rank factorization of off-diagonal blocks; C terms)
+    #(left term of low-rank factorization of off-diagonal blocks; C terms)
     state_decay_out = torch.exp(A_cumsum)
     Y_off = torch.einsum('bclhn,bchpn,bhcl->bclhp', C, states, state_decay_out)
 
-    # Add output of intra-chunk and inter-chunk terms (diagonal and off-diagonal blocks)
-    Y = rearrange(Y_diag+Y_off, "b c l h p -> b (c l) h p")
+    # Add output of intra-chunk and inter-chunk terms(diagonal and off-diagonal blocks)
+    Y = rearrange(Y_diag+Y_off, "b c l h p -> b(c l) h p")
     return Y, final_state
 ```
 
--   输入 x 的维度为 (batch, seqlen, n_heads, d_head)
--   输入 A 的维度为 (batch, seqlen, n_heads)
--   输入 B 的维度为 (batch, seqlen, 1, d_state)
--   输入 C 的维度为 (batch, seqlen, 1, d_state)
--   输出 Y 的维度为 (batch, seqlen, n_heads, d_head)
--   输出 final_state 的维度为 (batch, nheads, headdim, d_state)
+-   输入 x 的维度为(batch, seqlen, n_heads, d_head)
+-   输入 A 的维度为(batch, seqlen, n_heads)
+-   输入 B 的维度为(batch, seqlen, 1, d_state)
+-   输入 C 的维度为(batch, seqlen, 1, d_state)
+-   输出 Y 的维度为(batch, seqlen, n_heads, d_head)
+-   输出 final_state 的维度为(batch, nheads, headdim, d_state)
 
 1. 分块处理(chunk/block)
 
-    - `X, A, B, C = [rearrange(x, "b (c l) ... -> b c l ...", l=block_len) for x in (X, A, B, C)` 将输入序列 X 以及参数 A、B、C 分割成长度为 block_len 的块/片段。这样做是为了减少计算量和内存占用，尤其是当处理长序列时
+    - `X, A, B, C = [rearrange(x, "b(c l) ... -> b c l ...", l=block_len) for x in(X, A, B, C)` 将输入序列 X 以及参数 A、B、C 分割成长度为 block_len 的块/片段。这样做是为了减少计算量和内存占用，尤其是当处理长序列时
 
 2. 计算 chunk 内的 output(diagonal blocks)
 
@@ -1063,7 +1063,7 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
 
     - `if initial_states is None: initial_states = torch.zeros_like(states[:, :1])`, 如果没有初始状态，则初始化为零
     - `states = torch.cat([initial_states, states], dim=1)`, 将初始状态拼接到当前块的状态前面(递归过程中使用, 即 i=1 开始)
-    - `decay_chunk = torch.exp(segsum(F.pad(A_cumsum[:, :, :, -1], (1, 0))))`, 计算块间的衰减因子
+    - `decay_chunk = torch.exp(segsum(F.pad(A_cumsum[:, :, :, -1],(1, 0))))`, 计算块间的衰减因子
     - `new_states = torch.einsum("bhzc,bchpn->bzhpn", decay_chunk, states)`, 计算新的状态，考虑了块间的衰减
     - `states, final_state = new_states[:, :-1], new_states[:, -1]`, 更新状态，并分离出最后一个时间步的状态 `final_state`，作为下一个块的初始状态
 
@@ -1074,9 +1074,9 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
 
 7. 合并输出
 
-    - `Y = rearrange(Y_diag + Y_off, "b c l h p -> b (c l) h p")`, 将对角线块和非对角线块的输出相加，得到最终的输出 `Y` 和 最后一次循环后的最终 `final_state`( `states, final_state = new_states[:, :-1], new_states[:, -1]`)
+    - `Y = rearrange(Y_diag + Y_off, "b c l h p -> b(c l) h p")`, 将对角线块和非对角线块的输出相加，得到最终的输出 `Y` 和 最后一次循环后的最终 `final_state`( `states, final_state = new_states[:, :-1], new_states[:, -1]`)
     - 输出的是 `Y, finial_state`:
-        - `Y` 是经过结构化状态空间双重性处理后的输出, 代表每个时间步 token 的隐藏状态转换为 tensor, 其调用的是: `def rearrange(tensor: Union[Tensor, List[Tensor]], pattern: str, **axes_lengths) -> Tensor:`, 也就可以理解成: final_state 形状是 (batch, n_heads, d_state)，并没有 chunk_size 这个维度, 对于 minial 的定义: `x = torch.randn(2, 64, 768)  # (batch, seqlen, d_model)`, 那么就是 (2, 4, 32), 实际上本地化部署不会是 minial 版本, 起码 (4, 8, 64), 在双卡情况下? 毕竟没部署过双卡情况, 也没在意过过程 tensor 值
+        - `Y` 是经过结构化状态空间双重性处理后的输出, 代表每个时间步 token 的隐藏状态转换为 tensor, 其调用的是: `def rearrange(tensor: Union[Tensor, List[Tensor]], pattern: str, **axes_lengths) -> Tensor:`, 也就可以理解成: final_state 形状是(batch, n_heads, d_state)，并没有 chunk_size 这个维度, 对于 minial 的定义: `x = torch.randn(2, 64, 768)  #(batch, seqlen, d_model)`, 那么就是(2, 4, 32), 实际上本地化部署不会是 minial 版本, 起码(4, 8, 64), 在双卡情况下? 毕竟没部署过双卡情况, 也没在意过过程 tensor 值
         - `final_state` 是 SSD 函数在处理完所有时间步后更新的最终状态, 表了整个序列处理完后的隐状态，这些状态包含了整个序列的信息. `final_state` 在 step 函数中被用于更新 `InferenceCache` 中的 `ssm_state`, 这个更新后的隐藏状态在接下来的时间步中会被传递使用. 通过这种方式，模型可以保持对整个序列信息的记忆，从而更好地生成后续的 token(也就是他是模型能够进行序列预测的关键, 因为得到概率映射后我们还是需要生成文本序列的对于 QA system 而言)
 
 ### mamba2 step6 线性层(全连接层) && 输出(mamba block/chunk 的输出)
@@ -1087,7 +1087,7 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
 
     ```py
         y = y + x * self.D.unsqueeze(-1)
-        y = rearrange(y, "b l h p -> b l (h p)")
+        y = rearrange(y, "b l h p -> b l(h p)")
         y = self.norm(y, z)
         y = self.out_proj(y)
 
@@ -1095,20 +1095,20 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
         return y, h
     ```
 
--   这个线性层 `out_proj` 通常用于模型的输出层或者循环结束后对特征进行变换，以匹配模型的输出维度要求, 用于将循环处理后的特征映射回原始输入的维度(即 `d_model`), 也就是在 Mamba2Config(step1) 中 定义的 `d_model: int  # model dimension (D)`, minimal 的时候 `config = Mamba2Config(d_model=768)`, 表示模型中隐藏层的维度大小
+-   这个线性层 `out_proj` 通常用于模型的输出层或者循环结束后对特征进行变换，以匹配模型的输出维度要求, 用于将循环处理后的特征映射回原始输入的维度(即 `d_model`), 也就是在 Mamba2Config(step1) 中 定义的 `d_model: int  # model dimension(D)`, minimal 的时候 `config = Mamba2Config(d_model=768)`, 表示模型中隐藏层的维度大小
 -   额外解释: 隐藏层的维度 `d_model` 决定了模型能够处理的特征数量，从而影响模型的表达能力和学习能力, 这代表了模型的容量, 计算资源, 性能, 更大的 d_model 代表可以有更多参数, 可以捕捉更复杂的语言特征, 但也会存在过拟合风险(比如过度解读, 过度推理, 重复 citation 之前的 inference, etc.), 一般是通过 SFT 人为的自监督微调得到的, 适配不同 GPU, 不同 GPU 集群数. 这里就需要一次次的本地训练和人为测试而非机器脚本测试或验证集测试, 从而得到最优解
 
--   转换回 `d_model` 后最终通过 `lm_head` 计算 logits, 即每个维度位置上每个 token 的预测概率. logits 的维度为 (batch, seqlen, vocab_size)
+-   转换回 `d_model` 后最终通过 `lm_head` 计算 logits, 即每个维度位置上每个 token 的预测概率. logits 的维度为(batch, seqlen, vocab_size)
 
 ```py
     y = y + x * self.D.unsqueeze(-1)
-    y = rearrange(y, "b l h p -> b l (h p)")
+    y = rearrange(y, "b l h p -> b l(h p)")
     y = self.norm(y, z)
     y = self.out_proj(y)
-    logits = self.lm_head(y)  # (batch, seqlen, vocab_size)
+    logits = self.lm_head(y)  #(batch, seqlen, vocab_size)
 ```
 
--   额外补充: y 和 h 的定义在 `class InferenceCache(NamedTuple)`, `conv_state: Tensor  # (batch, d_inner + 2 * d_state, d_conv)`, `ssm_state: Tensor  # (batch, nheads, headdim, d_state)`, y 是模型的输出 tensor(是每个位置的词汇分布，表示模型对下一个词的预测), h 是一个 InferenceCache 对象([conv_state, ssm_state]对象), 分别表示卷积层的状态和状态空间模型的状态
+-   额外补充: y 和 h 的定义在 `class InferenceCache(NamedTuple)`, `conv_state: Tensor  #(batch, d_inner + 2 * d_state, d_conv)`, `ssm_state: Tensor  #(batch, nheads, headdim, d_state)`, y 是模型的输出 tensor(是每个位置的词汇分布，表示模型对下一个词的预测), h 是一个 InferenceCache 对象([conv_state, ssm_state]对象), 分别表示卷积层的状态和状态空间模型的状态
 -   额外补充: `lm_head` 在 `class Mamba2LMHeadModel(nn.Module):` 中(step1)定义, 包含了 `nn.Linear` 线性化 和 `backbone.embedding.weight`, 其中 `backbone`又调用了 `nn.ModuleDict`, 对 dict(K,v) embedding, 每一层 layer 进行了归一化(依然是 RMS)得到的 layers
 
 ```py
@@ -1121,7 +1121,7 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
 -   额外补充上一条: backbone 是模型的核心部分, 负责对输入数据进行特征提取和转换, 最终输出的是一个上下文表示, 由:
 
     1. embedding 嵌入层, 用于将词汇索引转化为向量表示, 每个词坐标对应唯一的向量, 向量的维度为 `d_model`, minial 情况为 768, embedding 的作用是捕捉词汇之间的语义关系, 并将输入的词汇序列转换为模型可以理解的连续向量序列
-    2. layers 是神经网络的每个 layer, 每个层级内部包含 mixer(混合转换输入序列信息), 具体代码实现在: `class MambaMixer(nn.Module):` 里, 计算状态空间参数 Δ、A、B、C 和 D，并计算 `contextualized_states`, A、D 与输入无关（参阅 Mamba 论文 [1] 第 3.5.2 节“A 的解释”了解 A 不具有选择性的原因, Δ、B、C 取决于输入（这是 Mamba 和线性时不变 S4 之间的关键区别， 这就是为什么 Mamba 被称为**选择性**状态空间）, 代码实现:
+    2. layers 是神经网络的每个 layer, 每个层级内部包含 mixer(混合转换输入序列信息), 具体代码实现在: `class MambaMixer(nn.Module):` 里, 计算状态空间参数 Δ、A、B、C 和 D，并计算 `contextualized_states`, A、D 与输入无关(参阅 Mamba 论文 [1] 第 3.5.2 节“A 的解释”了解 A 不具有选择性的原因, Δ、B、C 取决于输入(这是 Mamba 和线性时不变 S4 之间的关键区别， 这就是为什么 Mamba 被称为**选择性**状态空间), 代码实现:
 
     ```py
     def __init__(self, config: MambaConfig, layer_idx: int):
@@ -1152,7 +1152,7 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
         self.in_proj = nn.Linear(self.hidden_size, self.intermediate_size * 2, bias=config.use_bias)
         # selective projection used to make dt, B and C input dependant
         self.x_proj = nn.Linear(self.intermediate_size, self.time_step_rank + self.ssm_state_size * 2, bias=False)
-        # time step projection (discretization)
+        # time step projection(discretization)
         self.dt_proj = nn.Linear(self.time_step_rank, self.intermediate_size, bias=True)
 
         # S4D real initialization. These are not discretized!
@@ -1190,7 +1190,7 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
 
     3. `norm_f` 是最后一个 norm 层, 就是循环的最后一层, 经过迭代让每次循环都能归一化一次.
 
-    4. 补充说明, 这就是神经网络 forward 的一个过程, 最终输出: `logits: (batch, seqlen, vocab_size)`, `h: updated inference cache after processing input_ids`
+    4. 补充说明, 这就是神经网络 forward 的一个过程, 最终输出: `logits:(batch, seqlen, vocab_size)`, `h: updated inference cache after processing input_ids`
 
     5. 1-4 为了一个目的: 把多层神经网络的卷积过程 转换和归一化得到 上下文表示
 
@@ -1200,14 +1200,14 @@ def ssd_minimal_discrete(X, A, B, C, block_len, initial_states=None):
     ) -> tuple[LongTensor, list[InferenceCache]]:
         """
         Arguments
-            input_ids: (batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
+            input_ids:(batch, seqlen) tokens from `EleutherAI/gpt-neox-20b` tokenizer
             h: hidden states for inference step. If present the constant-time
-               (wrt sequence length) inference path will be taken, input_ids
-               should have shape (batch, 1) containing the next batch of prompt
+             (wrt sequence length) inference path will be taken, input_ids
+               should have shape(batch, 1) containing the next batch of prompt
                token.
 
-        Return (logits, h)
-            logits: (batch, seqlen, vocab_size)
+        Return(logits, h)
+            logits:(batch, seqlen, vocab_size)
             h: updated inference cache after processing `input_ids`
         """
         seqlen = input_ids.shape[1]
@@ -1266,10 +1266,10 @@ generate 生成过程 通过 逐步处理输入序列并生成新的 token, 其�
         prefix, tokens = input_ids[:-1], input_ids[-1:].unsqueeze(0)
 
         # Process prompt
-        # The input sequence to forward (non-inference path) must have length multiple that of chunk_size.
+        # The input sequence to forward(non-inference path) must have length multiple that of chunk_size.
         # We split out excess tokens so that n_chunked tokens can be processed by one forward call and
         # process the rest in multiple inference steps.
-        n_chunked = (prefix.shape[0] // self.args.chunk_size) * self.args.chunk_size
+        n_chunked =(prefix.shape[0] // self.args.chunk_size) * self.args.chunk_size
         if n_chunked > 0:
             _, h = self(prefix[:n_chunked].unsqueeze(0), None)
         else:
@@ -1308,24 +1308,24 @@ generate 生成过程 通过 逐步处理输入序列并生成新的 token, 其�
 
 ```
 
--   结合 step6, forward 前向传播, 接受输入的 token id 和 隐藏状态 h, 返回 模型的 logits(训练过程中是 (batch, seqlen, vocab_size)维度, 对应每个序列中的每个 token 对应的词汇表中每个 token 的预测概率), 可以理解成循环中的 logits
+-   结合 step6, forward 前向传播, 接受输入的 token id 和 隐藏状态 h, 返回 模型的 logits(训练过程中是(batch, seqlen, vocab_size)维度, 对应每个序列中的每个 token 对应的词汇表中每个 token 的预测概率), 可以理解成循环中的 logits
 
     1. 输入
-        - input_ids: 输入的 token 序列，形状为 (batch, seqlen)
-        - h: 使用常数时间（相对于序列长度）的推理路径，input_ids 应该有形状 (batch, 1)，包含下一个批次的提示 token
+        - input_ids: 输入的 token 序列，形状为(batch, seqlen)
+        - h: 使用常数时间(相对于序列长度)的推理路径，input_ids 应该有形状(batch, 1)，包含下一个批次的提示 token
     2. embedding 层
-        - self.backbone.embedding(input_ids): 将输入的 token ID 转换为嵌入向量，形状为 (batch, seqlen, d_model)
+        - self.backbone.embedding(input_ids): 将输入的 token ID 转换为嵌入向量，形状为(batch, seqlen, d_model)
     3. mamba2 层:
         - 对于每个层 layer，首先对输入的嵌入向量 x 进行归一化处理 layer.norm(x)，然后通过 Mamba2 混合器 layer.mixer 进行处理，得到输出 y 和更新后的隐藏状态 h[i]
         - x = y + x: 将 Mamba2 层的输出与输入相加，形成残差连接，增强模型训练的稳定性
     4. 最终归一化(即 mamba block 外的最终 RMS Norm)
         - self.backbone.norm_f(x): 对最终的输出 x 进行归一化处理, 得到高维映射
     5. linear + softmax
-        - logits = self.lm_head(x): 通过线性层将归一化后的输出转换为每个词汇的概率分布（logits），形状为 (batch, seqlen, vocab_size)
+        - logits = self.lm_head(x): 通过线性层将归一化后的输出转换为每个词汇的概率分布(logits)，形状为(batch, seqlen, vocab_size)
     6. output
         - 返回 logits 和更新后的隐藏状态 h，其中 logits 是模型预测的每个词汇的概率分布
 
--   模型的训练其实到 step6 就结束了, 然后进入 generate 生成, 才能实现 QA, 用来生成文本, 接受输入的 token ID 和生成的最大长度等参数(这里可以通过 SFT 根据具体显卡和集群的算力进行调整, 得到更好的效果, 详见下面的 1)。 返回一个可迭代对象（Iterable），每次迭代生成一个 token 及其对应的隐藏状态
+-   模型的训练其实到 step6 就结束了, 然后进入 generate 生成, 才能实现 QA, 用来生成文本, 接受输入的 token ID 和生成的最大长度等参数(这里可以通过 SFT 根据具体显卡和集群的算力进行调整, 得到更好的效果, 详见下面的 1)。 返回一个可迭代对象(Iterable)，每次迭代生成一个 token 及其对应的隐藏状态
 
     1. 输入处理:
         - `input_ids`: 输入的 token 序列，用于初始化生成过程。
@@ -1336,7 +1336,7 @@ generate 生成过程 通过 逐步处理输入序列并生成新的 token, 其�
     2. 处理提示
 
         - prefix, tokens = input_ids[:-1], input_ids[-1:].unsqueeze(0): 分割输入的 token 序列为提示部分 prefix 和初始生成 token tokens。
-        - 根据 prefix 的长度（n_chunked）来决定是否使用常数时间的推理路径处理 prefix。
+        - 根据 prefix 的长度(n_chunked)来决定是否使用常数时间的推理路径处理 prefix。
         - 如果 prefix 长度大于 0，则通过 forward 方法处理 prefix，并更新隐藏状态 h。
         - 如果 prefix 长度为 0，则初始化隐藏状态 h
 
@@ -1353,12 +1353,12 @@ generate 生成过程 通过 逐步处理输入序列并生成新的 token, 其�
 -   最终 generate output: `Iterable[tuple[int, list[InferenceCache]]]: prefix, tokens = input_ids[:-1], input_ids[-1:].unsqueeze(0)`
 
     1. token: 生成的下一个 tokenID
-    2. h: 更新后的隐藏状态, 类型为 `InferenceCache`, 如 step6 所示, (conv_state, ssm_state) 都是 tensor 分别表示卷积层的状态和状态空间模型的状态
+    2. h: 更新后的隐藏状态, 类型为 `InferenceCache`, 如 step6 所示,(conv_state, ssm_state) 都是 tensor 分别表示卷积层的状态和状态空间模型的状态
 
     ```py
     class InferenceCache(NamedTuple):
-        conv_state: Tensor  # (batch, d_inner + 2 * d_state, d_conv)
-        ssm_state: Tensor  # (batch, nheads, headdim, d_state)
+        conv_state: Tensor  #(batch, d_inner + 2 * d_state, d_conv)
+        ssm_state: Tensor  #(batch, nheads, headdim, d_state)
     ```
 
 -   最终调用:
@@ -1389,15 +1389,15 @@ State Space Models(SSM) [ssm](#ssm-state-space-models)
 
 1. SSM -> S4:
 
-    1. 对状态空间进行连续化处理得到 continuous state space model (CSSM)
-    2. 引入 long-range dependencies 长距离依赖(HiPPO 算法, 即结合了递归记忆（Recurrent Memory）和最优多项式投影（Optimal Polynomial Projections）的概念)
-    3. 对 CSSM+long-range dependencies 进行离散化得到 discrete representations for continuous state space model (离散化且具有长距离依赖的连续状态空间)
+    1. 对状态空间进行连续化处理得到 continuous state space model(CSSM)
+    2. 引入 long-range dependencies 长距离依赖(HiPPO 算法, 即结合了递归记忆(Recurrent Memory)和最优多项式投影(Optimal Polynomial Projections)的概念)
+    3. 对 CSSM+long-range dependencies 进行离散化得到 discrete representations for continuous state space model(离散化且具有长距离依赖的连续状态空间)
     4. 注解: 在 mamba block 中的 convolution 模块中进行这种处理, 在 training 阶段即训练是 convolution 卷积, 在 inference 阶段即推理阶段是 recurrence 循环迭代, 也就是推理速度 > 训练速度
 
 2. S4 -> S6:
 
     1. 选择性扫描算法(Selective Scanning Algorithm), 让 A 参数恒定, 存储与 DRAM 主内存中, 维持全局静态的状态矩阵 B 与 C 被设计为依赖于输入步长 delta，即对于每个输入标记，都会生成相应的动态 B、C
-    2. 硬件感知算法(Hardware-Aware Algorithm), 每个状态 h 由前一时刻状态（乘以 A）与当前输入（乘以动态 B）的和更新，由于 B、C 的动态性，传统上只能通过循环计算，导致依赖性较强、无法充分并行化, 采用了硬件感知算法, 假定扫描操作的顺序无关紧要，从而可以将长序列划分为若干部分并行处理，状态向量 h 被存储在 SRAM 显卡缓存中，以便快速更新
+    2. 硬件感知算法(Hardware-Aware Algorithm), 每个状态 h 由前一时刻状态(乘以 A)与当前输入(乘以动态 B)的和更新，由于 B、C 的动态性，传统上只能通过循环计算，导致依赖性较强、无法充分并行化, 采用了硬件感知算法, 假定扫描操作的顺序无关紧要，从而可以将长序列划分为若干部分并行处理，状态向量 h 被存储在 SRAM 显卡缓存中，以便快速更新
 
 建议主要看:
 
@@ -1419,6 +1419,359 @@ mamba1 vs mamba2:
 
 ## update 2025-03-20
 
-Mamba-2 本身并不是专门的检索大语言模型（Retrieval-Augmented Language Model），而是一种基于状态空间模型（State Space Model, SSM）的通用序列建模架构. 如果结合检索增强技术（比如通过外部知识库或上下文检索），Mamba-2 理论上也可以被改造成检索增强模型（类似 RAG，Retrieval-Augmented Generation）
+Mamba-2 本身并不是专门的检索大语言模型(Retrieval-Augmented Language Model)，而是一种基于状态空间模型(State Space Model, SSM)的通用序列建模架构. 如果结合检索增强技术(比如通过外部知识库或上下文检索)，Mamba-2 理论上也可以被改造成检索增强模型(类似 RAG，Retrieval-Augmented Generation)
 
 @see: https://cloud.tencent.com/developer/article/2425236
+
+## update 2025-04-16
+
+### Mamba-2 概述
+
+Mamba-2 是一种基于结构化状态空间模型(Structured State Space Models, SSMs)的语言模型，具体实现了结构化状态空间对偶(Structured State Space Duality, SSD)框架，相关论文见：https://arxiv.org/abs/2405.21060。与基于 Transformer 的模型不同，Mamba-2 使用选择性 SSM 处理序列，推理时序列长度复杂度为线性。该代码是一个 PyTorch 的单文件最小实现，包含语言模型头(`Mamba2LMHeadModel`)和核心 Mamba-2 层(`Mamba2`)。
+
+主要类及其作用：
+
+-   **`Mamba2Config`**：定义模型超参数(如模型维度、层数、状态维度)。
+-   **`Mamba2LMHeadModel`**：完整的语言模型，包括嵌入层、堆叠的 Mamba-2 层和用于预测的线性头。
+-   **`Mamba2`**：核心 Mamba-2 层，实现 SSM 计算。
+-   **`ssd`**：结构化状态空间对偶函数，是 SSM 的核心。
+-   **`RMSNorm`**：模型中使用的归一化层。
+-   **`InferenceCache`**：管理推理时的隐藏状态以提高效率。
+
+接下来，我将按照指定的顺序，结合 `Mamba2LMHeadModel` 的 `forward` 和 `generate` 方法以及 `Mamba2` 的 `forward` 方法，详细描述数据流。
+
+---
+
+### 数据流解析
+
+#### 1. **Input(输入)**
+
+模型的输入是一个 token ID 张量 `~(batch, seqlen) 的`input_ids`，每个 token 是一个整数，对应词汇表中的索引(例如，使用 `EleutherAI/gpt-neox-20b`分词器)。该张量被传入`Mamba2LMHeadModel`的`forward` 方法：
+
+```python
+def forward(self, input_ids: LongTensor, h: list[InferenceCache] | list[None] | None = None) -> tuple[LongTensor, list[InferenceCache]]:
+    seqlen = input_ids.shape[1]
+    if h is None:
+        h = [None for _ in range(self.args.n_layer)]
+    x = self.backbone.embedding(input_ids)
+    ...
+```
+
+-   **作用**：`input_ids` 表示要处理的 token 序列，可以是训练时的完整序列，也可以是推理时的单个 token。
+-   **执行顺序**：`input_ids` 首先被传入嵌入层。
+-   **输出**：`input_ids`，形状为 `(batch, seqlen)`。
+
+---
+
+#### 2. **Embedding Layer(嵌入层)**
+
+嵌入层(`self.backbone.embedding`)将 token ID 转换为 `d_model` 维的密集向量。
+
+```python
+x = self.backbone.embedding(input_ids)  # input_ids:(batch, seqlen) -> x:(batch, seqlen, d_model)
+```
+
+-   **实现**：嵌入层是一个 `nn.Embedding` 模块，形状为 `(vocab_size, d_model)`，在 `Mamba2LMHeadModel.__init__` 中初始化：
+    ```python
+    embedding=nn.Embedding(args.vocab_size, args.d_model, device=device)
+    ```
+-   **作用**：将每个 token ID 映射为连续的向量表示，为模型后续层提供初始输入。
+-   **输出**：`x`，形状为 `(batch, seqlen, d_model)`。
+
+---
+
+#### 3. **Pre-Normalization Layer(预归一化层)**
+
+在将输入送入 Mamba-2 混合器(mixer)之前，每一层都会应用 RMS 归一化(`RMSNorm`)，以稳定训练并改善梯度流动。这在 `Mamba2LMHeadModel` 的 `forward` 方法的层循环中发生：
+
+```python
+for i, layer in enumerate(self.backbone.layers):
+    y, h[i] = layer.mixer(layer.norm(x), h[i])
+    x = y + x
+```
+
+在 `Mamba2` 层的 `forward` 方法中，输入也会被归一化(稍后结合门控应用)：
+
+```python
+def forward(self, u: Tensor, h: InferenceCache | None = None):
+    ...
+    y = self.norm(y, z)  # RMSNorm 稍后应用，但输入在循环中预先归一化
+```
+
+-   **实现**：`RMSNorm` 类计算：
+    ```python
+    x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps) * self.weight
+    ```
+    如果提供了门控张量 `z`(在 `Mamba2` 层中)，则应用门控归一化：
+    ```python
+    x = x * silu(z)
+    ```
+-   **作用**：将输入归一化为单位方差，提升训练稳定性。在层循环中，`layer.norm(x)` 在输入 `x` 进入 `mixer`(Mamba-2 核心)之前对其进行归一化。
+-   **输出**：归一化的 `x`，形状为 `(batch, seqlen, d_model)`。
+
+---
+
+#### 4. **Input Projection Layer(输入投影层)**
+
+归一化的输入在 `Mamba2` 层的 `forward` 方法中被投影到更高维空间：
+
+```python
+zxbcdt = self.in_proj(u)  # u:(batch, seqlen, d_model) -> zxbcdt:(batch, seqlen, d_in_proj)
+z, xBC, dt = torch.split(
+    zxbcdt,
+    [
+        self.args.d_inner,
+        self.args.d_inner + 2 * self.args.d_state,
+        self.args.nheads,
+    ],
+    dim=-1,
+)
+```
+
+-   **实现**：`in_proj` 是一个 `nn.Linear` 层，从 `d_model` 映射到 `d_in_proj = 2 * d_inner + 2 * d_state + nheads`：
+    ```python
+    d_in_proj = 2 * args.d_inner + 2 * args.d_state + args.nheads
+    self.in_proj = nn.Linear(args.d_model, d_in_proj, bias=False, device=device)
+    ```
+    输出被拆分为：
+    -   `z`：门控张量(`d_inner`)。
+    -   `xBC`：卷积和 SSM 的输入(`d_inner + 2 * d_state`)。
+    -   `dt`：离散化参数(`nheads`)。
+-   **作用**：将输入投影为 SSM 计算所需的组件，包括主输入、状态矩阵和时间步长参数。
+-   **输出**：
+    -   `z`：`(batch, seqlen, d_inner)`
+    -   `xBC`：`(batch, seqlen, d_inner + 2 * d_state)`
+    -   `dt`：`(batch, seqlen, nheads)`
+
+---
+
+#### 5. **Main Path Activation Layer(主路径激活层)**
+
+`xBC` 张量通过一维卷积处理以捕捉局部依赖，随后应用 SiLU 激活函数：
+
+```python
+conv_state = F.pad(
+    rearrange(xBC, "b l d -> b d l"),(self.args.d_conv - u.shape[1], 0)
+)
+xBC = silu(
+    self.conv1d(xBC.transpose(1, 2)).transpose(1, 2)[:, : u.shape[1], :]
+)  #(batch, seqlen, d_inner + 2 * d_state)
+x, B, C = torch.split(
+    xBC, [self.args.d_inner, self.args.d_state, self.args.d_state], dim=-1
+)
+```
+
+-   **实现**：
+    -   `conv1d` 是一个深度一维卷积，核大小为 `d_conv`：
+        ```python
+        self.conv1d = nn.Conv1d(
+            in_channels=conv_dim,
+            out_channels=conv_dim,
+            kernel_size=args.d_conv,
+            groups=conv_dim,
+            padding=args.d_conv - 1,
+            device=device,
+        )
+        ```
+    -   `silu` 函数应用 Sigmoid 线性单元激活：
+        ```python
+        def silu(x):
+            return x * F.sigmoid(x)
+        ```
+-   **作用**：卷积捕捉短期依赖，SiLU 为主输入路径引入非线性。输出被拆分为：
+    -   `x`：SSM 的主输入(`d_inner`)。
+    -   `B`, `C`：状态矩阵(各为 `d_state`)。
+-   **输出**：
+    -   `x`：`(batch, seqlen, d_inner)`
+    -   `B`, `C`：`(batch, seqlen, d_state)`
+
+---
+
+#### 6. **Skip Connection Activation Layer(跳跃连接激活层)**
+
+`Mamba2` 层中的 `D` 参数作为跳跃连接，将输入直接加到 SSM 输出上：
+
+```python
+y = y + x * self.D.unsqueeze(-1)  # 在 ssd 函数中
+```
+
+-   **实现**：`self.D` 是一个形状为 `(nheads,)` 的可学习参数：
+    ```python
+    self.D = nn.Parameter(torch.empty(args.nheads, device=device))
+    ```
+    它被广播并与输入 `x` 相乘，形成残差连接。
+-   **作用**：跳跃连接保留输入信息，改善梯度流动，使 SSM 专注于学习状态转换。
+-   **输出**：SSM 输出 `y` 加上跳跃连接，形状为 `(batch, seqlen, nheads, headdim)`。
+
+---
+
+#### 7. **Gating(门控)**
+
+门控通过 `Mamba2` 层末尾的 `RMSNorm` 步骤中的 `z` 张量应用：
+
+```python
+y = self.norm(y, z)  # z:(batch, seqlen, d_inner)
+```
+
+-   **实现**：在 `RMSNorm` 中：
+    ```python
+    if z is not None:
+        x = x * silu(z)
+    ```
+    来自 `in_proj` 的 `z` 张量通过 SiLU 处理并与归一化的 `y` 相乘，起到门控作用。
+-   **作用**：门控控制 SSM 输出的哪些部分被强调，实现信息的选择性处理。
+-   **输出**：门控并归一化的 `y`，形状为 `(batch, seqlen, d_inner)`。
+
+---
+
+#### 8. **Selective Scan Structured State Space Model(选择性扫描结构化状态空间模型)**
+
+Mamba-2 的核心是结构化状态空间对偶(SSD)计算，由 `ssd` 函数实现：
+
+```python
+x = rearrange(x, "b l(h p) -> b l h p", p=self.args.headdim)
+y, ssm_state = ssd(
+    x * dt.unsqueeze(-1),
+    A * dt,
+    rearrange(B, "b l n -> b l 1 n"),
+    rearrange(C, "b l n -> b l 1 n"),
+    self.args.chunk_size,
+    device=self.device,
+)
+```
+
+-   **实现**：`ssd` 函数按 `chunk_size` 分块处理输入：
+    ```python
+    x, A, B, C = [
+        rearrange(m, "b(c l) ... -> b c l ...", l=chunk_size) for m in(x, A, B, C)
+    ]
+    ```
+    计算内容包括：
+    -   **块内输出**(`Y_diag`)：每个分块内的局部 SSM 计算。
+    -   **块间状态**(`states`)：分块边界处的 SSM 状态，用于递归。
+    -   **非对角输出**(`Y_off`)：通过状态贡献的前序分块输出。
+        最终输出为 `Y = Y_diag + Y_off`。
+-   **作用**：SSD 实现选择性 SSM，参数 `A`、`B`、`C` 和 `dt` 定义状态空间系统，演化隐藏状态并生成输出。分块实现高效并行计算。
+-   **输出**：
+    -   `y`：`(batch, seqlen, nheads, headdim)`
+    -   `ssm_state`：推理时的更新 SSM 状态，形状为 `(batch, nheads, headdim, d_state)`。
+
+---
+
+#### 9. **Output Projection Layer(输出投影层)**
+
+SSM 输出被投影回模型维度：
+
+```python
+y = rearrange(y, "b l h p -> b l(h p)")  #(batch, seqlen, d_inner)
+y = self.out_proj(y)  #(batch, seqlen, d_model)
+```
+
+-   **实现**：`out_proj` 是一个 `nn.Linear` 层：
+    ```python
+    self.out_proj = nn.Linear(args.d_inner, args.d_model, bias=False, device=device)
+    ```
+-   **作用**：将 SSM 输出映射回模型的嵌入空间，用于残差连接和进一步处理。
+-   **输出**：`y`，形状为 `(batch, seqlen, d_model)`。
+
+---
+
+#### 10. **Output Normalization Layer(输出归一化层)**
+
+在 `Mamba2` 层之后，输出通过残差连接与输入相加，重复每层处理。在 `Mamba2LMHeadModel` 的 `forward` 结束时，应用最终归一化：
+
+```python
+x = self.backbone.norm_f(x)  #(batch, seqlen, d_model)
+```
+
+-   **实现**：`norm_f` 是一个 `RMSNorm` 层：
+    ```python
+    norm_f=RMSNorm(args.d_model, device=device)
+    ```
+-   **作用**：在语言模型头之前归一化骨干网络的最终输出，确保表示的稳定性。
+-   **输出**：归一化的 `x`，形状为 `(batch, seqlen, d_model)`。
+
+---
+
+#### 11. **Linear Layer + Softmax Layer(线性层 + Softmax 层)**
+
+最后一步是生成用于 token 预测的 logits：
+
+```python
+logits = self.lm_head(x)  #(batch, seqlen, vocab_size)
+return logits[:, :seqlen], cast(list[InferenceCache], h)
+```
+
+-   **实现**：`lm_head` 是一个与嵌入层共享权重的 `nn.Linear` 层：
+    ```python
+    self.lm_head = nn.Linear(args.d_model, args.vocab_size, bias=False, device=device)
+    self.lm_head.weight = self.backbone.embedding.weight
+    ```
+    在 `generate` 方法中，logits 通过 softmax 转换为概率以进行采样：
+    ```python
+    probs = F.softmax(logits, dim=-1)
+    next_token = torch.multinomial(probs, num_samples=1)
+    ```
+-   **作用**：将归一化输出映射到词汇表大小的 logits，用于预测下一个 token(生成时)或计算损失(训练时)。`generate` 中的 softmax 将 logits 转为概率用于采样。
+-   **输出**：
+    -   `logits`：`(batch, seqlen, vocab_size)`
+    -   生成时：采样的 `next_token`(标量或张量)。
+
+---
+
+### 生成流程
+
+在生成模式(`Mamba2LMHeadModel.generate`)下，模型先处理输入提示(prompt)，然后逐一生成 token：
+
+1. **提示处理**：
+
+    - 提示(`input_ids`)被分割为 `chunk_size` 大小的块以高效处理。
+    - 对分块的提示调用 `forward` 方法，初始化推理缓存(`h`)。
+    - 剩余 token 使用 `Mamba2` 的 `step` 方法逐一处理。
+
+2. **Token 生成**：
+    - 对每个新 token，模型：
+        - 用单个 token(`tokens`，形状 `(batch, 1)`)调用 `forward`。
+        - 计算 logits，应用温度(temperature)、top-k 和 top-p 过滤，采样下一个 token。
+        - 更新推理缓存(`h`)以供下一步使用。
+    - 重复直到生成 `max_new_length` 个 token 或采样到 `eos_token_id`。
+
+`Mamba2` 的 `step` 方法为单 token 推理优化，高效更新卷积和 SSM 状态：
+
+```python
+def step(self, u: Tensor, h: InferenceCache) -> tuple[Tensor, InferenceCache]:
+    assert u.shape[1] == 1, "Only one token can be decoded per inference step"
+    ...
+    h.conv_state.copy_(torch.roll(h.conv_state, shifts=-1, dims=-1))
+    h.ssm_state.copy_(h.ssm_state * rearrange(dA, "b h -> b h 1 1") + dBx)
+    ...
+```
+
+---
+
+### 执行顺序总结
+
+以下是各组件与指定顺序的对应：
+
+1. **Input(输入)**：`input_ids`(token ID)。
+2. **Embedding Layer(嵌入层)**：`self.backbone.embedding` 将 token 映射到 `d_model` 维向量。
+3. **Pre-Normalization Layer(预归一化层)**：`layer.norm`(RMSNorm)在每个 `Mamba2` 层前归一化输入。
+4. **Input Projection Layer(输入投影层)**：`self.in_proj` 将输入投影为 SSM 组件(`z`, `xBC`, `dt`)。
+5. **Main Path Activation Layer(主路径激活层)**：卷积(`self.conv1d`)和 SiLU(`silu`)处理 `xBC`。
+6. **Skip Connection Activation Layer(跳跃连接激活层)**：`self.D` 为 SSM 输出添加残差连接。
+7. **Gating(门控)**：`z` 在 `self.norm` 中门控 SSM 输出。
+8. **Selective Scan Structured State Space Model(选择性扫描结构化状态空间模型)**：`ssd` 计算 SSM 递归和输出。
+9. **Output Projection Layer(输出投影层)**：`self.out_proj` 将 SSM 输出映射回 `d_model`。
+10. **Output Normalization Layer(输出归一化层)**：`self.backbone.norm_f` 归一化骨干网络最终输出。
+11. **Linear Layer + Softmax Layer(线性层 + Softmax 层)**：`self.lm_head` 生成 logits；`generate` 中应用 softmax。
+
+---
+
+### 实现的关键特性
+
+-   **高效性**：`ssd` 函数分块序列以实现并行计算，`step` 方法确保推理时线性时间复杂度。
+-   **选择性**：SSM 参数(`A`, `B`, `C`, `dt`)依赖输入，实现 token 的选择性处理。
+-   **预训练加载**：`from_pretrained` 方法支持加载 Hugging Face 模型检查点。
+-   **推理缓存**：`InferenceCache` 类存储卷积和 SSM 状态，支持恒定时间的推理步骤。
+
+该实现是一个简洁、最小化的 Mamba-2 实现，适用于训练和推理，兼顾清晰度和性能。如果需要深入探讨某个具体组件(例如 `ssd` 或 `step`)或进一步澄清，请告诉我！

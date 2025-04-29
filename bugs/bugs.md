@@ -36,13 +36,13 @@ Description:
 
 The dependencies of some of the beans in the application context form a cycle:
 
-   securityConfig (field cn.sichu.security.UserDetailsServiceImpl cn.sichu.config.SecurityConfig.userDetailsService)
+   securityConfig(field cn.sichu.security.UserDetailsServiceImpl cn.sichu.config.SecurityConfig.userDetailsService)
       ↓
-   userDetailsServiceImpl (field cn.sichu.service.IUserService cn.sichu.security.UserDetailsServiceImpl.userService)
+   userDetailsServiceImpl(field cn.sichu.service.IUserService cn.sichu.security.UserDetailsServiceImpl.userService)
 ┌─────┐
-|  userServiceImpl (field cn.sichu.service.IMenuService cn.sichu.service.impl.UserServiceImpl.menuService)
+|  userServiceImpl(field cn.sichu.service.IMenuService cn.sichu.service.impl.UserServiceImpl.menuService)
 ↑     ↓
-|  menuServiceImpl (field cn.sichu.service.IUserService cn.sichu.service.impl.MenuServiceImpl.userService)
+|  menuServiceImpl(field cn.sichu.service.IUserService cn.sichu.service.impl.MenuServiceImpl.userService)
 └─────┘
 
 
@@ -73,7 +73,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 }
 ```
 
-# update snowflake id incorrect (different output between backend and frontend and mysql)
+# update snowflake id incorrect(different output between backend and frontend and mysql)
 
 后端 console 里输出的 sql 是:
 
@@ -90,9 +90,9 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@6e15ef51] will not be managed 
 
 然而查前端的 network:
 
-1. `employee` (update 方法 putmapping 是 "/employee") 的 payload 是: `{id: 1605314025255661600, status: 0}`
+1. `employee`(update 方法 putmapping 是 "/employee") 的 payload 是: `{id: 1605314025255661600, status: 0}`
 
-2. `page?page=1&pageSize=2` (click 更新后 getmapping 是 "/page") 的 response 里是 `{"code":1,"msg":null,"data":{"records":[{"id":1605314025255661569,`
+2. `page?page=1&pageSize=2`(click 更新后 getmapping 是 "/page") 的 response 里是 `{"code":1,"msg":null,"data":{"records":[{"id":1605314025255661569,`
 
 简而言之, 就是 sql 语句执行的 id 和 db 里存的 id 不一致
 
@@ -295,7 +295,7 @@ Fix: change `"node-sass": "8.0"` to `"sass": ""`
 
 # Use Lambda comparator don't use subtraction, use Integer.compare instead!
 
-比如 `Arrays.sort(nums, (o1, o2) -> ...)`, Lambda 表达式里面不能写成 `o1 - o2`, 应该写成 `Integer.compare(o1, o2)`
+比如 `Arrays.sort(nums,(o1, o2) -> ...)`, Lambda 表达式里面不能写成 `o1 - o2`, 应该写成 `Integer.compare(o1, o2)`
 
 Example: https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/
 
@@ -310,9 +310,9 @@ IMPORTANT:
     ```java
             Arrays.sort(points, new Comparator<int[]>(){
                 public int compare(int[] o1, int[] o2) {
-                    if (o1[1] - o2[1] > 0) {
+                    if(o1[1] - o2[1] > 0) {
                         return 1;
-                    } else if (o1[1] - o2[1] < 0) {
+                    } else if(o1[1] - o2[1] < 0) {
                         return -1;
                     } else {
                         return 0;
@@ -328,9 +328,9 @@ IMPORTANT:
     ```java
             Arrays.sort(points, new Comparator<int[]>(){
                 public int compare(int[] o1, int[] o2) {
-                    if (o1[1] > o2[1]) {
+                    if(o1[1] > o2[1]) {
                         return 1;
-                    } else if (o1[1] < o2[1]) {
+                    } else if(o1[1] < o2[1]) {
                         return -1;
                     } else {
                         return 0;
@@ -344,7 +344,7 @@ IMPORTANT:
     **正确写法2 Lambda 表达式:**
 
     ```java
-    Arrays.sort(points, (o1, o2) -> Integer.compare(o1[1], o2[1]));
+    Arrays.sort(points,(o1, o2) -> Integer.compare(o1[1], o2[1]));
     ```
 
 # idea pom.xml is ignored as grey
@@ -357,7 +357,7 @@ SpringBoot 2.7.x 添加 `@EnableEurekaClient` 启动 Spring Cloud GateWay 的 ap
 
 原因:
 
-Spring Cloud Gateway is not compatible with Spring MVC (spring-boot-starter-web)
+Spring Cloud Gateway is not compatible with Spring MVC(spring-boot-starter-web)
 
 @see: https://stackoverflow.com/questions/68587832/spring-cloud-gateway-spring-mvc-found-on-classpath-which-is-incompatible-with
 
@@ -509,7 +509,7 @@ ssh hadoop104 kill -9 3138
 
 # TIMESTAMP with implicit DEFAULT value is deprecated. Please use--explicit_defaults_for_timestamp server
 
-报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).`
+报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option(see documentation for more details).`
 
 解决:
 
@@ -519,14 +519,14 @@ ssh hadoop104 kill -9 3138
 
 > NOTE: 记得用 `sudo vim /etc/my.cnf`
 
-# ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
+# ERROR 2002(HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 
 ```sh
 mysql -uroot -p
 Enter password:
 ```
 
-输入完临时密码后, 报错: `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)`
+输入完临时密码后, 报错: `ERROR 2002(HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'(2)`
 
 解决:
 
@@ -577,7 +577,7 @@ Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sich
 
 方法 1: 把两个 Config 放到 `cn.sichu` 下
 
-方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解(太逗了, 掩人耳目)
 
 方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
 
@@ -1010,8 +1010,8 @@ nvidia-smi
 |-------------------------------+----------------------+----------------------+
 
 nvcc --version
-nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2022 NVIDIA Corporation
+nvcc: NVIDIA(R) Cuda compiler driver
+Copyright(c) 2005-2022 NVIDIA Corporation
 Built on Tue_May__3_19:00:59_Pacific_Daylight_Time_2022
 Cuda compilation tools, release 11.7, V11.7.64
 Build cuda_11.7.r11.7/compiler.31294372_0
@@ -1114,10 +1114,10 @@ git config --global http.proxy http://ipaddr:port
 # pip install pymobiledevice3 error
 
 ```bash
-Downloading pydantic-2.5.3-py3-none-any.whl (381 kB)
+Downloading pydantic-2.5.3-py3-none-any.whl(381 kB)
    -------------------------------------- - 368.6/381.9 kB 9.9 kB/s eta 0:00:02
 ERROR: Exception:
-Traceback (most recent call last):
+Traceback(most recent call last):
 ```
 
 卡在这个位置,
@@ -1262,7 +1262,7 @@ git push origin master
 
 结论: idea 在 java/ 下用 `.` 连接是会自动生成 package 级联的文件夹, 但是在 resources/ 下不能直接用 `.` 连接
 
-# org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)
+# org.apache.ibatis.binding.BindingException: Invalid bound statement(not found)
 
 用 mysql 数据库的时候
 
@@ -1285,7 +1285,7 @@ from t_xxx
 
 这种写法, 因为 if_xxx 是 int 类型的, type 是 String 类型的, 而且子查询完的整体查询应该再包一层 alias, 否则在 where 里没法去映射实体类的变量 type, 去做判断
 
-然后用 case when end 的写法却报 `org.apache.ibatis.binding.BindingException: Invalid bound statement (not found)`
+然后用 case when end 的写法却报 `org.apache.ibatis.binding.BindingException: Invalid bound statement(not found)`
 
 解决: 外面套一层 alias 别名, 这样在 xml 的 where 里可以对实体类的参数进行 alias.param = #{param} 的判断
 
@@ -1355,7 +1355,7 @@ group by param1, param2, param3
 
 解决: 关掉所有 idea, java 进程, 谢谢!
 
-# `[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!`
+# `[WARNING] Using platform encoding(UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!`
 
 ```xml
     <properties>
@@ -1408,7 +1408,7 @@ git config --global user.name "xxx"
 git config --global user.email "xxx@xxx"
 ```
 
-# maven install warning: Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+# maven install warning: Using platform encoding(UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
 
 解决:
 
@@ -1509,7 +1509,7 @@ gaussdb 中不能使用 `xxx` 反引号
 </build>
 ```
 
-# Cannot run program "C:\Program Files\Java\jdk-17\bin\java.exe" (in directory "C:\Users\Administrator\AppData\Local\JetBrains\IdeaIC2024.2\compile-server"): CreateProcess error=2, The system cannot find the file specified
+# Cannot run program "C:\Program Files\Java\jdk-17\bin\java.exe"(in directory "C:\Users\Administrator\AppData\Local\JetBrains\IdeaIC2024.2\compile-server"): CreateProcess error=2, The system cannot find the file specified
 
 明明是 springboot 2.x 项目, 用的 java8 环境却无法运行
 
@@ -1525,7 +1525,7 @@ gaussdb 中不能使用 `xxx` 反引号
 
 解决: 用盘符 e.g. `C:\` 开始的变量作为第一个
 
-# Error updating database. Cause: com.huawei.gauss.exception.GaissException:[errorCode=GS-01103, SQLState='28000', ...., errMsg=Invalid (sub)partition key, inserted partition key does not map to any partition, ...]
+# Error updating database. Cause: com.huawei.gauss.exception.GaissException:[errorCode=GS-01103, SQLState='28000', ...., errMsg=Invalid(sub)partition key, inserted partition key does not map to any partition, ...]
 
 原因: table 建了分区, partition by 月份, 根据 xxx 字段(记录时间的字段), 但是 mapper insert 的时候没有传进 xxx 字段, 即分区字段
 

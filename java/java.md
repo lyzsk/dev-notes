@@ -80,7 +80,7 @@ int daysInMonth = YearMonth.of(1990, 2).lengthOfMonth();
 
 ```java
 // 1.8前
-Arrays.sort(index, (idx1, idx2) -> (nums2[idx1] - nums2[idx2]));
+Arrays.sort(index,(idx1, idx2) ->(nums2[idx1] - nums2[idx2]));
 
 // 1.8后
 Arrays.sort(index, Comparator.comparingInt(idx -> nums2[idx]));
@@ -91,8 +91,8 @@ Arrays.sort(index, Comparator.comparingInt(idx -> nums2[idx]));
 ```java
     public static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
         Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
+        return(Comparator<T> & Serializable)
+          (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
     }
 ```
 
@@ -100,7 +100,7 @@ Arrays.sort(index, Comparator.comparingInt(idx -> nums2[idx]));
 
 ```java
 // 1.8前
-Arrays.sort(intervals, (o1, o2) -> Integer.compare(o1[0], o2[0]));
+Arrays.sort(intervals,(o1, o2) -> Integer.compare(o1[0], o2[0]));
 
 // 1.8后
 Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
@@ -149,10 +149,10 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 
 1. `&` 与
 
-    按位 与运算 (AND), 即把二进制位中最低位的 1 翻转为 0
+    按位 与运算(AND), 即把二进制位中最低位的 1 翻转为 0
 
     ```java
-    // 6 (110), 5(101), 4 (100)
+    // 6(110), 5(101), 4(100)
     6 & 5 = 4
     ```
 
@@ -162,24 +162,24 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
     // 4 = 0b100
     // 6 = 0b1000
     // e.g. 4 = 0b100, 3 = 0b11, 4 & 3 = 0b100 & 0b11 = 0
-    pow(2, n) & (pow(2, n) - 1) == 0
+    pow(2, n) &(pow(2, n) - 1) == 0
     ```
 
 2. `|` 或
 
-    按位 或运算 (OR)
+    按位 或运算(OR)
 
     `4 | 5 = 5`
 
 3. `~` 非
 
-    按位 取反运算 (NOT)
+    按位 取反运算(NOT)
 
     `~4 = -5`
 
 4. `^` 异或
 
-    按位 异或运算 (XOR)
+    按位 异或运算(XOR)
 
     `4 ^ 5 = 1`
 
@@ -218,11 +218,11 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 
 `int INF = 0x3f3f3f3f;` = binary `00111111001111110011111100111111`
 
-32-bit int 的最大值. 如果这个无穷大只用于一般的比较（比如求最小值时 min 变量的初值）, 那么 `0x7fffffff` 确实是一个完美的选择, 但是在更多的情况下, `0x7fffffff` 并不是一个好的选择:
+32-bit int 的最大值. 如果这个无穷大只用于一般的比较(比如求最小值时 min 变量的初值), 那么 `0x7fffffff` 确实是一个完美的选择, 但是在更多的情况下, `0x7fffffff` 并不是一个好的选择:
 
 1. 很多时候我们并不只是单纯拿无穷大来作比较, 而是会运算后再做比较, 例如在大部分最短路径算法中都会使用的松弛操作:
 
-    `if (d[u]+w[u][v]<d[v]) d[v]=d[u]+w[u][v];`
+    `if(d[u]+w[u][v]<d[v]) d[v]=d[u]+w[u][v];`
 
     我们知道如果 u,v 之间没有边, 那么 w[u][v]=INF, 如果我们的 INF 取 0x7fffffff, 那么 d[u]+w[u][v]会溢出而变成负数, 我们的松弛操作便出错了, 更一般的说, 0x7fffffff 不能满足“无穷大加一个有穷的数依然是无穷大”, 它变成了一个很小的负数.
 
@@ -230,11 +230,11 @@ Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 
 ## 0x3f3f3f3f 的优点
 
-1. 0x3f3f3f3f 的十进制是 1061109567, 也就是 10^9 级别的（和 0x7fffffff 一个数量级）, 而一般场合下的数据都是小于 10^9 的, 所以它可以作为无穷大使用而不致出现数据大于无穷大的情形.
+1. 0x3f3f3f3f 的十进制是 1061109567, 也就是 10^9 级别的(和 0x7fffffff 一个数量级), 而一般场合下的数据都是小于 10^9 的, 所以它可以作为无穷大使用而不致出现数据大于无穷大的情形.
 
-2. 另一方面, 由于一般的数据都不会大于 10^9, 所以当我们把无穷大加上一个数据时, 它并不会溢出（这就满足了“无穷大加一个有穷的数依然是无穷大”）, 事实上 0x3f3f3f3f+0x3f3f3f3f=2122219134, 这非常大但却没有超过 32-bit int 的表示范围, 所以 0x3f3f3f3f 还满足了我们“无穷大加无穷大还是无穷大”的需求.
+2. 另一方面, 由于一般的数据都不会大于 10^9, 所以当我们把无穷大加上一个数据时, 它并不会溢出(这就满足了“无穷大加一个有穷的数依然是无穷大”), 事实上 0x3f3f3f3f+0x3f3f3f3f=2122219134, 这非常大但却没有超过 32-bit int 的表示范围, 所以 0x3f3f3f3f 还满足了我们“无穷大加无穷大还是无穷大”的需求.
 
-3. 0x3f3f3f3f 还能给我们带来一个意想不到的额外好处：如果我们想要将某个数组清零, 我们通常会使用 memset(a,0,sizeof(a))这样的代码来实现（方便而高效）, 但是当我们想将某个数组全部赋值为无穷大时（例如解决图论问题时邻接矩阵的初始化）, 就不能使用 memset 函数而得自己写循环了（写这些不重要的代码真的很痛苦）, 我们知道这是因为 memset 是按字节操作的, 它能够对数组清零是因为 0 的每个字节都是 0, 现在好了, 如果我们将无穷大设为 0x3f3f3f3f, 那么奇迹就发生了, 0x3f3f3f3f 的每个字节都是 0x3f！所以要把一段内存全部置为无穷大, 我们只需要 memset(a,0x3f,sizeof(a)).
+3. 0x3f3f3f3f 还能给我们带来一个意想不到的额外好处：如果我们想要将某个数组清零, 我们通常会使用 memset(a,0,sizeof(a))这样的代码来实现(方便而高效), 但是当我们想将某个数组全部赋值为无穷大时(例如解决图论问题时邻接矩阵的初始化), 就不能使用 memset 函数而得自己写循环了(写这些不重要的代码真的很痛苦), 我们知道这是因为 memset 是按字节操作的, 它能够对数组清零是因为 0 的每个字节都是 0, 现在好了, 如果我们将无穷大设为 0x3f3f3f3f, 那么奇迹就发生了, 0x3f3f3f3f 的每个字节都是 0x3f！所以要把一段内存全部置为无穷大, 我们只需要 memset(a,0x3f,sizeof(a)).
 
 # origin toString() vs lang3 ToStringBuilder()
 
@@ -267,7 +267,7 @@ public String toString() {
 
     ```java
         public String concat(String str) {
-            if (str.isEmpty()) {
+            if(str.isEmpty()) {
                 return this;
             }
             int len = value.length;
@@ -282,7 +282,7 @@ public String toString() {
 
     ```java
         public AbstractStringBuilder append(String str) {
-            if (str == null)
+            if(str == null)
                 return appendNull();
             int len = str.length();
             ensureCapacityInternal(count + len);
@@ -296,7 +296,7 @@ public String toString() {
 
 # BigDecimal
 
-等值比较时强制使用 `compareTo()`, `equals()` 方法会比较值和精度 (1.0 与 1.00 返回结果为 false), 而 `compareTo()`则会忽略精度.
+等值比较时强制使用 `compareTo()`, `equals()` 方法会比较值和精度(1.0 与 1.00 返回结果为 false), 而 `compareTo()`则会忽略精度.
 
 # stream vs for
 
@@ -308,7 +308,7 @@ stream().forEach() 不保证元素的遍历顺序
 
 log4j 日志等级:
 
-log4j 定义了 8 个级别的 log（除去 OFF 和 ALL, 可以说分为 6 个级别）, 优先级从高到低依次为：OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL.
+log4j 定义了 8 个级别的 log(除去 OFF 和 ALL, 可以说分为 6 个级别), 优先级从高到低依次为：OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL.
 
 「ALL」: 最低等级的, 用于打开所有日志记录.
 
@@ -368,9 +368,9 @@ FATAL 相当于服务已经挂了, 而 ERROR 相当于好死不如赖活着, 然
 
 这两种日志具体的规范应该由项目组自己定义, 该级别日志的主要作用是对系统每一步的运行状态进行精确的记录.
 
-通过该种日志, 可以查看某一个操作每一步的执行过程, 可以准确定位是何种操作, 何种参数, 何种顺序导致了某种错误的发生. 可以保证在不重现错误的情况下, 也可以通过 DEBUG（或 TRACE）级别的日志对问题进行诊断.
+通过该种日志, 可以查看某一个操作每一步的执行过程, 可以准确定位是何种操作, 何种参数, 何种顺序导致了某种错误的发生. 可以保证在不重现错误的情况下, 也可以通过 DEBUG(或 TRACE)级别的日志对问题进行诊断.
 
-需要注意的是, DEBUG 日志也需要规范日志格式, 应该保证除了记录日志的开发人员自己外, 其他的如运维, 测试人员等也可以通过 DEBUG（或 TRACE）日志来定位问题.
+需要注意的是, DEBUG 日志也需要规范日志格式, 应该保证除了记录日志的开发人员自己外, 其他的如运维, 测试人员等也可以通过 DEBUG(或 TRACE)日志来定位问题.
 
 # regex
 

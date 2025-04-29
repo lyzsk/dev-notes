@@ -20,11 +20,11 @@ Zookeeper = 文件系统 + 通知机制
 
     5. 数据更新原子性, 一次数据更新要么全成功, 要么全失败
 
-    6. 实时性, 在一定时间范围内, Client 能读到最新的数据 (ZK 里沟通的数据量并不大, 不如 HDFS, 仅仅是服务器之间的数据, 所以能达到 ms 级别的实时性)
+    6. 实时性, 在一定时间范围内, Client 能读到最新的数据(ZK 里沟通的数据量并不大, 不如 HDFS, 仅仅是服务器之间的数据, 所以能达到 ms 级别的实时性)
 
 -   数据结构:
 
-    与 unix 文件系统类似 (不一样在于 ZK 没有文件的概念, 直接往 znode 里写内容), 整体上可以看成 tree, 每个节点是一个 ZNode, 每个 ZNode 默认能存储 1MB 的数据, 每个 ZNode 都可以通过其路径唯一标识
+    与 unix 文件系统类似(不一样在于 ZK 没有文件的概念, 直接往 znode 里写内容), 整体上可以看成 tree, 每个节点是一个 ZNode, 每个 ZNode 默认能存储 1MB 的数据, 每个 ZNode 都可以通过其路径唯一标识
 
 -   应用场景:
 
@@ -50,13 +50,13 @@ Zookeeper = 文件系统 + 通知机制
 
 1. upload into `/opt/software`, `tar -zxvf apache-zookeeper-3.5.7-bin.tar.gz -C /opt/module`
 
-2. (选做) `cd /opt/module`, `mv ./apache-zookeeper-3.5.7-bin zookeeper-3.5.7`
+2.(选做) `cd /opt/module`, `mv ./apache-zookeeper-3.5.7-bin zookeeper-3.5.7`
 
 3. `cd /opt/module/zookeeper-3.5.7/conf`, `mv zoo_sample.cfg zoo.cfg`
 
 `cd /opt/module/zookeeper-3.5.7`, `mkdir zkData`, `vim /opt/module/zookeeper-3.5.7/conf/zoo.cfg` 把 `dataDir=/tmp/zookeeper` 改成 `dataDir=/opt/module/zookeeper-3.5.7/zkData`
 
-4. 配置 ZK 的环境变量 (选做), 其实不用做, 将来其实是用脚本统一启动多台服务器的 ZK, 因为脚本里面肯定是写 ZK 的绝对路径, 所以没必要配环境变量
+4. 配置 ZK 的环境变量(选做), 其实不用做, 将来其实是用脚本统一启动多台服务器的 ZK, 因为脚本里面肯定是写 ZK 的绝对路径, 所以没必要配环境变量
 
 # 单点模式启动
 
@@ -160,13 +160,13 @@ done
 
 不允许 `create -p /sanguo/shuhan`, 只能一次一次创建, `create /sanguo`, `create /sanguo/shuhan`
 
-zk 分为两种节点: 1. 持久化节点 (默认); 2. 临时节点 (-e)
+zk 分为两种节点: 1. 持久化节点(默认); 2. 临时节点(-e)
 
 `create -e /xiyou`, `ls /`
 
 `quit`, `bin/zkCli.sh -server hadoop102:2181`, 重联后 `ls /` 发现 `-e` 的节点不存在了
 
-创建节点可以: 1. 带序号 (-s); 2. 不带序号 (默认)
+创建节点可以: 1. 带序号(-s); 2. 不带序号(默认)
 
 `create -s /honglou`, `ls /`
 
@@ -206,7 +206,7 @@ Stat 结构体:
 
 2. dataversion - znode 数据版本号
 
-    改数据的时候用, 删数据的时候用, 或者用 (`-1`)
+    改数据的时候用, 删数据的时候用, 或者用(`-1`)
 
 3. dataLength - znode 的数据长度
 
@@ -218,7 +218,7 @@ Stat 结构体:
 
 1. 首先要有一个 `main()` 线程
 
-2. 在 main 线程中创建 zookeeper 客户端, 这时就会创建两个线程, 一个负责网络连接通信 (connect), 一个负责监听 (listener)
+2. 在 main 线程中创建 zookeeper 客户端, 这时就会创建两个线程, 一个负责网络连接通信(connect), 一个负责监听(listener)
 
 3. 通过 connect 线程将注册的监听事件发送给 zookeeper
 
@@ -248,13 +248,13 @@ Stat 结构体:
 
 -   i.e.2.
 
-    场景：以 5 台机器为例，当前集群正在使用（有数据/没数据），leader 突然宕机的情况
+    场景：以 5 台机器为例，当前集群正在使用(有数据/没数据)，leader 突然宕机的情况
 
     当集群中的 leader 挂掉，集群会重新选出一个 leader，此时首先会比较每一台机器的 czxid, czxid 最大的被选为 leader。极端情况，czxid 都相等的情况，那么就会直接比较 myid
 
 Q: 一般情况下 ZK 集群更推荐使用奇数台机器原因？
 
-A: 在 ZK 集群中 奇数台 和 偶数台（接近的台数） 机器的容错能力是一样的，所以在考虑资源节省的情况, 我们推荐使用奇数台方案
+A: 在 ZK 集群中 奇数台 和 偶数台(接近的台数) 机器的容错能力是一样的，所以在考虑资源节省的情况, 我们推荐使用奇数台方案
 
 # ZK 写数据流程
 

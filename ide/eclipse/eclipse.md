@@ -36,7 +36,7 @@ Eclipse 配置:
 
     Preferences -> Java -> Code Style -> Code Templates 本地导入 eclipse-codetemplate.xml
 
-    (忘记了是自己手改还是用的 p3c)
+  (忘记了是自己手改还是用的 p3c)
 
     Preferences -> Java -> Code Style -> Code Templates
 
@@ -52,7 +52,7 @@ Eclipse 配置:
     5.2 修改 Overriding methods:
 
     ```java
-    /* (non-Javadoc)
+    /*(non-Javadoc)
     * ${see_to_overridden}
     */
     ```

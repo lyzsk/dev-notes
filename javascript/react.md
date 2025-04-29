@@ -30,13 +30,13 @@
     document.getElementsByTagName("span");
     ```
 
-2. 使用 JS 直接操作 DOM, 浏览器会进行大量重排 (所以比 jQuery 好)
+2. 使用 JS 直接操作 DOM, 浏览器会进行大量重排(所以比 jQuery 好)
 
 3. 原生 JS 没有组件化编码方案, 代码复用率低
 
 总结:
 
-1. React 操作 Virtual-DOM (虚拟 DOM) 比 原生 JS 操作 True-DOM (真实 DOM) 效率高
+1. React 操作 Virtual-DOM(虚拟 DOM) 比 原生 JS 操作 True-DOM(真实 DOM) 效率高
 2. DOM diffing 算法, 最小化页面重绘
 
 # React state
@@ -110,7 +110,7 @@ Example:
 
 ```js
                 render() {
-                    return (
+                    return(
                         <div>
                             {/*这个input框的ref可以省略, 因为可以通过event和target得到发生事件的DOM对象*/}
                             <input
@@ -121,7 +121,7 @@ Example:
                         </div>
                     );
                 }
-                showData2 = (event) => {
+                showData2 =(event) => {
                     alert(event.target.value);
                 };
 ```

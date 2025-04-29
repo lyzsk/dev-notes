@@ -119,13 +119,13 @@ Example:
 
     ```java
         // 判断登陆状态,如果已登录,直接放行
-        if (request.getSession().getAttribute("employee") != null) {
+        if(request.getSession().getAttribute("employee") != null) {
             log.info("用户已登录,用户id为: {}",
                 request.getSession().getAttribute("employee"));
             long id = Thread.currentThread().getId();
             log.info("login filter 的线程id为:{}", id);
             // 从session获取userId, set 到 LocalThread 中
-            Long userId = (Long)request.getSession().getAttribute("employee");
+            Long userId =(Long)request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
             return;
@@ -167,7 +167,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info(metaObject.toString());
         long id = Thread.currentThread().getId();
         log.info("线程id为:{}, 当前用户id为: {}", id, BaseContext.getCurrentId());
-        Long userId = (Long)request.getSession().getAttribute("employee");
+        Long userId =(Long)request.getSession().getAttribute("employee");
         log.info("通过httpServletRequest得到的用户id为: {}", userId);
         metaObject.setValue("updateTime", LocalDateTime.now());
         // metaObject.setValue("updateUser", BaseContext.getCurrentId());
@@ -200,19 +200,19 @@ JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@31640daf] will not be managed 
 
 ```java
         // 判断登陆状态,如果已登录,直接放行
-        if (request.getSession().getAttribute("employee") != null) {
+        if(request.getSession().getAttribute("employee") != null) {
             log.info("用户已登录,用户id为: {}",
                 request.getSession().getAttribute("employee"));
             long id = Thread.currentThread().getId();
             log.info("login filter 的线程id为:{}", id);
             // 从session获取userId, set 到 LocalThread 中
-            Long empId = (Long)request.getSession().getAttribute("employee");
+            Long empId =(Long)request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(empId);
             filterChain.doFilter(request, response);
             return;
         }
-        if (request.getSession().getAttribute("user") != null) {
-            Long userId = (Long)request.getSession().getAttribute("user");
+        if(request.getSession().getAttribute("user") != null) {
+            Long userId =(Long)request.getSession().getAttribute("user");
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
             return;

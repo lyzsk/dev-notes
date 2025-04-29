@@ -31,7 +31,7 @@ spring:
         password:
 ```
 
-添加配置类, 用于自定义 redis key 序列化器 (非必须), 自定义成 `StringRedisSerializer` 方便在 GUI 工具里查看 key
+添加配置类, 用于自定义 redis key 序列化器(非必须), 自定义成 `StringRedisSerializer` 方便在 GUI 工具里查看 key
 
 ```java
 @Configuration

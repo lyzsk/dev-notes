@@ -119,7 +119,7 @@ def detect_text_lines(image_path):
   image = cv2.imread(image_path)  # 读取图像
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # 转换为灰度图像
   thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]  # 二值化
-  rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (25, 5))  # 定义矩形核
+  rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(25, 5))  # 定义矩形核
   dilation = cv2.dilate(thresh, rect_kernel, iterations=1)  # 膨胀
   contours, _ = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)  # 检测轮廓
   text_lines = 0
@@ -137,7 +137,7 @@ print(f"文本行数量：{text_lines}")
 
 # audio to text
 
-1. 信噪比（SNR）：
+1. 信噪比(SNR)：
     - 定义： 语音信号与噪声信号的功率比。
     - 影响： 高信噪比表示语音清晰，噪声较小，有利于模型准确识别语音内容。低信噪比则表示噪声干扰严重，可能导致模型识别错误或无法识别。
 2. 音量：
@@ -182,7 +182,7 @@ def calculate_snr(audio_path):
     audio_path: 音频文件路径。
 
   Returns:
-    信噪比（SNR）值。
+    信噪比(SNR)值。
   """
   y, sr = librosa.load(audio_path)  # 读取音频文件
   noise_rms = np.sqrt(np.mean(y**2))  # 计算噪声均方根
@@ -263,7 +263,7 @@ print(f"语音清晰度评分：{clarity}")
         - 均方根误差法： 计算视频帧像素值与参考帧的均方根误差，误差越小表示失真越小。
 2. 音频质量评估方法
 
--   信噪比（SNR）：
+-   信噪比(SNR)：
     -   定义： 语音信号与噪声信号的功率比。
     -   影响： 高信噪比表示语音清晰，噪声较小，有利于模型准确识别语音内容。低信噪比则表示噪声干扰严重，可能导致模型识别错误或无法识别。
 -   音量：
@@ -320,7 +320,7 @@ print(f"音频信噪比：{audio_snr}")
 
 -   评估标准： 内容完整性、格式一致性、语义准确性。
 -   判断方法：
-    -   文本提取： 使用 PyMuPDF (fitz) 库提取 PDF 文本，并与原始 PDF 进行比较，评估文本完整性和准 确性。
+    -   文本提取： 使用 PyMuPDF(fitz) 库提取 PDF 文本，并与原始 PDF 进行比较，评估文本完整性和准 确性。
     -   表格提取： 使用 Camelot 或 Tabula-py 库提取 PDF 表格，并与原始 PDF 进行比较，评估表格数据 的完整性和准确性。
     -   图像提取： 使用 PyMuPDF 提取 PDF 图像，并评估图像是否完整、清晰。
     -   格式分析： 分析 PyMuPDF 提取的文本和表格的格式信息，与原始 PDF 进行比较，评估格式一致性。
@@ -397,7 +397,7 @@ print("提取的表格数据：", table_data)
 -   评估标准： 内容完整性、语义准确性。
 -   判断方法：
     -   数据提取： 使用 openpyxl 库提取 Excel 表格数据，并与原始 Excel 文档进行比较，评估数据的完整性和准确性。
-    -   格式分析： 分析 openpyxl 提取的数据的格式信息 (如数据类型)，与原始 Excel 文档进行比较，评估格式一致性。
+    -   格式分析： 分析 openpyxl 提取的数据的格式信息(如数据类型)，与原始 Excel 文档进行比较，评估格式一致性。
 
 ```py
 import openpyxl

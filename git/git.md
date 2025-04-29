@@ -75,7 +75,7 @@ ssh -T git@github.com
 
 `git branch -a` 分支查询
 
-更改本地和远程分支名 (如果是要删除远程 default 分支要先把 default 分支更改):
+更改本地和远程分支名(如果是要删除远程 default 分支要先把 default 分支更改):
 
 ```
 git checkout [old_name]

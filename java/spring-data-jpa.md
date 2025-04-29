@@ -1,6 +1,6 @@
 # Spring Data JPA
 
-# soft delete (logical delete)
+# soft delete(logical delete)
 
 ## method 1
 

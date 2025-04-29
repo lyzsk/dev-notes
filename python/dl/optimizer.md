@@ -27,7 +27,7 @@ LARS: Layer-wise Adaptive Rate Scaling
 
 但是每层改变 lr 会极度依赖超参数调整.
 
-而且推荐用 large batches (@see: Alex Krizhevsky. One weird trick for parallelizing convolutional neural networks. arXiv preprint arXiv:1404.5997, 2014.), LARS 原文就是用的 8 卡分布式训练, 平衡 acc && speed
+而且推荐用 large batches(@see: Alex Krizhevsky. One weird trick for parallelizing convolutional neural networks. arXiv preprint arXiv:1404.5997, 2014.), LARS 原文就是用的 8 卡分布式训练, 平衡 acc && speed
 
 LARS 为了平衡初始阶段的学习率, 用 Alexnet-BN 替代了 BVLC Alexnet 原版的 Local Response Normalization layers, paper 里用的是 B=512 as baseline, total B=4k, 用 Alexnet-BN 比原版的 Alexnet 在 Batch=512 的时候 acc 高, 并且随着 Batch 增长到 8k, 学习率下降幅度也慢, 也就是没有明显的 loss gap.
 

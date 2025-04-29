@@ -1,12 +1,12 @@
 -   低延迟, Spark 延迟是秒级的, Flink 延迟是毫秒级的
 
--   高吞吐 (阿里双十一 Flink 4.6PB/s)
+-   高吞吐(阿里双十一 Flink 4.6PB/s)
 
 -   高容错, 结果的准确性和良好的容错性
 
 OLTP(Online Transaction Processing) 事务处理的数据处理架构, 太复杂, 涉及多表查询
 
-ETL (Extract, transform, and load) 处理后将 DB 中数据放入数仓, 减少了 DB SQL 的需求, SQL 只进行基本的 CRUD, 分析和查询交给数仓, 且数据处理不会影响到前端 DB, 因为先将业务数据从 DB 复制到了数仓
+ETL(Extract, transform, and load) 处理后将 DB 中数据放入数仓, 减少了 DB SQL 的需求, SQL 只进行基本的 CRUD, 分析和查询交给数仓, 且数据处理不会影响到前端 DB, 因为先将业务数据从 DB 复制到了数仓
 
 flink 1.17, java 和 scala 是分开的依赖
 
@@ -57,13 +57,13 @@ public class WordCountBatchDemo {
     public static void main(String[] args) throws Exception {
         ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
         DataSource<String> lineDS = env.readTextFile("202310-flink-demo/input/words.txt");
-        // 切分, 转换 (word, 1)
+        // 切分, 转换(word, 1)
         FlatMapOperator<String, Tuple2<String, Integer>> wordAndOne =
             lineDS.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
                 public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {
                     // 按空格切分单词
                     String[] words = s.split(" ");
-                    for (String word : words) {
+                    for(String word : words) {
                         // 将单词转换为(word, 1)
                         Tuple2<String, Integer> wordTuple2 = Tuple2.of(word, 1);
                         // 用collector向下游发送数据
@@ -93,7 +93,7 @@ public class WordCountStreamDemo {
             lineDS.flatMap(new FlatMapFunction<String, Tuple2<String, Integer>>() {
                 public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {
                     String[] words = s.split(" ");
-                    for (String word : words) {
+                    for(String word : words) {
                         Tuple2<String, Integer> wordTuple2 = Tuple2.of(word, 1);
                         collector.collect(wordTuple2);
                     }
@@ -127,7 +127,7 @@ public class WordCountStreamUnboundedDemo {
         SingleOutputStreamOperator<Tuple2<String, Integer>> sum =
             socketDS.flatMap((String s, Collector<Tuple2<String, Integer>> collector) -> {
                 String[] words = s.split(" ");
-                for (String word : words) {
+                for(String word : words) {
                     collector.collect(Tuple2.of(word, 1));
                 }
             }).returns(Types.TUPLE(Types.STRING, Types.INT)).keyBy((Tuple2<String, Integer> value) -> value.f0).sum(1);
@@ -254,7 +254,7 @@ jps
     </build>
 ```
 
-并且打包前更新下 dependency 的 scope (idea community 别改)
+并且打包前更新下 dependency 的 scope(idea community 别改)
 
 ```xml
     <dependencies>
@@ -288,12 +288,12 @@ jps
 
 然后在 web 端点一下 jar 包, 然后进行配置
 
-把 `WordCountStreamUnboundedDemo.java` 右键 copy reference: `cn.sichu.wc.WordCountStreamUnboundedDemo` 填入 Entry Class, 其他的暂时不填 (Parallelism default = 1)
+把 `WordCountStreamUnboundedDemo.java` 右键 copy reference: `cn.sichu.wc.WordCountStreamUnboundedDemo` 填入 Entry Class, 其他的暂时不填(Parallelism default = 1)
 
 然后点击 Show Plan 可以看到现在没生成, 然后确认 hadoop102 已经启动了 `nc -lk 7777`, 然后 Submit
 
 Submit 后就默认跳转到了 Jobs - Running Jobs 了
 
-点击 Overview 最后一个图 (Keyed Aggregation 就是 聚合 sum) - 选择 TaskManagers - 选择程序运行的服务器(随机的) 的 More 的 View Taskmanager Log - 自动跳转 Task Managers 页面后选择 Stdout
+点击 Overview 最后一个图(Keyed Aggregation 就是 聚合 sum) - 选择 TaskManagers - 选择程序运行的服务器(随机的) 的 More 的 View Taskmanager Log - 自动跳转 Task Managers 页面后选择 Stdout
 
 然后可以点击右上角的 Cancel Job 就停掉了

@@ -2,13 +2,13 @@
 
 ## Definition
 
-HBase 是一种分布式、可扩展、支持海量数据存储的 NoSQL 数据库 (Not Only SQL)
+HBase 是一种分布式、可扩展、支持海量数据存储的 NoSQL 数据库(Not Only SQL)
 
 > NOTE: 读的时候快, 因为基于内存
 
 ## Data model
 
-逻辑上，HBase 的数据模型同关系型数据库很类似，数据存储在一张表中，有行有列。但从 HBase 的底层物理存储结构（K-V）来看，HBase 更像是一个 multi-dimensional map
+逻辑上，HBase 的数据模型同关系型数据库很类似，数据存储在一张表中，有行有列。但从 HBase 的底层物理存储结构(K-V)来看，HBase 更像是一个 multi-dimensional map
 
 > NOTE: HDFS 仅支持追加写, 不支持随机写
 
@@ -22,15 +22,15 @@ HBase 是一种分布式、可扩展、支持海量数据存储的 NoSQL 数据�
 
 3. Row
 
-HBase 表中的每行数据都由一个 RowKey 和多个 Column（列）组成，数据是按照 RowKey 的字典顺序存储的，并且查询数据时只能根据 RowKey 进行检索，所以 RowKey 的设计十分重要
+HBase 表中的每行数据都由一个 RowKey 和多个 Column(列)组成，数据是按照 RowKey 的字典顺序存储的，并且查询数据时只能根据 RowKey 进行检索，所以 RowKey 的设计十分重要
 
 4. Column
 
-HBase 中的每个列都由 Column Family(列族)和 Column Qualifier（列限定符）进行限定，例如 info：name，info：age。建表时，只需指明列族，而列限定符无需预先定义
+HBase 中的每个列都由 Column Family(列族)和 Column Qualifier(列限定符)进行限定，例如 info：name，info：age。建表时，只需指明列族，而列限定符无需预先定义
 
 5. Time Stamp
 
-用于标识数据的不同版本（version），每条数据写入时，系统会自动为其加上该字段，其值为写入 HBase 的时间
+用于标识数据的不同版本(version)，每条数据写入时，系统会自动为其加上该字段，其值为写入 HBase 的时间
 
 6. Cell
 
@@ -186,7 +186,7 @@ hadoop103
 
 然后分发到 103, 104, `my_rsync.sh backup-masters`
 
-然后重新启动 hbase, 就是把 103 当默认的 backup master 了 (在 master 的集群输入 `stop-hbase.sh`, 然后再在 102 重启: `start-hbase.sh`)
+然后重新启动 hbase, 就是把 103 当默认的 backup master 了(在 master 的集群输入 `stop-hbase.sh`, 然后再在 102 重启: `start-hbase.sh`)
 
 # HBase Shell
 
@@ -420,7 +420,7 @@ scan 'stu', {RAW=>true, VERSIONS=>5}
 
 ## StoreFile
 
-StoreFile 保存实际数据的物理文件，StoreFile 以 Hfile 的形式存储在 HDFS 上。每个 Store 会有一个或多个 StoreFile（HFile），数据在每个 StoreFile 中都是有序的
+StoreFile 保存实际数据的物理文件，StoreFile 以 Hfile 的形式存储在 HDFS 上。每个 Store 会有一个或多个 StoreFile(HFile)，数据在每个 StoreFile 中都是有序的
 
 ## MemStore
 
@@ -428,9 +428,9 @@ MemStore 是写缓存, 由于 HFile 中的数据要求是有序的，所以数�
 
 ## WAL
 
-因为数据先写入内存, 再在未来合适的时间写入磁盘, 这样涉及安全性可靠性问题 (断电, 机器损坏导致的数据丢失), 所以有 WAL(Write-Ahead logfile), 加强数据安全性, 类似 NameNode 元数据镜像文件记录操作, WAL 会记录所有写操作, 如果内存里数据丢了就会重复一遍写操作, 所以所有 Region 共享 WAL 文件
+因为数据先写入内存, 再在未来合适的时间写入磁盘, 这样涉及安全性可靠性问题(断电, 机器损坏导致的数据丢失), 所以有 WAL(Write-Ahead logfile), 加强数据安全性, 类似 NameNode 元数据镜像文件记录操作, WAL 会记录所有写操作, 如果内存里数据丢了就会重复一遍写操作, 所以所有 Region 共享 WAL 文件
 
-WAL 存储在 HDFS 里 (HDFS 自带副本机制)
+WAL 存储在 HDFS 里(HDFS 自带副本机制)
 
 ## BlockCache
 
@@ -456,15 +456,15 @@ put 'stu', '1005', 'info:address', 'shanghai'
 
 MemStore 刷写时机：
 
-1.  当某个 memstore 的大小达到了 hbase.hregion.memstore.flush.size（默认值 128M），其所在 region 的所有 memstore 都会刷写。
+1.  当某个 memstore 的大小达到了 hbase.hregion.memstore.flush.size(默认值 128M)，其所在 region 的所有 memstore 都会刷写。
 
-    当 memstore 的大小达到 hbase.hregion.memstore.flush.size（默认值 128M）hbase.hregion.memstore.block.multiplier（默认值 4）时，会阻止继续往该 memstore 写数据
+    当 memstore 的大小达到 hbase.hregion.memstore.flush.size(默认值 128M)hbase.hregion.memstore.block.multiplier(默认值 4)时，会阻止继续往该 memstore 写数据
 
-2.  当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size（默认值 0.4）hbase.regionserver.global.memstore.size.lower.limit（默认值 0.95）region 会按照其所有 memstore 的大小顺序（由大到小）依次进行刷写。直到 region server 中所有 memstore 的总大小减小到上述值以下
+2.  当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size(默认值 0.4)hbase.regionserver.global.memstore.size.lower.limit(默认值 0.95)region 会按照其所有 memstore 的大小顺序(由大到小)依次进行刷写。直到 region server 中所有 memstore 的总大小减小到上述值以下
 
-    当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size（默认值 0.4）时，会阻止继续往所有的 memstore 写数据
+    当 region server 中 memstore 的总大小达到 java_heapsize hbase.regionserver.global.memstore.size(默认值 0.4)时，会阻止继续往所有的 memstore 写数据
 
-3.  到达自动刷写的时间，也会触发 memstore flush。自动刷新的时间间隔由该属性进行配置 hbase.regionserver.optionalcacheflushinterval（默认 1 小时）
+3.  到达自动刷写的时间，也会触发 memstore flush。自动刷新的时间间隔由该属性进行配置 hbase.regionserver.optionalcacheflushinterval(默认 1 小时)
 
 # Java API
 
@@ -492,7 +492,7 @@ MemStore 刷写时机：
         conf.set("hbase.zookeeper.quorum", "hadoop102,hadoop103,hadoop104");
         try {
             connection = ConnectionFactory.createConnection(conf);
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -534,7 +534,7 @@ Delete delete = new Delete(Bytes.toBytes(rowkey));
         Get get = new Get(Bytes.toBytes(rowkey));
         Result result = table.get(get);
         Cell[] cells = result.rawCells();
-        for (Cell cell : cells) {
+        for(Cell cell : cells) {
             String cellStr =
                 Bytes.toString(CellUtil.cloneRow(cell)) + " : " + Bytes.toString(CellUtil.cloneFamily(cell)) + " : "
                     + Bytes.toString(CellUtil.cloneQualifier(cell)) + " : " + Bytes.toString(CellUtil.cloneValue(cell));
@@ -702,7 +702,7 @@ HBase 操作过程中需要大量的内存开销，毕竟 Table 是可以缓存�
 
     `zookeeper.session.timeout`
 
-    默认值为 90000 毫秒（90s）。当某个 RegionServer 挂掉，90s 之后 Master 才能察觉到。可适当减小此值，以加快 Master 响应，可调整至 60000 毫秒
+    默认值为 90000 毫秒(90s)。当某个 RegionServer 挂掉，90s 之后 Master 才能察觉到。可适当减小此值，以加快 Master 响应，可调整至 60000 毫秒
 
 -   设置 RPC 监听数量
 
@@ -720,7 +720,7 @@ HBase 操作过程中需要大量的内存开销，毕竟 Table 是可以缓存�
 
     `hbase.hregion.majorcompaction`
 
-    默认值：604800000 秒（7 天）， Major Compaction 的周期，若关闭自动 Major Compaction，可将其设为 0
+    默认值：604800000 秒(7 天)， Major Compaction 的周期，若关闭自动 Major Compaction，可将其设为 0
 
 -   优化 HStore 文件大小
 
@@ -728,7 +728,7 @@ HBase 操作过程中需要大量的内存开销，毕竟 Table 是可以缓存�
 
     `hbase.hregion.max.filesize`
 
-    默认值 10737418240（10GB），如果需要运行 HBase 的 MR 任务，可以减小此值，因为一个 region 对应一个 map 任务，如果单个 region 过大，会导致 map 任务执行时间过长。该值的意思就是，如果 HFile 的大小达到这个数值，则这个 region 会被切分为两个 Hfile
+    默认值 10737418240(10GB)，如果需要运行 HBase 的 MR 任务，可以减小此值，因为一个 region 对应一个 map 任务，如果单个 region 过大，会导致 map 任务执行时间过长。该值的意思就是，如果 HFile 的大小达到这个数值，则这个 region 会被切分为两个 Hfile
 
 -   优化 HBase 客户端缓存
 
@@ -736,7 +736,7 @@ HBase 操作过程中需要大量的内存开销，毕竟 Table 是可以缓存�
 
     `hbase.client.write.buffer`
 
-    默认值 2097152bytes（2M）用于指定 HBase 客户端缓存，增大该值可以减少 RPC 调用次数，但是会消耗更多内存，反之则反之。一般我们需要设定一定的缓存大小，以达到减少 RPC 次数的目的
+    默认值 2097152bytes(2M)用于指定 HBase 客户端缓存，增大该值可以减少 RPC 调用次数，但是会消耗更多内存，反之则反之。一般我们需要设定一定的缓存大小，以达到减少 RPC 次数的目的
 
 -   指定 scan.next 扫描 HBase 所获取的行数
 

@@ -74,7 +74,7 @@ Settings -> Other Settings -> Save Actions:
 
 无配置 -->
 
-<!-- ### Lombok (Optional)
+<!-- ### Lombok(Optional)
 
 Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
 
@@ -136,7 +136,7 @@ Settings -> Editor -> Code Style -> Java:
 -   Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
 -   Wrapping and Braces -> Method annotations, class annotations, field annotations -> 改成 Wrap always
 
-### 更改自动换行长度 (每个项目都要重新配置一次)
+### 更改自动换行长度(每个项目都要重新配置一次)
 
 Settings -> Editor -> Code style:
 
@@ -219,7 +219,7 @@ Settings -> Editor -> General -> Editor Tabs:
 -   Appearance -> 取消勾选 Show tabs in one row
 -   Closing Policy -> Tab limit: 30 -->
 
-### 关闭单词拼写检查 (每个项目都要重新配置一次)
+### 关闭单词拼写检查(每个项目都要重新配置一次)
 
 Settings -> Editor -> Inspections:
 
@@ -243,19 +243,19 @@ Settings -> Build, Execution, Deployment -> Debugger:
 
 -   Java -> Transport: 从 Socket 改选成 Shared memory -->
 
-### 不显示 class/method unused warning (Optional)
+### 不显示 class/method unused warning(Optional)
 
 Settings -> Editor -> Inspections -> Java -> Declaration redundancy:
 
 -   取消勾选 Unused declaration
 
-### 重复变量 warning (Optional)
+### 重复变量 warning(Optional)
 
 Settings -> Editor -> Inspections -> Java -> Data flow:
 
 -   取消勾选 Redundant local variable
 
-### 设置项目最高支持的 java 版本 (Optional)
+### 设置项目最高支持的 java 版本(Optional)
 
 File -> Project Structure -> Project Settings -> Project -> Project language level -> 8!
 

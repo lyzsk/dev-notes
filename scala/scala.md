@@ -77,7 +77,7 @@ Constant pool:
    #8 = Utf8               age
    #9 = Utf8               I
   #10 = Utf8               <init>
-  #11 = Utf8               ()V
+  #11 = Utf8             ()V
   #12 = Utf8               Code
   #13 = Utf8               LineNumberTable
   #14 = Utf8               LocalVariableTable
@@ -100,14 +100,14 @@ Constant pool:
   #31 = Utf8               Ljava/io/PrintStream;
   #32 = Utf8               java/io/PrintStream
   #33 = Utf8               println
-  #34 = Utf8               (Ljava/lang/String;)V
+  #34 = Utf8             (Ljava/lang/String;)V
 {
   public static int age;
     descriptor: I
     flags: ACC_PUBLIC, ACC_STATIC
 
   public cn.sichu.scala.chapter01.User();
-    descriptor: ()V
+    descriptor:()V
     flags: ACC_PUBLIC
     Code:
       stack=1, locals=1, args_size=1
@@ -121,7 +121,7 @@ Constant pool:
             0       5     0  this   Lcn/sichu/scala/chapter01/User;
 
   static {};
-    descriptor: ()V
+    descriptor:()V
     flags: ACC_STATIC
     Code:
       stack=2, locals=0, args_size=0
@@ -190,7 +190,7 @@ lang/String;)V
    #9 = Utf8               ConstantValue
   #10 = Integer            30
   #11 = Utf8               <init>
-  #12 = Utf8               ()V
+  #12 = Utf8             ()V
   #13 = Utf8               Code
   #14 = Utf8               LineNumberTable
   #15 = Utf8               LocalVariableTable
@@ -212,7 +212,7 @@ lang/String;)V
   #31 = Utf8               Ljava/io/PrintStream;
   #32 = Utf8               java/io/PrintStream
   #33 = Utf8               println
-  #34 = Utf8               (Ljava/lang/String;)V
+  #34 = Utf8             (Ljava/lang/String;)V
 {
   public static final int AGE;
     descriptor: I
@@ -220,7 +220,7 @@ lang/String;)V
     ConstantValue: int 30
 
   public cn.sichu.scala.chapter01.Emp();
-    descriptor: ()V
+    descriptor:()V
     flags: ACC_PUBLIC
     Code:
       stack=1, locals=1, args_size=1
@@ -235,7 +235,7 @@ lang/String;)V
             0       5     0  this   Lcn/sichu/scala/chapter01/Emp;
 
   static {};
-    descriptor: ()V
+    descriptor:()V
     flags: ACC_STATIC
     Code:
       stack=2, locals=0, args_size=0
@@ -273,14 +273,14 @@ Constant pool:
    #6 = Class              #29            // cn/sichu/scala/chapter01/TestStatic
    #7 = Class              #30            // java/lang/Object
    #8 = Utf8               <init>
-   #9 = Utf8               ()V
+   #9 = Utf8             ()V
   #10 = Utf8               Code
   #11 = Utf8               LineNumberTable
   #12 = Utf8               LocalVariableTable
   #13 = Utf8               this
   #14 = Utf8               Lcn/sichu/scala/chapter01/TestStatic;
   #15 = Utf8               main
-  #16 = Utf8               ([Ljava/lang/String;)V
+  #16 = Utf8             ([Ljava/lang/String;)V
   #17 = Utf8               args
   #18 = Utf8               [Ljava/lang/String;
   #19 = Utf8               SourceFile
@@ -300,13 +300,13 @@ Constant pool:
   #33 = Utf8               Ljava/io/PrintStream;
   #34 = Utf8               java/io/PrintStream
   #35 = Utf8               println
-  #36 = Utf8               (I)V
+  #36 = Utf8             (I)V
   #37 = Utf8               cn/sichu/scala/chapter01/User
   #38 = Utf8               age
   #39 = Utf8               I
 {
   public cn.sichu.scala.chapter01.TestStatic();
-    descriptor: ()V
+    descriptor:()V
     flags: ACC_PUBLIC
     Code:
       stack=1, locals=1, args_size=1
@@ -320,7 +320,7 @@ Constant pool:
             0       5     0  this   Lcn/sichu/scala/chapter01/TestStatic;
 
   public static void main(java.lang.String[]);
-    descriptor: ([Ljava/lang/String;)V
+    descriptor:([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
       stack=2, locals=1, args_size=1
@@ -440,7 +440,7 @@ Java 里字符串是不可变的, 因为是 `private final char value[];`
     val json = "{\"username\": \"" + name + "\", \"password\":\"" + password + "\"}"
     println(json)
 
-    // 传值字符串 (太麻烦, 不推荐)
+    // 传值字符串(太麻烦, 不推荐)
     printf("username: %s", name + "\t")
     printf("username: %s", password + "\n")
 
@@ -498,7 +498,7 @@ Scala IO 用的就是 Java IO
     // 从文件输入
     val source = Source.fromFile("202309-scala-learning-demo/data/word.txt")
     val strs = source.getLines()
-    while (strs.hasNext) {
+    while(strs.hasNext) {
       println(strs.next())
     }
     source.close()
@@ -541,11 +541,11 @@ Scala 进行网络数据交互时，采用的也依然是 java 中的 I/O 类
 
 -   Scala 数据类型
 
-    Scala 是完全面向对象的语言，所以不存在基本数据类型的概念，有的只是任意值对象类型（AnyVal）和任意引用对象类型(AnyRef)
+    Scala 是完全面向对象的语言，所以不存在基本数据类型的概念，有的只是任意值对象类型(AnyVal)和任意引用对象类型(AnyRef)
 
 Scala 中 Any 类型是最通用的
 
-Nothing 相当于 Exception, 目的是一个方法只有一个出口 (java 里相当于两个出口, 一个正常返回, 一个异常返回), Nothing 是所有类型的子类型, 可以用任意类型代替
+Nothing 相当于 Exception, 目的是一个方法只有一个出口(java 里相当于两个出口, 一个正常返回, 一个异常返回), Nothing 是所有类型的子类型, 可以用任意类型代替
 
 implicit conversion:
 
@@ -604,11 +604,11 @@ scala 中 `eq` 为比较内存地址
             s1 = new String("abc");
             s2 = new String("abc");
             var10000 = .MODULE$;
-            if (s1 == null) {
-               if (s2 == null) {
+            if(s1 == null) {
+               if(s2 == null) {
                   break label21;
                }
-            } else if (s1.equals(s2)) {
+            } else if(s1.equals(s2)) {
                break label21;
             }
 
@@ -635,7 +635,7 @@ scala 中没有 lambda 三元运算符, 用 ifelse 判断
 JDK1.5
 
 ```java
-for (list : Object obj) {
+for(list : Object obj) {
   ...
 }
 ```
@@ -643,7 +643,7 @@ for (list : Object obj) {
 Scala:
 
 ```java
-    for (i: Int <- 1 to 5) {
+    for(i: Int <- 1 to 5) {
       println(i)
     }
 ```
@@ -657,10 +657,10 @@ Thread.`yield`()
 原因是, scala for loop 里本来就有个 yield 方法了:
 
 ```scala
-    val result1 = for (i <- 1 to 5) {
+    val result1 = for(i <- 1 to 5) {
       i
     }
-    val result2 = for (i <- 1 to 5) yield {
+    val result2 = for(i <- 1 to 5) yield {
       i * 2
     }
     println(result1)
@@ -673,7 +673,7 @@ Thread.`yield`()
     public static void main(String[] args) {
         // java.lang.NullPointerException
         List<Object> list = null;
-        for (Object obj : list) {
+        for(Object obj : list) {
             System.out.println(obj);
         }
     }
@@ -702,7 +702,7 @@ iterator 接口里有个 `boolean hasNext();`
      * @implSpec
      * <p>The default implementation behaves as if:
      * <pre>{@code
-     *     while (hasNext())
+     *     while(hasNext())
      *         action.accept(next());
      * }</pre>
      *
@@ -712,7 +712,7 @@ iterator 接口里有个 `boolean hasNext();`
      */
     default void forEachRemaining(Consumer<? super E> action) {
         Objects.requireNonNull(action);
-        while (hasNext())
+        while(hasNext())
             action.accept(next());
     }
 ```
@@ -725,8 +725,8 @@ scala 没有 `break` 关键词, 因为不想用关键词而想用面向对象的
 
 ```scala
     Breaks.breakable {
-      for (i <- 100 to 105) {
-        if (i == 103) {
+      for(i <- 100 to 105) {
+        if(i == 103) {
           Breaks.break()
         }
         println(i)
@@ -739,8 +739,8 @@ scala 没有 `break` 关键词, 因为不想用关键词而想用面向对象的
 
 ```scala
     breakable {
-      for (i <- 100 to 105) {
-        if (i == 103) {
+      for(i <- 100 to 105) {
+        if(i == 103) {
           Breaks.break()
         }
         println(i)
@@ -763,14 +763,14 @@ Scala 把函数式编程和面向对象编程整合在一起了
 
 -   函数式编程
 
-    将问题分解成一个一个的步骤，将每个步骤进行封装（函数），通过调用这些封装好的功能按照指定的步骤，解决问题
+    将问题分解成一个一个的步骤，将每个步骤进行封装(函数)，通过调用这些封装好的功能按照指定的步骤，解决问题
 
 ## 可变参数
 
 ```java
     public static String func1(String s1, String... s2) {
         StringBuilder sb = new StringBuilder();
-        for (String s : s2) {
+        for(String s : s2) {
             sb.append(s);
         }
         return s1 + sb;

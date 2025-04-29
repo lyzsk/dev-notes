@@ -1,6 +1,6 @@
 # JavaScript
 
-# Spread syntax (...)
+# Spread syntax(...)
 
 展开语法
 

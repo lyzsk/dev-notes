@@ -90,7 +90,7 @@ conda-env list
 进入环境后
 
 ```
-conda list (package_name)
+conda list(package_name)
 ```
 
 #
@@ -111,7 +111,7 @@ pip freeze > requirements.txt
 
 # 查看 gpu 驱动 & CUDA 版本
 
-`nvidia-smi` (cmd && anaconda cmd 都行)
+`nvidia-smi`(cmd && anaconda cmd 都行)
 
 NVIDIA GPU 驱动更新查询: https://www.nvidia.cn/drivers/lookup/
 
@@ -133,7 +133,7 @@ https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&targ
 
 https://developer.nvidia.com/cudnn-downloads?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local
 
-将 移动到 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4` (默认的)
+将 移动到 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4`(默认的)
 
 CUDA 12.4 自动添加到 PATH 了, 不需要手动设置
 

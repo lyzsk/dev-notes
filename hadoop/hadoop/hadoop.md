@@ -15,7 +15,7 @@
 
 3. 高效性: 在 MapReduce 的思想下, Hadoop 是并行工作的, 以加快任务处理速度
 
-4. 高容错性: 能够自动将失败的任务重新分配 (默认重试 4 次)
+4. 高容错性: 能够自动将失败的任务重新分配(默认重试 4 次)
 
 # 装 hadoop101, 102
 
@@ -110,7 +110,7 @@ passwd atguigu
 vim /etc/sudoers
 
 ## Next comes the main part: which users can run what software on
-## which machines (the sudoers file can be shared between multiple
+## which machines(the sudoers file can be shared between multiple
 ## systems).
 ## Syntax:
 ##
@@ -124,7 +124,7 @@ root    ALL=(ALL)       ALL
 atguigu ALL=(ALL) NOPASSWD:ALL
 ```
 
-记得用 `:wq!` 退出, 不加!会`E45:'readonly' option is set (add to override)`
+记得用 `:wq!` 退出, 不加!会`E45:'readonly' option is set(add to override)`
 
 ## STEP4
 
@@ -163,7 +163,7 @@ vim /etc/hostname
 reboot
 ```
 
-然后就在第一个 clone (hadoop102) 上安装软件
+然后就在第一个 clone(hadoop102) 上安装软件
 
 记住 clone 最原始的 101, 以后用内容分发, 把软件安装分发出去
 
@@ -188,7 +188,7 @@ PATH=$PATH:$JAVA_HOME/bin
 提升 JAVA_HOME 变量为系统变量
 export JAVA_HOME PATH
 
-用 fire transfler (ctl + alt + f)上传 .tar.gz (需要下一个 Xftp)
+用 fire transfler(ctl + alt + f)上传 .tar.gz(需要下一个 Xftp)
 
 ```sh
 tar -zxvf jdk-8u212-linux-x64.tar.gz -C ../module/
@@ -215,7 +215,7 @@ vim /etc/profile
 cd /etc/profile.d
 ```
 
-因为是普通用户不是 admin, 命令要加上`sudo` (否则会变成 read-only):
+因为是普通用户不是 admin, 命令要加上`sudo`(否则会变成 read-only):
 
 ```sh
 sudo touch my_env.sh
@@ -279,7 +279,7 @@ hadoop version
 
 三种运行模式:
 
--   Local (Standalone) Mode
+-   Local(Standalone) Mode
 -   Pseudo-Distributed Mode
 -   Fully-Distributed Mode
 
@@ -329,7 +329,7 @@ hadoop104: `IPADDR=192.168.114.132`
 
 hadoop103, 104 都没有 jdk, hadoop, 所以要编写 集群分发脚本
 
-Method1: scp (secure copy) 安全拷贝
+Method1: scp(secure copy) 安全拷贝
 
     语法:
 
@@ -404,7 +404,7 @@ i.e. 在 hadoop103 用 rsync 登录 102 传文件给 104 是不可行的: `rsync
 
 ```sh
 The source and destination cannot both be remote.
-rsync error: syntax or usage error (code 1) at main.c(1275) [Receiver=3.1.2]
+rsync error: syntax or usage error(code 1) at main.c(1275) [Receiver=3.1.2]
 ```
 
 ## Method3: using scripts
@@ -470,7 +470,7 @@ cd /etc/profile.d/
 ll
 ```
 
-但是 `my_env.sh` 不能用脚本分发, 因为 `atguigu` 用户没有写操作的权限 (看后三位: `-rw-r--r--. 1 root root 310 Aug 22 15:54 my_env.sh`, 只有 read 权限), 所以只能用 scp/rsync 手动发:
+但是 `my_env.sh` 不能用脚本分发, 因为 `atguigu` 用户没有写操作的权限(看后三位: `-rw-r--r--. 1 root root 310 Aug 22 15:54 my_env.sh`, 只有 read 权限), 所以只能用 scp/rsync 手动发:
 
 ```sh
 scp -r ./my_env.sh root@hadoop103:/etc/profile.d/
@@ -483,11 +483,11 @@ root
 
 # 规划 hadoop 集群
 
-hadoop102 namenode datanode nodemanager (hdfs)
+hadoop102 namenode datanode nodemanager(hdfs)
 
-hadoop103 resourcemanager datanode nodemanager (yarn)
+hadoop103 resourcemanager datanode nodemanager(yarn)
 
-hadoop104 secondarynamenode datanode nodemanager (hdfs)
+hadoop104 secondarynamenode datanode nodemanager(hdfs)
 
 搭建集群, 就是修改 hadoop 的配置文件
 
@@ -513,11 +513,11 @@ hadoop104 secondarynamenode datanode nodemanager (hdfs)
 
     -   当 hadoop 集群启动后, 先加载默认配置, 然后再加载自定义配置文件, 自定义的配置会覆盖默认的配置
 
--   配置集群相关的信息 (修改 hadoop 自定义的配置文件)
+-   配置集群相关的信息(修改 hadoop 自定义的配置文件)
 
-    -   hadoop-env.sh (主要映射 jdk 的环境变量) (在 hadoop3.x 的版本可以不配)
+    -   hadoop-env.sh(主要映射 jdk 的环境变量)(在 hadoop3.x 的版本可以不配)
 
-    -   core-site.xml (配置 hadoop 的全局信息)
+    -   core-site.xml(配置 hadoop 的全局信息)
 
     -   hdfs-site.xml
 
@@ -611,7 +611,7 @@ vim core-site.xml
   <value>file:///</value>
   <description>The name of the default file system.  A URI whose
   scheme and authority determine the FileSystem implementation.  The
-  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  uri's scheme determines the config property(fs.SCHEME.impl) naming
   the FileSystem implementation class.  The uri's authority is used to
   determine the host, port, etc. for a filesystem.</description>
 </property>
@@ -621,7 +621,7 @@ vim core-site.xml
 
 `hadoop102`代表 nn 的 ip
 
-`9820` 是 hadoop 默认的内部通信端口号, (也可以写成 8200)
+`9820` 是 hadoop 默认的内部通信端口号,(也可以写成 8200)
 
 ---
 
@@ -677,7 +677,7 @@ i.e. 使用 HDFS 分布式系统时也需要权限认证的
   <description>
     The user name to filter as, on static web filters
     while rendering content. An example use is the HDFS
-    web UI (user to be used for browsing files).
+    web UI(user to be used for browsing files).
   </description>
 </property>
 ```
@@ -864,7 +864,7 @@ my_rsync.sh ./*
 
 `hdfs namenode -format` 格式化完后会在 `hadoop-3.1.3` 目录下多两个个文件夹: `data` 和 `logs`
 
-`logs` 用来记录日志, `data` 用来保存 HDFS 数据 (`/opt/module/hadoop-3.1.3/data/dfs/name` 里放元数据)
+`logs` 用来记录日志, `data` 用来保存 HDFS 数据(`/opt/module/hadoop-3.1.3/data/dfs/name` 里放元数据)
 
 `hdfs --daemon start namenode` 单点启动后没有提示, 可以用 `jps` 查看所有 java 进程, 如果有 namenode 进程就说明启动成功, 就可以在浏览器里输入: `http://hadoop102:9870/` 访问 nn 的外部界面
 
@@ -894,13 +894,13 @@ my_rsync.sh ./*
 >
 > 1. 只有首次搭建后需要对 namenode 进行格式化操作
 >
-> 2. 如果集群在后期使用过程中需要重新格式化, 一定要先删除所有机器 hadoop 安装目录下的 data 和 logs 目录! (如果不删会导致历史数据存在出现冲突, 导致集群不可用)
+> 2. 如果集群在后期使用过程中需要重新格式化, 一定要先删除所有机器 hadoop 安装目录下的 data 和 logs 目录!(如果不删会导致历史数据存在出现冲突, 导致集群不可用)
 
 # ssh 免密登陆配置
 
 ssh 免密后就可以通过 hadoop 群起脚本启动集群了
 
-首先验证 ssh 登录可行性 (尝试从 hadoop102 登录 103):
+首先验证 ssh 登录可行性(尝试从 hadoop102 登录 103):
 
 ```sh
 cd /opt/module/hadoop-3.1.3
@@ -1054,7 +1054,7 @@ case $1 in
 esac
 ```
 
-编写完脚本后测试: `my_cluster.sh start` `my_cluster.sh stop` (hadoop102 里)
+编写完脚本后测试: `my_cluster.sh start` `my_cluster.sh stop`(hadoop102 里)
 
 TODO: 写个脚本, 实现在一台机器调取所有机器的 jps 内容
 
@@ -1102,7 +1102,7 @@ laiba
   <value>file:///</value>
   <description>The name of the default file system.  A URI whose
   scheme and authority determine the FileSystem implementation.  The
-  uri's scheme determines the config property (fs.SCHEME.impl) naming
+  uri's scheme determines the config property(fs.SCHEME.impl) naming
   the FileSystem implementation class.  The uri's authority is used to
   determine the host, port, etc. for a filesystem.</description>
 </property>
@@ -1110,13 +1110,13 @@ laiba
 
 > NOTE: 每次执行 mapreduce, 输出目录不能是用一个目录, 一定要换名字! i.e. `hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount /wcinput hdfs://hadoop102:9820/wcoutput1`
 
-测试完发现只有一个 block0, 是因为文件太小了 (0-128MB), 无法分块
+测试完发现只有一个 block0, 是因为文件太小了(0-128MB), 无法分块
 
 测试一下上传 185MB 的`jdk-8u212-linux-x64.tar.gz`, 发现就有两个 block: block0, block1
 
 > Note: 在 web 端看到的数据在 linux 端是看不到的, web 端是 hadoop 内部映射的结果:
 
-i.e. `cd /opt/module/hadoop-3.1.3/data/dfs/name/current` 可以看到就只有`fsimage_0000000000000000010` 这种的是元数据, 而且就算 `cat fsimage_0000000000000000010` 也看不懂全是二进制内容 (等 HDFS 学完可以)
+i.e. `cd /opt/module/hadoop-3.1.3/data/dfs/name/current` 可以看到就只有`fsimage_0000000000000000010` 这种的是元数据, 而且就算 `cat fsimage_0000000000000000010` 也看不懂全是二进制内容(等 HDFS 学完可以)
 
 `cd /opt/module/hadoop-3.1.3/data/dfs/data/current/BP-601714560-192.168.114.130-1693214637588/current/finalized/subdir0/subdir0` 里的 `blk_1073741825` 这种的才是具体的数据块, `cat blk_1073741825` 可以得到:
 
@@ -1270,7 +1270,7 @@ my_rsync.sh /home/atguigu/bin/my_cluster.sh
 
 配置时间同步步骤:
 
-## step1 时间服务器配置 (root 用户)
+## step1 时间服务器配置(root 用户)
 
 (在 hadoop102 里)
 
@@ -1320,7 +1320,7 @@ my_rsync.sh /home/atguigu/bin/my_cluster.sh
 
     设置 ntpd 服务开机启动: `sudo systemctl enable ntpd`
 
-## step2 其他机器配置（root 用户）
+## step2 其他机器配置(root 用户)
 
 1. 在其他机器查看定时任务 `sudo crontab -l`, 发现没有, 配置 1 分钟与时间服务器同步一次
 

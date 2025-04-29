@@ -22,9 +22,9 @@ B-tree of order m
 
 h: 代表树的高度, k 是个自然数, 一个 B 树要么是空的, 要么满足以下条件:
 
-1. 所有叶子节点到根节点的路径长度相同, 即具有相同的高度； (树是平衡的)
-2. 每个非叶子和根节点 (即内部节点)至少有 k+1 个孩子节点, 根至少有 2 个孩子； (这是关键的部分, 因为节点都是分裂而来的, 而每次分裂得到的节点至少有 k 个元素, 也就有 k+1 个孩子；但根节点在分裂后可能只有一个元素, 因为不需要向上融合, 中间元素作为新的根节点, 因此最少有两个孩子. 而叶子节点没有孩子. )
-3. 每个节点最多有 2k+1 个孩子节点. (规定了节点的最大容量)
+1. 所有叶子节点到根节点的路径长度相同, 即具有相同的高度；(树是平衡的)
+2. 每个非叶子和根节点(即内部节点)至少有 k+1 个孩子节点, 根至少有 2 个孩子；(这是关键的部分, 因为节点都是分裂而来的, 而每次分裂得到的节点至少有 k 个元素, 也就有 k+1 个孩子；但根节点在分裂后可能只有一个元素, 因为不需要向上融合, 中间元素作为新的根节点, 因此最少有两个孩子. 而叶子节点没有孩子. )
+3. 每个节点最多有 2k+1 个孩子节点.(规定了节点的最大容量)
 4. 每个节点内的键都是递增的
 
 B 树是一种多路查找树, 相比于二叉树来说, B 树更适合于建立存储设备中的文件索引.
@@ -41,11 +41,11 @@ B 树是一种多路查找树, 相比于二叉树来说, B 树更适合于建立
 
 # master-slave replication
 
-mysql 主从复制是一个异步 (asynchronous) 的复制过程, 分成三步:
+mysql 主从复制是一个异步(asynchronous) 的复制过程, 分成三步:
 
-Step1. master 将改变记录到二进制日志 (binary log)
+Step1. master 将改变记录到二进制日志(binary log)
 
-Step2. slave 将 master 的 binary log 拷贝到它的中继日志 (relay log)
+Step2. slave 将 master 的 binary log 拷贝到它的中继日志(relay log)
 
 Step3. slave 重做中继日志中的事件, 将改变应用到自己的数据库中
 
@@ -212,7 +212,7 @@ MovieRating =
 # Temporary table
 
 ```sql
-create temporary table table_name (
+create temporary table table_name(
     col_name varchar(50) not null,
     col_name_2 decimal(12, 2) not null default 0.00
 );
@@ -264,20 +264,20 @@ mysql 默认事务都是自动提交的
 -- 添加一个主键
 -- 索引值必须是唯一, 且不能为NULL
 alter table tbl_name
-add primary key (col_list);
+add primary key(col_list);
 
--- 创建索引的值必须是唯一的 (除NULL外, NULL可以出现多次)
+-- 创建索引的值必须是唯一的(除NULL外, NULL可以出现多次)
 alter table tbl_name
-add unique index_name (col_list);
+add unique index_name(col_list);
 
 -- 添加普通索引
 -- 索引值可出现多次
 alter table tbl_name
-add index index_name (col_list);
+add index index_name(col_list);
 
 -- 指定了索引为 FULLTEXT, 用于全文索引
 alter table tbl_name
-add fulltext index_name (col_list);
+add fulltext index_name(col_list);
 ```
 
 可以用 `alter table tbl_name drop index index_name` 删除索引
@@ -366,14 +366,14 @@ DATETIME: 与当前时间是一致的.
 
 ## 如果存入的是 NULL 时, 两个类型如何存储？
 
-TIMESTAMP: 会自动存储当前时间 ( now() ).
+TIMESTAMP: 会自动存储当前时间( now() ).
 DATETIME: 不会自动存储当前时间, 会直接存入 NULL 值
 
 ## 使用场景
 
 TIMESTAMP: 计算飞机飞行时间
 
-一架飞机, 从中国北京起飞, 降落在美国纽约, 计算它从北京飞往纽约的飞行时间. 飞机在北京时间 2021-10-10 11:05:00 从北京起飞, 在纽约时间 2021-10-10 09:50:00 降落 (JL8006).
+一架飞机, 从中国北京起飞, 降落在美国纽约, 计算它从北京飞往纽约的飞行时间. 飞机在北京时间 2021-10-10 11:05:00 从北京起飞, 在纽约时间 2021-10-10 09:50:00 降落(JL8006).
 这个场景中, 如果使用 TIMESTAMP 来存时间, 起飞和降落时间的值, 都会被转换成 UTC 时间, 所以它们直接相减即可获得结果. 但如果使用 DATATIME 格式存时间, 还需要进行转换, 才可以完成, 容易出错
 
 DATETIME: 记录信息修改时间

@@ -53,9 +53,9 @@ public class SMSUtils {
         try {
             SendSmsResponse response = client.getAcsResponse(request);
             System.out.println(new Gson().toJson(response));
-        } catch (ServerException e) {
+        } catch(ServerException e) {
             e.printStackTrace();
-        } catch (ClientException e) {
+        } catch(ClientException e) {
             System.out.println("ErrCode:" + e.getErrCode());
             System.out.println("ErrMsg:" + e.getErrMsg());
             System.out.println("RequestId:" + e.getRequestId());

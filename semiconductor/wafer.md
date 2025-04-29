@@ -1,4 +1,4 @@
-# 200mm vs 300mm wafer (8 吋 vs 12 吋) (about 8 inches vs about 12 inches)
+# 200mm vs 300mm wafer(8 吋 vs 12 吋)(about 8 inches vs about 12 inches)
 
 | Attribute             | 200mm          | 300mm                       |
 | :-------------------- | :------------- | :-------------------------- |

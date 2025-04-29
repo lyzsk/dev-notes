@@ -114,25 +114,25 @@ public class CarModelYearComparator implements Comparator<Car> {
 ```java
     // 内置函数 0ms
     public int mySqrt(int x) {
-        return (int)Math.pow(x, 0.5);
+        return(int)Math.pow(x, 0.5);
     }
 
 
     // 牛顿迭代法 1ms
     public int mySqrt(int x) {
-        if (x == 0) {
+        if(x == 0) {
             return 0;
         }
         double c = x;
         double x0 = x;
-        while (true) {
-            double xi = 0.5 * (x0 + c / x0);
-            if (Math.abs(x0 - xi) < 1e-15) {
+        while(true) {
+            double xi = 0.5 *(x0 + c / x0);
+            if(Math.abs(x0 - xi) < 1e-15) {
                 break;
             }
             x0 = xi;
         }
-        return (int)x0;
+        return(int)x0;
     }
 ```
 
@@ -143,18 +143,18 @@ public class CarModelYearComparator implements Comparator<Car> {
 如果要转成 maxheap, 可以
 
 1. `new PriorityQueue<>(Collections.reverseOrder())`
-2. `new PriorityQueue<>((x,y) -> (y - x));`
+2. `new PriorityQueue<>((x,y) ->(y - x));`
 3. `new PriorityQueue<>((x,y) -> y.compareTo(x));`
 
 > **_IMPORTANT!_**
 >
-> `new PriorityQueue<>((x,y) -> (y-x))` 和 `new PriorityQueue<>((x,y) -> Integer.compare(y,x))` 区别:
+> `new PriorityQueue<>((x,y) ->(y-x))` 和 `new PriorityQueue<>((x,y) -> Integer.compare(y,x))` 区别:
 >
-> `(x,y) -> (y-x)` 的写法 逻辑上没有错, 但是会有 int 溢出的问题, 所以有可能某些案例无法通过
+> `(x,y) ->(y-x)` 的写法 逻辑上没有错, 但是会有 int 溢出的问题, 所以有可能某些案例无法通过
 >
-> `Integer.compare()` 的实现是: `(x < y) ? -1 : ((x == y) ? 0 : 1)` 也就是说只涉及了 [单纯的比较], 不涉及 [运算], 所以就不存在溢出的风险
+> `Integer.compare()` 的实现是: `(x < y) ? -1 :((x == y) ? 0 : 1)` 也就是说只涉及了 [单纯的比较], 不涉及 [运算], 所以就不存在溢出的风险
 >
-> 而直接使用 `(x,y) -> (y-x)`，当 `y = Integer.MAX_VALUE, x = Integer.MIN_VALUE` 时，到导致溢出，返回的是 负数 ，而不是逻辑期望的 正数
+> 而直接使用 `(x,y) ->(y-x)`，当 `y = Integer.MAX_VALUE, x = Integer.MIN_VALUE` 时，到导致溢出，返回的是 负数 ，而不是逻辑期望的 正数
 
 ---
 
@@ -278,7 +278,7 @@ Q28. What statement returns true if "nifty" is of type String?
         // 2.2 反射 特定的构造器并用 newInstance 重载
         Class p1 = Class.forName("cn.sichu.Test");
         Constructor p2 = p1.getConstructor(String.class);
-        Test test3 = (Test)p2.newInstance("李四");
+        Test test3 =(Test)p2.newInstance("李四");
         System.out.println(test3);
     }
 ```
@@ -291,21 +291,21 @@ Q28. What statement returns true if "nifty" is of type String?
 
 ```java
 // 慢
-for (char digit : Integer.toString(cnt).toCharArray()) {
+for(char digit : Integer.toString(cnt).toCharArray()) {
     chars[res++] = digit;
 }
 
 // 快
-if (cnt / 1000 > 0) {
-    chars[res++] = (char)(cnt / 1000 + '0');
+if(cnt / 1000 > 0) {
+    chars[res++] =(char)(cnt / 1000 + '0');
 }
-if (cnt / 100 > 0) {
-    chars[res++] = (char)(cnt % 1000 / 100 + '0');
+if(cnt / 100 > 0) {
+    chars[res++] =(char)(cnt % 1000 / 100 + '0');
 }
-if (cnt / 10 > 0) {
-    chars[res++] = (char)(cnt % 100 / 10 + '0');
+if(cnt / 10 > 0) {
+    chars[res++] =(char)(cnt % 100 / 10 + '0');
 }
-chars[res++] = (char)(cnt % 10 + '0');
+chars[res++] =(char)(cnt % 10 + '0');
 ```
 
 ---
@@ -369,7 +369,7 @@ chars[res++] = (char)(cnt % 10 + '0');
     System.out.println(i == j); // true
     ```
 
-    非 new 生成的`Integer`变量和`new Integer()`生成的变量比较时，结果为 false。（因为非 new 生成的 Integer 变量指向的是 java 常量池中的对象，而 new Integer()生成的变量指向堆中新建的对象，两者在内存中的地址不同）
+    非 new 生成的`Integer`变量和`new Integer()`生成的变量比较时，结果为 false。(因为非 new 生成的 Integer 变量指向的是 java 常量池中的对象，而 new Integer()生成的变量指向堆中新建的对象，两者在内存中的地址不同)
 
     ```java
     Integer i = new Integer(100);
@@ -390,8 +390,8 @@ chars[res++] = (char)(cnt % 10 + '0');
 
     public static Integer valueOf(int i){
     assert IntegerCache.high >= 127;
-    if (i >= IntegerCache.low && i <= IntegerCache.high){
-        return IntegerCache.cache[i + (-IntegerCache.low)];
+    if(i >= IntegerCache.low && i <= IntegerCache.high){
+        return IntegerCache.cache[i +(-IntegerCache.low)];
     }
     return new Integer(i);
     }
@@ -446,17 +446,17 @@ public static void main(String[] args) {
     public static void main(String[] args) throws InterruptedException {
         Thread[] threads = new Thread[100];
         CountDownLatch latch = new CountDownLatch(threads.length);
-        for (int i = 0; i < threads.length; i++) {
+        for(int i = 0; i < threads.length; i++) {
             threads[i] = new Thread(() -> {
-                // synchronized (Plus.class) {
-                    for (int j = 0; j < 10000; j++) {
+                // synchronized(Plus.class) {
+                    for(int j = 0; j < 10000; j++) {
                         ++n;
                     }
                     latch.countDown();
                 // }
             });
         }
-        for (Thread thread : threads) {
+        for(Thread thread : threads) {
             thread.start();
         }
         latch.await();
@@ -549,11 +549,11 @@ volatile, 易挥发的
 
     场景 b. 界面交互点击执行较长时间请求操作:
 
-    防止多次点击导致 后台重复执行 (忽略重复触发)
+    防止多次点击导致 后台重复执行(忽略重复触发)
 
     ```java
     private ReentrantLock lock = new ReentrantLock();
-    if (lock.tryLock()) {   // 如果已经被lock, 立即返回false, 达到忽略操作的效果
+    if(lock.tryLock()) {   // 如果已经被lock, 立即返回false, 达到忽略操作的效果
         try {
             // 操作
         } finally {
@@ -562,7 +562,7 @@ volatile, 易挥发的
     }
     ```
 
-2. 如果发现该操作 已经在执行, 等待一个一个执行 (类似 synchronized 同步执行)
+2. 如果发现该操作 已经在执行, 等待一个一个执行(类似 synchronized 同步执行)
 
     这种情况主要是 防止资源使用冲突, 保证同一时间内 只有一个操作可以使用资源
 
@@ -581,24 +581,24 @@ volatile, 易挥发的
     }
     ```
 
-3. 如果发现该操作 已经在执行, 则等待一段时间, 等待超时则不执行 (尝试等待执行)
+3. 如果发现该操作 已经在执行, 则等待一段时间, 等待超时则不执行(尝试等待执行)
 
     这种情况也是 2 的改进
 
     等待获得锁操作有一个时间限制, 超时则放弃执行
 
-    这样可以防止时间过长导致死锁 (大家都在等待资源, 导致线程队列溢出)
+    这样可以防止时间过长导致死锁(大家都在等待资源, 导致线程队列溢出)
 
     ```java
     try {
-        if (lock.tryLock(5, TimeUnit.SECONDS)) {    // 如果已经被锁定, 尝试等待5s
+        if(lock.tryLock(5, TimeUnit.SECONDS)) {    // 如果已经被锁定, 尝试等待5s
             try {
                 // 操作
             } finally {
                 lock.unlock();
             }
         }
-    } catch (InterruptedException e) {
+    } catch(InterruptedException e) {
         e.printStackTrace();    // 当前线程被 interrupt 会抛个异常
     }
     ```
@@ -615,7 +615,7 @@ volatile, 易挥发的
     try {
         lock.lockInterruptibly();
         // 操作
-    } catch (InterruptedException e) {
+    } catch(InterruptedException e) {
         e.printStackTrace();
     } finally {
         lock.unlock();
@@ -642,7 +642,7 @@ volatile, 易挥发的
     }
 
     private void add(int index, int val) {
-        while (index < tree.length) {
+        while(index < tree.length) {
             tree[index] += val;
             index += lowbit(index);
         }
@@ -650,7 +650,7 @@ volatile, 易挥发的
 
     private int prefixSum(int index) {
         int sum = 0;
-        while (index > 0) {
+        while(index > 0) {
             sum += tree[index];
             index -= lowbit(index);
         }
@@ -684,7 +684,7 @@ hint:
 
 ##
 
-**`IOC (Inversion of Control)` `控制反转`**
+**`IOC(Inversion of Control)` `控制反转`**
 
 -   使用对象时, 在程序中不主动 new 对象, 转换为由外部提供对象,
 
@@ -697,7 +697,7 @@ hint:
 -   Spring 提供了一个容器, 即 `IOC容器`, 用来充当 IOC 思想中的外部
 -   IOC 容器 负责对象的 创建, 初始化等一系列工作, 被创建 或 被管理的对象, 在 IOC 容器中称为 `Bean`
 
-**`DI (Dependency Injection)` `依赖注入`**
+**`DI(Dependency Injection)` `依赖注入`**
 
 -   在容器中建立 bean 与 bean 之间的依赖关系的整个过程, 即依赖注入
 
@@ -840,8 +840,8 @@ Spring 默认创建的 bean 就是 `单例模型(singleton model)`:
 
 ```java
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        BookDao bookDao1 = (BookDao)ctx.getBean("bookDao");
-        BookDao bookDao2 = (BookDao)ctx.getBean("bookDao");
+        BookDao bookDao1 =(BookDao)ctx.getBean("bookDao");
+        BookDao bookDao2 =(BookDao)ctx.getBean("bookDao");
         System.out.println(bookDao1);
         System.out.println(bookDao2);
 ```
@@ -947,7 +947,7 @@ bean 生命周期控制 1:
 
 ```java
 ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-BookDao bookDao = (BookDao)ctx.getBean("bookDao");
+BookDao bookDao =(BookDao)ctx.getBean("bookDao");
 bookDao.save();
 ctx.close();
 ```
@@ -1027,14 +1027,14 @@ SpringMVC 与 Servlet 等同, 都是 web 层开发, 即表现层开发
 (demo 是用 maven-archetype:webapp 建的)
 (启动用 maven, 设置 run `tomcat7:run`)
 
--   SpringMVC bean (表现层 bean)
+-   SpringMVC bean(表现层 bean)
 -   Spring bean
     -   业务 bean(Service)
     -   功能 bean(DataSource)
 
 由于功能不同, 需要 **避免** Spring 加载到 SpringMVC 的 bean
 
-方法 1: Spring 加载 bean 扫面范围, 设置精准范围扫描 (主要用这一种)
+方法 1: Spring 加载 bean 扫面范围, 设置精准范围扫描(主要用这一种)
 
 方法 2: Spring 加载 bean 扫面范围, 设置大范围扫描, 同时排除掉 controller 包
 
@@ -1124,7 +1124,7 @@ public String dateParam(Date date1, @DateTimeFormat(pattern = "yyyy-mm-dd") Date
 
 ## REST
 
-REST (Representational State Transfer) 表现形式状态转换
+REST(Representational State Transfer) 表现形式状态转换
 
 -   传统风格:
 
@@ -1143,11 +1143,11 @@ REST (Representational State Transfer) 表现形式状态转换
 
 -   常见 REST 风格, 按照访问资源时的 \[行为动作\] 区分对资源进行了何种操作:
 
-    -   `http://localhost/users` 查询全部用户信息 （GET）查询
-    -   `http://localhost/users/1` 查询指定用户信息 (GET)查询
-    -   `http://localhost/users` 添加用户信息 (POST)修改/保存
-    -   `http://localhost/users` 修改用户信息 (PUT)修改/更新
-    -   `http://localhost/users/1` 删除用户信息 (DELETE)删除
+    -   `http://localhost/users` 查询全部用户信息(GET)查询
+    -   `http://localhost/users/1` 查询指定用户信息(GET)查询
+    -   `http://localhost/users` 添加用户信息(POST)修改/保存
+    -   `http://localhost/users` 修改用户信息(PUT)修改/更新
+    -   `http://localhost/users/1` 删除用户信息(DELETE)删除
 
 ---
 
@@ -1253,7 +1253,7 @@ Mongodb 是为快速开发互联网 Web 应用而构建的数据库系统，其�
     dbPath: C:\dev\MongoDB\data\db
     ```
 
-3. 安装为服务（运行命令需要用管理员权限）
+3. 安装为服务(运行命令需要用管理员权限)
 
     ```
     C:/dev/MongoDB/bin/mongod.exe --config "C:\dev\MongoDB\mongod.cfg" --install
@@ -1284,7 +1284,7 @@ Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sich
 
 方法 1: 把两个 Config 放到 `cn.sichu` 下
 
-方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解(太逗了, 掩人耳目)
 
 方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
 

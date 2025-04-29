@@ -6,23 +6,23 @@
 
 以二进制为原理, 实现运算与逻辑判断功能的集成电路
 
-e.g. CPU, GPU, NPU (neural processing units), etc.
+e.g. CPU, GPU, NPU(neural processing units), etc.
 
 2. Memory chips
 
 -   volatile memory
 
-    e.g. DRAM (Dynamic Random Access Memory, 动态随机存取存储器, 其实就是运行内存)
+    e.g. DRAM(Dynamic Random Access Memory, 动态随机存取存储器, 其实就是运行内存)
 
 -   non-volatile memory
 
-    e.g. NAND Flash (Not AND Flash Memory, 计算机闪存, 其实就是存储内存)
+    e.g. NAND Flash(Not AND Flash Memory, 计算机闪存, 其实就是存储内存)
 
-3. application-specific integrated chips (ASICs)
+3. application-specific integrated chips(ASICs)
 
 single-purpose chips used for performing repetitive processing routines such as scanning a barcode
 
-4. system-on-a-chip devices (SoCs)
+4. system-on-a-chip devices(SoCs)
 
 a relatively new type of chip that combines many chips and circuits in a single chip and may integrate things such as graphics, audio, camera, video and Wi-Fi.
 

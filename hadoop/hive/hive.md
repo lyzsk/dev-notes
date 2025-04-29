@@ -4,7 +4,7 @@ Hive：由 Facebook 开源用于解决海量结构化日志的数据统计工具
 
 Hive 是基于 Hadoop 的一个数据仓库工具，可以将结构化的数据文件映射为一张表，并提供类 SQL 查询功能
 
--   Hive 本质: 将 HQL (Hive Query Language) 转化成 MapReduce 程序
+-   Hive 本质: 将 HQL(Hive Query Language) 转化成 MapReduce 程序
 
     1. Hive 处理的数据存储在 HDFS
 
@@ -14,7 +14,7 @@ Hive 是基于 Hadoop 的一个数据仓库工具，可以将结构化的数据�
 
 -   Hive 优点:
 
-    1. 操作接口采用类 SQL 语法，提供快速开发的能力 (简单、容易上手)
+    1. 操作接口采用类 SQL 语法，提供快速开发的能力(简单、容易上手)
 
     2. 避免了去写 MapReduce，减少开发人员的学习成本
 
@@ -26,7 +26,7 @@ Hive 是基于 Hadoop 的一个数据仓库工具，可以将结构化的数据�
 
 -   Hive 缺点:
 
-    1. Hive 的 HQL (Hive Query Language) 表达能力有限
+    1. Hive 的 HQL(Hive Query Language) 表达能力有限
 
         1. 迭代式算法无法表达
         2. 数据挖掘方面不擅长，由于 MapReduce 数据处理流程的限制，效率更高的算法却无法实现
@@ -48,9 +48,9 @@ Hive 是基于 Hadoop 的一个数据仓库工具，可以将结构化的数据�
 
 ## Step1. 卸载 linux 自带的 mysql
 
-1. 查是否自带 `rpm -qa | grep mysql` (CentOS6), `rpm -qa | grep mariadb` (CentOS7), 也可以组合一下: `rpm -qa | grep -i -E mysql\|mariadb` (正则中间不能有空格)
+1. 查是否自带 `rpm -qa | grep mysql`(CentOS6), `rpm -qa | grep mariadb`(CentOS7), 也可以组合一下: `rpm -qa | grep -i -E mysql\|mariadb`(正则中间不能有空格)
 
-2. 卸载 `rpm -qa | grep -i -E mysql\|mariadb | xargs -n1 sudo rpm -e --nodeps` (只要 hadoop102 删就行, 因为就 102 要重装 mysql)
+2. 卸载 `rpm -qa | grep -i -E mysql\|mariadb | xargs -n1 sudo rpm -e --nodeps`(只要 hadoop102 删就行, 因为就 102 要重装 mysql)
 
 ## Step2. 上传 tar 文件解压
 
@@ -246,7 +246,7 @@ Hive 默认数据库是 derby, 要改成 mysql
 
 `cp mysql-connector-java-5.1.37.jar /opt/module/hive-3.1.2/lib/`
 
-在 linux mysql 中 (`mysql -uroot -proot`):
+在 linux mysql 中(`mysql -uroot -proot`):
 
 ```sql
 create database metastore;
@@ -269,7 +269,7 @@ quit
 
 ### method1. hive start hive
 
-方法一直接在 hadoop102 `hive` 就启动 Hive 了 (不推荐用 hive, 推荐用 hive2, 或者用 spark)
+方法一直接在 hadoop102 `hive` 就启动 Hive 了(不推荐用 hive, 推荐用 hive2, 或者用 spark)
 
 ```hive
 show databases;
@@ -300,7 +300,7 @@ show tables;
 
 > NOTE: jdbc hive2 里退出方法: `!quit`
 
-# Hive 元数据服务 (可选)
+# Hive 元数据服务(可选)
 
 启用元数据服务后, Hive 通过元数据服务间接操作 mysql, 而不是直接操作
 
@@ -439,9 +439,9 @@ esac
 ## hive -e
 
 ```hive
-create table mytbl (id int, name string);
+create table mytbl(id int, name string);
 
-insert into mytbl values (1001, 'zhangsan');
+insert into mytbl values(1001, 'zhangsan');
 
 select * from mytbl;
 ```
@@ -507,7 +507,7 @@ TODO:
 
 ## TIMESTAMP with implicit DEFAULT value is deprecated. Please use--explicit_defaults_for_timestamp server
 
-报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).`
+报错: `[Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option(see documentation for more details).`
 
 解决:
 
@@ -517,14 +517,14 @@ TODO:
 
 > NOTE: 记得用 `sudo vim /etc/my.cnf`
 
-## ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
+## ERROR 2002(HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'
 
 ```sh
 mysql -uroot -p
 Enter password:
 ```
 
-输入完临时密码后, 报错: `ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)`
+输入完临时密码后, 报错: `ERROR 2002(HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock'(2)`
 
 解决:
 

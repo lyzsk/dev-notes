@@ -173,7 +173,7 @@ Vue3 推荐 组合式 API + TS + setup 语法糖
 3. 内存减少 54%
 4. Proxy 代替 defineProperty 实现响应式
 5. 重写虚拟 DOM 的实现和 Tree-Shaking
-6. Composition API (组合式 API)
+6. Composition API(组合式 API)
     - setup
     - ref & reactive
     - computed & watch
@@ -269,9 +269,9 @@ cmd: `npm create vue@latest`
 
 √ Add JSX Support? ... **No** / Yes
 
-√ Add Vue Router for Single Page Application development? ... **No** / Yes (实际开发 YES)
+√ Add Vue Router for Single Page Application development? ... **No** / Yes(实际开发 YES)
 
-√ Add Pinia for state management? ... **No** / Yes (实际开发 YES)
+√ Add Pinia for state management? ... **No** / Yes(实际开发 YES)
 
 √ Add Vitest for Unit Testing? ... **No** / Yes
 
@@ -586,7 +586,7 @@ function changeFullName() {
 
 1. ref 定义的数据
 2. reactive 定义的数据
-3. function 返回一个值 (getter 函数)
+3. function 返回一个值(getter 函数)
 4. 一个包含上述内容的数组
 
 watch 是一个函数, 返回的是一个停止函数
@@ -778,10 +778,10 @@ function changeCar() {
 
 // 两种写法等效, 都是监听 getter 函数
 // watch(
-//     () => {
+//   () => {
 //         return person.name;
 //     },
-//     (newValue, oldValue) => {
+//   (newValue, oldValue) => {
 //         console.log("person.name changed", newValue, oldValue);
 //     }
 // );
@@ -798,14 +798,14 @@ watch(
     }
 );
 // 但是这样可以监听 car.c1, car.c2, 但是 car 对象地址发生变化就无法监听
-// watch(person.car, (newValue, oldValue) => {
+// watch(person.car,(newValue, oldValue) => {
 //     console.log("person.car changed", newValue, oldValue);
 // });
 
 // 这样监听的就是 person.car 对象, 但是无法监听 person.car.c1, person.car.c2里面具体内容
 // watch(
-//     () => person.car,
-//     (newValue, oldValue) => {
+//   () => person.car,
+//   (newValue, oldValue) => {
 //         console.log("person.car changed", newValue, oldValue);
 //     }
 // );
@@ -909,9 +909,9 @@ function changeHeight() {
     height.value += 10;
 }
 
-// watch([temp, height], (value) => {
+// watch([temp, height],(value) => {
 //     let [newTemp, newHeight] = value;
-//     if (newTemp >= 60 || newHeight >= 80) {
+//     if(newTemp >= 60 || newHeight >= 80) {
 //         console.log("xxx");
 //     }
 // });
@@ -2978,9 +2978,9 @@ export const useTalkStore = defineStore("talk", () => {
 
     pubsub , vue2 的 $bus, vue3 的 mitt 都是提前订阅消息
 
-    接收数据的: 提前绑定好事件 (提前订阅消息)
+    接收数据的: 提前绑定好事件(提前订阅消息)
 
-    提供数据的: 在合适的时候触发事件 (发布消息)
+    提供数据的: 在合适的时候触发事件(发布消息)
 
     mitt 一般以 utils 写在单独的 utils/emitter.ts, 因为很多组件都需要绑定事件, 触发事件
 
@@ -2990,7 +2990,7 @@ export const useTalkStore = defineStore("talk", () => {
 
     双向绑定, 跟 vue2 不太一样, 实际开发中很少用, 不过自定义 UI 组件 的时候会用
 
-    `v-model=username` 底层实现: `:value @input="username = (<HTMLInputElement>$event.target).value"`
+    `v-model=username` 底层实现: `:value @input="username =(<HTMLInputElement>$event.target).value"`
 
     在单个.vue 中用 v-model, 但是拆分组件的时候就要用底层写法
 
@@ -3486,7 +3486,7 @@ let computer = ref("联想");
 let toy = ref("");
 
 // 给emitter绑定send-toy事件
-emitter.on("send-toy", (value: any) => {
+emitter.on("send-toy",(value: any) => {
     toy.value = value;
 });
 // 在组件卸载时解绑send-toy事件
@@ -3521,7 +3521,7 @@ Father.vue:
         <h4>{{ password }}</h4>
         <!-- v-model用在html标签上 -->
         <!-- <input type="text" v-model="username"> -->
-        <!-- <input type="text" :value="username" @input="username = (<HTMLInputElement>$event.target).value"> -->
+        <!-- <input type="text" :value="username" @input="username =(<HTMLInputElement>$event.target).value"> -->
 
         <!-- v-model用在组件标签上 -->
         <!-- <AtguiguInput v-model="username"/> -->
@@ -3559,13 +3559,13 @@ AtguiguInput.vue:
     <input
         type="text"
         :value="ming"
-        @input="emit('update:ming', (<HTMLInputElement>$event.target).value)"
+        @input="emit('update:ming',(<HTMLInputElement>$event.target).value)"
     />
     <br />
     <input
         type="text"
         :value="mima"
-        @input="emit('update:mima', (<HTMLInputElement>$event.target).value)"
+        @input="emit('update:mima',(<HTMLInputElement>$event.target).value)"
     />
 </template>
 
@@ -3742,7 +3742,7 @@ function changeComputer() {
 }
 function getAllChild(refs: { [key: string]: any }) {
     console.log(refs);
-    for (let key in refs) {
+    for(let key in refs) {
         refs[key].book += 3;
     }
 }
@@ -3923,7 +3923,7 @@ import { inject } from "vue";
 
 let { money, updateMoney } = inject("moneyContext", {
     money: 0,
-    updateMoney: (param: number) => {},
+    updateMoney:(param: number) => {},
 });
 let car = inject("car", { brand: "未知", price: 0 });
 </script>
@@ -4204,7 +4204,7 @@ app.mount("#app");
 3. 特点：
 
     - 对象的所有嵌套属性都将变为只读.
-    - 任何尝试修改这个对象的操作都会被阻止（在开发模式下，还会在控制台中发出警告）.
+    - 任何尝试修改这个对象的操作都会被阻止(在开发模式下，还会在控制台中发出警告).
 
 4. 应用场景：
     - 创建不可变的状态快照.
@@ -4408,7 +4408,7 @@ button {
 
 作用：创建一个自定义的`ref`，并对其依赖项跟踪和更新触发进行逻辑控制。
 
-实现防抖效果（`useSumRef.ts`）：
+实现防抖效果(`useSumRef.ts`)：
 
 ```typescript
 import { customRef } from "vue";

@@ -19,7 +19,7 @@ limit 2;
 
 -- 按id降序选2行, 不打乱原始排序
 select *
-from (
+from(
 	select *
 	from websites w
 	order by id desc
@@ -35,10 +35,10 @@ CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
 declare m INT;
 set m = N-1;
-  RETURN (
-      select (
+  RETURN(
+      select(
         ifnull(
-            (select distinct e.salary
+          (select distinct e.salary
             from employee e
             order by e.salary desc
             limit 1 offset m)
@@ -103,15 +103,15 @@ show full columns from [table_name]
 
 # IN BETWEEN
 
-`in ('xxx')` 可以简化成 `col_name = 'xxx'`
+`in('xxx')` 可以简化成 `col_name = 'xxx'`
 
 i.e.
 
 ```sql
 -- 简化前
 select * from websites w
-where (alexa between 1 and 20)
-and country in ('usa');
+where(alexa between 1 and 20)
+and country in('usa');
 
 -- 简化后
 SELECT *
@@ -120,15 +120,15 @@ WHERE alexa BETWEEN 1 AND 20
 AND country = 'usa';
 ```
 
-`not in ('xxx')` 可以简化成 `<> 'xxx'` 或者 `!= 'xxx'`
+`not in('xxx')` 可以简化成 `<> 'xxx'` 或者 `!= 'xxx'`
 
 i.e.
 
 ```sql
 -- 简化前
 select * from websites w
-where (alexa between 1 and 20)
-and country not in ('usa');
+where(alexa between 1 and 20)
+and country not in('usa');
 
 -- 简化1
 select * from websites w
@@ -200,7 +200,7 @@ create table xxx
 (
     P_ID int not null,
     LastName varchar(255) not null
-    CONSTRAINT uc_PersonID UNIQUE (P_ID, LastName)
+    CONSTRAINT uc_PersonID UNIQUE(P_ID, LastName)
 );
 ```
 
@@ -220,14 +220,14 @@ drop constraint uc_PersonID
 
 ```sql
 alter table xxx
-add unique (P_ID)
+add unique(P_ID)
 ```
 
 -   命名并添加 UNIQUE 约束:
 
 ```sql
 alter table xxx
-add constraint uc_PersonID unique (P_ID, LastName)
+add constraint uc_PersonID unique(P_ID, LastName)
 ```
 
 ## FOREIGN KEY
@@ -245,8 +245,8 @@ CREATE TABLE Orders
 O_Id int NOT NULL,
 OrderNo int NOT NULL,
 P_Id int,
-PRIMARY KEY (O_Id),
-FOREIGN KEY (P_Id) REFERENCES Persons(P_Id)
+PRIMARY KEY(O_Id),
+FOREIGN KEY(P_Id) REFERENCES Persons(P_Id)
 )
 ```
 
@@ -365,7 +365,7 @@ limit 1 offset 1;
 ```sql
 select
 ifnull(
-    (
+  (
         select distinct e.salary
         from employee e
         order by e.salary desc
@@ -433,6 +433,6 @@ DELETE 会返回删除数据的行数，但是 TRUNCATE 只会返回 0，没有�
 
 # listagg
 
-`select listagg(col_name, ',') within group (order by col_name) from table_name where condition`
+`select listagg(col_name, ',') within group(order by col_name) from table_name where condition`
 
 列转行, 把每一个字段用 `,` 拼接

@@ -185,7 +185,7 @@ cmd:
 keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks
 ```
 
-报错: `keytool error: java.io.FileNotFoundException: jwt.jks (Access is denied)`
+报错: `keytool error: java.io.FileNotFoundException: jwt.jks(Access is denied)`
 
 解决: run as administrator cmd, 手动 cd 到 jdk 的 bin 目录然后再来一遍 `keytool -genkey -alias jwt -keyalg RSA -keystore jwt.jks`
 

@@ -87,7 +87,7 @@ Interpret: 把程序源代码 一行一行的 读懂后执行，在运行时，�
 
 ---
 
-python 没办法 `for (int left, right; right < s.length(); right++)`
+python 没办法 `for(int left, right; right < s.length(); right++)`
 
 python 没有 `char` 这个类型
 
@@ -142,8 +142,8 @@ java 版本:
 ```java
     public int reverse(int x) {
         int res = 0;
-        while (x != 0) {
-            if (res > Integer.MAX_VALUE / 10 || res < Integer.MIN_VALUE / 10) {
+        while(x != 0) {
+            if(res > Integer.MAX_VALUE / 10 || res < Integer.MIN_VALUE / 10) {
                 return 0;
             }
             int digit = x % 10;
@@ -172,7 +172,7 @@ class Solution(object):
             digit = x % 10
             if x < 0 and digit > 0:
                 digit -= 10
-            x = (x - digit) // 10
+            x =(x - digit) // 10
             res = res * 10 + digit
 
         return res
@@ -185,7 +185,7 @@ class Solution(object):
 
 Python3 的取模运算在 x 为负数时也会返回 [0, 9) 以内的结果，因此需要进行特殊判断
 
-同理，Python3 的整数除法在 x 为负数时会向下（更小的负数）取整，因此不能写成 `x //= 10`
+同理，Python3 的整数除法在 x 为负数时会向下(更小的负数)取整，因此不能写成 `x //= 10`
 
 # Jupyter notebook
 
@@ -382,8 +382,8 @@ nvidia-smi
 |-------------------------------+----------------------+----------------------+
 
 nvcc --version
-nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2022 NVIDIA Corporation
+nvcc: NVIDIA(R) Cuda compiler driver
+Copyright(c) 2005-2022 NVIDIA Corporation
 Built on Tue_May__3_19:00:59_Pacific_Daylight_Time_2022
 Cuda compilation tools, release 11.7, V11.7.64
 Build cuda_11.7.r11.7/compiler.31294372_0
