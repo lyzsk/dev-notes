@@ -132,6 +132,20 @@ netstat -ano | findstr :portNumber
 taskkill /PID portNumber /F
 ```
 
+exe 进程查询 `tasklist` 或者`wmic process where "name='xxx.exe'" delete`
+
+```
+taskkill /PID 25104 /F /T
+ERROR: The process with PID 25104 (child process of PID 28012) could not be terminated.
+Reason: There is no running instance of the task.
+```
+
+```powershell
+Get-Process -Id 25104 | Select-Object ProcessName,Id,Path,StartTime,UserName,WorkingSet64
+```
+
+如果 startTime 很久, 说明进程卡死, 说多没用, 直接重启
+
 # 查硬件
 
 win + r: `msinfo32`
