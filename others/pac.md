@@ -56,3 +56,12 @@ telnet [ip] [port]
 debian 查看端口 pid: `netstat -ntulp | grep [port]`
 
 删除端口进程: `kill -9 [PID]`
+
+Debian11 新脚本:
+
+```sh
+wget -O ssr-plus.sh https://raw.githubusercontent.com/Alvin9999/SSR-Plus/main/ssr-plus.sh && chmod +x ssr-plus.sh && bash ssr-plus.sh
+```
+
+1. 安装 SSR
+2. 加密方式 aes-256-cfb, 协议 auth_shal_v4 混淆 plain
