@@ -26,6 +26,21 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda config --set show_channel_urls yes
 ```
 
+阿里源:
+
+```
+conda config --add channels https://mirrors.aliyun.com/anaconda/pkgs/main/
+conda config --add channels https://mirrors.aliyun.com/anaconda/pkgs/free/
+conda config --set show_channel_urls yes
+```
+
+全局切换阿里源:
+
+```
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+pip config set global.trusted-host mirrors.aliyun.com
+```
+
 查看配置:
 
 `conda config --show`
@@ -37,6 +52,17 @@ conda config --set show_channel_urls yes
 还原 channel:
 
 `conda config --remove-key channels`
+
+查看全局设置:
+
+`pip config list`
+
+删除全局设置:
+
+```
+pip config unset global.index-url
+pip config unset global.trusted-host
+```
 
 # 删包
 
@@ -146,3 +172,18 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 # 安装 jupyter notebook
 
 `pip install jupyter notebook`
+
+# java 调用 anaconda 环境
+
+`conda activate py310 && where python`
+
+找到 python.exe 的路径, 复制后在 yml 文件中配置:
+
+```yml
+xxx:
+    python-path: C:\ProgramData\Anaconda3\envs\py310\python.exe
+```
+
+paddleocr 3.3.2
+paddlepaddle 3.2.2
+paddlex 3.3.9

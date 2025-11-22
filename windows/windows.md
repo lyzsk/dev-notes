@@ -151,3 +151,8 @@ Get-Process -Id 25104 | Select-Object ProcessName,Id,Path,StartTime,UserName,Wor
 win + r: `msinfo32`
 
 component 下有 usb 信息
+
+# remote desktop
+
+1. cmd `ipconfig` 填入 ipv4 地址, 创建点对点连接
+2. 连接 user/pass 为当前电脑的用户
