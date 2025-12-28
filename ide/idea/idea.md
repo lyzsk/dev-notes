@@ -92,6 +92,10 @@ Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
 
 无配置 -->
 
+### CodeGlance Pro
+
+无配置
+
 ### 手动安装插件
 
 手动从 https://plugins.jetbrains.com/ 下载, 在 Plugins 里手动安装插件
