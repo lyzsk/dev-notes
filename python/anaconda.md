@@ -64,6 +64,15 @@ pip config unset global.index-url
 pip config unset global.trusted-host
 ```
 
+切换官方:
+
+`conda config --add channels defaults`
+`conda config --add channels conda-forge`
+
+验证:
+
+`conda config --show channels`
+
 # 删包
 
 ```

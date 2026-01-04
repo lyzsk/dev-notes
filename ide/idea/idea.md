@@ -98,7 +98,9 @@ Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
 
 ### 手动安装插件
 
-手动从 https://plugins.jetbrains.com/ 下载, 在 Plugins 里手动安装插件
+方法 1: 手动从 https://plugins.jetbrains.com/ 下载, 在 Plugins 里手动安装插件
+
+方法 2: 默认目录: C:\Users\Administrator\AppData\Roaming\JetBrains 把 plugins 压缩后分别 import
 
 ## Maven
 
