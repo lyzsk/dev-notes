@@ -1592,3 +1592,272 @@ pom.xml 添加 plugin:
         </plugins>
     </build>
 ```
+
+# 连接一些 github 的 json 维护仓库无法走 ssr
+
+比如: https://github.com/NateScarlet/holiday-cn?spm=5176.28103460.0.0.96a07551MufMt7
+
+尝试使用 ghproxy 访问 raw.githubusercontent.com 获取:
+
+https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/{年份}.json
+
+e.g.
+
+https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/2026.json
+
+用 py 脚本是连接不了的
+
+解决方案: 使用 jsDelivr CDN
+
+正确的格式:
+
+https://cdn.jsdelivr.net/gh/NateScarlet/holiday-cn@master/{year}.json
+
+e.g.
+
+https://cdn.jsdelivr.net/gh/NateScarlet/holiday-cn@master/2026.json
+
+# json 字段, 通过 set 可以使用, 但是 list 却始终为 null
+
+背景:
+
+实体类已经使用 jackson 序列化了:
+
+```java
+    @TableField(value = "images", typeHandler = JacksonTypeHandler.class)
+    private List<String> images;
+```
+
+并且在 yml 配置中配置了:
+
+```yml
+mybatis-plus:
+    mapper-locations: classpath*:/mapper/**/*.xml
+    global-config:
+        db-config:
+            id-type: none
+            logic-delete-field: is_deleted
+            logic-delete-value: 1
+            logic-not-delete-value: 0
+    configuration:
+        map-underscore-to-camel-case: true
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启 SQL 日志
+        auto-mapping-behavior: FULL # 显式启用自动映射带 typeHandler 的字段
+```
+
+在 jsonNode 传参进来, 存数据库, 并且用 images 字段是可以使用的:
+
+```java
+    @Transactional(rollbackFor = Exception.class)
+    private ClsTelegraph saveTelegraph(JsonNode itemNode) {
+        if (itemNode == null || !itemNode.has("id")) {
+            log.warn("无效的电报节点，缺少 id");
+            return null;
+        }
+        long clsId = itemNode.get("id").asLong();
+        if (getByClsId(clsId) != null) {
+            return null;
+        }
+
+        ClsTelegraph telegraph = new ClsTelegraph();
+        telegraph.setClsId(clsId);
+        telegraph.setTitle(itemNode.has("title") ? itemNode.get("title").asText(null) : null);
+        telegraph.setBrief(itemNode.has("brief") ? itemNode.get("brief").asText(null) : null);
+        telegraph.setContent(itemNode.has("content") ? itemNode.get("content").asText(null) : null);
+        telegraph.setLevel(itemNode.has("level") ? itemNode.get("level").asText(null) : null);
+        telegraph.setAuthor(itemNode.has("author") && !itemNode.get("author").isNull() ?
+            itemNode.get("author").asText(null) : null);
+
+        if (itemNode.has("ctime")) {
+            long ctime = itemNode.get("ctime").asLong();
+            telegraph.setPublishTime(LocalDateTime.ofEpochSecond(ctime, 0, ZoneOffset.ofHours(8)));
+        }
+
+        List<String> imageUrls = new ArrayList<>();
+        if (itemNode.has("images") && itemNode.get("images").isArray()) {
+            for (JsonNode urlNode : itemNode.get("images")) {
+                if (urlNode.isTextual()) {
+                    String url = urlNode.asText().trim();
+                    if (url.startsWith("http") || url.startsWith("https")) {
+                        imageUrls.add(url);
+                    }
+                }
+            }
+        }
+        telegraph.setImages(imageUrls);
+
+        LocalDateTime now = LocalDateTime.now();
+        telegraph.setCreateTime(now);
+        telegraph.setUpdateTime(now);
+        telegraph.setStatus(BusinessStatus.SUCCESS.getCode());
+
+        boolean saved = this.save(telegraph);
+        if (saved) {
+            log.info("新增电报: id={}, title={}", clsId, telegraph.getTitle());
+            if (isWuPingItem(itemNode)) {
+                downloadFirstImage(telegraph, "cls_wp_");
+            } else if (isShouPingItem(itemNode)) {
+                downloadFirstImage(telegraph, "cls_sp_");
+            } else if (isWuJianZhangTingAnalysisItem(itemNode)) {
+                downloadAllButLastImage(telegraph, "cls_wjzt_");
+            } else if (isZhangTingAnalysisItem(itemNode)) {
+                downloadAllButLastImage(telegraph, "cls_zt_");
+            }
+            return telegraph;
+        }
+        return null;
+    }
+```
+
+核心原因是: `telegraph.setImages(imageUrls);`, 设置了 images 字段
+
+然而:
+
+```java
+List<ClsTelegraph> telegraphs = this.list(
+    new LambdaQueryWrapper<ClsTelegraph>()
+        .eq(ClsTelegraph::getLevel, "B")
+        .eq(ClsTelegraph::getIsDeleted, TableLogic.NOT_DELETED.getCode())
+        .ge(ClsTelegraph::getPublishTime, start)
+        .lt(ClsTelegraph::getPublishTime, end)
+        .orderByAsc(ClsTelegraph::getPublishTime));
+```
+
+却无法正确的获得 images 字段(永远是<<BLOB>>)切无法被反序列化
+
+解决:
+
+手工写 list 的 mapper:
+
+```java
+@Mapper
+public interface ClsTelegraphMapper extends BaseMapper<ClsTelegraph> {
+    List<ClsTelegraph> selectRedTelegraphs(@Param("level") String level,
+        @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+}
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sichu.cls.mapper.ClsTelegraphMapper">
+    <resultMap id="TelegraphMap" type="cn.sichu.cls.entity.ClsTelegraph">
+        <id column="id" property="id"/>
+        <result column="cls_id" property="clsId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="author" property="author"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <!-- JSON 字段：images 存储为 JSON 字符串，映射为 List<String> 或 List<ImageInfo> 等 -->
+        <result column="images" property="images"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result column="status" property="status"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="delete_by" property="deleteBy"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <select id="selectRedTelegraphs" resultMap="TelegraphMap">
+        <![CDATA[
+        SELECT
+            id, cls_id, title, brief, content, level, publish_time, author,
+            status, create_by, create_time, update_by, update_time,
+            is_deleted, delete_by, delete_time, remark, images
+        FROM cls_telegraph
+        WHERE is_deleted = 0
+          AND level = #{level}
+          AND publish_time >= #{start}
+          AND publish_time < #{end}
+        ORDER BY publish_time ASC
+        ]]>
+    </select>
+</mapper>
+
+```
+
+并且将:
+
+```java
+List<ClsTelegraph> telegraphs = this.list(
+    new LambdaQueryWrapper<ClsTelegraph>()
+        .eq(ClsTelegraph::getLevel, "B")
+        .eq(ClsTelegraph::getIsDeleted, TableLogic.NOT_DELETED.getCode())
+        .ge(ClsTelegraph::getPublishTime, start)
+        .lt(ClsTelegraph::getPublishTime, end)
+        .orderByAsc(ClsTelegraph::getPublishTime));
+```
+
+替换为手写的方法:
+
+```java
+List<ClsTelegraph> telegraphs = baseMapper.selectRedTelegraphs("B", start, end);
+```
+
+原因是 Lambda 表达式无法支持 mysql 的 json 字段路径查询, 因为 Lambda 表达式是基于 Java 实体类的字段进行编译时检查的, 而 JSON 字段中的路径并不是实体类的直接属性;
+
+其他解决方法:
+
+https://www.cnblogs.com/zhaoshujie/p/19018039
+
+# gitignore 已经添加了 node_modules, 但是还是会 push 到远程仓库
+
+原因: node_modules/ 已经在 Git 历史中了
+解决: 从 git 缓存中删除 node_modules/ 目录:
+
+```
+git rm -r --cached node_modules
+```
+
+# github-readme-stats.vercel.app 的图片 503
+
+原来写的图片链接: https://github-readme-stats.vercel.app/api/top-langs/?username=lyzsk&layout=compact&exclude_repo=lyzsk.github.io&title_color=ffffff&icon_color=bb2acf&text_color=daf7dc&bg_color=151515
+
+访问后:
+This Deployment is paused by the owner.
+
+Your connection is working correctly.
+
+Vercel is working correctly.
+
+503: SERVICE_UNAVAILABLE
+Code: DEPLOYMENT_PAUSED
+ID: dub1::hbzxq-1768583977988-c5a0008223cd
+
+If you are a visitor, contact the website owner or try again later.
+If you are the owner, please read this documentation section or resume service.
+
+解决: 部署到 Vercel
+
+https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fanuraghazra%2Fgithub-readme-stats
+
+跳转到 GitHub 登录
+
+然后 overview 界面:
+
+https://github.com/yusufozturk/github-readme-stats create
+
+然后到https://github.com/settings/tokens/new
+
+1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Generate new token (classic)
+3. Note （Vercel - github-readme-stats）
+4. No expiration
+5. 勾选以下权限 repo， read:user
+6. Generate token
+7. 复制生成的 token(关闭页面后将无法再次查看！)
+8. Settings → Environment Variables → Add Environment Variable
+9. Name: PAT_1, Value: 复制的 token
+10. Redeploy
+11. 修改 github 资料页的`github-readme-stats.vercel.app`为 domain 的第一个链接即可
+
+参考: https://github.com/yusufozturk/github-readme-stats/blob/master/docs/readme_cn.md (虽然界面已经变更但是大概还是能猜到该怎么操作)
