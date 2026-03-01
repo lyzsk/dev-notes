@@ -10,7 +10,8 @@
     "markdown-preview-enhanced.previewTheme": "github-dark.css",
     "editor.inlineSuggest.showToolbar": "always",
     "git.openRepositoryInParentFolders": "never",
-    "fittencode.languagePreference.displayPreference": "en",
-    "fittencode.languagePreference.commentPreference": "en",
-    "vue.autoInsert.dotValue": true
+    "vue.autoInsert.dotValue": true,
+    "fittencode.languagePreference.commentPreference": "zh-cn",
+    "fittencode.languagePreference.displayPreference": "zh-cn",
+    "fittencode.selection.showCodeLens": false
 }
