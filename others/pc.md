@@ -1,0 +1,10 @@
+# pc
+
+CPU：Intel Core Ultra9 285K
+主板：ROG MAXIMUS Z890 EXTREME
+内存：金士顿 Fury DDR5-6400 EXPO/XMP 64GB 2 张
+显卡：RTX4090 24GB GDDR6X 1 张
+硬盘：致态 TiPro9000 Gen5 NVME M.2 SSD PCIE5.0 4TB
+散热器：360mm 一体式水冷散热器
+电源：微星 MEG Ai1600T PCIE5 1600W
+机箱：全塔式工作站机箱
