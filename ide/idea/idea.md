@@ -36,33 +36,38 @@ idea 2023.3.8 为最后支持 java8 的版本, idea 2024.1 开始只支持 java1
 
 Settings -> Appearance:
 
--   Theme: VSCode Dark
+- Theme: VSCode Dark
 
 ### Save Actions / Save Actions X
 
 Settings -> Other Settings -> Save Actions:
 
--   General:
+- General:
+    - 勾选 activate save actions on save
+    - 勾选 Activate save actions on batch
 
-    -   勾选 activate save actions on save
-    -   勾选 Activate save actions on batch
+- Formatting Actions:
+    - 勾选 Optimize imports
+    - 勾选 Reformat file
+    - 勾选 Rearrange fields and methods
 
--   Formatting Actions:
-
-    -   勾选 Optimize imports
-    -   勾选 Reformat file
-    -   勾选 Rearrange fields and methods
-
--   Java Inspection and Quick Fix:
-
-    -   勾选 Add missing @Override annotations
-    -   勾选 Add blocks to if/while/for statements
+- Java Inspection and Quick Fix:
+    - 勾选 Add missing @Override annotations
+    - 勾选 Add blocks to if/while/for statements
 
 ### Nyan Progress Bar
 
 无配置
 
 ### MyBatisX
+
+无配置
+
+### CodeGlance Pro
+
+无配置
+
+### Lombok
 
 无配置
 
@@ -92,10 +97,6 @@ Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
 
 无配置 -->
 
-### CodeGlance Pro
-
-无配置
-
 ### 手动安装插件
 
 方法 1: 手动从 https://plugins.jetbrains.com/ 下载, 在 Plugins 里手动安装插件
@@ -108,7 +109,7 @@ Settings -> Build, Excecution, Deployment -> Compiler -> Annotation processors:
 
 Settings -> Build, Execution, Deployment -> Build Tools -> Maven -> Importing:
 
--   勾选 Create module groups for multi-module Maven projects
+- 勾选 Create module groups for multi-module Maven projects
 
 ### mirror
 
@@ -127,7 +128,7 @@ maven 镜像: `maven安装目录/conf/settings.xml`:
 
 Settings -> Build, Execution, Deployment -> Build Tools -> Maven:
 
--   手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "`目标Maven路径`/apache-maven-3.8.2/conf/settings.xml"
+- 手动修改 Maven home path, 勾选 User settings file 的 Override, 设置为 "`目标Maven路径`/apache-maven-3.8.2/conf/settings.xml"
 
 ## Code Style
 
@@ -135,18 +136,18 @@ Settings -> Build, Execution, Deployment -> Build Tools -> Maven:
 
 Settings -> Editor -> Code Style:
 
--   Scheme -> Import Scheme -> IntelliJ IDEA code style XML: P3C-CodeStyle
+- Scheme -> Import Scheme -> IntelliJ IDEA code style XML: P3C-CodeStyle
 
 Settings -> Editor -> Code Style -> Java:
 
--   Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
--   Wrapping and Braces -> Method annotations, class annotations, field annotations -> 改成 Wrap always
+- Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
+- Wrapping and Braces -> Method annotations, class annotations, field annotations -> 改成 Wrap always
 
 ### 更改自动换行长度(每个项目都要重新配置一次)
 
 Settings -> Editor -> Code style:
 
--   Hard wrap at: 80, 并勾选 Wrap on typing
+- Hard wrap at: 80, 并勾选 Wrap on typing
 
 ### 关闭自动换行
 
@@ -154,13 +155,13 @@ Settings -> Editor -> Code style:
 
 Settings -> Editor -> Code Style -> Java:
 
--   Wrapping and Braces -> Wrap on Typing 改成 NO
+- Wrapping and Braces -> Wrap on Typing 改成 NO
 
 ### 类上加注释模板
 
 Settings -> Editor -> File and Code Templates:
 
--   Files -> class, interface, enum, record, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
+- Files -> class, interface, enum, record, annotation, 在 public xxx ${NAME} 上面一行, 添加注释模板:
 
 ```java
 /**
@@ -229,19 +230,19 @@ Settings -> Editor -> General -> Editor Tabs:
 
 Settings -> Editor -> Inspections:
 
--   取消勾选 Proofreading - typo
+- 取消勾选 Proofreading - typo
 
 ### 序列化版本号
 
 Settings -> Editor -> Inspections -> JVM languages
 
--   勾选 Serializable class without 'serialVersionUID'
+- 勾选 Serializable class without 'serialVersionUID'
 
 ### 设置自动编译
 
 Settings -> Build, Execution, Deployment -> Compiler:
 
--   勾选 Build project automatically
+- 勾选 Build project automatically
 
 <!-- ### Debugger 配置
 
@@ -253,13 +254,13 @@ Settings -> Build, Execution, Deployment -> Debugger:
 
 Settings -> Editor -> Inspections -> Java -> Declaration redundancy:
 
--   取消勾选 Unused declaration
+- 取消勾选 Unused declaration
 
 ### 重复变量 warning(Optional)
 
 Settings -> Editor -> Inspections -> Java -> Data flow:
 
--   取消勾选 Redundant local variable
+- 取消勾选 Redundant local variable
 
 ### 设置项目最高支持的 java 版本(Optional)
 
@@ -316,6 +317,8 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 `alt + j`: 等同于 vscode 的 `ctrl + d`, 向下搜索+选择相同值
 
 `ctrl + shift + r`: replace in files
+
+`ctrl+shift+/`: 生成块注释(`/* comment */`)
 
 # IDEA quick-code
 

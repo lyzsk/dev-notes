@@ -118,6 +118,8 @@ Home 放压缩路径
 
 Path 放压缩路径下的 bin 路径
 
+e.g. system variables: MAVEN_HOME: `C:\maven\apache-maven-3.9.12`, PATH: `%MAVEN_HOME%\bin`
+
 # environments
 
 建议以后代码环境都在 `C:/dev` 装

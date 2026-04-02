@@ -265,7 +265,7 @@ public Result<List<AddressBook>> list(AddressBook addressBook) {
 
 # Error: error:0308010C:digital envelope routines::unsupported
 
--   Fix: change `"start": "react-scripts start"` to `"start": "react-scripts --openssl-legacy-provider start"`
+- Fix: change `"start": "react-scripts start"` to `"start": "react-scripts --openssl-legacy-provider start"`
 
     ```js
     "scripts": {
@@ -280,7 +280,7 @@ public Result<List<AddressBook>> list(AddressBook addressBook) {
 
 但是!!! 如果时 vue2.x 环境, 不支持 `--openssl-legacy-provider`
 
--   Fix: 卸载 node.js 18+, 重新安装 node.js 16.1.0, 应该 16+ 都行
+- Fix: 卸载 node.js 18+, 重新安装 node.js 16.1.0, 应该 16+ 都行
 
 # Error: Node Sass version 8.0.0 is incompatible with ^4.0.0.
 
@@ -859,7 +859,7 @@ overflow: hidden;
 
 解决:
 
--   先根据 `html` 里的标签关系确定要改哪:
+- 先根据 `html` 里的标签关系确定要改哪:
 
     ```html
     <body>
@@ -879,7 +879,7 @@ overflow: hidden;
 
     就给这两个加上 `position` 属性, 然后给 `header` 加上 `z-index` 属性就好了
 
--   修改后的 css:
+- 修改后的 css:
 
 ```css
 header nav {
@@ -1554,7 +1554,7 @@ git rm --cached -r **/.idea
 
 分支合并冲突
 
--   bug:
+- bug:
 
     \[master\] 分支 `commit` 内容: "添加内容 by master"
 
@@ -1562,7 +1562,7 @@ git rm --cached -r **/.idea
 
     如果此时 `git checkout master` 切换到 \[master\] 分支后, `git merge branch01` 会报错: `merge conflict`
 
--   fix:
+- fix:
 
     手动 modify 更改源文件后，用`commit`解决，最终得到整合的 `master` 分支
 
@@ -1861,3 +1861,13 @@ https://github.com/yusufozturk/github-readme-stats create
 11. 修改 github 资料页的`github-readme-stats.vercel.app`为 domain 的第一个链接即可
 
 参考: https://github.com/yusufozturk/github-readme-stats/blob/master/docs/readme_cn.md (虽然界面已经变更但是大概还是能猜到该怎么操作)
+
+# DBeaver 23:00 自动断开 mysql localhost:3306 的连接
+
+解决:
+
+localhost连接 - 右键 - edit connection - Driver Properties - 找到 autoReconnect 设置 为 true
+
+同时检查 Driver Properties: interactiveClient = true, socketTimeout = 0(不超时), tecpKeepA;ove = true
+
+在 initiaization 中取消勾选 close idle connection after (seconds)
