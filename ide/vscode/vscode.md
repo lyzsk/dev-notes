@@ -28,10 +28,11 @@ VSCode 配置:
 1. Prettier
 2. Live Server
 3. Live Preview
-4. Vue Official
-5. Vite
-6. Markdown Preview Mermaid Support
-7. Fitten Code
+4. Markdown Auto Space
+5. Vue Official
+6. Vite
+7. Markdown Preview Mermaid Support
+8. Fitten Code
 
 ---
 
@@ -43,7 +44,7 @@ VSCode 快速配置:
 
 ---
 
-Vue3 的 ref 要 .value 很麻烦, 在 **Vue - Official** 设置(可能跟着 settings.json 一起不用手动配置)
+Vue3 的 ref 要 .value 很麻烦, 在 **Vue - Official** 设置 (可能跟着 settings.json 一起不用手动配置)
 
 extension settings - 勾选 Auto-complete Ref value with `.value`
 
@@ -53,7 +54,7 @@ extension settings - 勾选 Auto-complete Ref value with `.value`
 
 `alt + z`: 自动换行
 
-`ctrl + d`： 多选, 按 `esc` 退出多选
+`ctrl + d`：多选, 按 `esc` 退出多选
 
 `shift + alt + down`: 复制粘贴一整行
 

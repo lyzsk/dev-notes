@@ -1,3 +1,0 @@
-# 架构
-
-x86, ARM, FPGA, RISC-V, AISC

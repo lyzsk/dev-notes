@@ -143,7 +143,7 @@ Settings -> Editor -> Code Style -> Java:
 - Code Generation -> 取消勾选 Line comment at first column, 勾选 Add a space at line comment start
 - Wrapping and Braces -> Method annotations, class annotations, field annotations -> 改成 Wrap always
 
-### 更改自动换行长度(每个项目都要重新配置一次)
+### 更改自动换行长度 (每个项目都要重新配置一次)
 
 Settings -> Editor -> Code style:
 
@@ -197,7 +197,7 @@ Settings -> Editor -> Live Templates:
     - since - Default value: `date("yyyy/MM/dd")`
     - return - Default value: `methodReturnType()`
 
-@see： https://blog.csdn.net/weixin_44519874/article/details/112259616
+@see：https://blog.csdn.net/weixin_44519874/article/details/112259616
 
 更新 idea2023.3:
 
@@ -226,7 +226,7 @@ Settings -> Editor -> General -> Editor Tabs:
 -   Appearance -> 取消勾选 Show tabs in one row
 -   Closing Policy -> Tab limit: 30 -->
 
-### 关闭单词拼写检查(每个项目都要重新配置一次)
+### 关闭单词拼写检查 (每个项目都要重新配置一次)
 
 Settings -> Editor -> Inspections:
 
@@ -262,13 +262,13 @@ Settings -> Editor -> Inspections -> Java -> Data flow:
 
 - 取消勾选 Redundant local variable
 
-### 设置项目最高支持的 java 版本(Optional)
+### 设置项目最高支持的 java 版本 (Optional)
 
 File -> Project Structure -> Project Settings -> Project -> Project language level -> 8!
 
 ## IDEA config import/export
 
-IDEA 快速配置(但是要检查很多东西, 不太好用):
+IDEA 快速配置 (但是要检查很多东西, 不太好用):
 
 1. 导出: File -> Manage IDE Settings -> Export Settings
 2. 导入: File -> Manage IDE Settings -> Import Settings
@@ -314,11 +314,11 @@ IDEA 快速配置(但是要检查很多东西, 不太好用):
 
 `ctrl + end`, `ctrl + ↓`: 光标位置开始全选到下一行行头
 
-`alt + j`: 等同于 vscode 的 `ctrl + d`, 向下搜索+选择相同值
+`alt + j`: 等同于 vscode 的 `ctrl + d`, 向下搜索+ 选择相同值
 
 `ctrl + shift + r`: replace in files
 
-`ctrl+shift+/`: 生成块注释(`/* comment */`)
+`ctrl+shift+/`: 生成块注释 (`/* comment */`)
 
 # IDEA quick-code
 
