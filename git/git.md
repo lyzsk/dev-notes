@@ -8,10 +8,16 @@
 git conifg --global user.name "your name"
 git config --global user.email "your email"
 
-ssh-keygen -t rsa -C “your_email@example.com”
+ssh-keygen -t rsa -C "your_email@example.com"
 ```
 
 然后在 Github 配置 pub SSH(id_rsa.pub)
+
+1. 右键头像→Settings
+2. 选择 SSH AND GPG keys, New SSH key
+3. Title 填写设备名称方便识别
+4. Key type 默认 AUTHENTICATION kEY
+5. 将公钥复制到 key 文本框中, add SSH key
 
 ```bash
 ssh -T git@github.com
@@ -61,7 +67,7 @@ ssh -T git@github.com
 
 `git diff [file_name]` 查看版本区别
 
-可以发现, git 实际上是按 \[行\] 进行管理的, `-`原内容, 再`+`原内容和新内容
+可以发现, git 实际上是按 \[行\] 进行管理的, `-` 原内容, 再 `+` 原内容和新内容
 
 # git branch
 
@@ -75,7 +81,7 @@ ssh -T git@github.com
 
 `git branch -a` 分支查询
 
-更改本地和远程分支名(如果是要删除远程 default 分支要先把 default 分支更改):
+更改本地和远程分支名 (如果是要删除远程 default 分支要先把 default 分支更改):
 
 ```
 git checkout [old_name]
@@ -122,7 +128,7 @@ merge 分支内容
 
 # git add
 
-平常我自己用的最多的都是`git add -A` 然后 `git commit -a -m "comments"`, 但还有其他的 `add` `commit` 方法:
+平常我自己用的最多的都是 `git add -A` 然后 `git commit -a -m "comments"`, 但还有其他的 `add` `commit` 方法:
 
 `git add -u` \[只加入 modify 文件, deleted 文件\]; \[不包括 new 出来的新文件\]
 
