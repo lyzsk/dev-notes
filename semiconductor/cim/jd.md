@@ -6,21 +6,24 @@
 
 创新中心现存业务共包含 15 个 CIM 子系统:
 
-- 设备自动化程序（EAP/Equipment Automation Program）
-- 制造执行系统（MES/Manufacturing Execution System）
-- 配方管理系统（RMS/Recipe Management System）
-- 远程控制管理（RCM/Remote Control Management）
-- 统计过程控制（SPC/Statistical Process Control）
-- 故障检测与分类（FDC/Fault Detection and Classification）
-- 先进过程控制（APC/Advanced Process Control）
-- 缺陷管理系统（DMS/Defect Management System）
-- 良率管理系统（YMS/Yield Management System）
-- 设备维修保养系统（PMS/Preventive Maintenance System）
-- 告警管理系统（AMS/Alarm Management System）
-- 报表系统（RPT/Reporting System）
-- 工厂监控系统（FMS/Factory Monitoring System）
-- 实施派工系统（RTD/Real-Time Dispatching）
-- 自动化物料搬运应用（AMA/Automated Material Handling Application）
+- EAP(Equipment Automation Program): 设备自动化程序
+- FDC(Fault Detection and Classification): 故障检测与分类
+- RMS(Recipe Management System): 配方管理系统
+- RCM(Remote Control Management): 远程控制管理
+- APC(Advanced Process Control): 先进过程控制
+
+- MES(Manufacturing Execution System): 制造执行系统
+- SPC(Statistical Process Control): 统计过程控制
+- AMS(Alarm Management System): 告警管理系统
+- PMS(Preventive Maintenance System): 设备维修保养系统
+
+- RTD(Real-Time Dispatching): 实时派工系统
+- AMA(Activity Management of Full-Automation): 全自动化控制平台
+
+- YMS(Yield Management System): 良率管理系统
+- DMS(Defect Management System): 缺陷管理系统
+- RPT(Reporting System): 报表系统
+- FMS(Factory Monitoring System): 工厂监控系统
 
 ## 2. 现阶段痛点
 
@@ -34,8 +37,8 @@
 
 | 业务板块         | 包含子系统              | 对应小组 |
 | :--------------- | :---------------------- | :------- |
-| 设备自动化与控制 | EAP, RCM, FDC, APC      | EAP 组   |
-| 生产执行与追踪   | MES, RMS, SPC, AMS, PMS | MES 组   |
+| 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
+| 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
 | 智能调度与物流   | RTD, AMA                | RTD 组   |
 | 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
 
@@ -110,7 +113,7 @@ EAP 系统工程师
 
 岗位职责:
 
-负责公司 EAP 相关系统 (EAP, APC, FDC, RCM) 开发、管理和维护等
+负责公司 EAP 相关系统 (EAP, FDC, RMS, RCM, APC) 开发、管理和维护等
 
 1. 负责系统各模块的设计、开发、配置、测试、安装、维护和升级; 监控系统的运行状况, 持续优化系统功能, 发现并解决系统故障等，确保系统安全性
 2. 负责 收集和分析用户需求, 结合系统现有状况提供方案
@@ -128,7 +131,7 @@ EAP 系统工程师
 
 MES 系统工程师
 
-负责公司 MES 相关系统 (MES, RMS, SPC, AMS, PMS) 开发、管理和维护等
+负责公司 MES 相关系统 (MES, SPC, AMS, PMS) 开发、管理和维护等
 
 岗位职责:
 
@@ -183,6 +186,23 @@ RTD 系统工程师
 
 1. 计算机、软件工程相关专业, 全日制本科以上学历, 有半导体工作经验优先
 2. 精通使用 Java/Python 中至少一种编程语言
+3. 精通使用 SQL 语句, 熟练掌握 Oracle/MySQL 等常见数据库
+4. 具备快速学习能力、跨部门协作能力、清晰的逻辑思维能力、良好的团队协作能力和沟通能力
+5. 有开发经验、系统架构设计经验者优先
+
+## AMHS 工程师
+
+岗位职责:
+
+1. 负责 AMHS 全系统规划与新项目导入
+2. 负责自动化搬送系统技术选型、供应商技术评审，输出评审报告、技术协议、成本测算报告
+3. 负责对接厂商优化设备运行参数、降低宕机时长、软体升级改善等
+4. 负责制造系统对接、匹配优化和可视化监控负责AMHS与MES、EAP等生产执行系统对接调试
+
+岗位要求:
+
+1. 计算机、软件工程相关专业, 全日制本科以上学历, 有半导体工作经验优先
+2. 精通自动化物流全套设备: OHT、Stocker、AGV、Buffer、Sorter等
 3. 精通使用 SQL 语句, 熟练掌握 Oracle/MySQL 等常见数据库
 4. 具备快速学习能力、跨部门协作能力、清晰的逻辑思维能力、良好的团队协作能力和沟通能力
 5. 有开发经验、系统架构设计经验者优先

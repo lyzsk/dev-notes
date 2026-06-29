@@ -32,4 +32,8 @@ diff.sort((o1, o2) => {
 | `.mjs`                                       | ES Modules（强制） | `import fs from 'fs'`<br>`export default ...`        | 支持 `import`    |
 | `.js` + `"type": "module"` in `package.json` | ES Modules         | 同上                                                 | 也可用 ESM       |
 
-对于只提供 ESM(ES Modules) 语法导出的包(通常是插件 API), 脚本只能用 mjs 写
+对于只提供 ESM(ES Modules) 语法导出的包 (通常是插件 API), 脚本只能用 mjs 写
+
+# svg 图标
+
+https://www.iconfont.cn/

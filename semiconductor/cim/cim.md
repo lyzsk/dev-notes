@@ -460,84 +460,6 @@ Equiipment -》 COM -> MOXA -> SECS I -> TCP/IP -> Ethernet
         - 提供多样性Report
         - 提供实时看板功能
 
-# function list
-
-1 Recipe 基本功能:
-1.1 > 创建 Recipe List（Recipe name）, 通过 EAP 整合, 从设备上传 Recipe List.
-1.2 > 创建 Recipe, 通过 EAP 整合, 从设备上传 Recipe Body, 支持批量上传
-1.3 > 变更 Recipe 状态, 支持批量修改, 支持批量签核, 批量生效
-1.4 > 查询 Recipe, 支持用通配符查询
-1.5 > 删除 Recipe, 在系统中删除 Recipe
-1.6 > 复制 Recipe, 提供“另存为”的功能
-1.7 > Recipe 权限管控, 可按照角色来管控 recipe 是否显示在 RMS 系统界面上, 从而避免误操作
-1.8 > 编辑修改 Recipe
-1.9 > 支持程序列表 Under Control 设定, Not Control 的程序支持 LotType 卡控
-1.10 > Recipe Run 完从机台删除, 可配置是否自动删除
-2 Recipe 生命周期管理:
-2.1 > Recipe 版本包括: 新创建（Draft）版本, 中间版本（可以修改, 等待签核）, 生效版本
-2.2 > Recipe 在系统里可以存在多个版本, 最多有一个生效版本
-2.3 "> Recipe 类型可分为主 Recipe 和子 Recipe, 支持多层次的 Recipe, 不限 Recipe 层级数
-（主 Recipe、子 Recipe 均可以校验）"
-2.4 > Recipe 暂停 / 发布: 根据 Recipe ID 暂停 / 发布 Recipe
-2.5 > 支持 Golden Recipe 功能. 不同设备或不同腔体, 同一 recipe 可共享同一 Golden Recipe, 使用 Golden Recipe 进行 Body 的验证比对
-2.6 > Recipe 对象（机台与 Lot）历史查询 (可设定条件如时间范围) > 可以查询 Recipe 历史变化（可设定条件如时间范围）
-2.7 Recipe 对比:
-2.8 "> Online 跑货在线对比:
-
-> > Online Run 货时, 根据 EAP 或 MES 请求比对 Recipe Body. 如果比对失败, 发 Alarm 给 Alarm 系统
-> > 可以 By pass 一台设备所有 Recipe 的比对
-> > 可以 By pass 单个 Recipe 的比对
-> > 记录比对失败的具体参数的信息 "
-> > 2.9 "> Offline 比对:
-> > 不同设备间相同 Recipe 的比对（和不同）
-> > 设备 Recipe 与 RMS 上的 Recipe 比对, 模拟 Online 比对
-> > 同一 Recipe 的不同版本间的比对
-> > 可以清楚显示比对结果, 列出差异项目
-> > 两台设备多个程序间一键比对（客制化开发）
-> > 同一程序同型号所有设备一键比对（客制化开发）
-> > 支持 FAB 中两个真实设备中程序差异比较
-> > Sequence 比较结果分多层呈现（客制化开发）
-> > 将 Recipe body 解析成系统可识别的参数类型后进行比对（不论 Format / Unformat 或其他形式的 recipe）"
-> > 2.10 ">Recipe 参数比对 Spec 设定:
-> > 支持多种 Recipe 参数比对方式: target, range, in（枚举类参数, [1,2...]限定参数为枚举范围内）
-> > 可以按参数设定是否进行某个参数的比对
-> > 可以定义 Spec Template, 应用到相应的 Recipe, 简化参数 Spec 的设定
-> > Recipe 参数修改的 tolerance 要可以定义百分比和固定数值
-> > 支持 Full Body, Parameter 比对方式
-> > 可以支持对 Recipe 结构的比对"
-> > 2.11 > 对比失败, 提供报警, 与 MES 整合, 对设备和 Recipe Hold（通过 EAP）
-> > 2.12 > 记录比对失败的参数, 快速定位失败原因
-> > 2.13 > Recipe 上传时, 对参数自动检查
-> > 2.14 > Recipe 下载
-> > 2.15 > Run 货时收到 EAP 请求, 自动下载指定 Recipe, 从 RMS 到机台
-> > 2.16 > 设备 Idle 状态下, 下载 Recipe 到指定机台
-> > 2.17 > 支持手动在 RMS UI 上 Download Recipe, 支持批量 Download
-> > 2.18 > 完善的版本控制, 更新 Recipe spec 生成新版本, 可回退到历史版本.
-> > 2.19 > 设备常量（EC）、状态（SV）的比对
-> > 2.20 > 支持设备常量（EC）, 设备状态（SV）上传和比对. 支持设备常量（EC）下载
-> > 2.21 > 能够支持按 Tool, Recipe, LoadPort, Chamber, Product, Tech 和 Recipe Group 进行 EC/SV Spec 的设定
-> > 2.22 > 提供数据, 以支持客制化报表开发
-> > 2.23 > 完善权限管理机制和历史记录, 支持设备级别的权限管控
-> > 2.24 > 支持 User Group, Function Role 设定
-> > 2.25 > 可以对任何操作功能设置权限
-> > 2.26 > 可以对设备设置权限, 用户只能看到自己对应的设备, 操作对应的设备
-> > 2.29 > 针对 Recipe 升级可以 by tool 类型和 by recipe 设定 , 自动跳过签核生成激活版本（客制化）
-> > 2.30 > 支持 Validate log 进行各类型校验结果汇总统计, 生成基于历史的 report
-> > 2.31 > 支持设备开关时, 是否严格校验 recipe 参数数量, 如果设备上 recipe 参数数量多则可以检测出来
-> > 2.32 >支持 Recipe 变化时自动将 Recipe 备份至 RMS 系统的备份系统中
-> > 2.34 > Recipe Body 解析存储支持多种数据类型: SECS, Binary, ASCII, XML
-> > 3 支持签核:
-> > 3.1 > 支持与签核系统整合, 以进行 Recipe parameter 设定, 并支持选择是否送签, 如果选择是, 签核后才能生效
-> > 3.2 > 针对 Recipe 变动 (可以 by recipe 或 by tool 设定) , 可选择是否送签, 如果选择是, 需要与签核系统整合后生效
-> > 3.3 > 支持连接内部 OA 系统, 实现签核
-> > 3.4 > 要求系统高可用性, 负载平衡:
-> > 3.8 > 多台服务器间可以实现负载平衡, 自动故障切换
-> > 3.5 > 软件升级和新功能发布不影响系统使用 (不停机)
-> > 3.6 > 新的设备类型或新的设备上线, 不影响系统使用（不停机)
-> > 3.7 > 工厂产能、设备增加, 可以动态增加服务器, 不影响系统使用（不停机)
-> > 3.9 > 提供系统 Pilot Run 机制, RMS 重要逻辑修改, 需要支持在个别设备个别 Recipe 上先 Pilot 验证, 即只有个别设备个别 Recipe 先生效更改内容, 而不影响到为 Pirun 的设备和 Recipe（需要额外准备 PiRun 服务器）
-> > 3.10 > Recipe 签核: 支持与签核系统整合, 签核完成的 Recipe 才能生效; 或设定 Bypass 签核, 可以直接变为生效版本
-
 ## RMS 基本功能
 
 - Recipe List/Body 解析上传: 支持多格式解析与插件式热部署, 自动识别主 / 子 Recipe 树形关联结构
@@ -913,12 +835,12 @@ AP 服务器 (Application Server)
 创新中心现存业务共包含 15 个 CIM 子系统
 
 - EAP(Equipment Automation Program): 设备自动化程序
-- RCM(Remote Control Management): 远程控制管理
 - FDC(Fault Detection and Classification): 故障检测与分类
+- RMS(Recipe Management System): 配方管理系统
+- RCM(Remote Control Management): 远程控制管理
 - APC(Advanced Process Control): 先进过程控制
 
 - MES(Manufacturing Execution System): 制造执行系统
-- RMS(Recipe Management System): 配方管理系统
 - SPC(Statistical Process Control): 统计过程控制
 - AMS(Alarm Management System): 告警管理系统
 - PMS(Preventive Maintenance System): 设备维修保养系统
@@ -943,8 +865,8 @@ AP 服务器 (Application Server)
 
 | 业务板块         | 包含子系统              | 对应小组 |
 | :--------------- | :---------------------- | :------- |
-| 设备自动化与控制 | EAP, RCM, FDC, APC      | EAP 组   |
-| 生产执行与追踪   | MES, RMS, SPC, AMS, PMS | MES 组   |
+| 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
+| 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
 | 智能调度与物流   | RTD, AMA                | RTD 组   |
 | 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
 
@@ -997,245 +919,13 @@ AP 服务器 (Application Server)
 | AI 工程师        | Python, Neo4j/Langchain                                                                    | Pytorch                            |
 | 全栈工程师       | 上述所有                                                                                   | 上述所有                           |
 
-#
-
-```text
-┌───────────────────────────────────────────────────────────────────────┐
-│                             门户管理（统一入口）                         │
-│   • SSO单点登录（CAS/OAuth2）   • 应用导航   • 待办中心   • 消息中心       │
-│                   ↑ SSO/Token | 菜单/权限/消息                             │
-└───────────────┬───────────────┴───────────────┬───────────────────────────┘
-                │                               │
-      ┌─────────▼─────────┐         ┌─────────▼─────────┐
-      │ 设备自动化与控制   │         │ 生产执行与追踪     │
-      │ (EAP组)           │         │ (MES组)           │
-      │ • EAP              │        │ • MES             │
-      │ • RCM              │        │ • RMS             │
-      │ • FDC              │        │ • SPC             │
-      │ • APC              │        │ • AMS             │
-      │                    │        │ • PMS             │
-      └─────────┬─────────┘         └─────────┬─────────┘
-                │                               │
-      ┌─────────▼─────────┐         ┌─────────▼─────────┐
-      │ 智能调度与物流     │         │ 工程与质量管理     │
-      │ (RTD组)           │         │ (YMS组)           │
-      │ • RTD              │         │ • YMS              │
-      │ • AMA              │         │ • DMS              │
-      │                    │         │ • RPT              │
-      │                    │         │ • FMS              │
-      └───────────────────┘         └───────────────────┘
-                ▲                               ▲
-                │                               │
-        ┌───────┴───────────────┐   ┌───────────┴───────────────┐
-        │    集成技术底座       │   │       数据与消息总线       │
-        │ • SSO认证             │   │ • Kafka/RabbitMQ (事件)    │
-        │ • WebService/REST     │   │ • SECS/GEM (设备协议)      │
-        │ • JDBC/DBLink         │   │ • MQTT/OPC UA (实时流)     │
-        │ • FTP/ESB (文件交换)  │   │ • DBLink/API (数据同步)    │
-        │ • 电子签章 (CA/SDK)   │   │ • 定时任务/ETL              │
-        └───────────────────────┘   └─────────────────────────────┘
-```
+# 术语
 
 - SSO（Single Sign-On, 单点登录） 是一种身份认证机制, 它允许用户只需登录一次, 就可以访问所有相互信任的应用系统, 而无需在每个系统中重复输入用户名和密码.
 - FTP（文件传输协议）, 最传统、最底层的文件搬运工, 局限于非实时、无事务保证、需自行解析文件、错误处理困难
 - ESB（企业服务总线）, 当 FTP 把文件搬过来后, ESB 负责将其转化为标准服务调用; 或者在不同异构系统（如 SAP ERP ↔ MES ↔ YMS）之间做协议适配.
 - CA (Certificate Authority, 证书授权中心), 负责签发、管理和吊销数字证书, 通常对接企业内部 PKI 体系或国家认可的第三方 CA 机构
 - SDK (Software Development Kit, 签章开发套件), 嵌入到各业务系统中的“签章,引擎”, 通常为 DLL/JAR/REST API 形式, 支持国密 SM2/SM3 或国际 RSA/AES 算法
-
-1. 设备自动化与控制（EAP 组）
-   EAP ↔ RCM: 实线双向（远程控制指令下发与状态回传）
-   EAP → FDC: 实线（原始传感器 / 量测数据流, 秒级）
-   EAP → APC: 实线（过程参数反馈, 用于 R2R 控制）
-   EAP ↔ MES: 实线（工单执行、设备状态上报; SECS GEM）
-   RCM → PMS: 虚线（维修触发请求, 流程交互）
-   FDC → APC: 实线（异常信号触发闭环调整）
-   APC → RMS: 实线（自动更新 Recipe 参数）
-2. 生产执行与追踪（MES 组）
-   MES ↔ RMS: 实线双向（配方请求 / 下载）
-   MES → SPC: 实线（实时 Lot/Wafer 量测数据）
-   MES → AMS: 实线（设备告警关联工单）
-   MES → PMS: 实线（设备 OEE/MTBF 数据驱动预防性维护）
-   SPC → FDC: 实线（统计异常作为 FDC 输入）
-   AMS → FMS: 虚线（全局告警聚合至监控大屏）
-3. 智能调度与物流（RTD 组）
-   RTD ↔ AMA: 实线双向（搬运指令与完成确认; 基于 VDA 2860 或 SECS）
-   RTD → MES: 实线（接收工单并反馈执行进度）
-   AMA → EAP: 实线（FOUP transfer 触发设备门禁 / 腔体准备）
-   FMS → RTD: 虚线（设备阻塞 / 空闲状态用于动态重调度）
-4. 工程与质量管理（YMS 组）
-   YMS ↔ DMS: 实线双向（良率下降 → 缺陷根因分析）
-   YMS ← SPC/FDC/APC: 实线（多源数据融合计算 Yield Impact）
-   DMS → MES: 实线（缺陷严重度触发 Lot Hold）
-   RPT ← 所有系统: 虚线（报表数据抽取; 支持 BI 直连）
-   FMS ↔ RPT: 实线（工厂 KPI 看板数据源）
-   FMS ← EAP/AMA/RTD: 实线（设备+ 物流实时状态汇聚）
-
-| 系统 | 核心功能                                                        | 数据流向          |
-| :--- | :-------------------------------------------------------------- | :---------------- |
-| EAP  | SECS/GEM 协议转换、设备指令下发、实时数据采集、设备状态管理     | ↔ 机台 (SECS/GEM) |
-| RCM  | 远程指令控制、设备状态监控、安全准入与操作溯源                  | → EAP → 机台      |
-| FDC  | 传感器数据采集、实时异常检测、故障分类诊断、自动停机拦截        | ← EAP ← 机台      |
-| APC  | 工艺模型计算、配方参数动态调整、Run-to-Run 控制、反馈与前馈优化 | ↔ EAP ↔ FDC       |
-
-## 🔗 EAP 是绝对中心节点
-
-### RCM 不直连机台
-
-所有远程控制指令（如 Start/Stop/Recipe Select）必须经由 EAP 转换为 SECS/GEM 消息, RCM 仅作为人机交互前端
-
-1. **同步指令下发** (RESTful API / gRPC)
-2. **异步状态推送** (WebSocket / SSE / Kafka)
-
-| 方向      | 触发方        | 数据内容                    | 通信模式       | 技术实现                | 为什么不能反过来                                |
-| :-------- | :------------ | :-------------------------- | :------------- | :---------------------- | :---------------------------------------------- |
-| RCM → EAP | 操作员 / 系统 | 控制指令、查询请求          | 同步请求- 响应 | gRPC / REST API         | 指令必须等待执行结果确认, 天然适合同步调用      |
-| EAP → RCM | 机台事件驱动  | 状态变更、Alarm, Trace Data | 异步主动推送   | SSE / WebSocket / Kafka | 机台事件不可预测, 轮询会导致秒级延迟 + 资源浪费 |
-
-> - **gRPC (Google Remote Procedure Call)**: 由 Google 开源的高性能 RPC 框架. 它使用 Protobuf 进行二进制序列化, 基于 HTTP/2 协议传输, 让跨语言的服务调用像调用本地函数一样简单、快速.
-> - **SSE (Server-Sent Events)**: 基于标准 HTTP 的服务器向客户端单向推送协议. 服务器保持一个长连接, 持续以 `text/event-stream` 格式发送事件数据, 浏览器原生支持（EventSource API）.
-
----
-
-### FDC 不直连机台
-
-FDC 所需的 Trace Data, SVID 等实时传感器数据, 由 EAP 从机台采集后通过消息队列（Kafka/RabbitMQ）推送给 FDC.
-
-**FDC ↔ EAP 双向数据流: **
-
-- **上行（EAP → FDC）**: 通过消息队列推送 Trace Data, SVID, Equipment Status 等实时采集数据;
-- **下行（FDC → EAP）**: 通过 API/MQ 下发告警拦截指令、监控配置变更、分析结果回写请求, 由 EAP 翻译后作用于机台或上报上层系统.
-
----
-
-### APC 不直连机台
-
-APC 的所有参数调整与数据获取均通过 EAP 中转, EAP 是 APC 与机台交互的唯一协议网关.
-
-**APC ↔ EAP 双向数据流: **
-
-- **上行（EAP → APC）**: 通过消息队列 /API 推送量测数据、设备状态、工艺过程数据及配方信息, 为 APC 模型计算提供输入;
-- **下行（APC → EAP）**: 通过 API/MQ 下发反馈控制参数（Offset/Setpoint）、前馈补偿值、模型更新指令, 由 EAP 翻译为 SECS/GEM 消息写入机台或同步至 MES.
-
-> **Run-to-Run (R2R) 控制**
->
-> APC 最核心的闭环机制. 利用上一批次 / 晶圆的事后量测结果, 通过 EWMA 等算法计算出下一批次需补偿的 Offset, 使工艺输出持续逼近目标值. 该“读取量测 → 计算 Offset → 下发新参数”的完整循环, 完全依赖 EAP 作为执行通道; 没有 EAP, R2R 仅为离线报表, 无法实现真正的批次级动态控制. 典型应用包括 CMP 研磨时间、Etch CD 关键尺寸、薄膜沉积厚度控制.
-
-> **反馈与前馈优化**
->
-> R2R 控制的两种互补策略, 解释了 APC 为何必须同时对接 EAP 与 FDC:
->
-> - **反馈控制 (Feedback, FB)**: “治已病”. 基于当前批次事后量测数据修正历史漂移, 响应滞后至少一个 Run. 数据来源为 EAP 推送的 Metrology 数据, 计算出的 FB Offset 经 EAP 写回机台.
-> - **前馈控制 (Feedforward, FF)**: “治未病”. 基于上游量测或 FDC 实时数据, 在本批次加工前 / 中直接抵消上游传入的变异. 数据来源为 FDC/EAP 提供的实时上下文, 计算出的 FF 补偿经 EAP 注入机台.
->
-> 现代 Fab 的 APC 模型通常采用 `Final Offset = FB_Offset + FF_Offset` 叠加策略, 这正是 APC 需要 `↔ EAP ↔ FDC` 三方协同的根本原因.
-
-• FDC → APC: [OOC Event, Virtual Metrology, FF Context]
-• APC → FDC: [Compensation Log, Model Confidence, Predicted CD Shift]
-• FDC → APC: 提供实时异常事件、虚拟量测（如 SVID 趋势）、上游变异信号（用于 FF）
-• APC → FDC: 回传补偿动作日志、模型置信度、预期效果预测（用于验证 / 拦截）
-
-#
-
-- MES 制造执行系统, 日常涉及工单管理、批次追踪、过站管控、物料绑定、机台分配、生产历史记录等核心制造流程数字化
-    1. 生产排程与工单管理
-    2. 晶圆 / 批次级全流程追踪
-    3. 设备状态监控与派工
-    4. 物料管理与 WIP 控制
-    5. 良率追溯与谱系记录
-    6. 与其他子系统（RMS/SPC/PMS 等）的流程互锁
-- RMS 配方管理系统, 日常涉及配方创建、版本管理、上传下载、校验比对、权限管控、变更审批等流程数字化
-    1. Recipe版本控制与审批流
-    2. 参数合规性校验与比对
-    3. Recipe自动下发与上传
-    4. Golden Recipe管理与差异分析
-    5. 跨机台/跨厂区Recipe同步
-    6. Recipe使用历史与关联追溯
-- SPC 统计过程控制, 日常涉及 Inline/Offline 数据采集、控制图绘制、异常判定规则触发、OOC/OOS 处置、CPK 能力分析、SPC 报表生成等流程数字化
-    1. 实时控制图绘制与判异
-    2. 制程能力指数计算
-    3. OOC/OOS自动拦截与Hold Lot
-    4. 多变量分析与趋势预警
-    5. 量测数据自动采集与清洗
-    6. SPC规则库管理与自定义
-- AMS 告警管理系统, 日常涉及告警规则配置、多源告警聚合、分级通知推送、告警确认与处理、历史告警查询、告警趋势分析与处理、历史告警查询、告警趋势分析等场景
-    1. Alarm标准化与严重等级分类
-    2. 智能过滤与降噪
-    3. 告警升级与通知路由
-    4. Alarm关联分析与根因推荐
-    5. 处理SOP知识库联动
-    6. MTBF/MTTR统计分析
-- PMS 设备维修保养系统, 日常涉及机台保养计划制定、Check List 派发与执行派发与执行、备件更换记录、保养结果确认、机台维保数据等全流程数字化管理
-    1. PM计划自动生成与调度
-    2. 备件库存与消耗管理
-    3. PM执行记录与电子签核
-    4. 设备健康度评估与预测
-    5. 维修工时与成本核算
-    6. PM后Qualification验证联动
-
-| 维度       | Interface A (SEMI E132/E133) | RESTful API                    |
-| :--------- | :--------------------------- | :----------------------------- |
-| 底层传输   | TCP/IP + XML/SOAP + WSDL     | HTTP/HTTPS + JSON/XML          |
-| 通信模式   | 双向、支持订阅 / 推送        | 请求- 响应（单向拉取为主）     |
-| 数据模型   | 严格遵循 SEMI 对象模型       | 自定义资源模型                 |
-| 实时性     | 毫秒级, 原生支持事件订阅     | 秒级, 依赖轮询或 SSE/WebSocket |
-| 语义定义   | 标准化（所有机台含义一致）   | 非标准化（各厂商接口各异）     |
-| 安全机制   | TLS + 证书 + SEMI E187/E188  | OAuth2 / JWT / API Key         |
-| 生态定位   | OT 层（设备 ↔ EAP/RMS/FDC）  | IT/OT 融合层（MES ↔ 上层应用） |
-| 开发复杂度 | 高（需专用 SDK/ 栈）         | 低（通用 HTTP 库即可）         |
-
-```txt
-            [ MES ] ←──→ [ RMS ]
-           ↗   ↑   ↖      ↕
-          ↗    |     ↖     ↕
-      [ PMS ] ←─┼─→ [ AMS ]
-           ↖    |     ↗     ↕
-            ↖   ↓   ↗      ↕
-            [ SPC ] ←──────↗
-```
-
-| 发起方 ↔ 接收方 | ➡️ 正向流 (A → B) 核心内容                                           | ⬅️ 反向流 (B → A) 核心内容                                             | 业务闭环价值                                                  |
-| :-------------- | :------------------------------------------------------------------- | :--------------------------------------------------------------------- | :------------------------------------------------------------ |
-| MES ↔ RMS       | 过站前 Recipe 校验请求; 批次-Recipe 绑定指令; Recipe 下载触发信号    | Recipe 校验结果 (OK/NG); 实际执行 Recipe 版本回传; 下载完成 / 失败确认 | 确保“正确的批次在正确的机台执行正确的配方”, 防止错料 / 错程式 |
-| MES ↔ SPC       | 量测采样计划下发; 批次上下文信息 (Lot/Step/Tool); SPC Chart 配置同步 | OOC/OOS 违规信号; Hold Lot / Release Lot 指令; CPK 趋势预警            | 实现质量与生产的联动, 异常时自动拦截, 避免批量报废            |
-| MES ↔ AMS       | 设备状态变更 (Busy/Idle/Down); 工单优先级变更; 告警屏蔽规则下发      | 标准化告警事件; 设备 Down 机原因码; 告警升级通知; MTTR 统计            | 将底层海量 Alarm 转化为生产可感知的业务事件, 支撑 OEE 分析    |
-| MES ↔ PMS       | PM 计划触发信号; 设备锁定 / 解锁指令; 备件消耗扣减请求               | PM 开始 / 结束事件; Qual 验证结果; 维修工时报告; 设备释放确认          | 确保保养不影响排程, 保养后设备经 Qual 合格才恢复生产          |
-| RMS ↔ SPC       | Golden Recipe 参数基准值; Recipe 变更通知; 工艺窗口规格              | 参数漂移趋势报告; Recipe 优化建议; SPC 违规关联的 Recipe 版本          | 建立“配方- 质量”因果链, 用质量数据驱动 Recipe 持续优化        |
-| RMS ↔ AMS       | Recipe 执行阶段的告警过滤规则; 特定 Recipe 的告警阈值配置            | Recipe 执行期间的专属告警记录; 因告警导致的 Recipe 中断事件            | 区分“设备通用告警”与“工艺相关告警”, 提升 RMS 根因分析精度     |
-| RMS ↔ PMS       | 高磨损 Recipe 的 PM 计数加权因子; 特殊 Recipe 后的强制 Qual 请求     | PM 后机台参数重置确认; Qual 失败导致的 Recipe 禁用通知                 | 实现基于实际工艺负载的动态保养, 而非僵化的固定周期 PM         |
-| SPC ↔ AMS       | SPC 违规触发的告警生成请求; 控制限变更通知                           | 设备异常告警作为 SPC 异常分类标签; 告警恢复后的 SPC 复位信号           | 将设备健康状态纳入 SPC 判异逻辑, 区分“真异常”与“设备干扰”     |
-| SPC ↔ PMS       | 制程能力下降趋势 (CPK↓); 连续 OOC 但设备无告警的隐性异常             | PM 完成后的首件量测数据; 部件更换后的基线偏移报告                      | 用质量趋势触发预测性维护, 用 PM 后数据验证保养效果            |
-| AMS ↔ PMS       | 关键部件告警触发的 CBM 维修工单; 告警频次超阈值预警                  | 维修完成后的告警计数器复位; 同类告警的维修 SOP 推荐                    | 从“定期保养”升级为“按需保养”, 减少过度维护与非计划停机        |
-
----
-
-| 发起方 → 接收方 | 传输内容示例                                                                          | 协议 / 机制                             |
-| :-------------- | :------------------------------------------------------------------------------------ | :-------------------------------------- |
-| EAP → MES       | 设备状态变更（Busy/Idle/Alarm）、Track In/Out, SVID 采集完成通知、Recipe 下载确认     | SECS/GEM (S2F37/S2F41), Interface A, MQ |
-| MES → EAP       | 工单派发指令、Lot 绑定信息、设备锁定 / 解锁、SPC Hold/Release 指令                    | SECS/GEM (S2F37/S2F41), Interface A, MQ |
-| EAP → RMS       | 实际执行 Recipe 上传、参数漂移日志、机台配置快照                                      | Interface A (E133/E130)                 |
-| RMS → EAP       | Recipe 下载指令、版本校验结果（OK/NG）、Golden Recipe 同步、参数合规性反馈            | Interface A (E133/E130)                 |
-| EAP → SPC       | 原始量测数据（Inline Metrology）、批次上下文（Lot/Step/Tool）、Run ID                 | MQ / Kafka / SECS/GEM S2F41             |
-| SPC → EAP       | OOC/OOS 违规信号、Hold Lot/Release Lot 指令、CPK 异常预警、控制限变更通知             | MQ / SECS/GEM S2F41                     |
-| EAP → AMS       | 原始设备 Alarm Code, Event Log、设备健康快照                                          | SECS/GEM S5/S6, MQ                      |
-| AMS → EAP       | 标准化告警事件（含等级 / 原因码）、告警抑制指令、升级路径触发信号                     | SECS/GEM S5/S6, MQ                      |
-| EAP → PMS       | Run Count / Wafer Count / Cycle Count、部件磨损计数、设备负载指标                     | REST API / MQ                           |
-| PMS → EAP       | PM 开始 / 结束指令、设备锁定请求、Qual 验证触发、备件更换确认                         | REST API / MQ                           |
-| APC → MES       | Run-to-Run 补偿结果（ΔCD/ΔOverlay）、模型置信度、预测偏移量、补偿生效确认             | REST API / MQ                           |
-| MES → APC       | 新批次启动信号、配方变更通知、工艺窗口更新、SPC 异常关联标记                          | REST API / MQ                           |
-| APC → RMS       | 补偿后参数建议值、模型推荐 Recipe 变体、工艺窗口优化建议                              | REST API                                |
-| RMS → APC       | Golden Recipe 基准值、工艺约束边界（Min/Max）、历史 Recipe 性能评分                   | REST API                                |
-| APC → SPC       | 补偿动作日志（时间 / 参数 / 效果）、预期效果预测、模型更新触发信号                    | MQ / Kafka                              |
-| SPC → APC       | 异常事件（OOC/OOS）、虚拟量测值（VM）、上游变异信号（如 FDC 趋势）、控制限偏离报告    | MQ / Kafka                              |
-| FDC → MES       | 异常分类报告（Top 3 模式）、Trace Data 摘要、实时告警聚合、Root Cause 初判            | MQ / REST API                           |
-| MES → FDC       | 批次上下文（LotID/Step/Tool）、采样计划（Sampling Plan）、设备状态快照、SPC Hold 状态 | MQ / REST API                           |
-| FDC → SPC       | Virtual Metrology (VM) 数据、SVID 趋势分析、设备行为特征向量                          | MQ                                      |
-| SPC → FDC       | SPC 违规关联的 FDC 事件 ID、控制限变更通知、需复现的异常时段标记                      | MQ                                      |
-| RCM → MES       | 操作员指令（Start/Stop/Hold/Resume）、手动干预记录、质量放行确认                      | REST API / WebSocket                    |
-| MES → RCM       | 实时 WIP 看板、设备状态（含 OEE）、告警摘要（AMS 聚合）、SPC/FDC 分析结论、维修进度   | REST API / WebSocket                    |
-| RCM → APC       | 手动补偿值输入、模型禁用 / 启用指令、目标偏移设定                                     | REST API / WebSocket                    |
-| APC → RCM       | 补偿建议可视化（图表+ 数值）、模型健康度（Accuracy/Stability）、预测结果及置信区间    | REST API / WebSocket                    |
-
----
 
 > SVID 是 Status Variable ID（状态变量标识符）
 
@@ -1257,33 +947,112 @@ SVID=12003 → 气体流量 (Gas Flow Rate)
 
 SVID=12004 → 当前加工晶圆数 (Wafer Count)
 
----
+# 规划图
 
-| 发起方 → 接收方 | 传输内容示例                                                                                      | 协议 / 机制                    |
-| :-------------- | :------------------------------------------------------------------------------------------------ | :----------------------------- |
-| RTD → AMA       | 搬运指令（From/To Port）、优先级（Priority）、路径偏好、取消 / 变更搬运请求                       | REST API / MQ / SECS/GEM S2F41 |
-| AMA → RTD       | 搬运完成确认、车辆 / 天车状态（Idle/Busy/Fail）、Port 占用状态、预计到达时间（ETA）               | REST API / MQ / SECS/GEM S6F11 |
-| RTD → MES       | 批次选择结果（Next Lot）、设备预留请求、WIP 拉动信号、调度异常反馈（No Lot Available）            | REST API / MQ / Database View  |
-| MES → RTD       | 工单队列（Queue List）、批次属性（Product/Priority/DueDate）、工艺路线约束、Hold/Release 状态变更 | REST API / MQ / Database Sync  |
-| RTD → EAP       | 加工指令（Process Start）、Recipe 参数覆盖、Lot-to-Equipment 绑定确认、跳过 / 重跑指令            | SECS/GEM S2F41 / Interface A   |
-| EAP → RTD       | 设备就绪信号（Ready for Next Lot）、Track In/Out 完成通知、当前腔体 / 载具状态、加工中断告警      | SECS/GEM S6F11 / Interface A   |
+## EAP 组
 
----
+```txt
+            [ RMS ] ←───────┐
+               ↑            │
+               │            ▼
+          ┌────┴────┐   [ EAP ]
+          │         │      ↑
+        [ RCM ]   [ APC ]──┘
+               ↖     ↗
+                 [ FDC ]
+```
 
-| 发起方 → 接收方 | 传输内容示例                                                               | 协议 / 机制               |
-| :-------------- | :------------------------------------------------------------------------- | :------------------------ |
-| YMS → DMS       | 缺陷复查请求（Review Request）、缺陷分类规则更新、WAT/CP 测试数据关联键值  | REST API / MQ / DB Link   |
-| DMS → YMS       | 缺陷图谱（Defect Map）、ADC 自动分类结果、缺陷密度趋势、Killer Defect 标记 | REST API / MQ / DB Link   |
-| YMS → RPT       | 良率分析模型输出、异常批次清单、关键指标（KPI）计算结果、根因分析结论      | REST API / MQ / ETL       |
-| RPT → YMS       | 用户自定义查询参数、报表订阅配置、手动标注反馈（False Alarm 修正）         | REST API / WebSocket      |
-| YMS → FMS       | 量测采样策略调整建议、特定站点加测指令、量测数据质量反馈                   | REST API / MQ             |
-| FMS → YMS       | 离线 / 在线量测原始数据、量测设备状态、采样执行确认、Metrology Recipe 版本 | REST API / MQ / SECS/GEM  |
-| DMS → FMS       | 缺陷坐标引导量测请求、Review SEM 图像采集指令                              | REST API / SECS/GEM S2F41 |
-| FMS → DMS       | Review SEM 图像文件路径、缺陷尺寸 / 形貌量测结果                           | REST API / MQ             |
-| RPT → MES       | 生产绩效看板数据、OEE 统计报表、批次历史追溯摘要                           | REST API / WebSocket      |
-| MES → RPT       | WIP 快照、工单完成记录、设备利用率原始日志                                 | REST API / MQ / DB View   |
-| RPT → EAP       | 设备性能趋势图表、PM 合规性报告、SVID 历史回放请求                         | REST API / WebSocket      |
-| EAP → RPT       | 实时设备状态流、Trace Data 归档索引、Alarm 历史记录                        | MQ / Kafka / DB Sync      |
+## MES 组
+
+```txt
+            [ MES ] ←───────┐
+               ↑            │
+               │            ▼
+          ┌────┴────┐   [ SPC ]
+          │         │      ↑
+        [ PMS ]   [ AMS ]──┘
+               ↖     ↗
+                 [ OOC/CPK ]
+```
+
+## RTD 组
+
+```txt
+            [ RTD ] ←──→ [ AMA ]
+               ↑            │
+               │            ▼
+           [ Queue/List ]  [ 物料搬运 ]
+               │            │
+               └───→ [ Lot 状态流 ]
+```
+
+## YMS 组
+
+```txt
+            [ YMS ] ←───────┐
+               ↑            │
+               │            ▼
+          ┌────┴────┐   [ DMS ]
+          │         │      ↑
+        [ RPT ]   [ FMS ]──┘
+               ↖     ↗
+            [ Metology/Recipe ]
+```
+
+| 发起方 → 接收方    | 传输内容示例                                                                      | 协议 / 机制                                                |
+| :----------------- | :-------------------------------------------------------------------------------- | :--------------------------------------------------------- |
+| **EAP组 内部交互** |                                                                                   |                                                            |
+| EAP → FDC          | `传感器原始数据`, `设备状态快照`, `Process Start/End信号`                         | `MQ`（高吞吐实时流）<br>`SECS/GEM`（设备直连透传）         |
+| EAP → RMS          | `配方请求`, `当前运行配方版本`, `配方执行结果反馈`                                | `API/gRPC`（同步校验）<br>`REST`（异步状态上报）           |
+| EAP → RCM          | `设备实时状态`, `远程指令执行结果`, `安全互锁状态`                                | `SECS/GEM`（底层设备协议）<br>`API/gRPC`（状态回传）       |
+| EAP → APC          | `Run-to-Run量测数据`, `设备工艺参数`, `前馈/反馈值`                               | `MQ`（实时数据流）<br>`OPC UA`（工业标准接口）             |
+| FDC → EAP          | `实时异常检测结果`, `拦截指令`, `Fault Code`                                      | `MQ`（低延迟告警）<br>`SECS/GEM S2F41`（远程命令）         |
+| FDC → RMS          | `配方相关异常标记`, `Recipe Drift趋势`                                            | `MQ`（事件触发）<br>`REST API`（分析结果推送）             |
+| RMS → EAP          | `配方校验结果`, `Hold/Release指令`, `配方下载包`                                  | `API/gRPC`（同步响应）<br>`FTP/ESB`（大文件传输）          |
+| RMS → FDC          | `配方变更通知`, `关键参数阈值更新`                                                | `MQ`（配置同步）<br>`REST API`（规则下发）                 |
+| RCM → EAP          | `远程指令下发`, `安全准入确认`, `维护模式切换`                                    | `SECS/GEM`（设备级控制）<br>`API/gRPC`（指令封装）         |
+| APC → EAP          | `FB/FF值更新指令`, `Run-to-Run参数调整`, `模型修正系数`                           | `SECS/GEM`（设备级闭环）<br>`MQ`（软 PLC 指令）            |
+| **MES组 内部交互** |                                                                                   |                                                            |
+| MES → SPC          | `工单信息`, `产品规格`, `采样计划`, `Trace Data`                                  | `JDBC/DBLink`（数据同步）<br>`MQ`（事件驱动）              |
+| MES → AMS          | `设备状态变更`, `工单优先级`, `告警配置规则`                                      | `MQ`（状态事件）<br>`REST API`（配置下发）                 |
+| MES → PMS          | `工单优先级变更`, `设备运行时长`, `OOC触发信号`                                   | `JDBC/DBLink`（数据库同步）<br>`MQ`（事件驱动）            |
+| SPC → AMS          | `CPK下降趋势`, `OOC频次`, `部件级异常信号`                                        | `MQ`（实时告警流）<br>`REST API`（规则触发）               |
+| AMS → MES          | `告警分级结果(OK/NG)`, `历史告警关联性`, `SOP推送`                                | `API/gRPC`（同步响应）<br>`Webhook`（事件回调）            |
+| PMS → MES          | `维修计划生成`, `备件库存消耗`, `CBM维修工单`                                     | `API/gRPC`（工单创建）<br>`MQ`（状态同步）                 |
+| **RTD组 内部交互** |                                                                                   |                                                            |
+| RTD → AMA          | `派工指令`, `优先级`, `跳站/重跑指令`, `DueTime`                                  | `WebSocket`（低延迟指令）<br>`FTP/ESB`（批量路径规划）     |
+| AMA → RTD          | `搬运完成状态`, `ETA预测`, `异常处理结果`, `Track In/Out`                         | `MQ`（异步确认）<br>`REST API`（状态上报）                 |
+| **YMS组 内部交互** |                                                                                   |                                                            |
+| YMS → DMS          | `缺陷分析请求`, `ADC分类规则更新`, `Sampling Plan`                                | `REST API`（分析指令）<br>`JDBC`（规则库同步）             |
+| YMS → RPT          | `良率多维分析结果`, `根因结论`, `Recipe优化建议`                                  | `JDBC/DBLink`（报表库写入）<br>`FTP/ESB`（离线报表包）     |
+| YMS → FMS          | `监控指标定义`, `异常阈值配置`, `看板布局`                                        | `REST API`（配置下发）<br>`MQ`（动态规则更新）             |
+| DMS → YMS          | `晶圆缺陷图自动分类结果`, `Defect Map`, `ADC密度趋势`                             | `JDBC/DBLink`（图像元数据）<br>`CA/SDK`（电子签章归档）    |
+| RPT → YMS          | `报表订阅反馈`, `自定义查询结果缓存`                                              | `REST API`（数据拉取）<br>`MQ`（异步结果通知）             |
+| FMS → YMS          | `关键参数看板快照`, `设备OEE`, `实时异常通知`                                     | `WebSocket`（可视化推送）<br>`WebService/REST`（API 拉取） |
+| **跨业务组交互**   |                                                                                   |                                                            |
+| EAP → MES          | `Process Start`, `Recipe参数`, `Lot-to-EQP绑定`, `TrackIn/Out通知`, `EQP状态更新` | `WS/SSE/MQ`（实时流）<br>`API/gRPC`（同步请求）            |
+| MES → RPT          | `WIP快照`, `工单完成记录`, `设备利用率`, `Trace Data`                             | `ETL逻辑复制`<br>`定时任务`（OEE 统计报表）                |
+| RTD → MES          | `派工决策结果`, `Queue Time预警`, `机台利用率反馈`                                | `MQ`（调度事件）<br>`REST API`（状态同步）                 |
+| MES → RTD          | `工单列表`, `Product Priority`, `Hold/Release状态`, `BOM信息`                     | `JDBC/DBLink`（数据同步）<br>`MQ`（工单事件）              |
+| YMS → MES          | `质量判定结果`, `批次放行/扣留指令`, `SPC Rule Violation`                         | `API/gRPC`（质量反馈）<br>`MQ`（处置指令）                 |
+| FMS → RPT          | `工厂级KPI聚合数据`, `跨车间异常汇总`                                             | `WebSocket`（大屏推送）<br>`REST API`（报表数据源）        |
+
+## 绘图规范
+
+> 颜色规范:
+>
+> - EAP 组: 橙色系（#D4A56B）
+> - MES 组: 红色系（#E74C3C）
+> - RTD 组: 青绿色系（#1ABC9C）
+> - YMS 组: 蓝色系（#3498DB）
+> - 集成底座: 灰色（#95A5A6）
+>
+> 连接线样式建议:
+>
+> - 实线: 同步调用 / 主流程
+> - 虚线: 异步事件 / 告警通知
+> - 粗线: 高频大数据流（如 Trace Data / SEM Image）
+> - 双向箭头: 状态同步 / 闭环反馈
 
 # CIM 负责人
 
@@ -1298,3 +1067,13 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
 3. 业务对齐与价值验证
     - 需求溯源与变更控制: 确保CIM 各子系统的功能建设均能追溯至明确的业务痛点
     - 端到端业务流程验证: 组织跨系统的DEV开发、UAT反馈、压力测试、PROD上线
+
+# RFP(Request for Proposal) 提案请求
+
+SOW( Statement of Work): 工作说明书 / 工作范围说明
+
+| 角色       | SOW 的重要性                                                                           |
+| :--------- | :------------------------------------------------------------------------------------- |
+| 对采购方   | 确保所有投标方基于相同的需求进行报价，便于横向对比；作为未来合同的法律附件，避免扯皮。|
+| 对投标方   | 准确理解客户需求，避免低估工作量导致亏损，或高估工作量导致丢标；识别潜在风险。|
+| 对项目执行 | 充当项目管理的基准线，任何超出 SOW 的工作都应通过变更请求流程处理。|

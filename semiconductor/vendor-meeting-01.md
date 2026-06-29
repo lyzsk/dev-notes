@@ -4,21 +4,21 @@
 
 | 业务板块         | 包含子系统              | 对应小组 |
 | :--------------- | :---------------------- | :------- |
-| 设备自动化与控制 | EAP, RCM, FDC, APC      | EAP 组   |
-| 生产执行与追踪   | MES, RMS, SPC, AMS, PMS | MES 组   |
+| 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
+| 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
 | 智能调度与物流   | RTD, AMA                | RTD 组   |
 | 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
 
 - EAP(Equipment Automation Program): 设备自动化程序
-- RCM(Remote Control Management): 远程控制管理
 - FDC(Fault Detection and Classification): 故障检测与分类
+- RMS(Recipe Management System): 配方管理系统
+- RCM(Remote Control Management): 远程控制管理
 - APC(Advanced Process Control): 先进过程控制
 
 - MES(Manufacturing Execution System): 制造执行系统
-- RMS(Recipe Management System): 配方管理系统
 - SPC(Statistical Process Control): 统计过程控制
 - AMS(Alarm Management System): 告警管理系统
-- PMS(Preventive Maintenance System): 设备维修保养系统
+- PMS(Preventive Maintenance System): 预防性维护系统
 
 - RTD(Real-Time Dispatching): 实时派工系统
 - AMA(Activity Management of Full-Automation): 全自动化控制平台
