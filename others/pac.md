@@ -70,6 +70,8 @@ wget -O ssr-plus.sh https://raw.githubusercontent.com/Alvin9999/SSR-Plus/main/ss
 
 @see: https://teddysun.com/666.html
 
+@see: https://teddysun.com/486.html
+
 下载: https://github.com/shadowsocks/shadowsocks-windows
 
 ```sh
