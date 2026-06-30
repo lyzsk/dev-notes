@@ -65,3 +65,19 @@ wget -O ssr-plus.sh https://raw.githubusercontent.com/Alvin9999/SSR-Plus/main/ss
 
 1. 安装 SSR
 2. 加密方式 aes-256-cfb, 协议 auth_shal_v4 混淆 plain
+
+# Shadowsocks-rust/libev
+
+@see: https://teddysun.com/666.html
+
+下载: https://github.com/shadowsocks/shadowsocks-windows
+
+```sh
+wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+
+chmod +x shadowsocks-all.sh
+
+./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
+```
+
+选择 `Shadowsocks-rust`, `aes-256-gcm`
