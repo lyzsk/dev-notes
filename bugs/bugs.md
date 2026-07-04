@@ -1,3 +1,197 @@
+# 双显卡情况下, 即使正确安装 CUDA, 并且 `torch.cuda.is_available() = True` 也会导致报错: `RuntimeError: cuDNN error: CUDNN_STATUS_EXECUTION_FAILED`
+
+解决: 在启动代码的开头添加一行
+
+```python
+torch.backends.cudnn.benchmark = True
+```
+
+原理: 即使 `torch.cuda.is_available() = True`, `torch.backends.cudnn.version()` 能够查到 cudnn 版本号, `torch.backends.cudnn.enabled = True`, 因为代码没法启动 NVIDIA CUDA GPU, 所以在既有 A 卡又有 N 卡的时候应该 4 重检验, 检查 benchmark 是否开启:
+
+```python
+>>> import torch
+>>> torch.cuda.is_available()
+True
+>>> torch.backends.cudnn.version()
+7005
+>>> torch.backends.cudnn.enabled
+True
+>>> torch.backends.cudnn.benchmark
+False
+```
+
+#
+
+```python
+>>> tf.test.is_built_with_cuda()
+True
+>>> tf.test.is_gpu_available(cuda_only=False,min_cuda_compute_capability=None)
+False
+```
+
+解决: 本地给 CUDA 安装对应版本的 CUDNN 后, `conda install CUDNN`
+
+原理: Pytorch 是自带 CUDNN 的, 但是 Tensorflow 没有
+
+# 更换 CUDA 版本后 `nvidia-smi` 和 `nvcc --version` 显示的版本不同
+
+解决: 更改 Enviornment Variables 环境变量:
+
+1. 在 User variables 的 Path 里添加对应版本: `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7`, 每次更改版本的时候把这里的版本号也改了
+
+2. 在 System variables 的 Path 里把对应版本的 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\bin` 和 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.7\libnvvp` Move up 移到所有 CUDA 版本的最上面
+
+```console
+nvidia-smi
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 516.59       Driver Version: 516.59       CUDA Version: 11.7     |
+|-------------------------------+----------------------+----------------------+
+
+nvcc --version
+nvcc: NVIDIA(R) Cuda compiler driver
+Copyright(c) 2005-2022 NVIDIA Corporation
+Built on Tue_May__3_19:00:59_Pacific_Daylight_Time_2022
+Cuda compilation tools, release 11.7, V11.7.64
+Build cuda_11.7.r11.7/compiler.31294372_0
+```
+
+原理:
+
+1. `nvidia-smi` 是 GPU 的版本, `nvcc --version` 是 GPU 的运行版本, 两个不是同一个东西
+2. 安装 CUDA 的时候只会在 System variables 里添加 Path, 不会再 User variables 里添加
+
+#
+
+在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sichu", excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class))`, 但是 Console 还是输出 `cn.sichu.controller.UserController@ca263c2`
+
+解决:
+
+方法 1: 把两个 Config 放到 `cn.sichu` 下
+
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
+
+方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
+
+原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解 `@Configuration` 所以他又再次被加载了
+
+# 报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
+
+解决: 在 `ctx.getBean()` 上一行添加 `ctx.refresh();`
+
+# IDEA 右键没有 XML configuration file, 更没有 Spring config 选项
+
+解决:
+
+手动新建 `applicationContext.xml`, 手动从 https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/xsd-configuration.html 复制粘贴:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+
+</beans>
+```
+
+# 父模块的 `pom.xml` 报错: `Unresolved plugin: 'org.springframework.boot:spring-boot-maven-plugin:2.3.4.RELEASE'`
+
+解决:
+
+在 `pom.xml` 中添加 `<packaging>pom</packaging>`
+
+```xml
+    <description>the back-end project for SubleChat application</description>
+    <packaging>pom</packaging>
+```
+
+# IDEA `alt + insert` 失效
+
+确认 `NUM LOCK` 是开启的
+
+# 报错: `@ComponentScan ANNOTATION type filter requires an annotation type: interface org.springframework.web.servlet.mvc.Controller`
+
+解决:
+
+Controller 导包倒错了, 注释掉的是导错的
+
+```java
+import org.springframework.stereotype.Controller;
+// import org.springframework.web.servlet.mvc.Controller;
+```
+
+#
+
+```
+SEVERE: Servlet.service() for servlet [dispatcher] in context with path [/springmvc-0003-request-mapping] threw exception [Request processing failed; nested exception is java.lang.IllegalStateException: No primary or default constructor found for interface java.util.List] with root cause
+java.lang.NoSuchMethodException: java.util.List.<init>()
+```
+
+Bug:
+
+解决: 把 List 当成对象而不是接口, 添加 `@RequestParam`
+
+```java
+public String listParam(@RequestParam List<String> likes) {}
+```
+
+# 子模块通过 Spring initializer 创建后, 无法被识别为 maven 工程
+
+解决:
+
+1. 右键 `pom.xml` -> add as maven
+2. 更改 `<parent>` 标签内的内容关联父模块, 父模块 `pom.xml` 的 `<modules>` 里添加 `<module>`
+
+#
+
+```
+<log4j:configuration debug="true"
+    xmlns:log4j='http://jakarta.apache.org/log4j/'>
+```
+
+"http://jakarta.apache.org/log4j/" 报红, URI 报错
+
+解决:
+
+删除 xmlns 后字段:
+
+```
+<log4j:configuration>
+```
+
+#
+
+```
+org.apache.ibatis.exceptions.PersistenceException:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Could not create connection to database server.
+```
+
+解决:
+
+更改 `mysql-connector-java`, 和 mysql 版本一致
+
+```xml
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+```
+
+依然 Bug:
+
+```
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+```
+
+解决:
+
+更改 `mybatis-config.xml`:
+
+```xml
+<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+```
+
 # web server failed to start, port xxxx already in use
 
 Bug: Web server failed to start. Port 8080 was already in use.
@@ -430,7 +624,7 @@ Step2. `import path from "path-browserify"` 替换 `import path from 'path'`
 
 # Windows Environment Path
 
-`C:/Program Files` 在 powershell 里会被识别成`Program/Files`
+`C:/Program Files` 在 powershell 里会被识别成 `Program/Files`
 
 解决: `C:'Program Files'`
 
@@ -448,7 +642,7 @@ dbeaver 连接时报错: `Public Key Retrieval is not allowed`
 
 # Public Key Retrieval is not allowed
 
-Edit Connection - Driver settings - Driver properties - 添加`allowPublicKeyRetrieval = true`
+Edit Connection - Driver settings - Driver properties - 添加 `allowPublicKeyRetrieval = true`
 
 # git add -A 后丢失进度, 无法 push 最新版本
 
@@ -577,11 +771,11 @@ Bug: 在 SpringConfig 已经设置排除扫描: `@ComponentScan(value = "cn.sich
 
 方法 1: 把两个 Config 放到 `cn.sichu` 下
 
-方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解(太逗了, 掩人耳目)
+方法 2: 注释掉 `SpringMvcConfig` 上的 `@Configuration` 注解 (太逗了, 掩人耳目)
 
 方法 3: 使用精准扫描 `@ComponentScan({"cn.sichu.service", "cn.sichu.dao"})`
 
-原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解`@Configuration`所以他又再次被加载了
+原理: 因为即使排除扫描生效了, 在加载 SpringMvcController 时, 因为他也有注解 `@Configuration` 所以他又再次被加载了
 
 # org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet
 
@@ -589,7 +783,7 @@ Bug:
 
 报错: `org.springframework.context.annotation.AnnotationConfigApplicationContext@31cefde0 has not been refreshed yet`
 
-解决: 在 `ctx.getBean()`上一行添加 `ctx.refresh();`
+解决: 在 `ctx.getBean()` 上一行添加 `ctx.refresh();`
 
 ---
 
@@ -701,7 +895,7 @@ org.apache.ibatis.exceptions.PersistenceException:
 
 解决:
 
-更改`mysql-connector-java`, 和 mysql 版本一致
+更改 `mysql-connector-java`, 和 mysql 版本一致
 
 ```xml
             <groupId>mysql</groupId>
@@ -717,7 +911,7 @@ Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class 
 
 解决:
 
-更改`mybatis-config.xml`:
+更改 `mybatis-config.xml`:
 
 ```xml
 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -791,9 +985,9 @@ i.e.:
 
 注意: `oninput=""` 后面是不带 `this.` 的, 为了在提示后, 成功输入 \[valid\] 值后自动隐藏提示框
 
-# `<button>`标签的坑
+# `<button>` 标签的坑
 
-问题: `<button>`标签 默认自带 灰色边框
+问题: `<button>` 标签 默认自带 灰色边框
 
 解决: CSS 里加一行
 
@@ -803,9 +997,9 @@ border: none;
 
 ---
 
-`<input>` 标签里 `input type="search"`的坑
+`<input>` 标签里 `input type="search"` 的坑
 
-问题: `input type="search"`搜索框 在获得焦点时会自带 边框 + 轮廓
+问题: `input type="search"` 搜索框 在获得焦点时会自带 边框 + 轮廓
 
 解决: CSS 里加两行
 
@@ -814,7 +1008,7 @@ border: none;
 outline: none;
 ```
 
-# 当 html 标签有多个`class`时, `background-clip: text;` 和 `-webkit-background-clip: text;` 不能用多重名字实现, 比如:
+# 当 html 标签有多个 `class` 时, `background-clip: text;` 和 `-webkit-background-clip: text;` 不能用多重名字实现, 比如:
 
 ```html
 <div class="content f-content"></div>
@@ -853,7 +1047,7 @@ overflow: hidden;
 
 设置 `不换行` 和 `隐藏溢出` 来使动画逐字打印
 
-# `main-cotainer` 里的元素, 在`.clientHeight` 得到 `100vh` 时, 从 `header` 开始动画;
+# `main-cotainer` 里的元素, 在 `.clientHeight` 得到 `100vh` 时, 从 `header` 开始动画;
 
 也就是说, `header` 的 `z-index` 失效了
 
@@ -1141,7 +1335,7 @@ ConnectionRefusedError: [WinError 10061] No connection could be made because the
 ERROR:root:Error running command: Command '['pymobiledevice3', 'developer', 'dvt', 'simulate-location', 'set', '--rsd', xxxxxx]
 ```
 
-把 host 和 port 按照 proxy 的(和 git http.proxy 一样)写死:
+把 host 和 port 按照 proxy 的 (和 git http.proxy 一样) 写死:
 
 ```py
     try:
@@ -1456,7 +1650,7 @@ mvn package spring-boot:repackage
 
 虽然 `investment-tool` 没报错但也是侥幸
 
-解决: 正确命名规范, 用 `_` 联接作为数据库名/表名
+解决: 正确命名规范, 用 `_` 联接作为数据库名 / 表名
 
 # idea 无法识别正确的 dependencies/modules/jar
 
@@ -1478,7 +1672,7 @@ gaussdb 中不能使用 `xxx` 反引号
 
 场景: 通过 idea - File - Project Structure - 添加 DB jar 包
 
-报错: 找不到引入的 DB jar 包/驱动
+报错: 找不到引入的 DB jar 包 / 驱动
 
 解决:
 
@@ -1527,9 +1721,9 @@ gaussdb 中不能使用 `xxx` 反引号
 
 # Error updating database. Cause: com.huawei.gauss.exception.GaissException:[errorCode=GS-01103, SQLState='28000', ...., errMsg=Invalid(sub)partition key, inserted partition key does not map to any partition, ...]
 
-原因: table 建了分区, partition by 月份, 根据 xxx 字段(记录时间的字段), 但是 mapper insert 的时候没有传进 xxx 字段, 即分区字段
+原因: table 建了分区, partition by 月份, 根据 xxx 字段 (记录时间的字段), 但是 mapper insert 的时候没有传进 xxx 字段, 即分区字段
 
-解决: 传一个分区字段/创建 default 分区(要找 DBA, 懒)
+解决: 传一个分区字段 / 创建 default 分区 (要找 DBA, 懒)
 
 # `.gitignore` not working
 
@@ -1723,7 +1917,7 @@ List<ClsTelegraph> telegraphs = this.list(
         .orderByAsc(ClsTelegraph::getPublishTime));
 ```
 
-却无法正确的获得 images 字段(永远是<<BLOB>>)切无法被反序列化
+却无法正确的获得 images 字段 (永远是<<BLOB>>) 切无法被反序列化
 
 解决:
 
@@ -1846,19 +2040,19 @@ https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fanuraghaz
 
 https://github.com/yusufozturk/github-readme-stats create
 
-然后到https://github.com/settings/tokens/new
+然后到 https://github.com/settings/tokens/new
 
 1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
 2. Generate new token (classic)
 3. Note （Vercel - github-readme-stats）
 4. No expiration
-5. 勾选以下权限 repo， read:user
+5. 勾选以下权限 repo，read:user
 6. Generate token
 7. 复制生成的 token(关闭页面后将无法再次查看！)
 8. Settings → Environment Variables → Add Environment Variable
 9. Name: PAT_1, Value: 复制的 token
 10. Redeploy
-11. 修改 github 资料页的`github-readme-stats.vercel.app`为 domain 的第一个链接即可
+11. 修改 github 资料页的 `github-readme-stats.vercel.app` 为 domain 的第一个链接即可
 
 参考: https://github.com/yusufozturk/github-readme-stats/blob/master/docs/readme_cn.md (虽然界面已经变更但是大概还是能猜到该怎么操作)
 
@@ -1866,7 +2060,7 @@ https://github.com/yusufozturk/github-readme-stats create
 
 解决:
 
-localhost连接 - 右键 - edit connection - Driver Properties - 找到 autoReconnect 设置 为 true
+localhost 连接 - 右键 - edit connection - Driver Properties - 找到 autoReconnect 设置 为 true
 
 同时检查 Driver Properties: interactiveClient = true, socketTimeout = 0(不超时), tecpKeepA;ove = true
 
