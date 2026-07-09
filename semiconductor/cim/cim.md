@@ -92,8 +92,6 @@
 
 ---
 
-| WPH | Wafer Per Hour | 每小时晶圆数 |
-
 ## by 业务划分
 
 - EAP(Equipment Automation Program): 设备自动化程序
@@ -155,6 +153,72 @@
 | OHT          | Overhead Hoist Transfer          | 天车搬运系统                                                              |
 | OOA          | On-Orbit Assembly                | 在轨组装, 打包                                                            |
 | STK          | Stocker                          | 晶圆盒储存库                                                              |
+| WPH          | Wafer Per Hour                   | 每小时晶圆数                                                              |
+
+- SSO(Single Sign-On, 单点登录) 是一种身份认证机制, 它允许用户只需登录一次, 就可以访问所有相互信任的应用系统, 而无需在每个系统中重复输入用户名和密码.
+- FTP(文件传输协议), 最传统、最底层的文件搬运工, 局限于非实时、无事务保证、需自行解析文件、错误处理困难
+- ESB(企业服务总线), 当 FTP 把文件搬过来后, ESB 负责将其转化为标准服务调用; 或者在不同异构系统 (如 SAP ERP ↔ MES ↔ YMS) 之间做协议适配.
+- CA (Certificate Authority, 证书授权中心), 负责签发、管理和吊销数字证书, 通常对接企业内部 PKI 体系或国家认可的第三方 CA 机构
+- SDK (Software Development Kit, 签章开发套件), 嵌入到各业务系统中的“签章,引擎”, 通常为 DLL/JAR/REST API 形式, 支持国密 SM2/SM3 或国际 RSA/AES 算法
+
+> SVID 是 Status Variable ID(状态变量标识符)
+
+| 术语  | 全称                  | 作用                                                    |
+| :---- | :-------------------- | :------------------------------------------------------ |
+| SVID  | Status Variable ID    | 标识实时状态 / 传感器读数 (只读或周期性采集)            |
+| ECID  | Equipment Constant ID | 标识设备配置常量 (如校准系数、硬件版本, 通常不频繁变化) |
+| DVVAL | Data Value Definition | 标识可设定的工艺参数 (Setpoint, 可由 EAP 写入修改)      |
+
+本质是“数据标签”
+
+SVID 是一个整数编号 (如 12001), 它对应机台内部的一个具体变量. 例如:
+
+SVID=12001 → 腔体温度 (Chamber Temperature)
+
+SVID=12002 → 射频功率 (RF Power)
+
+SVID=12003 → 气体流量 (Gas Flow Rate)
+
+SVID=12004 → 当前加工晶圆数 (Wafer Count)
+
+## POC
+
+POC: Proof of Concept(概念验证)
+
+简单来说，POC 搭建就是回答一个核心问题：“**这个东西理论上说得通，但在现实中真的能做出来且有效吗?**”
+
+以下是关于 POC 搭建的详细解析:
+
+1. POC 的核心目的
+
+- **验证可行性:** 确认技术方案在现有架构、硬件或业务逻辑下能否跑通.
+- **降低风险:** 在投入大量资金和人力进行全面开发之前，先以最小成本试错，避免“造出轮子却发现是方的”.
+- **争取信任/预算:** 向管理层、客户或投资人展示实际效果，作为立项或采购的依据.
+- **技术选型:** 当面临多个供应商或技术路线时，通过 POC 实测对比性能、兼容性和易用性.
+
+2. POC 搭建的典型场景
+
+- **企业软件采购:** 例如公司想引入一套新的 CRM 系统，先搭建一个包含少量数据和核心流程的 POC 环境，测试是否满足业务需求.
+- **新技术探索:** 例如团队想在现有 App 中集成 AI 大模型，先搭建一个 Demo 验证响应速度和准确率.
+- **网络安全攻防:** 安全研究员发现一个漏洞后，编写一段 POC 代码（Exploit PoC）来证明该漏洞确实可被利用，而非仅仅是理论推测.
+- **初创项目融资:** 制作一个具备核心功能的最小可用产品（MVP 的前身），向投资人演示商业模式的技术落地能力.
+
+3. POC vs MVP vs Prototype（区别）
+
+很多人容易混淆这三个概念，它们的侧重点不同:
+
+| 概念          | 全称                   | 核心问题               | 特点                                                    |
+| :------------ | :--------------------- | :--------------------- | :------------------------------------------------------ |
+| **POC**       | Proof of Concept       | **能不能做?**          | 关注技术可行性，通常很粗糙，用完即弃，不面向最终用户.   |
+| **Prototype** | 原型                   | **长什么样/怎么交互?** | 关注用户体验和设计流程，可能是高保真 UI 但无后端逻辑.   |
+| **MVP**       | Minimum Viable Product | **有没有人用/买单?**   | 最小可行产品，具备核心价值，面向真实市场发布并收集反馈. |
+
+4. POC 搭建的关键原则
+
+- **范围最小化:** 只验证最核心的假设或风险点，不要试图构建完整系统.
+- **时间盒限制:** 通常设定严格的时间期限（如 1-2 周），超时即止，避免陷入过度开发.
+- **明确成功标准:** 在开始前必须定义好“什么算验证成功”（例如:并发支持 1000+、识别准确率>95%、部署时间<5 分钟等）.
+- **结果导向:** 无论成功还是失败，POC 都是有价值的. 失败意味着及时止损，避免了更大的浪费.
 
 # EAP
 
@@ -801,7 +865,519 @@
 
 # RCM
 
+## RCM Function List
+
+### 1. 用户与权限管理
+
+#### 1.1 账号与角色体系
+
+支持多层级用户管理及灵活的权限配置，确保系统访问安全可控.
+
+- **用户全生命周期管理**: 支持用户的导入、新增、修改、删除及个性化设置保存至DB，实现多终端配置漫游.
+- **多级角色管理**: 支持超级管理员、管理员、审计员、普通用户等多层角色架构；支持角色的增删改查及菜单/按钮级界面配置.
+- **精细化权限控制**: 提供角色权限配置界面，权限粒度可控制到功能级别的只读或操作.
+- **AD域集成**: 支持对接AD域账密，自动同步更新RCM系统账号信息.
+
+#### 1.2 本地与远程互锁机制
+
+支持Local/Remote模式切换及近端优先原则，保障机台现场操作安全.
+
+- **模式切换**: 支持Local模式（仅本地操作）与Remote模式（远端操作或双端操作）切换，本地Interlock权限优先.
+- **近端优先保护**: 当机台近端有键盘/鼠标操作时，自动关闭远端操作通道，远端降级为仅查看模式.
+- **Interlock物理按钮**: 支持近端Interlock按钮，启用时禁止远程控制；远程用户View/Control时被触发Interlock会有明确提示.
+- **Control权限保护**: 远程Control权限不可被强制退出（除非超时未操作或主动释放）；操作权交替需经当前操作者同意，超时未回应视为默认放弃.
+
+### 2. 设备与区域管理
+
+#### 2.1 区域与机台建模
+
+支持树状层级化管理及灵活的机台绑定.
+
+- **多级区域管理**: 支持区域的增删改查及多级树状图显示维护.
+- **机台信息管理**: 支持机台编码、名称、所属区域、机型、负责人/Group等信息的增删改查.
+- **KVM硬件配置**: 支持配置RCM硬件KVM的IP、端口、网关、子网掩码及对应的机台绑定关系.
+- **KVM名称同步**: 联机时直接抓取KVM上定义的名称显示，分割画面子窗格同步显示对应KVM NAME.
+
+#### 2.2 机台权限与并发控制
+
+支持基于角色的机台访问控制及多用户协同策略.
+
+- **角色-机台授权**: 提供赋予角色-机台权限的配置界面.
+- **并发操作仲裁**: 多用户同时远程操作同一机台时，依据权限级别决定操作人员（默认高权限优先）.
+- **连接数管控**: 单台设备支持x人同时登入（一人主控≥30FPS，其余监控≥1FPS）；连接数达上限时弹出提醒窗口.
+- **个人收藏夹**: 支持用户添加常用机台至收藏夹，UI登入后默认显示且不受群组限制.
+- **动态加载**: 后台新增机台/KVM或开放权限后，前端无需重启即可实时加载.
+
+### 3. 远程监控与操作体验
+
+#### 3.1 高清低延视听传输
+
+支持高分辨率、低延迟及多种外设适配，还原现场操作体验.
+
+- **性能指标**: 画面传输和操作响应平均时间≤500ms，最大≤1s；支持1920x1200@60Hz及以上真彩色显示.
+- **自适应显示**: 设备自适应机台屏幕分辨率，支持自定义分辨率设置；支持全屏/非全屏及缩放/自适应/填充/原始比例等多种显示模式.
+- **鼠标精准控制**: 支持绝对鼠标、双/单鼠标模式、触摸板/轨迹球/电容笔等样式；支持手动设置参数对齐精度；自动合并远近端鼠标避免双光标困扰.
+- **多屏与特殊显示**: 支持远端双开（View+Control分离）；支持VGA/DVI/HDMI/DP/触控屏等多种接口；支持组态方式接入无屏幕机台的操作按钮.
+- **多国语言支持**: 支持多国语言键盘及屏幕软键盘.
+
+#### 3.2 智能窗格与状态展示
+
+支持灵活的布局配置及实时的设备状态反馈.
+
+- **自定义布局**: 支持3x3、3x4、4x4、5x5等灵活窗格数量设置.
+- **OSD信息叠加**: 画面显示机台名称、实时状态、报警信息、Run货Lot名称等.
+- **离线状态诊断**: 机台离线时显示具体原因（KVM连接失败、机台无法访问等）；恢复后画面自动恢复无需刷新.
+- **在线状态监控**: 支持查看当前KVM同时在线人数及操作等待人数.
+- **多主机面板**: 针对一机多主机场景，提供单屏切换或多屏显示的特殊控制面板设计.
+- **快速检索定位**: 支持按区域/机台组/ID树状层级显示，支持模糊查询机台ID并直接定位画面.
+
+#### 3.3 协同作业与通讯
+
+支持多用户协作交流及资源有序释放.
+
+- **即时传讯**: 为登入同一远程机台的用户提供信息交流平台.
+- **资源自动释放**: 远端控制端在设定时间内无操作，自动释放控制通道资源.
+- **占用提示**: 点击窗格时若联机已满或被Control权限占用，系统提示相应讯息.
+
+### 4. 日志审计与报表
+
+#### 4.1 全链路操作审计
+
+支持完整的操作记录、视频录制及数据分析.
+
+- **访问日志**: 记录用户连接的KVM、时间、IP、账号及异常情况；保留客户端访问日志（人员、起止时间、时长）.
+- **操作日志**: 保留远程控制端的鼠标/键盘操作记录；日志包含事件ID、Timestamp、分类、描述，至少保存一个月（周期可配）.
+- **视频录屏**: 支持RCM操作界面视频录制、画质配置及回放；截屏录像及录屏保留30自然日（可配），支持BigData分析.
+- **日志导出**: 支持导出为TXT、CSV、Excel等易读格式.
+
+#### 4.2 统计报表与查询
+
+支持多维度的使用时长统计及数据库直连查询.
+
+- **时长报表**: 支持按机台、按人员查看访问时长，查看KVM历史在线时长报表.
+- **SQL直连查询**: 使用记录存入数据库，开放特定账号通过SQL快速获取信息.
+- **前端可视化**: 支持在前端直接查看访问日志及统计信息.
+
+### 5. 智能化扩展功能
+
+#### 5.1 RPA与OCR能力
+
+支持自动化脚本执行及图像识别，提升运维效率.
+
+- **RPA脚本**: 支持运行自定义脚本，实现自动化操作.
+- **OCR识别**: 支持文字图像识别，辅助信息提取与校验.
+
+#### 5.2 系统集成接口
+
+支持标准化API开发，便于第三方系统整合.
+
+- **开发接口**: 提供RCM应用程序开发接口（.dll文件等），利于软件应用整合.
+- **协议支持**: 硬件支持HTML、Microsoft .NET等主流协议，降低未来技术升级成本.
+
+### 6. 硬件规格与部署要求
+
+#### 6.1 电气与物理安全
+
+支持工业级电气标准及防脱落设计，确保厂务环境适应性.
+
+- **电源规范**: 用电需求AC 220V（国标），匹配厂务5孔插座（禁转接头）；支持电压压降至100V不影响运行.
+- **防脱落设计**: 电源适配器输入接头及所有转接接口均需防脱落紧固设计；DC延长线按需定制且保证电气参数正常.
+- **线材安全**: 信号采集线材必须带磁环滤波；所有接口线材不可线芯外露，转角处予以保护.
+- **独立供电**: RCM设备及附属部件不得从机台端取电.
+- **散热性能**: 环境温度最高55°C时设备正常运行，无卡顿或热宕机.
+
+#### 6.2 网络与兼容性
+
+支持标准网络协议及零侵入式安装，保障生产环境稳定.
+
+- **网络接口**: 100/1000M自适应网口，支持IPv6/IPv4、Telnet、SSH；单个RCM仅需一个RJ45网口和一个IP.
+- **时钟同步**: 支持NTP时钟同步.
+- **零侵入安装**: 采用硬件连线获取屏幕/键鼠信号，严禁在机台端安装任何软件；安装过程无需机台关机或重启（特殊机型除外）.
+- **故障隔离**: 单个RCM损坏仅影响对应机台的远程操作，不影响机台正常Run货及数据传送.
+- **断点续传**: 断电/断网恢复后<1分钟自动恢复工作，参数无需重设.
+- **跨平台客户端**: 支持Windows、Linux、Sun等多平台客户端；推荐使用实体机，也支持虚拟桌面.
+- **设备信息获取**: 支持Host端获取设备型号、FW版本、IP、序列号/MAC地址等信息.
+- **调试便捷性**: 支持直接连接笔记本或移动设备进行参数设置与调教.
+
 # APC
+
+## APC Function List
+
+### 1. 数据收集与计算 (Data Collection & Calculation)
+
+#### 1.1 工艺测量数据集成
+
+- 提供工艺测量数据收集与集成的开发扩充功能
+- 支持工艺测量数据的自动收集
+- 提供工艺控制项目的配置功能
+
+#### 1.2 计算公式与异常处理
+
+- 提供最小值、最大值、平均值、标准差等计算公式以供开发控制所需
+- 支持自定义异常量测数据及客制化检查流程（如滤除低GOF量测资料不参与R2R反馈计算）
+- 支持控制工艺对量测项目的检查、过滤及OOS处理流程客制
+
+### 2. 集成及工具 (Integration & Tools)
+
+#### 2.1 系统集成接口
+
+- 为不同的制程提供统一的操作界面
+- 提供接口定义功能与周边系统集成的开发工具
+- 提供图形化的接口定义功能与其他系统（MES, EAP, Dispatching）集成
+- 支持访问外部数据库
+- 按照WebService协议提供对外通讯
+- 易于扩展其他通讯方式与第三方系统通讯（如Tibco RV）
+- 与MES/SPC/FDC/RMS/DISPATCHING/Alarm/Workflow等周边系统集成
+- 与Litho inside系统集成，支持多种Sub Recipe类型（CPE, DOMA, Files, BMMO OVL, BMMO Focus, LIS等）
+- 与MES的配方管理功能集成
+
+#### 2.2 开发与权限工具
+
+- 提供功能组件允许用户开发和集成自己的APC控制模块
+- 提供便捷高效的开发工具
+- 提供完善的权限管理机制，支持用户群组及权限配置
+- 提供对象（Strategy, Parameter Table）的Owner/OwnerGroup管理
+- 提供对象（流程及参数表）的权限管理及修改历史记录
+- 提供全面的报表功能
+- 提供友好的设计界面
+
+#### 2.3 历史数据与性能维护
+
+- 提供检视及输出APC/R2R历史资料功能，支持基于不同控制器的run货历史查询
+- 提供高效的数据清理及恢复机制，保障系统性能不随时间推移而下降
+- 软件升级和新功能发布不影响系统使用（不停机）
+- 支持多产线同时使用
+- 提供必要的系统管理工具和性能监控及报警机制
+
+### 3. Pilot Run 管理
+
+#### 3.1 Pilot触发与设定
+
+- 提供Pilot（Send Ahead）设定，支持依客户指定的module和条件配置
+- 支持设定Pilot Triggering Conditions（Wafer count、时间、recipe idle等，按Product group+flow+Step+Tool/Chamber或PPID）
+- 支持自动放行Flag设定
+- 适用于PM Pi-Run、YE Defect Pi-Run、Adhoc Pi-Run及其他pilot需求
+
+#### 3.2 Pilot执行与反馈
+
+- 支持Pilot结果回馈给MES
+- 支持全自动执行Pilot流程
+
+### 4. 控制器开发通用功能 (Controller Development)
+
+#### 4.1 基础控制开发
+
+- 提供客户开发支持工艺模块控制的基础功能（炉管、薄膜、离子注入、光刻、刻蚀、研磨、湿法）
+- 针对工艺流程参数实施反馈或调整，调整参数基于机台可调整参数及相关集成
+- 提供不同程度的前馈/反馈控制器开发（lot-level, batch-level, wafer-level）
+- 支持根据前馈选择下一步不同的process recipe
+- 支持MPC（Model Predictive Control）和EWMA控制特性
+
+#### 4.2 控制模型与算法
+
+- 提供Exponential Weighted Moving Average (EWMA) 控制模型
+- 提供Linear States Space Model (LSSM) 控制模型
+- 提供SISO/MIMO等不同控制模型并支持切换
+- R2R Control Block除基本EWMA和MPC外，支持免费客制化开发培训以新增WMA或其他算法
+- 提供R2R用户block及自定义功能开发，允许用户集成自有模块
+
+#### 4.3 控制流程与情境
+
+- 提供反馈群组控制开发（如根据产品与配方作为群组控制）
+- 支持针对不同控制情境开发不同流程（pilot lot, rework lot, runcard lot, special lot）
+- 支持子流程开发，流程间可嵌套以提高重用性
+- 支持配置流程等方式对现有solution进行适配
+- 用户可在UI上设定特定LOT或Product只跑对应的Special APC flow
+
+#### 4.4 数据处理与过滤
+
+- 支持离群批次（Lot）过滤功能，通过设置离群批次清单实现
+- 支持special lot过滤功能
+- 提供量测数据异常检查功能，异常数据不参与反馈及计算
+- 控制器可处理多个调整工艺参数建议请求（parallel R2R recommend setting request）
+
+#### 4.5 管控与验证
+
+- 针对控制器输出值提供多种管控方式（上下限、MTT等）及OOS自定义处理流程
+- 提供调整（offset）功能
+- 提供应用开发需要的reset功能
+- 提供重置控制器功能（设备PM后手动重置或外部事件驱动）
+- Controller上线前支持模拟Output，确保有效性及model正确性
+- 控制器支持多线程运作，同时处理不同请求
+
+### 5. Litho CD 控制
+
+#### 5.1 CD控制模型与参数
+
+- 支持SISO EWMA Model及Lot-level feedback
+- 支持Process机型：ASML、CANON、NIKON
+- 支持量测机型：CD-SEM及OCD量测机台
+- 输入参数支持Dose（调控项）及Focus（用户配置）
+- 输出参数为CD
+
+#### 5.2 CD控制情境与功能
+
+- 内置pilot run、rework run、normal run、special run、runcard run场景
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取（根据上下限或变化量上下限）
+- 支持R2R模式：反馈开启模式、固定基线模式、禁止模式
+- 支持量测数据site有效性检查及量测有效性验证
+- 支持Target/Dose sensitivity变动侦测
+- 支持过滤Lot type进行反馈及反馈有效期控制
+- 支持根据最近run货值计算返工下货值
+- 支持Feedback exclusion feature
+- 支持光阻原料时效性Feed Forward及Lens heating Feed Forward（通过配置）
+- 支持返工批有条件参与反馈
+- 支持量测根据wafer process run或Lot process run进行反馈
+- 支持Dose Vs CD slope根据历史数据自动更新
+- 支持Control Flag: ON、FIX（固定值模式）、OFF
+- 支持分光罩反馈（不包含次光罩offset）
+- 支持Single Reticle Double Exposure功能
+
+#### 5.3 CD第三方集成
+
+- 支持RTD Integration
+- 内建MES/Alarm Integration
+- 内建AutoPilot Integration
+
+### 6. Litho OVL 控制
+
+#### 6.1 OVL控制模型与参数
+
+- 支持MSISO EWMA及Lot-level feedforward/feedback
+- 支持Process机型：ASML Linear/HOPC/iHOPC、CANON Linear 8P/10P、NIKON Linear 8P/10P
+- 支持量测机型：KT / YS
+- 支持litho机台OVL线性/高阶/iHOPC控制参数
+
+#### 6.2 OVL控制情境与功能
+
+- 支持pilot run、rework run、normal run、special run、runcard run场景
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取
+- 支持R2R模式：反馈开启、固定基线、禁止
+- 支持量测数据site有效性检查及量测有效性验证
+- 支持其他后量信息（如wafer residual）仅用于反馈滤除，不参与计算
+- 支持Chuck dedication及User offset FF（通过配置）
+- 支持按产品配置特定lottype不参与反馈及反馈有效期控制
+- 支持LIS、5DA数据整合及FF/FB反馈方式
+- 支持New control thread initialization feature及Context relaxation
+- 支持返工Lot特性（根据最近run货值计算返工下货值）
+- 支持分光罩反馈或双光罩offset模式
+- 支持Special Run时指定全部参数
+- 支持量测根据Wafer process run或Lot metrology与process run进行反馈
+
+#### 6.3 OVL第三方集成
+
+- 支持LIS Integration及5DA Integration
+- 内建RTD Integration
+- 内建MES/Alarm Integration
+- 支持AutoPilot Integration
+
+### 7. CMP 控制
+
+#### 7.1 CMP控制模型与参数
+
+- 支持多输入多输出模型（Model Predictive Control）
+- 支持Lot级别前馈/后馈、Wafer级别前馈、基于Chamber/Header/Platen的前馈/后馈
+- 支持Process机型：EBARA、AMAT Reflexion LK/LKP、HHQK
+- 输入参数：研磨时间、研磨时间+区间压力
+- 输出参数：研磨后厚度（by zonal）、研磨量
+
+#### 7.2 CMP控制情境与功能
+
+- 支持pilot run、rework run、normal run、special run、runcard场景
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取及固定值模式
+- 支持维修后预设参数值配置及配合Pad/Head使用时间调整下货参数
+- 支持下货参数值与实际下货值差异检查
+- 支持量测数据site有效性检查
+- 支持后量连续不合格时控制绪切换至pilot状态
+- 支持多道前量值组合及Lot前量丢失时的EWMA补值预测
+- 支持手工前量补录
+- 支持有效反馈有效期控制，超时未更新自动切换至pilot状态
+- 支持Measurement disorder handling（process与measurement顺序不一致）
+- 支持Reset time tracking、自动侦测维修及自动设置维修事件
+- 支持控制绪关联管理
+- 支持自动计算重工次数与决定是否为重工Lot/Wafer
+
+#### 7.3 CMP第三方集成与UI
+
+- 支持RTD Integration、内建MES/Alarm Integration、AutoPilot Integration
+- 内建Applied PMS集成
+- 独立UI支持反馈条件设定、控制绪操作、PiRun操作及run货历史查询
+
+### 8. Etch 控制
+
+#### 8.1 Etch控制模型与参数
+
+- 支持多输入多输出模型
+- 支持Chamber-level前馈/后馈及Wafer-Level前馈/Chamber-Level后馈
+- 支持Process机型：AMAT Producer、LAM、TEL
+- 输入参数：Etch Time、Trim Time、ESC Chuck Temperatures、Gas Flows
+- 输出参数（支持2个output）：CDSEM/OCD、Thickness、CDSEM/OCD+Trench depth
+
+#### 8.2 Etch控制情境与功能
+
+- 支持pilot run、normal run、special run、runcard run场景
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取及固定值模式
+- 支持tuning参数连续达到上下限的次数控制
+- 提供不同Input之间线性关系的约束
+- 支持量测数据site有效性检查及基于单output的多zone计算
+- 支持有效反馈有效期控制及最新量测反馈控制
+- 支持主/从tuning参数
+- 支持wafer level前馈缺少量测数据时自动补偿计算
+- 支持根据DF zone、CVD Chamber或Scanner Type（KrF, ArF, iLine, DUV）反馈
+- 支持根据Litho as Pre-process机型反馈
+- 支持Hydra uniformity system（raw metro data and X/Y coordinates）
+- 支持手动调整Modeling侦测及tuning parameter下货值侦测
+- 支持前值/后值量测来自于多个站点
+- 支持first wafer效应处理
+- 支持by RF life time预补偿参数值（RF life-time control）
+
+#### 8.3 Etch第三方集成与UI
+
+- 内建AutoPilot Integration
+- 独立UI支持反馈条件设定、控制绪操作、PiRun操作及run货历史查询
+
+### 9. Diffusion 控制
+
+#### 9.1 Diffusion控制模型与参数
+
+- 支持多输入多输出MPC线性状态空间模型
+- 支持Batch级别反馈（生产批、monitoring wafer、混合反馈）
+- 支持Process机型：NAURA furnace batch、TEL furnace batch、KE batch
+- 支持Control Type: Monitor, Product, Hybrid Control
+- 支持Deptime/Loop/ZoneTemp开关
+- 支持工艺类别：LPCVD、APCVD、ALD
+- 输入参数：各区温度（5-10区）、deposition时间或ALD loop
+- 输出参数：各区厚度（5-10区）
+
+#### 9.2 Diffusion控制情境与功能
+
+- 支持pilot run、normal run、special run、runcard run场景
+- 支持Zone反馈资料识别及根据必要Zone量测资料反馈
+- 支持有效反馈有效期控制、输出预测检查及量测数据site/有效性检查
+- 支持最新量测反馈控制
+- 支持不同recipe之间的主/从控制绪关联管理
+- 支持Zone量测缺省处理及量测超期处理
+- 支持关键设定侦测及控制绪重置跟踪
+- 支持后量lot类型处理及Batch加工wafer数量限制
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取及固定值模式
+- 支持下货tuning参数连续超限处理及手动调整侦测
+- 支持连续无效量测控制及控制绪Enable/Disable
+- 支持手动调整tuning parameter delta限制
+- 支持Boat zone定义
+- 支持Monitor Bias Control（Hybrid场景下单独Tune Monitor Target偏移量）
+- 支持APCVD根据常压变动预补偿Diffusion Time
+- 支持Loading Size Control分群及Pre-mature FB
+- 支持Thickness Vs Zone温度系数根据历史数据自动更新
+- 支持Linked Control及Ratio Control
+- 支持Furnace Tube-THK pre-tune
+
+#### 9.3 Diffusion第三方集成与UI
+
+- 内建Applied MES/Alarm Integration及PMS集成
+- 自动同步Applied MES Product Target并计算反馈
+- 独立UI支持反馈条件设定、控制绪操作、Test Run操作及run货历史查询
+
+### 10. ThinFilm 控制
+
+#### 10.1 ThinFilm控制模型与参数
+
+- 支持多输入多输出MPC线性状态空间模型
+- 支持Lot级别、Chamber级别、Chuck级别反馈
+- 支持Process机型：AMAT Producer、AMAT GT
+- 支持两种Wafer跑货模式：Parallel Mode、Serial Mode
+- 输入参数：Deposition Time、Chuck RF Time/Power/Heater等
+- 输出参数：Thickness等
+
+#### 10.2 ThinFilm控制情境与功能
+
+- 支持pilot run、rework run、normal run、special run、runcard run场景
+- 支持参数值最小调整阈值、tuning参数变化量上下限及绝对上下限
+- 支持调整参数值截取及固定值模式
+- 支持tuning参数连续达到上下限次数控制
+- 支持量测数据site有效性检查及滤除失控/不合规晶圆量测
+- 支持有效反馈有效期控制及使用最新量测data参与R2R运算
+- 支持线性约束
+- 支持控制绪单向/双向联动（Linear/Non-linear Quadratic/Cubic）
+- 支持Slave Parameter控制
+
+#### 10.3 ThinFilm第三方集成与UI
+
+- 内建MES/Alarm Integration
+- 独立UI支持反馈条件设定、控制绪操作、PiRun操作及run货历史查询
+
+### 11. WET Controller
+
+#### 11.1 WET控制模型与参数
+
+- 控制模型：SISO EWMA
+- FFFB模型：Batch/Lot级别前馈，Batch级别反馈
+- 支持根据前量厚度选择Recipe或更新ETCH_TIME两种模式
+- 控制参数：ETCH_TIME
+- 输出参数：Thickness
+
+#### 11.2 WET控制功能
+
+- 支持piLot run、normal run、special run、runcard run
+- 支持tuning参数变化量绝对值上限及上下限
+- 支持调整参数值截取及连续达到上下限次数控制
+- 支持主/从Tuning参数及手动调整下货值侦测
+- 支持Control Flag: ON、FIX、OFF
+- 支持量测数据site/Wafer/Lot有效性检查并触发action
+- 支持有效反馈有效期控制，超时未更新自动hold
+- 支持量测根据Wafer process run进行反馈
+
+### 12. TRIM Controller
+
+#### 12.1 TRIM by THK
+
+- 控制模型：MSISO；控制参数：去除量；输出：thickness
+- 支持Lot/Wafer/Point level Feedforward及Feedback
+- 支持Tune Flag开关及EWMA模型算法
+- 支持工程师UI手动调整去除量Offset及数据模拟计算
+- 支持新产品或条件过期自动piLot run
+- 支持PiLot Lot量测结果上传前相同条件其他Lot禁止进站
+- 支持多种去除方式及下货值/量测值SPEC卡控
+- 支持去除量Offset变动卡控及多种OOS点处理方式
+- 支持用户指定去除坐标
+- 支持工程师操作记录Log追溯
+- 支持量测/生产数据Excel导出及设置Excel导入导出
+- 支持参数值最小调整阈值
+- 支持Process顺序和量测顺序不一致处理及手工前量补录
+
+#### 12.2 TRIM by WAT
+
+- 支持Wafer Level前馈及WAT量测结果自动处理
+- 支持不同device系数计算及引用
+- 支持By机台设置系数Offset及Tool Dedication
+- 支持多种系数选项及目标值选项
+- 支持最小有效点数卡关及最大OOS点数卡关
+- 支持CupLifetime卡关及量测值SPEC卡控
+- 支持OOS Points卡关及OOS Hold Lot处理
+- 支持工程师操作记录Log追溯
+- 支持量测/生产数据Excel导出及设置Excel导入导出
+- 支持手工前量补录及文件类型处理
+
+### 13. 独立UI通用功能 (Standalone UI)
+
+#### 13.1 操作与配置
+
+- 支持反馈条件设定及控制绪操作
+- 支持PiRun/Test Run操作
+- 方便用户或IT导入修正数据、赋值或针对special Lot中途overwrite反馈值
+- 支持设定跑n批货后人工干预判断R2R reply结果
+- 支持设定test条件（by Wafer/Lot/站点），test pass自动判定继续使用R2R
+
+#### 13.2 查询与权限
+
+- 支持查询workflow数据结果以验证准确性
+- 支持灵活的权限设置和管控
+- 支持必要的数据报表查询
+- 支持控制绪run货历史查询
 
 # MES
 
@@ -829,259 +1405,146 @@ BOM 结构形式: 通常是树状层级结构(多级BOM)，反映了产品的装
 
 ## MES Function List
 
-### 1. 工厂建模与基础数据管理 (FAB Modeling)
+### 1. FAB Modeling (工厂建模)
 
-#### 1.1 工厂物理模型定义
+支持工厂、产品、工艺流程及资源的全面建模与定义：
 
-支持构建完整的半导体工厂数字化模型，确保生产要素定义的准确性与一致性.
+#### 1.1 Physical & Resource Modeling (物理与资源建模)
 
-- **层级化位置定义**：支持 FAB、Area、Bay、Stocker、OHB、NTB 等 Location 定义；支持 CMP、CVD、ETCH、LITHO 等 WorkArea 定义.
-- **设备架构建模**：支持 3 层 Tool 架构（Main Tool → Chamber → Load Port/Header）；支持 Fix Buffer、Internal Buffer、Metrology、Inline Tool 等多种设备类型定义.
-- **载具与暂存区**：支持 FOUP Stocker、OHB、NTB 等暂存区定义；支持载具（FOSB, FOUP, Reticle Pod）及制具（Reticle, Probe Card）、耗材（Photo Resist）的自定义命名与属性扩展.
-- **Port 与状态定义**：支持 Port 自动化模式（AUTO-1/2/3）定义；支持符合 SEMI E10 标准的设备状态及自定义状态转换规则（含权限管控）.
-- **能力与配方基础**：支持设备及 Chamber 能力（Capability）定义；支持 Flow Recipe 和 Recipe Parameter 基础定义.
-- **Reason Code 管理**：支持 Scrap/Release/Hold 等 Reason Code 定义及批量导入.
+- Factory/Area/Bay Modeling (Production/Storage Type)
+- Location Definition & Inventory Query (OHB, NTB, Stocker)
+- WorkArea Definition (OLED, ODF, CMP, CVD, ETCH, LITHO, etc.)
+- Equipment/Tool Architecture (Main Tool, Chamber, Loadport, Header)
+- Stocker & Port Definition (Auto-1/2/3 Mode)
+- Machine State & Capability Definition (E10 Standard)
+- Consumable & Durable Material Modeling
+- User Permission & Modeling Objects Loader
 
-#### 1.2 产品与工艺路径定义
+#### 1.2 Product & Process Definition (产品与工艺定义)
 
-支持灵活的产品规格配置与复杂的工艺流程建模，满足多品种变批量生产需求.
+- Product & Process Flow Modeling (PW/NPW, Multi-version, Visual Drag-and-Drop)
+- Recipe & Parameter Definition
+- Data Collection & Process Specification Modeling
+- ReasonCode & Bank Definition (Start/End/Reticle/Receive Bank)
+- Contamination Management (FOUP/Sorter Level Conversion)
 
-- **产品规格管理**：支持 Technology、Product、Flow 关联设置；支持 DPW、ERP 料号、供应商信息、关键参数等规格定义；支持 Production/NPW/Engineer 三大类产品及版本管控（差异比较、升版校验）.
-- **工艺流程架构**：支持 Top Plan → Operation → Sub Plan → Step 多层级定义；支持 MainFlow、SubFlow、BranchFlow、ReworkFlow、NPW Flow 及 Multipath、条件分支等复杂路径结构.
-- **动态路径与资源绑定**：支持基于前层量测结果、设备历史、Parameter 等条件的动态路径选择（Dynamic Path）；支持 Product+Plan+Step 维度的 Spec 绑定（Recipe, Reticle, EDC, Q-Time 等），支持变量（Parameter Family）解析.
-- **污染与防错控制**：支持 FE/BE/Cu/Non-Cu 等污染等级定义及转换通路设定；支持建模数据一致性检查（如 Step 依赖的 Recipe/设备就绪检查）及运行时冲突检查.
-- **Future Action 机制**：支持在工艺站点预设 Future Hold、Future Rework、Future Split/Merge 等动作，支持按 Product/Lot 维度配置.
-- **批量维护与导入**：支持通过 Excel/Loader 批量导入 Product、Plan、EDC、RCP 等对象；支持新旧版本比较、数据校验防错及对象复用共享.
+### 2. Tool Management (设备管理)
 
-#### 1.3 版本与变更管控
+支持设备全生命周期管理、状态监控及自动化集成：
 
-支持全生命周期内的工程数据版本控制，确保生产追溯与变更合规.
+#### 2.1 Equipment Status & Control (设备状态与控制)
 
-- **全对象版本控制**：覆盖 Product、Flow、Step、Recipe、EDC、Reticle、Q-Time 等所有核心模型对象；支持 Draft/Frozen/Active 状态流转，唯一 Active 版本原则.
-- **变更影响分析**：版本升级时自动继承 Q-Time、Sampling、Future Action 等设定；识别并提示因站点增删导致的关联失效风险.
-- **签核与生效机制**：支持工艺制程信息变更签核后生效；支持 EDC Retarget 内嵌签审流程（无需升版）.
-- **历史追溯与归档**：记录所有模型变更历史；支持基于 Lot 状态定期归档历史 Flow 数据，不影响在线生产与报表查询.
+- Tool Modeling (Fix Buffer, Inline, Sorter, Multi-chamber)
+- Tool State & Status Control (E10 Extension, Auto/Manual Transition)
+- Tool Capability & Capacity Management
+- Port Management (In/Out/InOut Mode, Automation Mode)
+- Hold Tool Control & Abnormal Detection
+- Reserve Equipment (Auto/Semi-auto Mode)
+- MES-EAP Information Synchronization & Alarm Integration
 
-### 2. 设备管理与集成 (Equipment Management)
+#### 2.2 Advanced Equipment Operations (高级设备作业)
 
-#### 2.1 设备状态与能力模型
+- WET Batch Run & Dummy Filling Mechanism
+- Sorter Management (Inline/Ad-hoc, Full Auto, Split/Merge/Exchange)
+- Litho/Photo Equipment Control (Multiple Reticle, Inline Track+Scanner)
+- N2 Purge Integration & QTime Update
+- Stocker/OHB/NTB Synchronization with MCS
+- Contamination Control & Recipe Content Inspection
 
-支持精细化设备建模与实时状态同步，为自动化派工提供准确依据.
+### 3. Process Plan (工艺流程)
 
-- **多层级状态管理**：支持 Main EQP、Chamber、Port 独立状态管理及联动逻辑（如 Critical Chamber Down → Main EQP Down）；支持 SEMI E10 标准状态及用户自定义状态图（矩阵图/状态机）.
-- **能力与容量管控**：支持设备/Chamber 容量（Capacity）、加工能力（Capability）、Batch Size（Wafer/FOUP 上下限）管理；支持 Internal Buffer 容量实时监控.
-- **Port 智能管控**：支持 Port 传输模式（Ready To Load/Unload 等）及 Access Mode（Auto/Manual）管理；支持指定 Port 给特定 FOUP/FOSB/Reticle Pod；支持 Unload 完成后即时释放 Port（Lot Hold 状态下）.
-- **多腔设备协同**：支持主设备与子腔室状态优先级决策（如 RUN > ENG）；支持根据 Chamber 状态、PPID 开关、Recipe 组合动态计算设备可用能力.
+支持多层级工艺架构、版本控制及动态流程调整：
 
-#### 2.2 专用设备管控模块
+#### 3.1 Flow Architecture & Versioning (流程架构与版本)
 
-支持针对特定工艺设备的差异化业务逻辑集成.
+- Hierarchical Process Architecture (Flow, Layer, Stage, Step)
+- Process Reuse & Golden Flow Support
+- Version Management & Automatic Upgrade Inheritance
+- Excel Import & Visual Workflow Modeling
 
-- **湿法/炉管 Batch 管理**：支持 Batch 组批规则（按 Wafer/FOUP/Recipe/Tank Life）；支持 Dummy Wafer 填充、Side/Fill Dummy 区分及卸载流转；支持 Furnace Monitor Lot 生命周期（Prep/Using/Recycle/Downgrade）及 AB Batch 验证逻辑.
-- **Sorter 管理**：支持 Inline/Ad-hoc Sorter 模式；支持 Foup Exchange、Split/Merge、Wafer Rotate/Flip/Verification 等 Job 类型；支持基于 Carrier/Lot 属性的 Port 约束及污染卡控.
-- **光刻 (Litho) 管理**：支持多重光罩（Multiple Reticle）管控；支持 Scanner+Tracker 双设备同步管控；支持 28nm 以下同 Chuck/同 Tool 绑定（FeedForward）；支持 FOUP Exchanger 作为自动化缓冲.
-- **N2 Purge 管理**：支持整合至 OHB/Stocker/Load Port/独立机台的 N2 Purge 设备管理；支持 Purge 后 Q-Time 实时更新.
-- **Stocker/OHB/NTB 管理**：支持与 MCS 同步库存、搬送任务及 FOUP 位置；支持 NTB/Exchanger 作为 Internal Buffer 及 On Top Load Port（Auto 2/3 only）管理.
+#### 3.2 Dynamic Execution Logic (动态执行逻辑)
 
-#### 2.3 设备约束与预约
+- Dynamic Selection (Equipment, Recipe, Reticle, EDC Plan)
+- Virtual Site & Raw Material Turnkey Management
+- NPW Flow Modeling (Prepare, InUse, Recycle, DownGrade)
+- Branch/Rework Plan & Q-Time Cross-Flow Management
 
-支持多维度派工限制与灵活的预约机制，保障生产安全与效率.
+### 4. WIP Management (在制品管控)
 
-- **多维 Tool Constraint**：支持基于 Product/Process/Step/Recipe/Lot Type/Capability 等条件的正向（Trackable）/负向（Non-trackable）派工限制；支持试生产（STR/MSTR）数量/时间段管控及新设备白名单机制.
-- **设备绑定 (Coupling)**：支持跨站点设备绑定（如 Monitor 前后量同机台、Track+Scanner 绑定）；支持 FeedForward 实现设备选择联动.
-- **预约与队列管理**：支持 Auto 1/2/3 及 Manual 多种预约模式；支持 Reserve Queue 及 What Next 自动派工；支持预约前全面校验（Constraint/Inhibit/Contamination/PM/Q-Time 等）.
-- **Recipe 内容校验**：支持约货时联动 RMS/EAP 校验 Recipe Body 内容；支持 Recipe 使用次数/Lifetime 自动 Inhibit；支持 Season Constraint 及 Recipe Group Change 管控.
+支持批次/晶圆级追踪、特殊操作及全流程生产管控：
 
-### 3. 在制品管控 (WIP Management)
+#### 4.1 Lot Tracking & Basic Operations (批次追踪与基础作业)
 
-#### 3.1 批次创建与下线
+- Lot Create/Wafer Start (Manual/Auto, ERP Integration)
+- Track In/Out (By Batch/Lot/Wafer)
+- Special Operations (Split/Merge, Hold/Release, Skip, Back Operation)
+- Future Action (Future Hold/Skip/Split/Merge)
+- Dynamic Branch & Flow Change (Auto/Manual Reassign)
 
-支持灵活的批次生成与原材料绑定，打通 ERP/WMS 集成链路.
+#### 4.2 Exception Handling & Traceability (异常处理与追溯)
 
-- **Lot/Wafer ID 生成**：支持自动/手动生成 Lot ID 及 Wafer ID（含 T7 Code）；支持不同 Lot Type 命名规则及 Wafer ID 与 Slot ID 映射规则.
-- **Wafer Start 全流程**：支持手动/GUI 及 Full Auto 下线模式；支持 FOSB→FOUP 自动 Sorter Job 触发；支持 Raw Material/Vendor/Cost Center 绑定及 ERP/WMS 物料校验.
-- **Source Lot 管理**：支持自动读取 FOSB 信息创建 Source Lot；支持 Cancel Create Lot 及原材料回退.
+- Rework Management (Inline/BankIn/StockIn/Customer Return)
+- Scrap/Unscrap & Terminate/Unterminate
+- ETC Management (Lending/Borrowing, OA/ERP Integration)
+- Die Lot Management & No-Wafer-Lot Operations
+- Wafer Level Traceability (BinGrade, Map, Defect Review)
 
-#### 3.2 批次流转与处置
+### 5. Quality & Engineering Control (质量与工程管控)
 
-支持生产全过程中的批次状态变更、异常处理及特殊流转逻辑.
+支持数据采集、超规处理、取样规则及防错机制：
 
-- **Hold & Release**：支持多 Reason Code Hold/Release；支持 Batch Hold 及按 Department/Reason 权限管控；支持 Recovery Runcard 关联处理.
-- **Split / Merge**：支持逻辑/物理分批合批；支持子批继承母批属性（Future Action/Q-Time/前量数据）；支持小批过站（Auto Split/Merge）及永久分批.
-- **Bank In / Out**：支持逻辑缓冲区出入库；支持 Bank 内 Transfer/Change Carrier/Bank 转换.
-- **Rework 管理**：支持 Plan Rework、Ad-hoc Rework 及 Dynamic Rework；支持 Wafer Level Rework Count 管控；支持 Rework Flow 可视化及 Multipath.
-- **Scrap / Terminate**：支持 Lot/Wafer 级报废/取消报废（含污染卡控及载具回退）；支持 Terminate/Cancel Terminate.
-- **Skip / Reassign**：支持 Forward/Backward 跳站（含权限及签核）；支持当前站或未来站的 Product/Plan Reassign 及 Version Upgrade.
+#### 5.1 Data Collection & Analysis (数据采集与分析)
 
-#### 3.3 批次预约与派工执行
+- Engineering Data Collection (EDC) (Manual/Auto/File Mode, Custom Formula)
+- OCAP Management (Graphical Execution, In-Line/Off-Line/Wafer Test)
+- Sampling Rule (Production/YE/Wafer Sampling, Key Tool/Long Time No WIP)
+- Wafer Selection Rule (NearestUp/Down, Ignore Slot, Same As Before)
 
-支持精细化的派工前校验与执行过程控制.
+#### 5.2 Process Control & Interlock (制程控制与互锁)
 
-- **Reserve 校验体系**：预约时自动校验 Constraint、Inhibit、Contamination、Lot Type vs Eqp State、Pilot、Season、PM Near 等；支持 RTD 最优排序反馈.
-- **Cancel Track In / Running Split**：支持 Track In 取消回退；支持设备故障时按 Wafer 状态（未做/在做/已做）自动拆分并触发 Recovery Runcard.
-- **Double Run 预防**：支持同站点同 PPID 重复加工预警（量测加量除外）.
-- **委外加工串联**：支持本厂与外包 Fab 的多段式流转（Outsourcing/Insourcing 混合模式）.
+- Q-Time Control (Max/Min, Nested/Cross-Flow, Auto Action Trigger)
+- Tool Constraint & Qualification (Binding, Run-card, Daily/Total Count)
+- Recipe Inhibit & Auto Monitor (Idle Time, Season, Pre/Post Measurement)
+- Process Condition & Contamination Level Control (FE/BE Exchange)
 
-#### 3.4 Die Lot 与特殊批次管理
+### 6. Resource & Material Management (资源与物料管理)
 
-支持封装测试阶段及非量产批次的差异化管控.
+支持载具、光罩、化学品、治具及BOM耗用管理：
 
-- **Die Lot 全功能**：支持 Die Lot 的 Dispatch、History、Bonus/Scrap、Future Action、Rework、Hold/Release、Split/Merge、Ship 等全套 WIP 操作；支持 No Wafer Lot 模式.
-- **NPW 生命周期**：支持 Monitor/Season/Dummy/Fill Dummy 等 NPW 类型；支持 Preparation→InUse→Recycle→Downgrade 全生命周期及 Usage/Recycle Count 片级管控.
-- **Small Lot / Experiment**：支持小批量过站自动 Split/Merge；支持实验单（SRC）及 Pi-Run 批次管理.
+#### 6.1 Carrier & Reticle Management (载具与光罩管理)
 
-### 4. 晶圆级管控 (Wafer Level Control)
+- Carrier Management (FOUP/FOSB/Pod, Cleaning, Contamination, MCS Sync)
+- Reticle Management (LifeTime/Energy, Kit/UnKit, Inspection, Stocker)
 
-#### 4.1 晶圆追踪与位置
+#### 6.2 Chemical & Consumable Control (化学品与耗材管控)
 
-支持单片级全流程追溯，满足先进制程精度要求.
+- Photo Resist Management (Defrost, Prescription, PR Change, Safety Stock)
+- Consumable & Durable Management (Timer, BOM, Kit/UnKit, Meter Counting)
+- Runtime Consume (Auto/Manual Consumption, Available Material Check)
+- Label Printing Integration (Lot/Carrier/Wafer/Material Level)
 
-- **精细粒度追踪**：支持 Wafer → Chamber/Tank/Chuck/Scanner/Head 级追踪；支持 In-Process 单片数据采集及 Track-Out 前批量回传.
-- **Slot Mapping 管理**：支持随机抽片顺序下的 Slot-Wafer 对应关系记录；支持 Boat/Tank/Chuck 内位置信息记录；支持 Sorter 作业自动 Content Mapping 上报.
-- **T7 Code 关联**：支持 Wafer ID 与 T7 Code 动态映射及历史记录.
+### 7. Production Support & Advanced Modules (生产支持与高级模块)
 
-#### 4.2 晶圆级工艺控制
+支持全自动生产、测试线、Micro OLED及Turnkey业务：
 
-支持基于单片状态的动态工艺调整与限制.
+#### 7.1 Automation & General Production (自动化与通用生产)
 
-- **Recipe/Parameter 动态调整**：支持 In-Process 集成 R2R 系统，按 Lot/Wafer 动态调整 Recipe Parameter.
-- **片级计数卡控**：支持按 Wafer 记录并卡控 Rework 次数、NPW Usage/Recycle 次数.
-- **量测一致性**：强制前量与后量为同一片 Wafer；支持 Furnace Monitor Wafer 位置级数据反馈至 Production Wafer.
-- **APC 集成**：支持 Litho 机台集成 APC，实现 28nm 以下同 Chuck 绑定.
+- Full Auto Support (Auto 1/2/3, Dispatch/Transport/Equipment Integration)
+- Season Control (Idle/PM/Recipe Change, Mixed NPW/PW Mode)
+- NPW Management (DownGrade, Recycle, Inventory, Full Auto Preparation)
+- Run Card Management (Split/Recover/Nested/Future, Sign-off Integration)
+- Security Management (Data Level Permission, Timeout, Audit Trail)
 
-### 5. 配方与工艺规格管理 (Recipe & Spec)
+#### 7.2 Test, Packaging & Specialized Modules (测试、封装与专用模块)
 
-#### 5.1 Recipe 体系管理
-
-支持复杂设备类型的配方结构化管理与解析.
-
-- **多类型 Recipe 支持**：支持 Serial/Parallel/Hybrid 模式；支持 Flow Recipe → PPID 映射及 Recipe Group 管理.
-- **专用设备 Recipe**：支持 Litho Track+Scanner 双 Recipe 定义；支持 Furnace Recipe 限腔限位及按 Wafer 数匹配 PPID；支持 CMP Recipe 按 Pad Life 匹配 PPID.
-- **多腔 Recipe 均衡**：支持根据 Chamber 状态、Idle 时间、Chamber Flow 选择 PPID，配合 RTD 实现腔室均衡.
-
-#### 5.2 工艺规格 (Spec) 绑定
-
-支持多维度工艺参数的灵活配置与下发.
-
-- **多维 Spec 设置**：支持 Product+Plan+Step 维度设置 Recipe、Reticle、EDC Plan、Contamination Level 等；支持 Parameter Family 变量解析.
-- **光罩寿命管理**：支持 Recipe Energy 字段及 Reticle Field 设定，用于光罩 Lifetime 累计计算.
-- **Recipe 执行联动**：支持 MES 联动 EAP/RMS 下载 Recipe Parameter；支持 R2R 系统集成及 PPID Chamber Flow 下发.
-
-### 6. 质量管理与工程数据分析 (Quality & EDC)
-
-#### 6.1 工程数据采集 (EDC)
-
-支持全方位、高精度的生产过程数据采集与处理.
-
-- **多模式采集**：支持自动（EAP）/手动（GUI）采集；支持 Lot/Eqp/Reticle/Carrier/Wafer/Site 多层级对象；支持 Float/Integer/String 数据类型.
-- **高级数据处理**：支持 Derived Item 及自定义公式（基础/客制）；支持前后站 Delta 数据收集及坐标信息存储；支持单 Step 超 10000 条 DC Item.
-- **Spec 检查与 SPC**：支持 EDC Spec Check 及 SPC Chart 生成（Trend/By Machine/Recipe/Product）；支持 OOC/OOS 自动触发 Action（Hold Lot/EQP/Reticle/OCAP/DRB）.
-- **APC-R2R 集成**：支持 EDC 数据实时推送至 APC-R2R 系统.
-
-#### 6.2 批次抽样 (Lot Sampling)
-
-支持灵活多样的量测挑片策略，平衡质量与产能.
-
-- **多维抽样规则**：支持基于 Product/Plan/Step/Stage/Capability/Lot ID/Priority/Q-Time 等条件的抽样；支持 Key Tool Sampling（Interval/Lot Count/Wafer Count）.
-- **YE 专用规则**：支持 WIP Count、Skip/Scan Lot ID、Long Time No WIP、Lot Tail Number 等 YE 挑片规则.
-- **Wafer Selection Rule**：支持忽略特殊 Slot、前后量一致、先上再下/先下再上、螺旋搜索等多种选片算法；支持 GUI 维护及选片结果追溯.
-
-#### 6.3 超规处理计划 (OCAP)
-
-支持标准化的异常处置流程，闭环质量问题.
-
-- **图形化 OCAP 引擎**：支持可视化流程执行（Re-measurement/Add Measurement/Change Recipe/EQP/Step/EDC/Hold/Release 等）；支持 SPC Chart Link 及外部签核系统集成.
-- **多源触发机制**：支持 EDC → SPC/FDC → OOS/OOC 自动触发；支持 Inline/Offline/Wafer Test 三种 OCAP 类型.
-- **RAC 规范**：支持 Reason/Action/Disposition 标准化格式记录；支持 OCAP 历史追溯及特殊关闭.
-
-#### 6.4 CP/WAT 测试与判定 (WJS Integration)
-
-支持测试数据自动解析与智能判定，打通 Test 数据流.
-
-- **Raw Data 解析**：支持定时扫描解析机台 Raw Data File（Site/Wafer/Lot Level Summary）；支持多语言及文件服务器断线重连.
-- **Judge Rule Engine**：支持良率、Bin 比例、统计量（AVG/STD/CPK）、Gross Die 等多种判定规则；支持 By Product/Recipe 策略管理及 Excel 批量导入.
-- **MES 集成闭环**：支持 WJS 主动上报/MES 主动查询 Judge 结果；支持 Pass→Release、Fail→OCAP、No Data→Request 自动流转逻辑.
-
-### 7. 生产资源与辅材管理 (Resource Management)
-
-#### 7.1 载具管理 (Carrier)
-
-支持载具全生命周期状态与位置追踪.
-
-- **全类型载具**：支持 FOSB/FOUP/Cassette/Reticle Pod 管理；支持命名规则定制及状态（Hold/Clean/Scrap 等）管控.
-- **位置与清洗**：集成 MCS 实现位置同步；支持清洗/检测状态管控及有效期检查；支持载具与 Lot Type 绑定及污染等级验证.
-- **操作历史**：记录 Create/Assign/Exchange/Hold/Clean 等全操作历史.
-
-#### 7.2 光罩管理 (Reticle)
-
-支持光罩从入库到报废的全流程精细化管控.
-
-- **状态与位置**：支持 Normal/Hold/Wait_QC/In_Use/Damage 等全状态流转；支持 E-Rack/Stocker/EQP 位置集成及手动位置校准.
-- **使用控制**：支持 Process 前 Constraint 检查（Status/WaferCount/Inspection Time）；支持 Process 后自动更新状态及计数；支持 Reticle Inspection/Starlight 执行及 IRIS/PD Spec 校验.
-- **Life Time 管理**：支持 Energy 累加及 Field 设定；支持 Lifetime 超限自动 Hold 及送修流程.
-
-#### 7.3 光阻与耗材管理
-
-支持化学品及消耗品的时效、库存与绑定管控.
-
-- **光阻管理**：支持 Receive→Defrost→Install→Use→Terminate 全生命周期；支持退冰计时、有效期自动 Hold、FIFO 推荐及 Batch Confirm/Pi-run 提醒.
-- **耗材 BOM 管理**：支持 BOM 配置绑定至 Product/BP/Step；支持运行时自动/手动耗用及可用材料校验.
-- **治具管理**：支持 DPS 刀片等治具的 Create/Hold/Release/Inspection/Clean 及计米管理.
-
-### 8. 自动化与系统集成 (Automation & Integration)
-
-#### 8.1 全自动化支持 (Full Auto)
-
-支持多级自动化模式及异常自愈，保障无人化生产.
-
-- **多级自动化**：支持 Auto 3（Full Auto）、Auto 2（Manual Dispatch + Auto Transport）、Auto 1（Manual Transport + EAP）、Manual 四级模式切换.
-- **异常自动恢复**：支持 FOUP 未到达/Track In 前异常的自动监控、Cancel Reserve 及最佳位置回存；支持 Alarm 系统集成及自动 Hold Lot.
-- **高效搬运优化**：支持 Swap（Unload 触发 What Next）；支持 Port Queue 及 NTB/OHB 缓冲预约；支持 Direct Tool-to-Tool 搬运.
-
-#### 8.2 自动点检与暖机 (Auto Monitor & Season)
-
-支持设备预防性维护与状态准备的自动化执行.
-
-- **Auto Monitor**：支持周期性 Monitor 任务定义（含容许时间窗口）；支持 Monitor Flow（前量→Process→后量）自定义；支持 Monitor Fail 自动 Inhibit Recipe/Constraint 设备.
-- **Season Control**：支持按 Idle Time/Wafer Count/PM 触发 Season；支持 Season Lot 与 Production Lot 组预约及混合进机台；支持 Recipe Change Season 及 Zero-idle 模式.
-
-#### 8.3 流程卡与实验管理 (RunCard)
-
-支持灵活的实验设计与异常恢复流程.
-
-- **Split RunCard (SRC)**：支持 Normal/Rework/Future/Multiple SRC；支持 By Wafer 实验设计、EDC Spec 自定义、Q-Time 增量及污染卡控；支持 SRC 合规性提交校验.
-- **Recovery RunCard (RRC)**：支持设备故障/Running Hold 自动触发 RRC；支持按 Wafer 状态（未做/在做/已做）分流处理；支持 MFG→EQP→PE 多级签核及 Auto3 机台释放绑定.
-- **Pi-Run 管理**：支持 APC Trigger（Auto）及 On Demand（Manual）两种 Pi-Lot 模式；支持 Pi-Lot Fail 后的 Remeasurement/Re-Pilot/Rework 异常处理.
-
-#### 8.4 权限与安全 (Security)
-
-支持细粒度的功能与数据权限管控.
-
-- **多维权限模型**：支持 User/Role → Function Permission；支持 EqpType/Product/Technology/EqpStateTransition/Equipment 数据级权限.
-- **操作安全**：支持重要操作二次密码验证；支持账号时效限制及 GUI 权限维护.
-
-### 9. 高级制造模块 (Advanced Manufacturing)
-
-#### 9.1 Wafer Bonding & Die Attach
-
-支持晶圆键合与芯片贴装的特殊追溯与工艺管控.
-
-- **Wafer Bonding**：支持 Wafer-to-Wafer/Glass Bonding；支持 Pre-Bonding→Cleaning→Bonding→Measurement 流程；支持 De-Bonding Rework 及 Adhoc Sorter 调整；支持 Auto/Manual Bond 及 Mapping 历史追溯.
-- **Die Attach**：支持 Substrate Wafer 与 Die Wafer/Lot 绑定；支持 Attach 关系（Step/Order/Qty）记录及 EAP 上报追溯；支持外购 Die Wafer 入线边库及 Resource 匹配校验.
-
-#### 9.2 Turnkey Solution
-
-支持一站式服务业务模式与多阶层 BOM 生产.
-
-- **多阶层串联**：支持通过 Turnkey Product Mapping 及 MBOM 实现 WLP→CP→DPS→WLP 等多阶层流转.
-- **混合投产**：支持厂内自制与外来 Wafer 混合投产；支持工单属性决定入库 Shipping 或 Inventory.
-
-#### 9.3 Wafer Map 与取放料
-
-支持 Wafer Map 数据处理及 Die 级产出追溯.
-
-- **Wafer Map 处理**：支持 Map 文件导入/导出、BIN 更新、Ink Die 及版本管理.
-- **Pick & Place**：支持 Wafer→Die/Tape/Tray 捡晶；支持二次捡晶及原始 Wafer/Lot 双向追溯；支持 Die Bank 库存及良率管制.
+- CP Test Line & Probe Card Management (Program, Touch Down, YMS Integration)
+- Wafer Judgement System (Raw Data Loader, Rule Judgment, Strategy)
+- Wafer Map Module (Parsing, Merge/Comparison, Rotation/Mirroring, Manual Ink)
+- Turnkey Solution (Multi-level BOM, Cross-Fab Production)
+- Lab Product Tracking (Experiment Start/End, QE Result, TQMS Integration)
+- Matching Sorter & ODF Bonding (Pre-sorting, Slot/FOUP Matching, Debond)
+- Micro OLED Specifics (Continuous Run, EVA Mask, Frame/Tray, Die PnP)
+- DPS Pick and Place (Die Count, Reconstruction Wafer, Secondary Picking)
 
 # SPC
 
@@ -1135,174 +1598,467 @@ BOM 结构形式: 通常是树状层级结构(多级BOM)，反映了产品的装
 
 ## SPC Function List
 
-### 1. 数据采集与集成 (Data Collection & Integration)
+### 1. 数据采集与集成
 
-#### 1.1 多源数据接入
+#### 1.1 多源数据收集
 
-支持全方位的生产与质量数据接入，覆盖从晶圆制造到实验室分析的全链路.
+支持全方位的生产与量测数据采集，覆盖Inline、Offline及厂务环境数据.
 
-- **工艺与量测数据**：支持 Inline 工艺设备数据、Offline 日常点检数据通过 MES/EDC 模块发送；支持 WAT、CP 测试数据接入.
-- **物料与环境监控**：支持进料检验（Substrate, EPI, 化学品等）、无尘室监控（Particle, 温湿度, 纯水等）数据收集.
-- **设备与实验室数据**：支持量测设备校准数据（Calibration）、实验室微污染测试等数据接入；SPC 端具备通用接收能力，不依赖 MES 特定支持.
-- **手工录入**：提供 EDC 手工录入界面，支持 Lot / Non-Lot 数据的手动输入.
-- **Wafer 级采集**：支持 By Wafer 粒度进行数据收集与管控.
+- **工艺与设备数据**: 支持工艺设备Inline数据、设备日常点检(Offline)数据、量测设备校准(Calibration)数据采集.
+- **测试与来料数据**: 支持WAT、CP、进料Incoming(Sub/EPI/化学品等)数据收集.
+- **环境与实验室数据**: 支持无尘室监控(Particle/温湿度/纯水等)及实验室数据(微污染测试等)采集.
+- **手动录入**: 提供手工录入EDC数据界面，支持手动输入Lot/Non-Lot数据.
+- **Wafer级采集**: 支持By Wafer级别的数据收集.
 
-#### 1.2 数据生命周期管理
+#### 1.2 数据管理与维护
 
-支持高性能存储策略与灵活的数据归档机制.
+支持高效的数据存储策略及灵活的导出功能.
 
-- **实时性与性能**：保障数据收集的实时性，95% 以上的 Product SPC EDC 任务须在 5 秒内完成处理（毫秒级响应）.
-- **归档与清理**：默认数据不删除，支持 By Lot 脚本归档；支持根据硬件容量配置最长保存时间并提供过期数据清理脚本.
-- **配置热更新**：修改 Chart 定义不影响正在进行的数据收集，新配置发布/生效后方对后续数据起作用，历史数据不受影响.
-- **数据导出**：支持单个或多个 Chart 的 SPC 数据及原始 Raw Data 批次导出（Excel/CSV/PDF/PPT 等格式）.
+- **生命周期管理**: 配合硬件存储容量配置数据最长保存时间，提供过期数据清理脚本，保障系统性能不随时间下降.
+- **批量导出**: 支持一个或多个Chart的SPC数据和原始数据的批次导出(Excel/CSV/PDF).
+- **MES集成查询**: MES中可查询SPC测量的Raw Data并支持Excel导出.
+- **非侵入式变更**: 修改Chart定义不影响正在进行的数据收集；基础数据修改需发布/生效后才作用于收集过程.
 
-### 2. Chart 管理与可视化 (Chart Management & Visualization)
+### 2. SPC 核心引擎与性能
 
-#### 2.1 Chart 定义与类型
+#### 2.1 实时统计管制
 
-支持丰富的统计图表类型与灵活的命名分组规则.
+支持高性能的在线SPC计算与即时响应.
 
-- **全类型 Chart 支持**：
-    - **计量型**：Mean, Range, Sigma (StdDev), Raw Value, Moving Range/Sigma, Moving Average, EWMA(M/S/R).
-    - **计数型**：p, np, c, u chart.
-    - **自定义**：支持根据质量部门规则扩展 Chart 类型.
-- **命名与分组**：支持按用户规则组合命名（如 Module+Product+Flow+Plan+EDC Item）；支持文件夹分组管理.
-- **Context 驱动**：支持基于 Context 信息定义 Chart 数据接收范围；支持 Sub Chart 自动拆分管控，继承或独立配置 Control Limit 及 Rule.
-- **手动创建**：提供操作界面供用户手动建立 Chart.
+- **实时响应**: Online SPC在Track-Out/Operation Completion时即时返回结果，95%以上的EDC任务在5秒内完成所有处理.
+- **同步阻塞机制**: MES过站需SPC收集时，支持等待SPC结果后再继续处理Lot或设备.
+- **自动处置动作**: 根据SPC结果自动启动Hold Lot、Hold Meas. Eqp、Hold Proc. Eqp等动作.
+- **Context动态分图**: 支持根据收到的数据Context信息自动拆分Sub Chart管控；Sub Chart支持继承上层Control Limit/Rule或单独配置.
 
-#### 2.2 交互式图表显示
+#### 2.2 公式计算引擎
 
-支持多维度数据展示与动态交互分析.
+支持复杂的跨Plan、跨Spec数学运算与因子引用.
 
-- **多 Chart 同屏**：支持单屏显示一张或多张 Chart，并展示所有数据点相关信息（含复数对象）.
-- **Context 区分显示**：支持按 Wafer/Lot/Chamber 等 Context 信息区分显示数据；支持调整横坐标（时间/Context）及纵坐标比例.
-- **丰富统计指标**：显示 Max, Min, Mean, Median, Range, StdDev, Total Count, OOC%, OOS%, USL/LSL, UCL/LCL, UAL/LAL, Target, Cp, Cpk 等.
-- **颜色管理**：支持自定义控制线颜色及不同状态（如 OOC）数据点颜色.
-- **动态更新**：支持 Chart 动态刷新；Spec/Control 界限变更后，新数据点进入时自动更新显示.
-- **Sigma 计算规范**：上下 Sigma 独立计算（上3σ=(UCL-CL)/3，下3σ=(CL-LCL)/3），确保 WE1 等规则判定准确.
+- **多源因子引用**: 支持引用当前Plan内/外Spec、外部Plan公式作为因子；支持引用多个Spec进行计算.
+- **内置数学函数**: 支持ABS、EXP、MOD、POWER、ROUND、Cp/Cpk等数学公式及SIN/COS/TAN等三角函数.
+- **聚合统计函数**: 支持对因子Spec获取MIN、MAX、AVG、MED、SIGMA等数值参与计算.
+- **自身数据计算**: 支持基于自身数据的公式计算，如Uniformity=(Max-Min)/2Mean.
+- **变更自适应**: 支持Formula计算时应对因子Spec的Product变更；支持因子前后Wafer被替换时按匹配关系正常计算.
+- **可扩展性**: 采用配置方式使用内建公式，提供开发包及培训帮助用户开发新公式.
 
-#### 2.3 数据点操作与过滤
+### 3. 图表可视化与交互
 
-支持精细化的数据清洗与标注功能.
+#### 3.1 多样化图表类型
 
-- **手动过滤**：支持 Filter 隐藏数据点，被过滤点不参与制程指标及管控界限计算.
-- **离散点剔除**：支持定义离散规格，自动滤掉超限离散点.
-- **备注说明**：支持对单个或多个数据点添加 Comment 备注.
-- **统计值查看**：支持在 Chart 中点击选择数据点查看其统计值及 Context 信息.
+支持全面的计量型与计数型控制图.
 
-### 3. 统计过程控制与规则引擎 (SPC Rules & Monitoring)
+- **计量型图表**: Raw, Mean, Range, StdDev, MA, MS, MR, EWMA(M/S/R), Sigma Charts.
+- **计数型图表**: Attributive Chart (n, np, c, u chart).
+- **自定义图表**: 支持根据质量部门制定的规则产生其他类型Chart.
+- **叠图对比**: 支持同一Spec Limit下不同Chamber或Tool数据叠图对比.
 
-#### 3.1 SPC 规则体系
+#### 3.2 图表显示与定制
 
-支持标准化的判异规则与灵活的参数配置.
+支持丰富的统计指标展示与个性化视觉配置.
 
-- **标准规则集**：支持 WECO Rules、Nelson Rules 及 SPC 9 大标准 Rule；内置 60 种以上 SPC Rules.
-- **规则参数化**：支持 WECO Rule 相关参数配置；支持无需代码开发即可调整 Rule 参数.
-- **规则转化**：支持将 WECO/管控规则转化为逐条计算原则进行判异.
-- **多级版本管理**：支持按 Rule ID、Rule ID+Chart Type、Rule ID+Chart Type+Spec 三级颗粒度进行维护变更.
+- **统计指标显示**: 显示Max, Min, Mean, Median, Range, StdDev, Total Count, OOC%, OOS%, USL/LSL, UCL/LCL, UAL/LAL, Target, Cp, Cpk等.
+- **多Chart同屏**: 支持单屏显示一张或多张Chart，并展示所有数据点相关信息.
+- **Context区分**: 支持Chart中数据按附带Context信息区分显示.
+- **坐标轴调整**: 支持横坐标按时间/Context格式调整；支持纵坐标根据数据/管控线调整比例.
+- **颜色管理**: 自定义控制线颜色及数据点在不同状态(如OOC)下的颜色.
+- **动态更新**: 支持Chart动态显示及更新；改变Spec/Control范围后，新界限在新数据点进入时显示.
 
-#### 3.2 实时监控与特殊场景
+#### 3.3 数据点交互操作
 
-支持生产过程中的即时管制与设备维护后的差异化管控.
+支持精细化的数据点管理与标注.
 
-- **Online 实时管制**：Track-Out/Operation Completion 时立即响应 SPC 结果，自动触发 Hold Lot/EQP 等动作；MES/EAP 支持等待 SPC 结果后再继续处理.
-- **PM 后专项管控**：
-    - PM 后数据点分开进 Chart，不参与原 Chart Alarm Rule 计算.
-    - 支持 Offline Monitor、MON_PM、MON_DOWN、Pilot Inline Measurement 等场景的独立 Control Limit 管控（如 2σ）.
-- **Recipe Hold**：量测 OOC/OOS 时，支持配置 Hold Recipe/PPID/Tool 等多种措施.
-- **叠图对比**：支持同一 Spec Limit 下不同 Chamber 或 Tool 数据叠图对比.
+- **手动过滤**: 支持手动过滤数据点，过滤点在图中隐藏/显示且不计入制程指标及管控界限计算.
+- **离散规格过滤**: 定义Chart离散规格，接收数据时自动滤掉超限离散点.
+- **备注说明**: 支持对单个或多个数据点进行备注说明.
+- **详情查看**: 支持在Chart中显示所选数据点的统计值及Context信息.
 
-#### 3.3 批量管理与关联
+### 4. 规则引擎与报警管理
 
-支持高效的 Chart 维护与 MES 联动.
+#### 4.1 SPC 规则体系
 
-- **批量操作**：支持批量导入/修改 Chart、Control Limit、Spec Limit、Alarm Rule；支持批量修改 Spec/Control/Rule.
-- **MES EDC 联动**：支持 SPC Chart 与 MES EDC Spec 关联查询；支持批量同步新增/修改 EDC Spec 与 SPC Chart（IMI Support）.
-- **计算公式扩展**：提供内建公式配置方式及开发包/培训，支持用户自定义新公式.
+支持标准化的判异规则及灵活的参数配置.
 
-### 4. 异常处置与通知 (Action & Notification)
+- **标准规则集**: 支持SPC 9大标准Rule、Western Electric (WE) Rules、Nelson Rule参数模式.
+- **规则丰富度**: 支持60种以上SPC Rules.
+- **Sigma独立计算**: 上下Sigma分开计算，上3σ=(UCL-CL)/3，下3σ=(CL-LCL)/3，避免非对称管控误判.
+- **无代码调参**: 支持无需开发变更即可调整Rule参数.
+- **多级版本管理**: 支持按Rule ID、Rule ID+Chart Type、Rule ID+Chart Type+Spec等多粒度维护变更.
 
-#### 4.1 多级 Action 触发
+#### 4.2 违规处置与通知
 
-支持基于规则颗粒度的精细化异常响应.
+支持分级报警、自动化Action及OCAP联动.
 
-- **Notify 方式**：支持客户端消息、SMS、Email 等多种通知方式；收件人与邮件内容可自定义.
-- **Action 执行**：支持根据 Spec 对应 Rule 颗粒度设置 Action；支持通过 MES/EAP 自动执行 Lot Hold 或 Equipment Hold.
-- **OCAP 联动**：支持根据 Plan/Spec 设置 OCAP Type ID；Rule Out 时自动触发 OCAP Process 并执行默认 Action（如 Lot Hold）.
-- **Alarm 触发**：Rule Out 时自动触发 Alarm，并在 SPC/MES 客户端提示指定用户.
+- **多级Notify**: 支持客户端消息、SMS、邮件、TTS语音等多种通知方式，可按Spec+Rule颗粒度配置.
+- **自动化Action**: 违规时自动触发Lot Hold、Equipment Hold等命令（通过MES/EAP执行）.
+- **OCAP联动**: 支持根据Plan/Spec设置OCAP Type ID；违规时自动创建OCAP Process并执行默认Action(如Lot Hold).
+- **Recipe/PPID Hold**: 量测OOC/OOS时，支持Hold Recipe、Hold PPID或Hold机台.
+- **Rule Out报警**: 自动触发Alarm并通过SPC/MES客户端提示指定用户.
+- **邮件报警**: 违反规则后发送邮件，收件人与内容可自定义.
 
-#### 4.2 签核与权限管控
+#### 4.3 PM 与特殊状态管控
 
-支持关键配置变更的流程合规与安全访问.
+支持设备维护后及特殊运行模式的差异化管控.
 
-- **SPACE API 签核**：提供 API 对接厂内 OA 签核系统，强制 Control Limit/SPC Rule/Corrective Action 等配置修改须经传签流程.
-- **权限管理**：提供细粒度权限管控，限制用户对 Chart/Rule/Action 的操作范围.
+- **PM数据隔离**: PM后的点分开进Chart，不参与原Chart Alarm Rule计算.
+- **特殊状态独立管控**: 支持Offline Monitor、MON_PM、MON_DOWN、Pilot Inline Measurement等状态下Lot的单独Control Limit管控(如2σ).
 
-### 5. 数据分析与报表 (Analysis & Reporting)
+### 5. Chart 配置与管理
 
-#### 5.1 统计分析与指标
+#### 5.1 Chart 定义与组织
 
-支持深度的制程能力评估与对比分析.
+支持灵活的命名规则、分组管理及批量操作.
 
-- **关键指标计算**：支持 Cp/Cpk 等关键指标实时计算；支持 Max/Min/Mean/Median/Range/StdDev/OOC%/OOS% 等统计值.
-- **Context Matching 分析**：支持根据 Lot/Tool 等 Context 信息进行 Matching 比较分析.
-- **Auto Flag**：支持通过接口对数据 Auto Flag，标记数据进 Chart 但不参与 Cpk 统计.
-- **数字仪表板**：支持网页端汇总最近两周 OOC/OOS/Cpk Bar Chart，提供互动 Drill Down 分析.
+- **组合命名规则**: 支持[Module]+[产品]+[工艺路线]+[Plan Name]+EDC项目/Spec ID等自定义组合命名.
+- **文件夹分组**: 支持Chart按文件夹分组管理.
+- **Context定义**: 支持通过Context信息定义Chart，指定只收某Context Value数据或包含/排除特定Value.
+- **手动建立**: 提供操作界面让用户手动建立Chart.
+- **批量导入修改**: 支持工具批量导入新增/修改Chart、控制规格及Rule设置.
+- **EDC关联管理**: 支持SPC Chart与MES EDC Spec关联查询，批量同时新增/修改.
 
-#### 5.2 报表生成与导出
+#### 5.2 控制界限管理
 
-支持多样化的报表输出与自动化分发.
+支持多种界限设定、动态计算及签核流程.
 
-- **周期统计报表**：支持按 Chart 分组，按日/周/月/季/年创建统计报表.
-- **多格式导出**：支持 By Group Daily 导出 All Inline/Offline Chart（PPT/PDF/CSV/XLSX/CSD/TXT/DFD）；支持 SPACE 自带报表导入 PDF 及 Chart 数据导出 Excel/CSV.
-- **Raw Data 查询**：MES/SPC 中均可保存并查询 SPC 测量的 Raw Data，支持 Excel 导出.
-- **外部访问接口**：提供连接方式支持外部系统访问 SPC Chart 和数据点.
+- **多类界限**: 支持Control Limit / Spec Limit / Alarm Limit / Acceptance Limit的上限、下限及中心线设定.
+- **动态计算**: 支持使用选定数据的3σ计算新Control Limit，筛选条件可为时间范围或数据点个数.
+- **批量修改**: 支持批量修改Spec Limit、Control Limit、Alarm Rule.
+- **SPACE API签核**: 提供API对接厂内签核系统，强制要求修改Control Limit/SPC Rule/Corrective Action等必须经过传签流程.
 
-### 6. 公式引擎 (Formula Engine)
+### 6. 数据分析与报表
 
-#### 6.1 高级公式计算
+#### 6.1 统计分析与仪表板
 
-支持跨 Plan、跨 Spec 的复杂衍生指标计算.
+支持多维度的质量指标分析与交互式探索.
 
-- **跨域引用**：支持引用当前 Plan 内/外 Spec 作为因子；支持引用外部 Plan 公式作为因子；支持多 Spec 因子组合计算.
-- **数学与三角函数**：支持 ABS/EXP/MOD/POWER/ROUND/CP/Cpk 等数学运算；支持 SIN/COS/TAN/ASIN/ACOS/ATAN 等三角函数.
-- **统计聚合函数**：支持对因子 Spec 获取 MIN/MAX/AVG/MED/SIGMA 等统计值.
-- **自身数据计算**：支持基于自身数据计算，如 Uniformity=(Max-Min)/2Mean.
+- **关键指标计算**: 支持Cp/Cpk等关键性指标实时计算.
+- **数字仪表板**: 汇总最近两周OOC/OOS/Cpk Bar Chart，提供互动下钻(Drill-down)分析.
+- **Context比较分析**: 支持根据Context Matching功能进行比较分析.
+- **Auto Flag接口**: 支持通过接口对数据Auto Flag，进Chart但不计入Cpk统计.
+- **统计值汇总**: 包含Max, Min, Mean, Median, Range, StdDev, Count, OOC%, OOS%, Discrete Count等.
 
-#### 6.2 动态适配机制
+#### 6.2 报表生成与导出
 
-支持公式计算随生产上下文变化的智能处理.
+支持周期性统计报表及标准化格式输出.
 
-- **Product 变更适配**：支持 Formula 计算时因子 Spec 随 Product 变更的应对处理方案.
-- **Wafer 替换匹配**：支持因子前后对应 Wafer 被替换时，系统根据匹配关系正常完成计算.
+- **周期统计报表**: 依照Chart分组，按日/周/月/季/年创建统计报表.
+- **Group Daily导出**: 支持By Group Daily导出All Inline/Offline Chart，格式为PPT/PDF.
+- **标准格式导出**: 支持SPACE自带报表导入PDF，Chart数据导出Excel/CSV.
+- **外部系统访问**: 提供连接方式支持外部系统访问SPC Chart和数据点.
 
-### 7. 系统运维与辅助功能 (System Operations)
+### 7. 系统管理与安全
 
-#### 7.1 历史记录与书签
+#### 7.1 权限与审计
 
-支持操作追溯与个性化快捷访问.
+支持严格的访问控制与操作追溯.
 
-- **历史追踪**：提供完整历史记录，追踪 Chart 设定修改、数据点备注标记等操作.
-- **书签功能**：支持将常用 Chart 和搜索条件存为书签，提升使用效率.
+- **权限管控**: 提供完善的用户权限管理体系.
+- **历史记录追踪**: 记录Chart设定修改、数据点备注标记等操作历史.
+- **书签功能**: 支持将常用Chart和搜索条件存为书签.
 
 #### 7.2 数据查询与检索
 
-支持多维度的精准数据定位.
+支持多条件组合搜索与灵活的结果展示.
 
-- **Context 过滤**：支持 By Lot Type/Product/Flow/Tool 等多种 Context 过滤.
-- **数据点搜索**：支持按 Context 值/OOC/OOS/Comment/时间点搜索，可选列表模式或 Chart 列表模式显示.
-- **Chart 搜索**：支持按 ChartName/ParameterName/Context/SPC Rule 等属性搜索 Chart.
-
-#### 7.3 系统健康保障
-
-支持长期稳定运行与性能优化.
-
-- **数据清理机制**：提供数据清理机制，保障系统性能不随时间推移下降.
-- **权限管控**：提供完善的权限管理体系，确保数据安全与操作合规.
+- **Context过滤**: 支持By Lot Type、Product、Flow等多种Context过滤.
+- **数据点搜索**: 支持按Context值、OOC/OOS、Comment、收集时间点等属性搜索，可选列表模式或Chart列表模式显示.
+- **Chart搜索**: 支持按ChartName、ParameterName、Context值、SPC Rule等属性搜索Chart.
+- **实时查询**: 支持实时查询所有SPC Chart的数据信息.
 
 # AMS
 
+## AMS Function List
+
+### 1. 系统设定与基础数据管理
+
+#### 1.1 基础信息维护
+
+支持灵活的数据录入方式与多维度警报分级定义。
+
+- **双模数据维护**: 支持单个手动建立或系统集成导入两种方式维护AMS基础信息（Alarm Code、Tool、用户、部门、警报规则、通知群组、通知模板、警报动作）。
+- **警报严重等级**: 支持为Alarm Code自定义指定严重等级，包括Informational、Low、Medium、High、Critical五级分类。
+- **自定义描述**: 支持自定义警报代码(Alarm Code)的描述信息，便于快速识别问题。
+
+#### 1.2 集成与认证
+
+支持与现有企业基础设施无缝对接，简化身份验证流程。
+
+- **Applied Common Core集成**: 与Applied Common Core服务集成，统一APG产品的使用者身份验证与授权。
+- **Active Directory集成**: 支持AD域集成，允许使用域用户账号直接登录系统。
+- **自定义角色权限**: 支持自定义用户角色及对应的功能访问权限配置。
+
+### 2. 警报监控与查询
+
+#### 2.1 即时警报看板
+
+提供实时可视化的警报态势感知能力。
+
+- **分级统计展示**: 按子系统以不同严重等级展示警报数量统计信息及最近发生的20条警报。
+- **自动刷新机制**: 看板数据每10秒钟自动刷新，刷新频率及显示数量均可配置。
+
+#### 2.2 警报检索与导出
+
+支持多条件组合过滤与数据离线分析。
+
+- **多维过滤条件**: 支持Factory Id, System Id, Tool Module, Tool Model, Tool Id, Alarm Code, Lot Id, Status, Severity, Start Date, End Date等组合查询。
+- **状态分类查询**: 可区分查询用户警报、普通警报、忽略警报及无效警报。
+- **Excel导出**: 支持将查询结果一键导出为Excel文件，便于后续分析与归档。
+
+### 3. 警报规则引擎
+
+#### 3.1 规则定义与过滤
+
+支持精细化的警报触发条件配置，减少误报与噪声。
+
+- **四元组规则模型**: 基于Factory Id、System Id、Tool Filter、Alarm Code Filter四个维度建立警报规则。
+- **设备级过滤**: Tool Filter支持指定Tool Module、Tool Model或具体Tool Id。
+- **代码级过滤**: Alarm Code Filter支持指定具体Alarm Code或Severity等级。
+- **特定条件屏蔽**: 支持屏蔽符合特定条件的警报，避免无效干扰。
+- **设备状态联动屏蔽**: 支持按子系统和设备配置，当设备处于PM或DOWN等特定状态时，自动抑制警报通知及触发动作。
+
+#### 3.2 重复与清除管理
+
+支持智能去重与自动化状态同步。
+
+- **重复警报抑制**: 支持管理重复性Alarm，可配置忽略指定时间间隔内重复上报的相同警报。
+- **远程清除指令**: 支持接收外部清除指令，自动清除之前收到的符合指定条件的警报，保持看板整洁。
+
+### 4. 通知与升级机制
+
+#### 4.1 多渠道通知
+
+支持邮件、短信及即时通讯工具的多元化告警触达。
+
+- **SMTP邮件通知**: 支持通过SMTP Server发送邮件，内容支持HTML格式模板。
+- **短信平台集成**: 支持中国移动云MAS短信平台、阿里云短信平台等主流短信接口。
+- **企业微信集成**: 支持对接企业微信接口，实现移动端即时推送。
+- **自定义模板**: Alarm通知标题和内容均支持自定义模板配置。
+- **多群组支持**: 通知接收方支持配置多个通知群组，满足跨部门协同需求。
+
+#### 4.2 逐级升级报警
+
+支持超时未响应的自动升级机制，确保关键警报不被遗漏。
+
+- **超时自动升级**: 可设定警报响应超时阈值，超时后自动升级到下一等级并发送给更高Level的群组。
+
+### 5. 警报处置与联动
+
+#### 5.1 状态流转管理
+
+支持完整的警报生命周期闭环处理。
+
+- **状态变更**: 用户可在AMS Client响应和处理Alarm，将初始Open状态更改为Closed或Terminated。
+- **处理记录**: 所有状态变更操作均有据可查，支持追溯处理过程。
+
+#### 5.2 MES系统联动
+
+支持与MES深度集成，实现自动化生产管控动作。
+
+- **Hold Lot**: 触发警报时自动或手动Hold相关批次。
+- **Change EQP State**: 触发警报时自动或手动变更设备状态。
+- **Hold Reticle/FOUP**: 触发警报时自动或手动Hold光罩或载具，防止污染扩散。
+
+### 6. 访问控制与安全
+
+#### 6.1 细粒度权限管控
+
+支持按系统与机台维度的数据隔离与操作授权。
+
+- **按系统限定**: 可限制用户仅能查看/处理特定系统（如MES）上报的警报及修改对应范围内的设定。
+- **按机台限定**: 可限制用户仅能查看/处理特定机台相关的警报及修改对应范围内的设定。
+
+### 7. 报表与数据运维
+
+#### 7.1 统计分析报表
+
+支持多维度的历史数据分析与绩效评估。
+
+- **多类型报表**: 支持生成警报报表、通知报表及警报动作报表。
+- **灵活过滤**: 支持按时间段、系统、机台作为过滤条件生成报表。
+- **Excel导出**: 所有报表均支持导出为Excel文件。
+
+#### 7.2 数据生命周期管理
+
+支持自动化数据归档与清理，保障系统长期稳定运行。
+
+- **自动归档清理**: 可配置过期警报的自动归档和清理策略。
+- **定时压缩存储**: 定时自动对过期警报数据进行压缩并存储在AMS服务器，同时清理DB中的过期数据，释放数据库空间。
+
 # PMS
+
+## PMS Function List
+
+### 1. 维修保养计划管理 (PM Planning)
+
+#### 1.1 多类型保养策略
+
+支持灵活定义各类预防性维护触发机制，满足复杂生产环境需求。
+
+- **混合触发模式**: 支持基于时间(Calendar-Based)、基于使用情况(Usage-Based, 如Wafer Count/RFTM)及两者结合的混合类型保养管理。
+- **非周期维修**: 支持非周期的Ad-hoc维修管理，并提供API供外部系统创建维修单。
+- **EAP集成触发**: 与EAP整合，实时接收设备参数值以触发基于使用情况的保养。
+- **多重计划优化**: 大PM自动涵盖小PM（如月保替代周保）；同参数多PM类型到达大PM Range时，自动Reset小PM参数并清除对应工单。
+
+#### 1.2 PM模板与规则配置
+
+支持标准化的保养模板管理及精细化的执行规则设定。
+
+- **模板管控**: 支持按Equipment Template或机台ID统一管控维护计划，具备版本控制功能。
+- **Chamber级配置**: 支持按照设备整机或独立Chamber维度配置维护计划。
+- **Checklist关联**: 支持选择并一次添加多个已建立的Checklist模板。
+- **Trigger参数设置**: 支持设置PM Trigger所需的递增性及替换性参数。
+- **Due窗口管理**: 支持设置Early Due、Due、Overdue时间，并可定义Overdue时是否自动Inhibit机台。
+- **命名与排程规则**: 支持自定义PM工单Naming Rule；支持浮动型(基于完成时间)与静态型(固定时间)的下一次PM规划。
+- **备件与附件**: 支持定义PM所需部品备件详细信息(料号/描述)及共享附件(SOP/图片)。
+- **重叠处理**: PM计划重叠时，支持根据用户设定仅触发高级别保养(如Quarterly覆盖Monthly)。
+- **签核逻辑**: 提供系统默认签核逻辑(权限群组)管理维修保养模板。
+
+#### 1.3 保养计划排程与预测
+
+支持智能化的排程辅助与强制管控机制。
+
+- **时间预测**: 具备预测维修保养时间的能力。
+- **自动排程**: 周期性保养完成后自动安排下一次计划。
+- **强制切换状态**: 达到Overdue条件时，强制切换设备/Chamber可用性。
+- **PM预约**: 支持在UI界面预约PM时间，到时强制切换设备状态。
+- **计划导出**: 支持PM计划数据的导出功能。
+
+### 2. PM Checklist 管理
+
+#### 2.1 Checklist 模板配置
+
+支持结构化的检查步骤定义与多媒体内容集成。
+
+- **多维度配置**: 支持By EquipmentTemplate或By EquipmentID配置，支持系统默认签核逻辑。
+- **步骤管理**: 支持添加、删除、修改Checklist Step；步骤分为可选和必选；支持版本控制。
+- **内容本地化**: Checklist Step内容支持中文汉字显示。
+- **参数采集与卡控**: 支持设置必填/选填参数；支持Spec限制及OOS上下限卡控；未填必填项Complete时报警提醒。
+- **附件关联**: 支持为每个Step添加SOP文件或图片等共享附件。
+- **复机检查**: 支持设置PM复机时的Checklist检查执行步骤。
+- **导入导出**: 支持Export及Load Checklist模板。
+- **故障单关联**: UnScheduling Down建立故障单后，支持手动添加PM Work Request及所需Checklist。
+
+#### 2.2 Mobile Checklist 增强
+
+支持移动端专属的检查表设计与复杂数据录入。
+
+- **Word/Excel嵌套**: 支持加载Word格式模板，并在其中嵌套Excel定义复杂表格采集及公式Spec卡控。
+- **多媒体支持**: 方便地在Mobile Checklist中添加图片；支持移动设备拍照上传。
+- **交互增强**: 支持Double Confirm步骤；支持不同字体颜色显示；支持设定每步预计完成时间。
+- **警示与标题**: 支持定义Checklist Title、Detail Title及警示语句。
+- **知识库集成**: 移动设备端支持知识库查询。
+
+### 3. 维修保养执行 (PM Execution)
+
+#### 3.1 工单生命周期管理
+
+支持完整的PM作业流程控制与状态流转。
+
+- **全流程操作**: 支持开始、重新计划、中止、取消、继续、完成、激活、延迟、Adhoc等操作。
+- **状态关联**: 提前设定PM不同Action(开始/暂停/取消/完成/延期)与机台状态的自动关联逻辑。
+- **交接登记**: 系统默认的交接登记功能。
+
+#### 3.2 现场执行与数据采集
+
+支持规范化的作业指导与实时数据记录。
+
+- **可视化指引**: 标明Checklist必做/选做项目；显示Step附件及所需采集值；标明是否在Spec范围内。
+- **备注信息**: 支持在执行过程中添加备注。
+- **自动跳转**: Mobile端Checklist Step完成后自动跳转下一步。
+- **关键备件验证**: PM结束时检查关键备件是否更换，未更换则不允许Complete。
+- **Recipe联动**: 支持定义某些Parts更换后自动切换机台Recipe Constraint。
+
+### 4. 备件全生命周期管理 (Parts Management)
+
+#### 4.1 备件入库与领用
+
+支持与ERP集成及精细化的库存准入控制。
+
+- **多渠道领入**: 支持手动填写基本信息领料；提供标准接口从SAP自动领料录入。
+- **白名单机制**: 提供白名单定义界面，标准领料接口校验白名单决定是否入库；支持Key/Non-Key属性自动带入。
+- **Part Group管理**: 支持建立Part Group并关联机台，上机时自动从Group中匹配可用Part。
+- **初始化工具**: 提供Part EQP Release功能，方便一次性初始化机台已挂Part。
+
+#### 4.2 备件使用与循环控制
+
+支持严格的寿命管理与防错卡控。
+
+- **寿命互锁**: 针对Machine设置Parts Life Time Interlock，超限不可上货并提示原因。
+- **循环量管控**: 设置Part最大循环量，超限自动报警；卸下Part时自动累加使用次数并与Recycle Spec比对。
+- **化学液寿命**: WET Chemical Life Time支持By Wafer Counts和By Life Time双重标准，优先到达者优先卡控。
+- **污染等级卡控**: 限制Part只能上到同一Equipment Group的设备，防止交叉污染。
+- **替换卡控**: 配置维保必换Parts List；替换界面颜色显示过期/低水位Part；未换必换件PM无法Complete。
+- **使用情况显示**: 替换过程中实时显示当前Parts的使用情况。
+
+#### 4.3 备件状态与维修报废
+
+支持完整的备件状态机管理与异常处理。
+
+- **全状态支持**: 默认支持FREE, INUSE, SCRAP, SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, Cleaning, WaitClean等状态。
+- **状态切换方式**: 支持Unscrap回退、Modify按规则切换、To Free强制切换三种方式。
+- **维修与报废**: 高权限用户可执行维修(转Repaired)或报废(转Scrap)操作。
+- **OE处理**: 支持Wait OE状态的Part经OE部门处理后切换至Repaired或Scrap。
+- **错误删除**: 高权限用户可删除刚领入未使用的Free Part。
+
+#### 4.4 备件查询与追溯
+
+支持多维度的库存查询与历史追踪。
+
+- **唯一标识跟踪**: Parts领入生成唯一识别号，在线仓内全程唯一性跟踪。
+- **综合查询**: 支持按PartNo/SeriesNo/VendorSN/Module/Status/Location查询数量及详情。
+- **详细信息展示**: 展示包括VendorSN、ReadingSpec、RFTIME、CycleLimit、CostCenter、Authentication等完整属性。
+- **历史导出**: 支持按PartNo/SN/EQID/UserID/Activity/ReadingType/时间范围查询History并Export；支持一键全选Activity和Reading Type。
+- **条码支持**: 支持KeyIn/Barcode录入，具备合法性验证及唯一识别编码管理。
+
+### 5. 监控、通知与报表
+
+#### 5.1 AMS系统集成报警
+
+支持与Alarm系统深度联动，实现主动式运维监控。
+
+- **PM时机报警**: 整合AMS，在Early/Due/OverDue时间点自动发送报警。
+- **执行异常报警**: PM完成时间超过预估时间、周期性Schedule手动修改时发送报警。
+- **完成通知**: PM做完后通过Alarm系统通知用户。
+- **备件监控**: 定时监控Part Lifetime，逾期自动报警；后台定期扫描安全库存，低于阈值自动报警。
+- **Early预警领料**: Early预警时列出所需Parts，工程师勾选后自动生成领料单。
+- **过滤机制**: 支持通过Reason Code、Shop、机台、PM重要级别过滤通知。
+
+#### 5.2 报表与数据分析
+
+支持全面的维保数据统计与可视化展示。
+
+- **DB Schema支持**: 提供DB Schema支持客户端报表系统开发。
+- **PM列表报表**: 包含Scheduled/Unscheduled PM List及具体信息(Due Date/Meter/Module/EQP ID)。
+- **参数趋势图**: 机台保养记录中单个参数可生成Chart；支持机台参数值历史记录查询。
+- **执行记录**: 提供机台PM执行记录查询，同部门员工均可查看。
+- **Gantt图显示**: 图例化(Gantt)显示PM计划。
+- **清单导出**: 支持Export维修保养清单列表。
+
+### 6. 系统集成与基础支撑
+
+#### 6.1 MES深度整合
+
+支持与MES系统的数据同源与权限统一。
+
+- **基础数据同步**: 机台Module、原因代码、机台Template与MES深入整合，仅需定义一次。
+- **权限统一**: 权限管理模块与MES整合，减少重复定义。
+- **状态同步**: 机台状态及状态转换与MES深入整合。
+
+#### 6.2 标准化接口与工具
+
+支持开放的系统集成能力与便捷的数据初始化。
+
+- **标准API**: 提供领料、退料、Part领料上限控制、Part状态切换、Part延期、创建异常单Work Request等标准接口。
+- **R2R集成**: PM Complete时将特定机台类型结束信息发送给R2R系统。
+- **签核接口**: 提供PM延期及Checklist签核的标准接口供客户签核系统调用。
+- **Loader工具集**: 提供机台数据、状态转换、用户权限组、机台Template、原因代码(及分组)、Mobile/标准Checklist的默认录入工具。
+
+#### 6.3 移动端与权限
+
+支持移动化作业与精细化的运行时权限控制。
+
+- **移动应用**: 支持平板/手机等移动设备；支持拍照上传及知识库。
+- **Runtime权限**: 提供用户Runtime权限管理机制。
+- **通知渠道**: 支持邮件、短信等方式通知维保负责人。
 
 # RTD
 
@@ -1317,9 +2073,379 @@ BOM 结构形式: 通常是树状层级结构(多级BOM)，反映了产品的装
 >
 > RTD 与 SDR 可以合并为一个系统
 
+## RTD Function List
+
+### 1. 平台架构与性能要求
+
+#### 1.1 系统架构与高可用性
+
+支持分布式部署与高可用设计，满足大规模晶圆厂生产需求。
+
+- **分布式并行处理**: 支持多台Server并行处理MES派工请求，具备负载均衡能力，避免单点过载。
+- **弹性扩展**: 系统负载较重时，支持通过增加Server节点横向扩展RTD处理能力。
+- **故障隔离**: 单台RTD Server异常不影响其他Server运行，确保生产连续性。
+- **高可用指标**: 系统Uptime需达到99.99%以上，支持20K/Month产能规模。
+- **Cross-Fab支持**: 支持跨厂区派工，单一Rule可整合多个MES的Lot与机台信息。
+- **POC验证**: 需在国内12寸Fab厂（月产能≥10K）有稳定运行一年以上并验收的成功案例。
+
+#### 1.2 数据存储与同步
+
+采用独立Repository机制，保障MES数据库安全与数据实时性。
+
+- **内建Repository**: 内置独立高速Repository支持Rule运行，无需额外商用数据库，不直接读取MES DB。
+- **实时数据同步**: 通过Oracle Trigger等方式从MES/第三方系统实时更新数据，延迟控制在秒级（<1s）。
+- **历史追溯**: Repository具备历史数据追溯能力，内置Event Maker可查看数据生命周期内的变化。
+- **事务一致性**: 支持事务处理保证数据一致性，具备完善的异常处理机制。
+
+#### 1.3 版本管理与升级
+
+支持在线热更新与快速回滚，保障生产零中断。
+
+- **版本控制**: 支持完整的版本控制功能。
+- **Online升级**: 支持系统在线升级，不影响正常生产。
+- **快速RollBack**: 支持快速回滚至上一版本，应对升级异常。
+
+### 2. 派工规则开发与管理
+
+#### 2.1 可视化开发工具
+
+提供低代码/无代码开发环境，降低Rule开发门槛。
+
+- **Block拖拽开发**: 提供Formatter工具，通过Block拖拽方式开发Rule，无需掌握编程语言或SQL。
+- **流程引擎**: 基于流程引擎开发Rule，支持调试、模拟及自定义组件开发。
+- **详细日志**: 开发工具提供详细的Log记录及系统异常报警机制。
+- **管理界面**: 配套友好的UI界面，支持启用/禁用、顺序调整、参数设置及数据集成展示。
+
+#### 2.2 规则执行与监控
+
+保障Rule高效执行与全链路可追溯。
+
+- **高性能计算**: 单独RTD Rule运行速度通常在10秒以内。
+- **全链路日志**: 每次Query均有Log记录，包含MES传入参数及RTD回传参数。
+- **健康监控**: 提供丰富的状态监控指令，支持编写健康监控脚本；提供实时监控工具，异常时实时通知并支持自动切换。
+- **外部数据集成**: 支持通过文件（Flat/CSV）或DB直接读取Scheduling、Planning、Reporting等外部系统信息。
+- **报表输出**: 支持CSV、饼图、折线图、柱状图、甘特图等多种格式，支持用户自主开发报表。
+
+### 3. 通用派工策略 (Common Rules)
+
+#### 3.1 优先级与排序逻辑
+
+支持多维度的Lot优先级计算与精细化排序。
+
+- **多级优先级标记**: 每个Lot具备所有Sorting优先级标记，最终根据用户设定的权重排序。
+- **高等级Lot优先**: 支持Bullet Lot/Hot Lot识别与优先派工；支持By LoadPort或整机预约，避免等待。
+- **Q-Time管控**:
+    - **Auto Speedup**: 根据Remain Q-time或Remain Q-time/Remain CT比值自动提升优先级。
+    - **Auto Control**: 计算Q-time区间内各站点WIP Limit，在入口站管控派货数量，防止Over Q-time。
+    - **Manual Override**: 支持手动设定Speedup阈值与WIP Limit，优先级高于Auto策略。
+- **Critical Ratio**: 基于历史数据或用户提供数据计算出货紧急程度(CR)，按CR派工。
+- **Target达成率**: 支持Daily Stage Target/Product Stage Target，按完成Ratio排序，低完成率优先。
+- **Rework/Run Card优先**: 支持Rework Lot与Run Card Lot优先派工。
+- **MES Priority**: 支持直接依据MES Priority进行派工。
+- **NPW库存联动**: NPW可用量低于安全存量时自动提升派工等级。
+- **Schedule Monitor**: 优先考虑快要到期的Schedule Monitor Lot。
+- **Merge优先**: Inline分批Lot若有Future Merge站且部分已到站，未到站Lot优先。
+
+#### 3.2 机台选择与Load Balancing
+
+支持智能机台分配与产线平衡优化。
+
+- **Line Balance**: 基于Bottleneck机台群组设定，WIP少时从上游拉货，堆货时停止派货。
+- **机台偏好设置**: 支持指定特定Product/Station下的优先机台、最低优先级机台、禁止派工机台及限定派工机台。
+- **Recipe分组**: 支持机台群组内按Recipe类型分组优先派工。
+- **Chamber Idle优先**: 优先选择Idle时间最长的Chamber或未来最先Idle的机台。
+- **传送效率**: 优先选择传送距离短或传送时间少的Lot。
+- **PM避让**: 考虑机台PM计划，避免派货影响PM执行。
+- **最小片数限制**: 支持设定机器最小派工片数，低于限制则Block；NPW清洗机等特定场景支持暂Block小片数等待Merge。
+- **FIFO**: 支持先进先出基础规则。
+
+#### 3.3 约束检查与状态联动
+
+确保派工决策符合物理与业务约束。
+
+- **全面约束检查**: 派工前检查Lot属性、机台状态、MES Normal Constraint、Recipe状态、PPID状态。
+- **MES Constraint预过滤**: MES传参时标记或过滤已有Constraint的Lot，避免RTD二次检查浪费资源。
+- **Downstream保护**: Downstream不可用时将Lot停在安全站点，避免Q-time Overdue。
+- **Mark Lot屏蔽**: 被Mark的Lot不参与派工。
+- **Reserve Queue**: 支持手动加入Reserve Queue，Queue内Lot优先派工。
+- **Season/Dummy搭配**: 支持特定LotType（如Season）不单独派工，仅在生产需要时伴随派工。
+- **Scan/Sampling**: 支持自定义规则判定Lot是否进入YE站点。
+- **结果反馈**: 回传MES时显示可派Lot的Sorting信息及不可派Lot的Reason。
+- **功能开关**: 所有用户设定功能均具备独立开关。
+
+#### 3.4 Where Next 策略
+
+优化Lot下一站目的地选择与搬送效率。
+
+- **存储位置优先级**: 优先选择下一机台Dedicate OHB > Bay OHB > Default Stocker。
+- **无设备时的暂存**: 当前无可用下一站设备时，优先存放在当前机台对应存储区，其次按Dedicate/Bay/Default顺序选择。
+- **空载具回送**: 支持空FOUP/FOSB搬送至专用Stocker，支持不同楼层/区域差异化配置。
+
+### 4. 设备专属派工规则 (Local Rules)
+
+#### 4.1 Litho (光刻) 派工
+
+针对光刻机台特性优化Reticle管理与Setup效率。
+
+- **Reticle连续性**: 优先派工连续使用同一光罩的Lot，减少Reticle搬送Cost。
+- **Reticle寿命管控**: 检查Startlight/Printdown Inspection/Wafer Count/Use Time，超限不使用该Reticle且不派对应Lot。
+- **温控Setup Cost**: 识别机台升降温状态，优先减少升降温切换。
+- **小片数避让**: 避免连续派小片数Lot造成产能损失。
+- **Loading Balance**: 综合考虑WIP、状态、Constraint等因素平衡Litho群组负载。
+- **Reticle预准备**: 提前提供未来Reticle列表，触发提前搬送。
+- **APC R2R联动**: 检查Litho APC R2R状况。
+- **垂直机限**: 遵守Layer间同机台限定规则。
+- **Chuck顺序**: 考虑Chuck顺序进行排货。
+- **Domapath异常处理**: Domapath设置失败时Hold Lot等待工程师处理。
+
+#### 4.2 Furnace/Wet (炉管/湿法) 派工
+
+针对Batch机台特性优化组批与Q-time管控。
+
+- **Pre-form Batch**: WET-DIFF间提前组批，考虑Process Time与Q-time Limit，避免过早进入Q-time Loop。
+- **连续派货**: 同Batch内Lot连续派货，避免进入Diffusion时间间隔过长。
+- **Batch Size管控**: 检查Form Batch最大最小片数限制。
+- **Batch优先级**: 综合考虑Batch内Lot优先级、Batch Size、等待时间，权重可调。
+- **双Diff联动**: 针对Wet-Diff-Diff连续流，评估第二站Diff Q-time风险，必要时暂缓第一站及WET开始时间。
+- **Idle等待策略**: 支持设定Furnace快Idle时是继续等待Production Lot还是先Form Batch上机。
+- **Zone Inhibit/Loading Effect**: Form Batch时考虑Zone抑制与装载效应。
+- **Manual Form Batch**: 支持用户手动组批结果优先。
+- **Layout Recipe优化**: 在MES Layout Recipe允许范围内尽量最大化Batch片数。
+- **GOI/FML支持**: 支持GOI Lot自动派工及Furnace单跑FML测机。
+- **非Q-time组批**: 即使无Q-time也综合考虑优先级、Size、等待时间进行组批。
+
+#### 4.3 Multi-Chamber / Etch / CMP / Implanter 派工
+
+针对单片及特殊机台优化Setup与腔体利用率。
+
+- **Chamber Idle优先**: 优先选择先Idle的Chamber派货。
+- **多Chamber程序优先**: 优先选择占用较多Chamber的程序。
+- **Season/Dummy预留**: 需搭Season/Dummy时预留足够Load，CDW与Product一起预约。
+- **Recipe Grouping**: 同Group Lot优先，减少频繁Change Layer做Season。
+- **APC R2R联动**: Dry Etch/CMP派工时检查APC R2R Block状态。
+- **Implanter Setup Cost**: 考虑Source/Energy/Gas切换成本，优先最小Setup Cost。
+- **Implanter Train Limit**: 同Setup连续跑Wafer数超限后切换Setup。
+- **CMP Pad Life**: 检查Pad Lift Time选择可用PPID。
+- **CMP小片数避让**: 根据配置避免连续派小片数Lot。
+
+#### 4.4 Measurement / Sorter 派工
+
+针对量测与分拣机台优化采样与Job管理。
+
+- **Wafer Mark优先**: WIP超过Wafer Mark时Product Lot优先。
+- **同机台限定**: 遵守Pre/Post Measurement同机台规则。
+- **Monitor Lot优先**: PM/Downtime后的Monitor Lot优先，加速机台恢复。
+- **指定机台优先**: 支持指定某些量测机台Product Lot优先。
+- **Sorter Job Prep**: 同Job内Lot一起JobPrep。
+- **Sorter多源排序**: 同时考虑Source/Target Lot及Carrier状况。
+
+### 5. 项目实施与服务保障
+
+#### 5.1 测试与验收标准
+
+严格的测试流程与明确的验收指标。
+
+- **全流程测试**: 上线前必须通过硬件性能、子模块功能、集成测试、系统测试，并提供完整文档。
+- **验收标准**: 各项指标达标，完成RFQ及补充内容，技术转移与培训完成并获认可。
+- **需求变更**: 验收前用户提出的合理新需求，厂商应无条件满足。
+- **解释权**: 所有需求以用户最终解释为准，差异项通过SRS澄清。
+
+#### 5.2 培训与知识转移
+
+确保用户具备自主二次开发与运维能力。
+
+- **全程参与**: 用户与IT全程参与评估、设计、开发、测试、培训、部署。
+- **培训课时**: 代码开发≥10天，系统业务逻辑≥15天，Trouble Shooting≥3天。
+- **教材提供**: 提供全部功能清单、说明文档、开发设计文件及电子教材。
+- **二次开发支持**: 提供二次开发所需全部环境、技术及工具服务。
+- **入门课程**: 按用户要求频繁进行入门培训。
+
+#### 5.3 维保与技术支持
+
+提供驻厂服务与严格的SLA保障。
+
+- **1年驻厂维保**: 验收日起1年驻厂服务，协助处理问题与技术难题。
+- **专家支持**: 驻厂无法解决的问题，24小时内安排资深专家入厂。
+- **免费升级**: 项目及维保期间提供不受限免费的软件升级、迁移与Bug Fix。
+- **SLA响应**: 紧急Case≤2h（或有效替代方案），次紧急≤4h，一般≤8h。
+- **接口费用**: RTD与第三方系统集成接口开发费用由RTD厂商承担。
+- **Issue报告**: 线上重大Issue需提交格式化书面记录（5W1H或8D报告）。
+
+#### 5.4 知识产权
+
+明确客制化成果归属。
+
+- **IP归属**: 所有客制化系统/代码知识产权属于用户公司，受法律保护。
+- **保密义务**: 未经许可，厂商不得在其他公司Release或讨论客制化代码/解决方案。
+
 # AMA
 
+## AMA Function List
+
+### 1. 全自动化基础架构与触发机制
+
+#### 1.1 自动化范围与目标
+
+支持OHT设备Run货全自动化，遵循SOP及时供料以最大化设备产能。
+
+- **OHT全自动化支持**: 全面支持OHT设备的Run货自动化流程。
+- **SOP合规执行**: 严格依照设备特性与Run货SOP，将货物及时送达设备LoadPort。
+- **产能利用率优化**: 通过精确控制派工选货与时机，确保设备LoadPort持续有料可跑。
+
+#### 1.2 触发机制
+
+支持多种触发方式，确保派工响应的实时性与准确性。
+
+- **定时触发**: 支持基于时间周期的周期性派工触发。
+- **事件触发**: 支持LoadPort状态变化、机台状态变化等实时事件触发派工。
+
+### 2. 单一设备Run货全自动化场景
+
+#### 2.1 固定缓冲区 (Fixed Buffer) 设备
+
+针对Fixed Buffer设备的多样化派货场景支持。
+
+- **单Lot派工**: 支持单个Production Lot或Monitor Lot的自动派工。
+- **多Lot合批**: 支持一个FOUP内包含多个Production/Monitor Lots的Batch派工。
+- **Season搭配**: 支持“1个Production Lot + 1个Season Lot”的组合派工。
+- **空FOUP搭配**: 支持“1个Production Lot + 1个空FOUP”的派工（如Back Side Clean设备左进右出场景）。
+- **Dummy预留**: 支持Auto Reserve Etch Inside/Outside Dummy Lot。
+- **Monitor搭配**: 支持“1个Monitor Lot + 1个Season Lot”的组合派工。
+- **Zero Idle CMP**: MES触发CMP Season条件时，自动同时派工Production与Season Lot，货到齐后Season先Run以实现Zero Idle。
+- **Season优先逻辑**: Production+Season组合中，无论谁先到达，均遵循Season Lot先Run货原则。
+
+#### 2.2 内部缓冲区 (Internal Buffer/NTB) 设备
+
+针对含NTB及Internal Buffer设备的特殊派工逻辑。
+
+- **多Lot Batch**: 支持Batch of Multiple Lots自动派工。
+- **Furnace Batch**: 支持Furnace Batch with Furnace Monitor Lot及纯Furnace Monitor Lot派工。
+- **Furnace Dummy**: 支持Furnace Dummy Lots的自动补充与派工。
+- **NTB设备支持**: 支持Tools with NTB (Foup Exchanger) 的自动化派工。
+- **Form Batch**: 遵循MES机制自动Form Batch并派货；Furnace Form Batch自动组合Production与Monitor Lot。
+- **Dummy自动补充**: Furnace Dummy不足时，自动选择可用Dummy Lot派工至机台。
+
+#### 2.3 专用自动化设备
+
+支持Sorter、FOUP Clean及Inspection设备的专项自动化。
+
+- **Sorter自动化**:
+    - 支持FOSB↔FOUP、FOUP↔FOUP等多种Job类型。
+    - 支持Planned和Adhoc Sorter Actions。
+    - 支持1->N、N->1（N>LoadPort数）的大规模分拣。
+    - 换FOUP时自动选择可用FOUP。
+- **FOUP Clean自动化**:
+    - 按规则（如上次Clean时间）排序并自动派工空闲清洗位。
+    - 待洗FOUP内有Lot时，自动创建Adhoc Sorter Job转移Lot后再派工清洗。
+- **FOUP Inspection自动化**:
+    - 依据MES Flow过滤需Inspection的FOUP。
+    - 设备空闲时自动派工至LoadPort。
+
+### 3. 跨站点与辅助资源全自动化
+
+#### 3.1 跨站点Run货全自动化
+
+支持复杂的跨工序联动与资源准备。
+
+- **Auto Batch Run**: 支持带Furnace Monitor的自动Batch Run。
+- **Season/Monitor/Dummy准备**: 支持Etch/Furnace Dummy Lots的自动Prepare与Reserve；支持Season/Monitor Lot的Auto Split for Inuse。
+- **资源复用循环**: 支持Monitor/Season/Dummy的Reuse与Recycle自动化。
+- **Eqp Monitor**: 支持带或不带Season的Eqp Monitor自动化；支持单机台多Monitor Lot Carpool。
+- **Pre-send策略**: 支持基于Watermark或Pending Process Wafer Qty的预发送。
+
+#### 3.2 Dummy与Season自动控制
+
+精细化管控辅助资源的补充与回收。
+
+- **Etch Dummy控制**: Inside Dummy不足时自动补料到LoadPort；DummyPort为空时自动补料；达到MaxUsedCount时自动Dummy Out。
+- **Bonding派工**: Pixel与Logic片数不一致时，RTD选择Pixel<Logic组合，Full Auto对Logic做逻辑分批，多余片数Sorter传出，片数一致后再Bonding。
+- **Season执行**: 单LoadPort可用时，允许一Lot在Port、一Lot预送OHB；支持自动准备Pilot。
+
+#### 3.3 NPW库存与生命周期管理
+
+实现NPW从入库、使用到回收的全流程自动化。
+
+- **水位管理**: 自动计算NPW Product Wafer数量，低于水位时自动下新NPW或Downgrade补充。
+- **自动分批**:
+    - **Eqp Monitor**: 根据Schedule Monitor时间及提前量自动分批（物理/逻辑），物理分批自动选空FOUP。
+    - **GOI Monitor**: 根据MES GOI Schedule自动提前准备。
+    - **Season Wafers**: 需用Season时自动从Source NPW Product分批，支持逻辑分批绑定机台。
+    - **Furnace Monitor**: 根据Preform Batch时间及水位提前备货。
+    - **Dummy Wafers**: 需Dummy时自动从Source NPW Product创建Dummy Lot。
+- **生命周期处置**:
+    - **InUse End**: 根据MaxUsedCount决定Reuse/Recycle/Downgrade/等待同FOUP其他Wafer。
+    - **Recycle End**: 根据MaxRecycleCount决定Reuse/Reclaim/Downgrade。
+    - **Reclaim End**: 根据MaxReclaimCount决定Reuse/Downgrade。
+    - **Auto Downgrade**: 到达Downgrade站点且有对应表时自动执行。
+
+### 4. 高级自动化功能与异常处理
+
+#### 4.1 Pre-Send与Recovery准备
+
+优化短/长Process时间设备的供料节奏及恢复效率。
+
+- **短Process设备**: 根据预定义水位预先搬送至设备附近OHB。
+- **长Process设备**: 根据未加工Wafer数量及水位进行派工控制。
+- **Tool Recovery准备**: PMS指定Recovery Package或MES设为WaitPrepare时，自动提前做Monitor分批。
+
+#### 4.2 Pilot自动准备与Lot下线
+
+支持AMAT R2R集成及自动下线流程。
+
+- **Pilot自动准备**: 集成AMAT R2R/RTD/MES，当产品触碰Pilot条件时自动分批，分出后按WhatNext自动派工。
+- **Production Lot下线**: MES创建Lot后，自动从FOSB选Wafer下线并执行Sorter。
+- **NPW Lot下线**: NPW水位不足时自动创建Lot，从FOSB选Wafer下线并执行Sorter。
+
+#### 4.3 异常处理
+
+保障自动化流程的健壮性。
+
+- **Group Cancel**: JobPrep后长时间（可配置）Lot未到达，系统自动Cancel JobPrep。
+
+### 5. 系统性能与高可靠性
+
+#### 5.1 负载均衡与容错
+
+确保派工系统的高可用性与稳定性。
+
+- **负载均衡**: 多台Server运行时自动Load Balance，避免单点过载。
+- **故障转移**: 单Server异常时，其他Server自动接管后续派工任务，不影响生产。
+
+### 6. APF 全自动派工组件 (Activity Manager for Automation)
+
+#### 6.1 事件驱动与实时监控
+
+基于事件监听实现毫秒级自动化响应。
+
+- **Repository Event监听**: 实时监控机台、LoadPort、Lot信息变化，状态变更时实时呼叫MES/RTD获取派工列表。
+- **组件Event支持**: 支持APF Component Event监听及内部自定义Event收发，灵活构建实时Workflow。
+- **Watch Dog/Schedule**: 除Event外，支持Watch Dog与定时Schedule触发Workflow。
+
+#### 6.2 分布式架构与集成能力
+
+支持高并发处理与多系统无缝对接。
+
+- **分布式设计**: 多Server并行处理自动派工请求，支持Load Balance。
+- **Web Service**: 支持通用Web Service接口，实现外部系统触发AMA Workflow及AMA调用外部系统。
+- **Tibco RV**: 支持通过Tibco RV调用外部系统接口。
+- **RTD整合**: 直接整合APF RTD Dispatch功能，简单调用即可运行Rule与Report。
+
+#### 6.3 可视化开发与工具链
+
+提供低代码开发环境与丰富的数据处理能力。
+
+- **可视化开发**: 提供AMA/AMR Block拖拽工具，快速撰写派工Workflow，支持执行历史查询。
+- **数据库操作**: 支持Oracle Raw SQL执行与Procedure调用，实现数据增删改查。
+- **资源互斥锁**: 支持内部资源Claim/Release，避免逻辑Race Condition。
+- **报表与通知**:
+    - 支持本地保存或FTP传输至共享盘。
+    - 支持HTML/PDF/Text等多格式报表转换。
+    - 支持通过客户邮件系统发送邮件。
+- **OS命令调用**: 支持调用操作系统命令行及自定义脚本。
+
 # YMS
+
+## YMS Terminology
 
 | Abbreviation | Full form                  | Desc             |
 | :----------- | :------------------------- | :--------------- |
@@ -1333,11 +2459,11 @@ variance 方差, 反应一组数据时离散程度 (sigma^2)
 
 standard deviation 标准差: 就是方差开根号, 在大样本中一般使用样本的标准差近似代替总体的标准差, 标准差可以计算钟型曲线 (正态分布)
 
-## Tool Commonality
+### Tool Commonality
 
 设备共同性
 
-## ANova
+### ANova
 
 Analysis of variance
 
@@ -1350,7 +2476,7 @@ e.g.
 1. 给病人不同的药物剂量;
 2. 病人本身不同, 比如年轻的病人代谢速度快, 有些病人对这个药物比较敏感
 
-## one-way ANOVA
+### one-way ANOVA
 
 单因素方差分析
 
@@ -1385,7 +2511,7 @@ F 分布有两个重要的参数: d1, d2(分子 MSB 的自由度, 分母 MSE 的
 
 P 值通过查表? 没懂
 
-## Regression analysis
+### Regression analysis
 
 回归分析
 
@@ -1393,21 +2519,19 @@ P 值通过查表? 没懂
 
 R^2 范围: `[0, 1]`, 越接近 1, 说明线性回归线与原始数据越吻合
 
-## WAT Chart
-
-## Top Down Analysis
+### Top Down Analysis
 
 一种自顶向下, 逐步分解的性能分析
 
 就比如二叉树 dfs 的时候每层 bfs 分析各个节点
 
-## Pareto analysis
+### Pareto analysis
 
 帕累托图, 排列图
 
 将出现的质量问题和质量改进项目按照重要程度依次排列而采用的一种图表
 
-## hard bin vs soft bin
+### hard bin vs soft bin
 
 - hard bin
   know the overall reason about the failure
@@ -1415,7 +2539,410 @@ R^2 范围: `[0, 1]`, 越接近 1, 说明线性回归线与原始数据越吻合
 - soft bin
   also know the compartment in which it has failed or compartment in which it has been placed
 
+## YMS Function List
+
+### 1. 平台基础与模板管理
+
+#### 1.1 主页与个性化
+
+支持高度自定义的工作台，提升用户访问效率。
+
+- **模板展示与切换**: 主页集中展示所有分析模版，支持便捷切换查看。
+- **默认主页设置**: 可选择特定模板作为主页默认展示内容，支持自定义布局。
+- **收藏夹管理**: 支持将模板收藏至个人收藏夹，并可自定义修改与开发。
+- **草稿箱机制**: 新增模板自动保存至Drafts，防止开发工作遗失。
+- **分享协作**: 支持将模板分享给其他部门或同事。
+
+#### 1.2 权限与安全管控
+
+提供多维度的权限体系与安全防护机制。
+
+- **分级权限控制**: 支持按用户组及模板文件夹管控权限，包含访问、浏览、编辑、完全控制四种状态。
+- **功能权限弹性配置**: 可灵活调整平台内各功能分类及操作权限。
+- **数据权限隔离**: 支持按用户组设置查询数据、填报数据的使用权限。
+- **自助分析权限**: 支持对用户组的自助分析编辑权限进行独立设置。
+- **自动报告权限**: 新增自动报告任务权限管理模块。
+- **系统水印**: 支持基于用户信息设置系统水印，增强数据安全与溯源能力。
+
+#### 1.3 模板属性与版本
+
+保障模板资产的可追溯性与规范化管理。
+
+- **历史版本管理**: 支持查看每个模板最近10次保存记录（含修改人及时间）。
+- **路径与搜索**: 支持模板路径查看与全局搜索。
+- **打开模式设置**: 可配置模板打开时的默认模式（查看/编辑）。
+- **数据表管理**: 支持显示数据表信息、设置默认表、建立表关系。
+- **列属性配置**: 支持修改数据类型、列名称，以及按数据类型、自然字符串或自定义规则排序。
+
+### 2. 数据处理与ETL引擎
+
+#### 2.1 数据接入与查询
+
+支持多源异构数据的统一接入与灵活查询。
+
+- **多数据库支持**: 兼容Oracle、MS SQL、PostgreSQL、DB2、Greenplum等主流数据库。
+- **SQL直连查询**: 提供SQL指令直接获取数据库数据的能力。
+- **免编程查询工具**: 提供拖拉式查询接口生成工具，无需编码即可复用。
+- **自定义查询条件**: 支持产品、批号、站点、机台、日期等多维度条件组合，支持通配符(%, \*)。
+- **结果缓存与再利用**: 查询结果可存储、过滤、排序及输出，支持接续下一步分析。
+- **Grid交互**: 支持在Grid中过滤数据、格式化显示、调整字段顺序与样式。
+
+#### 2.2 数据清洗与转换
+
+提供丰富的数据处理函数与算子。
+
+- **表达式与函数**: 支持常用数据函数，保留最近20个表达式，提供预览与提示功能。
+- **多类型数据支持**: 涵盖Lot、Wafer History、WIP、WAT、CP、Metrology(EDC)、Chamber、Event、Defect、FDC、FT、PMS、Equip等文本、数值及图片数据。
+- **数据分组**: 支持特定间隔、平均间隔、固定大小、唯一值分布、标准差等多种分组模式；支持多列去重分组（最多5列）。
+- **数据合并与关联**: 支持去重合并、直接合并、左/右/内/外关联；支持获取差集、排除指定列、标识数据源。
+- **格式化与替换**: 支持空值替换、数据类型转换、列名修改及自定义排序。
+- **表关系高亮**: 支持通过设置表关系实现多表联动高亮。
+
+#### 2.3 流程自动化与调度
+
+支持分析流程的编排、定时执行与异常处理。
+
+- **Flow可视化编排**: 提供节点化Flow编辑界面，支持运行、报错提示及导入导出。
+- **Workflow节点库**: 内置数据查询、过滤、汇总、图表绘制、统计分析、报表、Wafer Map等节点。
+- **定时调度(Scheduler)**: 支持定时执行分析流程，结果存储至指定路径或发送邮件。
+- **流程持久化**: 支持按用户存储分析流程并重复执行。
+- **Loop运算**: 提供流程循环运算功能。
+- **二次开发接口**: 提供Chart/Grid/Data Cache/Map Handler等接口，支持客户扩展。
+- **高可用设计**: 包含系统异常处理及故障恢复功能。
+- **脚本集成**: 支持Python/R脚本编写，可在自助分析及Flow中调用交互。
+
+### 3. 数据可视化模块
+
+#### 3.1 通用图表 (General Chart)
+
+提供全面的统计图表库与定制化能力。
+
+- **丰富图表类型**: 支持垂直/交叉表、折线、散点、饼图、雷达、箱线、热力、3D散点、密度、直方、柏拉图、曲面、CDF、等值线、矩形树图、甘特、组合、平行坐标、散点矩阵、桑基、瀑布、云状图等。
+- **深度定制**: 支持外观、字体、轴、颜色、标签、工具提示、图例、格栅、辅助线、规格线(Spec Line)、超链接等配置。
+- **智能分析增强**:
+    - 支持从数据列绘制动态规格线及Cpk计算。
+    - 支持自动分群批量绘图。
+    - 支持Trend转折点自动侦测与违规高亮。
+    - 支持趋势拟合（直线、样条、平滑等）。
+    - 支持X-Y, X-YY, XX-YY多图叠加。
+    - 支持Device Four Corner Spec (FF/SS/SF/FS/Center) 散点图定义。
+    - 支持极值自适应（Defect Chart Y轴）。
+- **半导体专用图表**:
+    - Inline Parameter Trend (By Site)。
+    - WS Yield & Parameter Trend。
+    - Defect Trend (By Class)。
+    - WAT Raw Chart & Map联动。
+    - FDC Indicator Trend (By Tool/Chamber Split)。
+    - Parameter相关性散点矩阵图。
+    - Parameter热力图（自定义色阶）。
+
+#### 3.2 Wafer Map 专题
+
+提供业界领先的晶圆图谱分析能力。
+
+- **Map展示模式**: 支持Single/Gallery/Stack Map、Contour/3D Contour、Vector Map、Parametric Map、Bubble Map、MAP切面Trend、CP Map & Reticle Layout等。
+- **Bin管理与分析**:
+    - Bin Definition文件解析与规则定义(BinID/Code/Name/Type)。
+    - Bin Summary/柱状图/Sorting/Re-test次数显示。
+    - Soft/Hard Bin转换。
+    - Top N Fail Bins累积Map。
+    - 特定Bin Box-Plot比较。
+- **高级分析功能**:
+    - 分区(Zone)分析与自定义Zone工具。
+    - 重复缺陷分析、位图分析、Step决策分析。
+    - 边缘良率检查、曝光检查、探针卡叠加分析。
+    - Ink Die自动/手动标注及周边Good Die识别。
+    - Overlay数据偏移矢量图分析。
+    - Reticle设置与展示。
+- **交互与操作**:
+    - 动态鼠标跟随显示Bin Detail。
+    - 实时Rotation、Zoom In、鸟瞰图。
+    - 圆形/矩形/异形框选。
+    - Map色阶自定义（均分/小值多分段/大值多分段）。
+    - 关联Lot/Date/Step/Device/ProbeCard信息。
+- **数据集成**:
+    - 自动化ETL解析CP Tester数据。
+    - Integration with Excel Macro/R/Python。
+    - 支持Inline Parameter Map (By Site)。
+
+#### 3.3 Defect Map & Image Gallery
+
+支持缺陷图谱与影像的深度关联分析。
+
+- **Defect Map**: 支持Die Grid显示、Color By Class、Stack Map/Gallery、Reticle Map、Zone Map。
+- **Image Gallery**: 支持FTP/S3/NAS/HTTP路径图片加载；支持JPG/PNG格式；支持亮度对比度调整、平铺、缩放旋转。
+- **联动交互**: 框选Defect联动Image Gallery；支持Image Marker；支持多种框选方式；支持调整Defect Size/Shape；联动查看明细。
+
+#### 3.4 交互与编辑增强
+
+提升分析过程的流畅度与探索性。
+
+- **联动与高亮**: 支持跨图表标记联动、数据源异同的高亮联动；支持分组标签调用。
+- **辅助线系**: 支持水平/垂直/拟合线（线性/对数/指数/多项式/逻辑回归/乘方/高斯/样条/平滑）。
+- **跳转与钻取**: 支持页面跳转、第三方系统跳转、传参模板自定义；支持图表下钻。
+- **便捷操作**: 右键切换图表类型、拖拽布局、跨页拖动、复制粘贴、轴选择器切换、表达式过滤、反选、注释。
+- **导出**: 支持自定义组合导出图表页面及数据文件。
+- **文本组件**: 支持背景图、计算值、链接、输入控件、筛选器、页面/节点操作按钮。
+- **Tab组件**: 支持多层嵌套、内部排布设置、参数联动。
+
+### 4. 统计分析模块
+
+#### 4.1 基础与高级统计
+
+内置完整的统计学算法库。
+
+- **假设检验**: 单/双样本T检验、配对T检验、ANOVA(单/双因素)、卡方检验、K-W检验、Mann-Whitney U、Wilcoxon符号秩、Kolmogorov-Smirnov检验、正态性检验。
+- **回归与相关**: 线性回归、Spearman相关、偏最小二乘回归(PLS)、通用参数敏感性分析。
+- **多元分析**: 主成分分析(PCA)、K均值聚类、层次聚类、平均算法聚类、随机森林、决策树。
+- **描述性统计**: 基础/高级描述性统计、数据透视、列连表分析、样本量估计。
+- **制程分析**: 过程能力分析、共性分析、根因分析、制程参数最佳解、特征标准化。
+
+#### 4.2 SPC与半导体专项分析
+
+针对半导体制造场景的深度分析工具。
+
+- **SPC管制图**: 支持Xbar-R/S, X-MR, Xbar-Uniformity, EWMA, CuSum, P/nP/C/U Chart；支持八大判异规则及国际标准Rule；支持Offline SPC批次模拟。
+- **CPK计算**: 支持By Parameter计算CP/CPK/PPK；支持过滤后计算；支持Control Limit自定义。
+- **关联性分析**: WAT & Inline/Bin/Parameter Correlation；Inline Impact WAT/Bin/Parameter；Defect Impact Inline；Inline & Defect & FDC Indicator Correlation。
+- **Common Tool分析**: 支持EQP/Chamber/Recipe/Foup/Slot等维度分析。
+- **G/B Wafer分析**: 支持自定义Group分析。
+- **性能指标**: 保证1000片Wafer叠图在5分钟内显示。
+
+### 5. 报表与分发模块
+
+#### 5.1 报表生成与管理
+
+支持多格式、结构化的报告产出。
+
+- **全生命周期管理**: 支持添加、删除、重命名、编辑、分享、查看报表。
+- **内容定制**: 支持更改列名/顺序、动态详细数据显示、组件注释/标签。
+- **多格式输出**: HTML, Excel(2003/2007), CSV, PPT(2003/2007), Open-Office, PDF, 图片。
+- **Excel增强**: 支持表格合并、图表/Map混合排版、Index Sheet自动生成与链接。
+- **PPT增强**: 支持多章节格式、单页多图合并(X/Y轴定义)、自定义分页逻辑。
+
+#### 5.2 自动分发与订阅
+
+实现报告的无人值守推送。
+
+- **多渠道发送**: 邮件(支持HTML正文)、FTP服务器、NAS挂载盘。
+- **触发机制**: 支持自定义周期发送、条件触发发送。
+- **动态内容**: 支持邮件正文动态指标、告警规则联动。
+- **模板管理**: 支持PPT模板增删改、Report Output Type配置。
+
+### 6. 系统运维与其他
+
+#### 6.1 系统配置与维护
+
+提供完善的后台管理能力。
+
+- **数据源管理**: 支持新增、修改、删除多种数据库连接。
+- **服务配置**: FTP服务器(多节点)、邮件服务器、系统默认参数。
+- **底图与Zone**: 支持自定义产品底图、Zone、Recticle；支持By ProductType设置Bin颜色。
+- **恢复机制**: 展示被删除Flow列表并支持恢复。
+- **帮助与反馈**: 内置帮助手册与用户问题反馈界面。
+
+#### 6.2 监控与审计
+
+保障系统稳定运行与合规使用。
+
+- **资源监控**: 查看服务器CPU、Memory、线程数及状态。
+- **日志诊断**: 查看日志与报错定位。
+- **在线监控**: 监控系统在线人员及资源使用情况。
+- **使用统计**: 提供模板使用情况的可视化统计。
+- **兼容性**: User端支持Windows 7/8/10/11；支持简体中文/英语多语言。
+
 # DMS
+
+## DMS Function List
+
+### 1. 系统架构与基础支撑
+
+#### 1.1 架构设计与高可用
+
+- **国产化数据库支持**：支持 Oracle、OpenGauss、StarRocks 等多种数据库，满足国产化适配需求。
+- **微服务架构**：采用微服务架构设计，实现自动负载均衡与资源统一编排，部署便捷。
+- **分布式高可用**：所有组件及服务实例均支持分布式高可用方案，消除单点故障。
+- **弹性扩展能力**：DMS（数据管理服务）与 Loader 均采用分布式架构，可随产能增长灵活扩展。
+
+#### 1.2 系统运维与安全
+
+- **数据安全与备份**：提供底层数据库安全架构、数据备份策略，以及数据处理异常报警与恢复机制。
+- **权限管理**：提供用户登录认证及分组授权功能，支持细粒度的权限管控。
+- **集群监控**：提供服务器及集群的实时监控与管理系统。
+- **在线发布**：支持系统功能的在线热发布，减少停机维护时间。
+- **日志审计**：记录数据处理的全链路详细日志，便于问题追溯。
+- **机台配置管理**：支持通过配置方式动态添加或减少检测机台。
+- **Klarf 解析模板**：提供基于不同机型、不同版本 Klarf 文件的读取模板及源代码。
+
+### 2. 数据接入与解析
+
+#### 2.1 Klarf 数据解析
+
+- **多版本兼容**：支持 Klarf 1.1 至 1.8 全版本数据格式解析。
+- **高性能解析**：支持每分钟解析入库 100+ 个 Klarf 文件（单文件约 2000 个 defect）。
+- **大文件处理**：大文件解析采用异步机制，不阻塞正常 Klarf 文件的解析流程。
+- **原始数据查看**：支持显示 Klarf 原始数据内容，并提供导出功能。
+- **手动上传**：支持用户手动上传 Klarf 文件（含自定义格式文件）。
+- **上传监控**：提供 Klarf 文件上传状态的实时监控工具。
+
+#### 2.2 图像数据管理
+
+- **多格式支持**：支持 TIFF 及其他常见照片格式的载入与解析。
+- **照片导出**：支持将 Review 机台拍摄的缺陷照片批量导出到本地电脑。
+- **外部系统对接**：支持与公司现有数据系统对接，实现数据自动同步。
+
+### 3. 查询与检索功能
+
+#### 3.1 多维度组合查询
+
+- **自定义条件**：支持 Product、Equipment、Layer、Recipe、Lot、Wafer、测试时间、数据载入时间等多条件组合查询。
+- **模糊查询**：支持使用通配符进行模糊匹配。
+- **SQL 查询**：支持直接使用 SQL 语句进行高级查询。
+- **时间模式**：支持相对时间与绝对时间两种查询模式。
+- **关联查询**：支持关联 WIP（在制品）与 CP（晶圆测试）数据进行综合分析。
+- **直接读取**：支持直接读取本地 Klarf 档案进行查询分析。
+
+#### 3.2 查询结果交互
+
+- **数据导出**：查询结果支持导出为 Excel，且包含 Map 数据。
+- **Map 预览**：支持在查询界面直接预览 Wafer Map。
+- **Map 标记筛选**：支持在查询结果的 Map 上进行数据标记及二次筛选。
+- **历史记录**：支持保存查询记录，下次可通过历史记录快速复用。
+- **显示模式切换**：支持下拉框模式与 List 列表模式切换；支持列表与行列定义等多种显示模式。
+- **结果过滤**：
+    - 一键过滤：Classified、Unclassified、HasCluster、HasRepeater、HasImage。
+    - 统计过滤：对 Class、Defect Count、Defective Dies 等统计结果进行精确过滤。
+    - 最终结果：支持设置仅呈现最终检测结果。
+
+### 4. Wafer Map 分析
+
+#### 4.1 Map 显示与交互
+
+- **缺陷标记**：支持显示/隐藏 Defect 照片标记、Cluster、Repeater、Adder 标记；支持快速 Mark 带 Image 或 Cluster 的 Defect。
+- **显示控制**：
+    - 支持修改 Defect 显示大小与形状。
+    - 支持显示/隐藏 Reticle、Zone、Die Text、Die Border。
+    - 支持 Map 缩放与 Overview 功能。
+    - 支持查看/隐藏 Image。
+    - 支持 Defect Display Mode 切换（All/Classified Only/Cluster Only/Images Only）。
+- **框选操作**：支持矩形、圆形、异形、Die 模式框选。
+- **测量工具**：支持在 Map 上进行长度及夹角测量。
+- **外观自定义**：支持用户自定义 Map 显示外观、标题格式及动态切换标题。
+- **Set up 定制**：支持 Map Properties Customization，调整显示细项条件。
+
+#### 4.2 Map 分析与统计
+
+- **Sidebar 面板**：
+    - 统计 Defect Map 信息。
+    - 显示 Trend Chart 与直方图。
+    - 显示框选 Defect 的 Image。
+- **叠图分析**：
+    - 支持 Map Gallery 与 Map 叠图（By Reticle / By Die）。
+    - 支持多片 Wafer Map 叠图计算 DSA。
+    - 支持 Region Stack（Defect Map, Reticle Stack, Repeater）。
+    - 支持 Split Map（PreMap, Post Map, Hit Map, Adder Map）。
+    - 支持 Color by Post-Adder / Post-Missing / Diff。
+- **统计渲染**：支持按 Die/Reticle 统计 Defect Count、Density、Percent，并根据数值大小渲染颜色（色阶可调）。
+- **等值线图**：支持显示 Map 等值线图，色阶可自定义。
+- **Kill Ratio 分析**：支持计算 Defect 导致芯片失效的概率（Hit Rate）。
+- **Zone/Edge 分析**：支持自定义 Zone、Edge 进行区域统计分析。
+- **联动分析**：
+    - Map 关联 Summary Table 联动。
+    - Interactive with Data Set / Statistic Chart。
+    - Defect 链接到对应图像。
+- **Repeat Defect**：支持查看重复缺陷分布。
+- **Wafer Split**：支持用户手动选择 Wafer Split 功能。
+
+#### 4.3 Map 操作与导出
+
+- **重分类**：支持在 Map 上对 Defect 进行 Bin 的重新分类。
+- **二次过滤**：支持在 Map 上进行数据的二次过滤。
+- **Drill Down**：支持选中 Defect 下钻到其他分析组件。
+- **Rawdata 查看**：支持显示框选 Defect 的原始数据表格。
+- **导出功能**：支持导出 Klarf 文件、PPT 到指定路径；支持复制 Map 到剪切板。
+- **Send to Review**：支持指定缺陷发送到 Review 机台进行复查拍照。
+
+### 5. Image Gallery 与图表
+
+#### 5.1 Image Gallery
+
+- **排布模式**：支持行列模式与 Panel 模式自定义排布。
+- **图像操作**：支持放大/缩小、对比度/亮度调整（全局应用）、Smooth/Sharp 处理。
+- **选择操作**：支持全选、反选、Ctrl 框选、Shift 多选。
+- **信息显示**：支持在 Image 上显示 Defect Information；支持 Colored by Defect Code。
+- **重分类**：支持在 Image 上进行 Bin 的重新分类。
+- **导航与导出**：支持设置默认起始图片；支持 Copy to Clipboard/File；支持 Drill Down。
+- **树状浏览**：支持按自定义条件树状结构浏览 Review Defect Image。
+- **Cluster 分析**：支持 Defect Cluster 分析及检测资讯显示。
+- **人工分类**：界面上支持缺陷的重新人工分类。
+
+#### 5.2 统计图表
+
+- **图表类型**：支持 Trend、双 Y 轴 Trend、Bar、Stacked Bar、Box、散点图、直方图、Pareto 等。
+- **统计指标**：支持 Defect Count、True Defects、Non-Adder、Defective Dies、Defect Density、Reviewed、Classified、TestedDies、TestArea 及其交叉统计（By Class/Zone/Test）。
+- **辅助线**：支持 OOC、OOS、中位线、均值线等 Spec 线显示。
+- **交互功能**：
+    - 支持更改标题、字体、数字格式及动态切换标题。
+    - 支持自定义图例颜色并保存。
+    - 支持显示/隐藏提示框、注释、标签。
+    - 支持任意选择数据隐藏/重现。
+    - 支持多图表同界面自定义布局。
+    - 支持图表上显示 Map 及 Image。
+    - 支持 Change X/Y Axis、Enable/Disable Unclassify、Defect Size Definition。
+- **照片参数**：可查看 DefectID、LayerID、ReviewTime、坐标，并显示选中照片在 Map/Die 中的位置。
+
+### 6. 高级分析功能
+
+#### 6.1 DSA (Defect Source Analysis)
+
+- **Particle to Particle**：支持颗粒级缺陷溯源分析。
+- **Cluster 分析**：支持 DSA Cluster 分析计算。
+- **Layer 过滤**：支持按单一 Layer、Layer 列表、Layer Group 过滤运算。
+- **Wafer 匹配**：支持设置 Wafer 匹配关系及 Auto Wafer Alignment。
+- **参数定义**：支持自定义 Repeater 与 Cluster 判断参数。
+- **Step Contribution**：支持指定 Layer 进行缺陷追溯分析。
+- **误差调整**：支持用户自行调整缺陷根源分析的位置误差范围。
+- **结果汇总**：提供晶圆层级汇总表、相关性汇总表及命中缺陷对照表。
+
+#### 6.2 DTT (Defect Traceability)
+
+- **物理坐标映射**：支持按 Layer 展示 Defect 物理坐标映射关系（含 Image）。
+- **Common Defect**：支持仅保留 Common Defect 显示。
+
+#### 6.3 Tool Commonality
+
+- **交叉分析**：支持拉取 WIP 数据与 Defect 数据进行交叉分析，识别共性机台。
+
+#### 6.4 Overlay 分析
+
+- **Map 叠加**：支持 Defect Map 与 CP Map 的 Overlay 叠加分析。
+
+### 7. 系统配置与自动化
+
+#### 7.1 个性化配置
+
+- **分析配置**：配置 DSA、Cluster、Repeater 选项。
+- **分类名称**：配置 Class、RoughBin、ADCBin、Manual-SEM、Auto-SEM、SSA-Macro/Micro 名称。
+- **颜色配置**：配置每种 Class 的显示颜色。
+- **Wafer 配置**：配置 Zone、Reticle、Subdie、Overlay 偏移等信息。
+- **Sampling 规则**：自定义配置 Review Sampling Rule。
+- **PPT 样式**：配置 PPT 导出样式。
+- **持久化**：所有配置支持修改、保存，重启后仍保持生效。
+
+#### 7.2 Sampling 功能
+
+- **手动导出**：支持根据 Sampling Rule 手动导出 Klarf 文件。
+- **Auto Sampling**：支持自动采样功能。
+
+#### 7.3 自动报告
+
+- **参数配置**：基于模板选择报告页面，定义运行条件与周期。
+- **自动执行**：自动生成报告并保存至指定目录或发送至指定邮箱。
+
+#### 7.4 组件交互
+
+- **页面跳转**：支持选择部分/全部数据跳转到其他页面进一步分析。
+- **分类跳转**：支持选择 Defect 跳转至照片/MAP 分类页面进行分类。
 
 # ADC
 
@@ -1429,7 +2956,178 @@ MIR-WM811K, 包含 811,000 个晶圆图谱
 | :----------- | :-------- | :----------- |
 | RPT          | Report    | 生产报表系统 |
 
+## RPT Function List
+
+### 1. 系统架构与开发平台
+
+#### 1.1 混合技术架构
+
+支持主流报表工具与自定义开发框架，兼顾标准化与灵活性。
+
+- **双引擎架构**：提供 FineReport (Tomcat Web) 与 Report Framework (EXT.Net Web) 双重架构支持。
+- **开发工具链**：支持 FineReport 设计器及 C# 报表开发工具，满足不同技术栈的开发需求。
+- **可视化开发**：提供可视化报表编辑工具，支持用户自定义报表布局、图表样式及交互逻辑，降低二次开发门槛。
+- **算法可扩展**：支持报表数据提取逻辑与统计算法的自定义扩展和修改，适应复杂业务计算场景。
+
+#### 1.2 开放接口与集成
+
+支持跨系统数据共享与嵌入式集成。
+
+- **标准数据接口**：提供认证鉴权机制的数据 API，允许外部系统安全获取报表数据。
+- **报表联动**：支持不同报表间的参数传递与钻取（Drill-down），点击图表或表格可串联至详细报表进行深层查询。
+
+### 2. ETL 数据整合引擎
+
+#### 2.1 任务调度与管理
+
+提供可视化的 ETL 全生命周期管理能力。
+
+- **UI 管理界面**：提供 Web UI 进行 ETL 任务的增删改查、启停控制及配置管理。
+- **精细化调度**：支持 Schedule Job 定时执行，频率精确到秒/分/时/天/周/月。
+- **工厂时间适配**：内置工厂日历时间逻辑（如 08:00-次日08:00），仅需简单配置即可自动按工厂班次汇总数据。
+- **断点续传与补数**：支持根据生产数据时间戳自动检测缺失区间，系统恢复后自动从停机时刻开始补数据，确保数据连续性。
+
+#### 2.2 运行监控与运维
+
+保障 ETL 过程的透明化与问题快速定位。
+
+- **历史运行分析**：记录 ETL 运行历史，支持查询与分析执行效率、耗时趋势。
+- **错误日志追踪**：详细记录运行报错信息，辅助维护人员快速定位数据抽取/转换异常。
+- **数据一致性保障**：通过校验机制确保 Report DB 与 MES 源数据的一致性、完整性与准确性。
+- **高频更新**：历史信息（Lot/Machine/Wafer History）更新频率控制在 3 分钟以内。
+
+### 3. 数据模型与关键指标
+
+#### 3.1 基础主数据
+
+构建标准化的半导体制造数据底座。
+
+- **核心实体**：涵盖 Equipment（设备）、Equipment Capability（设备能力）、Product（产品）、Flow（工艺流程）等基础数据。
+
+#### 3.2 Lot 批次级数据
+
+支持全流程批次追溯与绩效分析。
+
+- **事件分类存储**：按 Start/Out, Ship/Unship, Rework, Scrap/Unscrap, Terminate/UnTerminate, Hold/Release, Bank, Trackout, Change Attribute, Branch 等事件类型结构化保存 Lot History。
+- **关键绩效指标 (KPIs)**：
+    - **WIP 与产出**：Lot WIP, Start Qty, Out Qty, Move 数量。
+    - **时间效率**：Run Time, Wait Time, Hold Time, Queue Time, Rework Time, Branch Time。
+    - **质量与异常**：Rework Qty, Scrap/UnScrap Qty, Terminate/UnTerminate Qty, Hold/Release 次数, Skip 次数, Branch Count。
+
+#### 3.3 Equipment 设备级数据
+
+支持设备利用率分析与状态监控。
+
+- **状态历史**：记录 Equipment 状态转换历史及每日各状态的时间、次数、占比。
+- **效能指标**：支持每日/每周/每月的 OEE, Uptime, Down Time, Utilization, Efficiency 计算与展示。
+- **产出统计**：统计 Equipment Move 数量。
+
+#### 3.4 Wafer 晶圆级数据
+
+支持精细到单片晶圆的制程追溯。
+
+- **Wafer Level 整合**：具备整合 Track In/Out, Process Start/End, Wafer History (WPH) 等信息的综合报表功能。
+
+### 4. 报表功能与交付
+
+#### 4.1 导出与格式
+
+支持高保真数据导出与离线分析。
+
+- **富格式 Excel 导出**：支持导出包含字体颜色、字号、单元格背景色等样式的 Excel 文件，保持报表视觉一致性。
+
+#### 4.2 自动化分发
+
+支持报表的定时推送与主动触达。
+
+- **邮件订阅**：支持按日/周/月设定特定时间自动发送报表邮件，满足管理层定期审阅需求。
+
+#### 4.3 权限与安全
+
+支持多维度的数据访问控制。
+
+- **三级权限体系**：
+    - **查看权限**：控制用户可见的报表范围。
+    - **数据维护权限**：控制用户对报表数据的编辑/修正能力。
+    - **系统权限**：控制系统配置、ETL 管理等后台操作权限。
+
+#### 4.4 性能监控
+
+保障报表服务的稳定性与响应速度。
+
+- **运行指标监控**：实时监控报表点击率、数据更新状态、查询响应时间及图表渲染效率。
+- **异常提醒**：针对性能瓶颈或数据延迟提供预警机制。
+
+### 5. 数据生命周期管理
+
+#### 5.1 存储与清理策略
+
+平衡在线查询性能与历史数据保留需求。
+
+- **在线保留策略**：原则上在线保留 MES 数据 1 年，保障近期数据查询性能。
+- **定制化清理方案**：根据用户对数据保存时限的具体要求，提供完善的数据归档与清理机制。
+
+### 6. 开箱即用 (OOB) 客制化报表
+
+#### 6.1 标准报表库
+
+提供预置的行业标准报表，加速项目落地。
+
+- **WIP Profile**：在制品分布概况报表。
+- **Hold WIP**：被扣留批次明细与原因分析报表。
+- **Index Summary**：综合生产指数摘要报表。
+- **EQP Status Change History**：设备状态变更履历报表。
+- **EQP Performance Summary**：设备效能综合汇总报表。
+- **客制化扩展**：支持根据项目规划数量进行额外的客制化报表开发。
+
 # FMS
+
+## FMS Function List
+
+### 1. 设备基础信息管理
+
+- **MES数据自动同步**：支持从MES数据库自动同步设备基础信息，确保数据实时准确。
+    - 同步字段包括：Tool ID、Tool Model、Chamber ID、Port ID等关键标识。
+- **信息导出与报表**：
+    - 支持将设备基本信息一览表导出为通用格式文件。
+    - 提供基于设备基础信息的数据统计与报表分析功能。
+
+### 2. 设备状态可视化界面
+
+#### 2.1 Layout布局管理
+
+- **可视化建置**：提供便捷的工厂Layout拖拽式建置与修改工具，支持快速调整设备位置。
+- **自由分组编辑**：
+    - 支持按区域、制程或自定义逻辑对设备进行自由划分与群组编辑。
+    - 支持对群组内的单台设备及腔体（Chamber）进行独立属性编辑。
+
+#### 2.2 实时状态渲染
+
+- **动态颜色映射**：根据设备实时状态自动变换图标颜色，直观反映设备运行情况。
+- **状态颜色配置**：支持用户自定义增加、减少或编辑设备状态与图标颜色的对应关系。
+- **自动刷新机制**：设备状态界面打开后自动定时更新状态，无需手动刷新。
+- **多维状态显示**：
+    - 实时显示设备的连接状态（Online/Offline）与操作模式（Auto/Manual/Idle等）。
+    - 实时显示设备的当前使用状态（Running/Down/Standby等）。
+
+### 3. 设备状态履历与统计分析
+
+#### 3.1 状态履历追踪
+
+- **单机履历查询**：支持查看每台设备的完整状态变更履历。
+- **详细信息展示**：每条状态记录包含Lot ID、Alarm ID及内容、Comment备注等上下文信息。
+- **状态占比统计**：自动计算并显示每台设备各状态所占的时间百分比。
+
+#### 3.2 筛选与查询
+
+- **多维度筛选**：支持按群组、设备型号、设备厂商等条件组合筛选设备状态履历。
+- **自定义时间范围**：提供查询选单，支持用户自定义统计时间段进行历史数据分析。
+
+### 4. 系统运维与监控
+
+- **性能监控**：实时监控FMB平台自身的运行性能指标（如响应时间、并发数、资源占用等）。
+- **异常报警机制**：当系统性能下降或服务异常时，自动触发报警通知运维人员。
+- **功能清单文档**：提供FMB其他模块的详细功能列表及操作说明文档。
 
 # WPH
 
@@ -1444,7 +3142,7 @@ MIR-WM811K, 包含 811,000 个晶圆图谱
 | :----------- | :--------------------------- | :--------------- |
 | ERP          | Enterprise Resource Planning | 企业资源经营计划 |
 
-# 硬件配置
+## 硬件配置
 
 AP 服务器 (Application Server)
 
@@ -1537,154 +3235,9 @@ AP 服务器 (Application Server)
 6. 数据采集与交互接口服务器
     > - 与DB服务器1:1, 每台DB服务器对应的子系统都有独立的SECS/GEM或Interface A数据流, 1:1是CIM行业标准架构
 
-## Oracle 方案
-
-| 序号 | 硬件系统名称                                   | 10K-13K WPM 期望数量    | 5K-8K WPM 期望数量      | 应用场景 / 数量拆解                                                                                                                                                                                                                                                                                                                                              | 应用板块                      |
-| :--- | :--------------------------------------------- | :---------------------- | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------- |
-| 1    | 2U 机架式 CPU 服务器 <br>(Oracle 生产 DB 集群) | 15 台 <br>+ 扩展单元    | 9 台 <br>+ 扩展单元     | **10K-13K 基准 (15 台)**: MES/SPC(2)、EAP/RMS/AMS/PMS/APC/RCM(3)、RTD(1)、ADG(1)、Report(1)、YMS/DMS(2)、FDC(2)、AMA(2)、FMB(1); 承载全部 15 子系统核心事务, RAC/ADG 物理部署; 先进制程>30% 时 FDC/APC+2 台. <br>**5K-8K 基准 (9 台)**: MES/SPC(2)、EAP/RMS/PMS(2)、RTD(1)、FDC/APC/RCM(2)、YMS/DMS/Report/AMS/AMA/FMB(2); 每新增 1 种工艺平台 YMS/FDC 独立+1 台 | Oracle 方案                   |
-| 2    | 2U 机架式 CPU 服务器 <br>(Oracle 开发测试集群) | 3 台 <br>+ 扩展单元     | 2 台 <br>+ 扩展单元     | **10K-13K 基准 (3 台)**: UAT/DEV 环境按生产 1:1 镜像, 支撑 MES/EAP/RMS/SPC/Report/PMS/AMS/YMS/DMS/FDC/APC/RTD/AMA/RCM/FMB 全模块版本验证与回退测试; 每新增 1 个产品族+1 台. <br>**5K-8K 基准 (2 台)**: 含 1 台独立脱敏 DB 用于 15 子系统生产数据合规导入测试; 多版本并行验证时+1 台                                                                              |                               |
-| 3    | 2U 机架式 CPU 服务器 <br>(Oracle 生产虚拟集群) | 28 台 <br>+ 扩展单元    | 12 台 <br>+ 扩展单元    | **10K-13K 基准 (28 台)**: 承载 15 子系统全部 AP/ 中间件 VM, 按 1:8 超分; MES/EAP/RMS/RTD/PMS/RCM 高并发事务集群占 50%, FDC/APC/YMS/DMS/Report/AMS/AMA/FMB 分析查询集群占 50%; 每+1K WPM 加 2 台. <br>**5K-8K 基准 (12 台)**: 按 1:8~1:10 加权超分; 每+1K WPM 加 1 台, 新工艺导入期临时+1 台                                                                      |                               |
-| 4    | 全闪存 SAN 存储阵列 <br>(Oracle 专用 FC 架构)  | 2 台×260 TB<br>+ 扩展柜 | 2 台×100 TB<br>+ 扩展柜 | **10K-13K 基准**: 有效容量 260 TB, IOPS≥300K, 延迟<0.3 ms; NVMe 热层 150 TB(MES/SPC/EAP/RMS/RTD/PMS/RCM), SAS SSD 温层 110 TB(FDC/APC/YMS/DMS/Report/AMS/AMA/FMB); Oracle 分区启用存储级缓存加速, 禁用压缩; 每+1K WPM 加 1 个扩展柜. <br>**5K-8K 基准**: 有效容量 100 TB, NVMe 热层 60 TB, SAS SSD 温层 40 TB; 每+1K WPM 加 1 个扩展柜                           |                               |
-| 5    | MES/EAP 终端 <br>(Oracle 关联工控电脑)         | 249 台 <br>+ 扩展单元   | 70 台 <br>+ 扩展单元    | **10K-13K 基准 (249 台)**: 覆盖 15 子系统全部工位; 自动化产线终端密度= 设备数÷5(占 60%), 半自动 / 手动工位密度= 设备数÷3(占 40%); 备件率 8%; 每+50 台设备加 8 台. <br>**5K-8K 基准 (70 台)**: 同比例缩放, 另加 5% 研发专用调试终端及半自动工位补配                                                                                                               | 终端数量待定                  |
-| 6    | 数据采集与交互接口服务器 <br>(Oracle 侧)       | 13 台 <br>+ 扩展单元    | 7 台 <br>+ 扩展单元     | **10K-13K 基准 (13 台)**: 与 15 个子系统 DB 实例对应, 覆盖全部设备接入; 侧重事务完整性校验, 单线程处理为主; 标准协议设备 1 台带 30-50 台. <br>**5K-8K 基准 (7 台)**: 与 Oracle DB 物理机 1:1 对应; 新工艺验证期临时+1 台                                                                                                                                         | 与 CIM 系统 DB 服务器一一对应 |
-
-## MySQL 方案
-
-| 序号 | 硬件系统名称                                   | 10K-13K WPM 期望数量  | 5K-8K WPM 期望数量   | 应用场景 / 数量拆解                                                                                                                                                                                                                                                                                                                                                                                   | 应用板块                      |
-| :--- | :--------------------------------------------- | :-------------------- | :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------- |
-| 1    | 2U 机架式 CPU 服务器 <br>(MySQL 生产 DB 集群)  | 15 台 <br>+ 扩展单元  | 9 台 <br>+ 扩展单元  | **10K-13K 基准 (15 台)**: MES/SPC(2)、EAP/RMS/AMS/PMS/APC/RCM(3)、RTD(1)、YMS/DMS(2)、FDC(2)、AMA(1)、FMB(1)、备份节点 (1); 每台配≥3.84 TB NVMe SSD×4 作为本地数据盘, 采用 MGR/InnoDB Cluster 高可用; 先进制程>30% 时 FDC/APC+2 台. <br>**5K-8K 基准 (9 台)**: MES/SPC(2)、EAP/RMS/PMS(2)、RTD(1)、FDC/APC/RCM(1)、YMS/DMS/Report/AMS/AMA/FMB(2)、备份节点 (1); 每新增 1 种工艺平台 YMS/FDC 独立+1 台 | MySQL 方案                    |
-| 2    | 2U 机架式 CPU 服务器 <br>(MySQL 开发测试集群)  | 3 台 <br>+ 扩展单元   | 2 台 <br>+ 扩展单元  | **10K-13K 基准 (3 台)**: UAT/DEV 环境按生产 1:1 镜像, 支撑 15 子系统快速 Schema 变更与多版本并行测试; 每新增 1 个产品族+1 台. <br>**5K-8K 基准 (2 台)**: MySQL 测试实例可与 AP 混部以节省资源; 合规审计需求增加时+1 台                                                                                                                                                                                |                               |
-| 3    | 2U 机架式 CPU 服务器 <br>(MySQL 生产虚拟集群)  | 28 台 <br>+ 扩展单元  | 12 台 <br>+ 扩展单元 | **10K-13K 基准 (28 台)**: 承载 15 子系统全部 AP/ETL/ 采集 VM, MES/EAP/RMS/RTD/PMS/RCM CPU 密集型集群按 1:6 超分 (占 40%), FDC/APC/YMS/DMS/Report/AMS/AMA/FMB 轻量采集 / 日志集群按 1:10 超分 (占 60%); 每+1K WPM 加 1 台. <br>**5K-8K 基准 (12 台)**: 按 1:8~1:10 加权超分; 每+1K WPM 加 1 台, 新工艺导入期临时+1 台                                                                                  |                               |
-| 4    | 2U 机架式存储服务器 <br>(MySQL 配套分布式存储) | 4 台 <br>+ + 扩展柜   | 2 台 <br>+ + 扩展柜  | **10K-13K 基准 (4 台)**: 承载 15 子系统 ETL 暂存区、历史数据归档、MGR 异步备份目标; 采用三副本分布式架构, 有效容量 130 TB; NVMe 缓存层 50 TB(MES/EAP/FDC/RCM 热数据缓冲), HDD/SAS SSD 容量层 80 TB(RPT/YMS/DMS/AMS/FMB 冷数据); 启用纠删码节省 30% 空间; 每+1K WPM 加 1 台. <br>**5K-8K 基准 (2 台)**: 有效容量 50 TB, NVMe 缓存层 20 TB, 容量层 30 TB; 每+1K WPM 加 1 台                             |                               |
-| 5    | MES/EAP 终端 <br>(MySQL 关联工控电脑)          | 249 台 <br>+ 扩展单元 | 70 台 <br>+ 扩展单元 | **10K-13K 基准 (249 台)**: 覆盖 15 子系统全部工位; 自动化产线终端密度= 设备数÷5(占 60%), 半自动 / 手动工位密度= 设备数÷3(占 40%); 备件率 8%; 每+50 台设备加 8 台. <br>**5K-8K 基准 (70 台)**: 同比例缩放, 另加 5% 研发专用调试终端及半自动工位补配                                                                                                                                                    | 终端数量待定                  |
-| 6    | 数据采集与交互接口服务器 <br>(MySQL 侧)        | 13 台 <br>+ 扩展单元  | 7 台 <br>+ 扩展单元  | **10K-13K 基准 (13 台)**: 与 15 个子系统 MySQL DB 实例对应, 覆盖全部设备接入; 侧重批量 ETL 与流式写入, 多线程并发处理; 非标协议设备 1 台带 10-15 台. <br>**5K-8K 基准 (7 台)**: 与 MySQL DB 物理机 1:1 对应; 新工艺验证期临时+1 台                                                                                                                                                                    | 与 CIM 系统 DB 服务器一一对应 |
-
-# 团队搭建
-
-## (一) CIM 业务划分
-
-半导体领域中计算机集成制造 (CIM/Computer Integrated Manufacturing), 是行业标准系统, 作为半导体制造工厂 (FAB) 的“中枢神经系统”, 其核心业务为实现全流程自动化、数字化与智能化管控. CIM 系统包含四大核心业务板块: 设备自动化与控制、生产执行与追踪、智能调度与物流、工程与质量管理
-
-### 1. CIM 子系统介绍
-
-创新中心现存业务共包含 15 个 CIM 子系统
-
-- EAP(Equipment Automation Program): 设备自动化程序
-- FDC(Fault Detection and Classification): 故障检测与分类
-- RMS(Recipe Management System): 配方管理系统
-- RCM(Remote Control Management): 远程控制管理
-- APC(Advanced Process Control): 先进过程控制
-
-- MES(Manufacturing Execution System): 制造执行系统
-- SPC(Statistical Process Control): 统计过程控制
-- AMS(Alarm Management System): 告警管理系统
-- PMS(Preventive Maintenance System): 设备维修保养系统
-
-- RTD(Real-Time Dispatching): 实时派工系统
-- AMA(Activity Management of Full-Automation): 全自动化控制平台
-
-- YMS(Yield Management System): 良率管理系统
-- DMS(Defect Management System): 缺陷管理系统
-- RPT(Reporting System): 报表系统
-- FMS(Factory Monitoring System): 工厂监控系统
-
-### 2. 现阶段痛点
-
-现阶段因缺乏信息技术 (IT/Information Technology) 相关支撑, 无法对上述系统进行工作内容的推进, 包括: 厂商选型、生产系统软件适配、厂商软件的本地开发与部署、客制化功能需求开发与部署等.
-
-### 3. 现阶段解决方案
-
-现提议申请成立制造信息技术组 (MIT/Manufacturer Information Technology), 负责上述 15 个子系统的规划、实施、落地等工作
-
-因办公人员不足的原因暂定根据最小规模划分原则, 在 MIT 组下按 CIM 系统业务模块进行划分业务模块
-
-| 业务板块         | 包含子系统              | 对应小组 |
-| :--------------- | :---------------------- | :------- |
-| 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
-| 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
-| 智能调度与物流   | RTD, AMA                | RTD 组   |
-| 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
-
-其中, 因时间紧、任务重, 为确保通线时间节点, 应以 **EAP、MES、FDC** 三大系统的配套方案建设为重点, 再后续完成其余子系统的解决方案
-
-应在 1-3 个月内组建 20 人自有团队, 并联合厂商驻场开发及协助人员以完成开发任务、资源整合、实施保障. 待系统稳定运行后, 逐步扩大 MIT 组的人数规模并降低外部依赖, 有序实现能力内化、知识沉淀、自主运维, 为 CIM 系统长期稳定运行与生产质量提供坚实支撑
-
----
-
-## (二) MIT 组开发规划
-
-## 1. 编程语言
-
-因厂商招标结果暂不确定, 初步需求开发语言
-
-| 小组   | 编程语言                             |
-| :----- | :----------------------------------- |
-| EAP 组 | C, C++                               |
-| MES 组 | C#, Java                             |
-| RTD 组 | Python, Java, JavaScript, TypeScript |
-| YMS 组 | Python, Java, JS, TS                 |
-
-## 2. 框架、中间件、开发工具
-
-招聘时需掌握计算机知识包括:
-
-- **数据库**: MySQL, PostgreSQL 等
-- **消息队列**: RabbitMQ, Kafka 等
-- **缓存**: Redis
-- **前端框架**: Vue2/Vue3 等
-- **后端框架**: Springboot2/Springboot3 等
-- **ORM框架**: MyBatis/MyBatis-Plus 等
-- **包管理**: Maven, Anaconda
-- **版本管理**: Git
-- **AI框架**: Pytorch
-- **检索增强数据库**: Neo4j/Langchain
-- **容器化**: Docker, Kubernetes
-- **日志解析工具**: ElasticSearch
-
-## 3. 岗位划分
-
-为保障系统上线时间, 并且考虑到全栈工程师的稀缺性, 可以分为以下岗位:
-
-| 岗位             | 必备技能                                                                                   | 框架 / 协议 / 工具                 |
-| :--------------- | :----------------------------------------------------------------------------------------- | :--------------------------------- |
-| 自动化开发工程师 | C/C++                                                                                      | SECS/GEM 协议                      |
-| 前端工程师       | C#/JavaScript/TypeScript                                                                   | Vue2/Vue3                          |
-| 后端工程师       | Java, MyBatis/MyBatis-Plus, MySQL/PostgreSQL, MQ, Redis, Docker, Kubernetes, ElasticSearch | Springboot2/Springboot3            |
-| 前后端工程师     | C#/JavaScript/TypeScript/Java                                                              | Vue2/Vue3, Springboot2/Springboot3 |
-| AI 工程师        | Python, Neo4j/Langchain                                                                    | Pytorch                            |
-| 全栈工程师       | 上述所有                                                                                   | 上述所有                           |
-
-## 术语
-
-- SSO(Single Sign-On, 单点登录) 是一种身份认证机制, 它允许用户只需登录一次, 就可以访问所有相互信任的应用系统, 而无需在每个系统中重复输入用户名和密码.
-- FTP(文件传输协议), 最传统、最底层的文件搬运工, 局限于非实时、无事务保证、需自行解析文件、错误处理困难
-- ESB(企业服务总线), 当 FTP 把文件搬过来后, ESB 负责将其转化为标准服务调用; 或者在不同异构系统 (如 SAP ERP ↔ MES ↔ YMS) 之间做协议适配.
-- CA (Certificate Authority, 证书授权中心), 负责签发、管理和吊销数字证书, 通常对接企业内部 PKI 体系或国家认可的第三方 CA 机构
-- SDK (Software Development Kit, 签章开发套件), 嵌入到各业务系统中的“签章,引擎”, 通常为 DLL/JAR/REST API 形式, 支持国密 SM2/SM3 或国际 RSA/AES 算法
-
-> SVID 是 Status Variable ID(状态变量标识符)
-
-| 术语  | 全称                  | 作用                                                    |
-| :---- | :-------------------- | :------------------------------------------------------ |
-| SVID  | Status Variable ID    | 标识实时状态 / 传感器读数 (只读或周期性采集)            |
-| ECID  | Equipment Constant ID | 标识设备配置常量 (如校准系数、硬件版本, 通常不频繁变化) |
-| DVVAL | Data Value Definition | 标识可设定的工艺参数 (Setpoint, 可由 EAP 写入修改)      |
-
-本质是“数据标签”
-
-SVID 是一个整数编号 (如 12001), 它对应机台内部的一个具体变量. 例如:
-
-SVID=12001 → 腔体温度 (Chamber Temperature)
-
-SVID=12002 → 射频功率 (RF Power)
-
-SVID=12003 → 气体流量 (Gas Flow Rate)
-
-SVID=12004 → 当前加工晶圆数 (Wafer Count)
-
 ## 规划图
 
-## EAP 组
+### EAP 组
 
 ```txt
             [ RMS ] ←───────┐
@@ -1697,7 +3250,7 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
                  [ FDC ]
 ```
 
-## MES 组
+### MES 组
 
 ```txt
             [ MES ] ←───────┐
@@ -1710,7 +3263,7 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
                  [ OOC/CPK ]
 ```
 
-## RTD 组
+### RTD 组
 
 ```txt
             [ RTD ] ←──→ [ AMA ]
@@ -1721,7 +3274,7 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
                └───→ [ Lot 状态流 ]
 ```
 
-## YMS 组
+### YMS 组
 
 ```txt
             [ YMS ] ←───────┐
@@ -1772,23 +3325,6 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
 | YMS → MES          | `质量判定结果`, `批次放行/扣留指令`, `SPC Rule Violation`                         | `API/gRPC`(质量反馈)<br>`MQ`(处置指令)                 |
 | FMS → RPT          | `工厂级KPI聚合数据`, `跨车间异常汇总`                                             | `WebSocket`(大屏推送)<br>`REST API`(报表数据源)        |
 
-## 绘图规范
-
-> 颜色规范:
->
-> - EAP 组: 橙色系 (#D4A56B)
-> - MES 组: 红色系 (#E74C3C)
-> - RTD 组: 青绿色系 (#1ABC9C)
-> - YMS 组: 蓝色系 (#3498DB)
-> - 集成底座: 灰色 (#95A5A6)
->
-> 连接线样式建议:
->
-> - 实线: 同步调用 / 主流程
-> - 虚线: 异步事件 / 告警通知
-> - 粗线: 高频大数据流 (如 Trace Data / SEM Image)
-> - 双向箭头: 状态同步 / 闭环反馈
-
 ## CIM 负责人
 
 工作职责:
@@ -1821,9 +3357,9 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
 | 投标方       | 为准确理解客户需求提供权威依据，支撑科学的工作量评估与成本测算，避免因需求误判导致的报价偏差 (低估引发亏损或高估丧失竞争力); 同时有助于系统性识别项目潜在风险，制定合理的应对策略. |
 | 项目执行团队 | 作为项目范围管理的基准文件，为进度控制、成本管理及质量验收提供根本依据; 任何超出 SOW 约定范围的工作内容，均须严格遵循变更控制流程进行审批与管理，确保项目可控、合规推进.           |
 
-## 保密
+### 保密
 
-## SOW
+### SOW
 
 SOW( Statement of Work): 工作说明书 / 工作范围说明
 
@@ -1836,21 +3372,21 @@ SOW( Statement of Work): 工作说明书 / 工作范围说明
 | 受众对象     | 开发人员、架构师、测试人员                    | 运维人员、DBA、安全管理员、基础设施团队                  |
 | 典设中的定位 | 定义“标准化组件与集成规范”                    | 定义“标准化环境基线与资源模板”                           |
 
-## 项目交付物要求
+### 项目交付物要求
 
-## 项目约束和资源要求
+### 项目约束和资源要求
 
-## 相应要求
+### 相应要求
 
-## 工具平台
+### 工具平台
 
-## 专业服务体系
+### 专业服务体系
 
 1. 联系人
 2. 时间安排
 3. 要求
 
-## 成功案例
+### 成功案例
 
 ## CIM 团队建制
 
@@ -1867,71 +3403,13 @@ ISM(Intelligent Smart Manufacturing): 智能制造系统
 - CIMPF(CIM Platform Foundation): CIM 平台基础
     - 包括微服务架构、数据库中间件、消息总线、统一认证、DevOps 工具链及公共组件开发，为上层 MES/EES/YMS 等应用提供标准化支撑.
 
-# FAQ
+## demo 评分标准
 
-> AP(Application Platform) 应用平台
->
-> - Master AP: 指上位管控平台. 它不直接对接机台，而是作为 EAP 的管理中枢，负责:
->     - 统一管理多台 EAP 实例的部署、升级、配置下发;
->     - 提供统一的 GUI 界面、日志聚合、告警监控;
->     - 作为 EAP 与 MES/FDC/RMS 等工厂级系统之间的集成网关;
->     - 管理设备模板、Recipe, Pilot 验证等平台级资源.
-
-| 缩写 | 全称                 | 核心职责                                                                                                            | 对应层级          |
-| :--- | :------------------- | :------------------------------------------------------------------------------------------------------------------ | :---------------- |
-| AP   | Application Platform | 业务逻辑层. 承载 VM 模型运算、Recipe 管理、数据采集策略、与 MES/FDC 交互等上层业务.                                 | 上位机 / 服务器端 |
-| EI   | Equipment Interface  | 通讯协议层. 负责 SECS/GEM, OPC, PLC 等底层协议的解析、消息收发、连接管理，将机台原始数据转化为 AP 可识别的标准格式. | 驱动层 / 边缘端   |
-
-Q: 为什么 VM 系统需要区分 AP 和 EI ?
-
-A:
-
-1. 解耦设计与多机台适配
-    - VM 需要对接大量不同型号、不同协议的设备. EI 作为“翻译官”屏蔽了底层差异(如 A 机台用 SECS-II，B 机台用 OPC-UA)，向 AP 提供统一的数据接口. AP 只需关注 VM 算法本身，无需关心数据是如何从机台获取的
-2. 性能隔离
-    - VM 对数据采集的实时性要求极高(尤其是 Trace Data). EI 通常以独立进程/线程运行，甚至部署在靠近机台的 Edge Server 上，确保高频采集不会阻塞 AP 的模型计算和数据库写入
-3. 标准化交付
-    - 在许多 CIM 项目中，EI 往往是标准化产品(如前面提到的 FA SECS Driver)，而 AP 则包含大量客制化的 VM 建模逻辑. 区分两者有利于分工: EI 团队专注协议稳定性，AP 团队专注工艺模型精度
-
-## POC
-
-POC: Proof of Concept(概念验证)
-
-简单来说，POC 搭建就是回答一个核心问题：“**这个东西理论上说得通，但在现实中真的能做出来且有效吗？**”
-
-以下是关于 POC 搭建的详细解析:
-
-### 1. POC 的核心目的
-
-- **验证可行性:** 确认技术方案在现有架构、硬件或业务逻辑下能否跑通.
-- **降低风险:** 在投入大量资金和人力进行全面开发之前，先以最小成本试错，避免“造出轮子却发现是方的”.
-- **争取信任/预算:** 向管理层、客户或投资人展示实际效果，作为立项或采购的依据.
-- **技术选型:** 当面临多个供应商或技术路线时，通过 POC 实测对比性能、兼容性和易用性.
-
-### 2. POC 搭建的典型场景
-
-- **企业软件采购:** 例如公司想引入一套新的 CRM 系统，先搭建一个包含少量数据和核心流程的 POC 环境，测试是否满足业务需求.
-- **新技术探索:** 例如团队想在现有 App 中集成 AI 大模型，先搭建一个 Demo 验证响应速度和准确率.
-- **网络安全攻防:** 安全研究员发现一个漏洞后，编写一段 POC 代码（Exploit PoC）来证明该漏洞确实可被利用，而非仅仅是理论推测.
-- **初创项目融资:** 制作一个具备核心功能的最小可用产品（MVP 的前身），向投资人演示商业模式的技术落地能力.
-
-### 3. POC vs MVP vs Prototype（区别）
-
-很多人容易混淆这三个概念，它们的侧重点不同:
-
-| 概念          | 全称                   | 核心问题                | 特点                                                    |
-| :------------ | :--------------------- | :---------------------- | :------------------------------------------------------ |
-| **POC**       | Proof of Concept       | **能不能做？**          | 关注技术可行性，通常很粗糙，用完即弃，不面向最终用户.   |
-| **Prototype** | 原型                   | **长什么样/怎么交互？** | 关注用户体验和设计流程，可能是高保真 UI 但无后端逻辑.   |
-| **MVP**       | Minimum Viable Product | **有没有人用/买单？**   | 最小可行产品，具备核心价值，面向真实市场发布并收集反馈. |
-
-### 4. POC 搭建的关键原则
-
-- **范围最小化:** 只验证最核心的假设或风险点，不要试图构建完整系统.
-- **时间盒限制:** 通常设定严格的时间期限（如 1-2 周），超时即止，避免陷入过度开发.
-- **明确成功标准:** 在开始前必须定义好“什么算验证成功”（例如:并发支持 1000+、识别准确率>95%、部署时间<5 分钟等）.
-- **结果导向:** 无论成功还是失败，POC 都是有价值的. 失败意味着及时止损，避免了更大的浪费.
-
-### 总结
-
-**POC搭建** 是连接“理论构想”与“工程落地”之间的桥梁. 它是一种 **低成本的风险管理工具**，帮助团队在全面投入之前，用事实和数据代替猜测，确保后续的开发方向是正确的.
+1. 真实场景性能
+    - EAP: 单台设备SECS/GEM消息解析并写入DB耗时 (≤200ms)
+    - MES: 批量过站(50 Lots)事务提交响应时间 (≤3s)
+    - FDC: 加载单Run完整Trace曲线(≥10万数据点)渲染耗时 (≤4s)
+2. 核心任务操作效率
+    - EAP: 新增/修改一个设备通讯参数映射 (≤6次点击，0页面跳转，有字段级校验提示)
+    - MES: 执行一次标准Hold/Release操作 (≤4次点击，1次弹窗确认，有明确状态反馈)
+    - FDC: 调整一个Sensor的Fault Detection阈值 (≤5次点击，0页面跳转，有预览/模拟效果)
