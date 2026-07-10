@@ -1,74 +1,73 @@
 # CIM
 
-├── EES
-│ ├── [EAP](#eap)
-│ │ ├── [EAP-Terminology](#eap-terminology)
-│ │ ├── [EAP-Architecture](#eap-architecture)
-│ │ └── [EAP-Function-List](#eap-function-list)
-│ ├── [FDC](#fdc)
-│ │ ├── [FDC-Terminology](#fdc-terminology)
-│ │ ├── [FDC-Architecture](#fdc-architecture)
-│ │ └── [FDC-Function-List](#fdc-function-list)
-│ ├── [RMS](#rms)
-│ │ ├── [RMS-Terminology](#rms-terminology)
-│ │ ├── [RMS-Architecture](#rms-architecture)
-│ │ └── [RMS-Function-List](#rms-function-list)
-│ ├── [RCM](#rcm)
-│ │ ├── [RCM-Terminology](#rcm-terminology)
-│ │ ├── [RCM-Architecture](#rcm-architecture)
-│ │ └── [RCM-Function-List](#rcm-function-list)
-│ └── [APC](#apc)
-│ ├── [APC-Terminology](#apc-terminology)
-│ ├── [APC-Architecture](#apc-architecture)
-│ └── [APC-Function-List](#apc-function-list)
-│
-├── MES
-│ ├── [MES](#mes)
-│ │ ├── [MES-Terminology](#mes-terminology)
-│ │ ├── [MES-Architecture](#mes-architecture)
-│ │ └── [MES-Function-List](#mes-function-list)
-│ ├── [SPC](#spc)
-│ │ ├── [SPC-Terminology](#spc-terminology)
-│ │ ├── [SPC-Architecture](#spc-architecture)
-│ │ └── [SPC-Function-List](#spc-function-list)
-│ ├── [AMS](#ams)
-│ │ ├── [AMS-Terminology](#ams-terminology)
-│ │ ├── [AMS-Architecture](#ams-architecture)
-│ │ └── [AMS-Function-List](#ams-function-list)
-│ └── [PMS](#pms)
-│ ├── [PMS-Terminology](#pms-terminology)
-│ ├── [PMS-Architecture](#pms-architecture)
-│ └── [PMS-Function-List](#pms-function-list)
-│
-├── AUTO
-│ ├── [RTD](#rtd)
-│ │ ├── [RTD-Terminology](#rtd-terminology)
-│ │ ├── [RTD-Architecture](#rtd-architecture)
-│ │ └── [RTD-Function-List](#rtd-function-list)
-│ └── [AMA](#ama)
-│ ├── [AMA-Terminology](#ama-terminology)
-│ ├── [AMA-Architecture](#ama-architecture)
-│ └── [AMA-Function-List](#ama-function-list)
-│
-├── YMS
-│ ├── [YMS](#yms)
-│ │ ├── [YMS-Terminology](#yms-terminology)
-│ │ ├── [YMS-Architecture](#yms-architecture)
-│ │ └── [YMS-Function-List](#yms-function-list)
-│ ├── [DMS](#dms)
-│ │ ├── [DMS-Terminology](#dms-terminology)
-│ │ ├── [DMS-Architecture](#dms-architecture)
-│ │ └── [DMS-Function-List](#dms-function-list)
-│ ├── [RPT](#rpt)
-│ │ ├── [RPT-Terminology](#rpt-terminology)
-│ │ ├── [RPT-Architecture](#rpt-architecture)
-│ │ └── [RPT-Function-List](#rpt-function-list)
-│ └── [FMS](#fms)
-│ ├── [FMS-Terminology](#fms-terminology)
-│ ├── [FMS-Architecture](#fms-architecture)
-│ └── [FMS-Function-List](#fms-function-list)
-│
-└── [FAQ](#FAQ)
+- CIM
+    - [CIM](#cim)
+    - [CIM-Terminology](#cim-terminology)
+- EES
+    - [EAP](#eap)
+        - [EAP-Terminology](#eap-terminology)
+        - [EAP-Architecture](#eap-architecture)
+        - [EAP-Function-List](#eap-function-list)
+    - [FDC](#fdc)
+        - [FDC-Terminology](#fdc-terminology)
+        - [FDC-Architecture](#fdc-architecture)
+        - [FDC-Function-List](#fdc-function-list)
+    - [RMS](#rms)
+        - [RMS-Terminology](#rms-terminology)
+        - [RMS-Architecture](#rms-architecture)
+        - [RMS-Function-List](#rms-function-list)
+    - [RCM](#rcm)
+        - [RCM-Terminology](#rcm-terminology)
+        - [RCM-Architecture](#rcm-architecture)
+        - [RCM-Function-List](#rcm-function-list)
+    - [APC](#apc)
+        - [APC-Terminology](#apc-terminology)
+        - [APC-Architecture](#apc-architecture)
+        - [APC-Function-List](#apc-function-list)
+- MES
+    - [MES](#mes)
+        - [MES-Terminology](#mes-terminology)
+        - [MES-Architecture](#mes-architecture)
+        - [MES-Function-List](#mes-function-list)
+    - [SPC](#spc)
+        - [SPC-Terminology](#spc-terminology)
+        - [SPC-Architecture](#spc-architecture)
+        - [SPC-Function-List](#spc-function-list)
+    - [AMS](#ams)
+        - [AMS-Terminology](#ams-terminology)
+        - [AMS-Architecture](#ams-architecture)
+        - [AMS-Function-List](#ams-function-list)
+    - [PMS](#pms)
+        - [PMS-Terminology](#pms-terminology)
+        - [PMS-Architecture](#pms-architecture)
+        - [PMS-Function-List](#pms-function-list)
+- AUTO
+    - [RTD](#rtd)
+        - [RTD-Terminology](#rtd-terminology)
+        - [RTD-Architecture](#rtd-architecture)
+        - [RTD-Function-List](#rtd-function-list)
+    - [AMA](#ama)
+        - [AMA-Terminology](#ama-terminology)
+        - [AMA-Architecture](#ama-architecture)
+        - [AMA-Function-List](#ama-function-list)
+- YMS
+    - [YMS](#yms)
+        - [YMS-Terminology](#yms-terminology)
+        - [YMS-Architecture](#yms-architecture)
+        - [YMS-Function-List](#yms-function-list)
+    - [DMS](#dms)
+        - [DMS-Terminology](#dms-terminology)
+        - [DMS-Architecture](#dms-architecture)
+        - [DMS-Function-List](#dms-function-list)
+    - [RPT](#rpt)
+        - [RPT-Terminology](#rpt-terminology)
+        - [RPT-Architecture](#rpt-architecture)
+        - [RPT-Function-List](#rpt-function-list)
+    - [FMS](#fms)
+        - [FMS-Terminology](#fms-terminology)
+        - [FMS-Architecture](#fms-architecture)
+        - [FMS-Function-List](#fms-function-list)
+- [FAQ](#FAQ)
 
 # CIM
 
@@ -181,7 +180,7 @@ SVID=12003 → 气体流量 (Gas Flow Rate)
 
 SVID=12004 → 当前加工晶圆数 (Wafer Count)
 
-## POC
+### POC
 
 POC: Proof of Concept(概念验证)
 
@@ -219,6 +218,20 @@ POC: Proof of Concept(概念验证)
 - **时间盒限制:** 通常设定严格的时间期限（如 1-2 周），超时即止，避免陷入过度开发.
 - **明确成功标准:** 在开始前必须定义好“什么算验证成功”（例如:并发支持 1000+、识别准确率>95%、部署时间<5 分钟等）.
 - **结果导向:** 无论成功还是失败，POC 都是有价值的. 失败意味着及时止损，避免了更大的浪费.
+
+### SKU
+
+Stock Keeping Unit
+
+服务 SKU 是对服务内容、规格、价格、交付标准的唯一标识代码。它解决了服务“非标”的难题，将模糊的服务承诺转化为可交易的产品。
+
+一个完整的服务 SKU 通常包含以下维度的组合：
+
+- 基础服务项目： 例如“设备维修”、“系统部署”、“咨询服务”。
+- 规格/等级： 例如“标准版 vs 专业版”、“5×8支持 vs 7×24支持”、“初级工程师 vs 专家级”。
+- 计量单位： 例如“按人天”、“按设备台数”、“按年订阅”、“按调用次数”。
+- 地域/语言： 例如“中国大陆区服务”、“全球英文支持”。
+- SLA 标准： 例如“2小时响应”、“99.9%可用性保障”。
 
 # EAP
 
