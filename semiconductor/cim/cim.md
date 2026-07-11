@@ -734,6 +734,8 @@ Stock Keeping Unit
 - **数据生命周期**：提供数据保留期限、备份及清理机制.
 - **历史记录**：提供完整的操作与变更历史记录.
 
+## EAP 需求
+
 # RMS
 
 ## RMS Architecture
@@ -1420,144 +1422,149 @@ BOM 结构形式: 通常是树状层级结构(多级BOM)，反映了产品的装
 
 ### 1. FAB Modeling (工厂建模)
 
-支持工厂、产品、工艺流程及资源的全面建模与定义：
+支持工厂、产品、工艺流程及资源的全面建模与定义，包含数据校验、批量维护及权限扩展：
 
 #### 1.1 Physical & Resource Modeling (物理与资源建模)
 
-- Factory/Area/Bay Modeling (Production/Storage Type)
-- Location Definition & Inventory Query (OHB, NTB, Stocker)
-- WorkArea Definition (OLED, ODF, CMP, CVD, ETCH, LITHO, etc.)
-- Equipment/Tool Architecture (Main Tool, Chamber, Loadport, Header)
-- Stocker & Port Definition (Auto-1/2/3 Mode)
-- Machine State & Capability Definition (E10 Standard)
-- Consumable & Durable Material Modeling
-- User Permission & Modeling Objects Loader
+- Factory/Area/Bay Modeling (Production/Storage Type, 数据一致性检查)
+- Location 定义 & 库存查询 (OHB, NTB, Stocker, 运行时冲突检查)
+- WorkArea 定义 (OLED, ODF, CMP, CVD, ETCH, LITHO, etc.)
+- Equipment/Tool 架构 (Main Tool, Chamber, Loadport, Header, Custom Attribute Extension)
+- 天车与端口定义 (Auto-1/2/3 Mode, Internal Buffer Logic)
+- 机台状态 & Capability 定义 (E10 标准, 关键参数设置/查看权限分离)
+- 耗材与耐用品物料建模 (自定义命名、计时/计米管理定义)
+- 用户权限与建模对象加载器 (Excel 导入导出、批量生效/冻结)
 
 #### 1.2 Product & Process Definition (产品与工艺定义)
 
-- Product & Process Flow Modeling (PW/NPW, Multi-version, Visual Drag-and-Drop)
-- Recipe & Parameter Definition
-- Data Collection & Process Specification Modeling
-- ReasonCode & Bank Definition (Start/End/Reticle/Receive Bank)
-- Contamination Management (FOUP/Sorter Level Conversion)
+- Product & Process Flow Modeling (PW/NPW、多版本、可视化拖拽、版本比较)
+- Recipe & Parameter 定义 (批量导入、RMS集成检查)
+- 数据采集与制程规范建模 (EDC Spec & SPC Chart 联动)
+- ReasonCode & Bank 定义 (Start/End/Reticle/Receive Bank, 批量导入)
+- 污染管控 (FOUP/Sorter Level 转换, Future Action 定义)
 
 ### 2. Tool Management (设备管理)
 
-支持设备全生命周期管理、状态监控及自动化集成：
+支持设备全生命周期管理、状态监控、自动化集成及特定设备高级控制：
 
 #### 2.1 Equipment Status & Control (设备状态与控制)
 
-- Tool Modeling (Fix Buffer, Inline, Sorter, Multi-chamber)
-- Tool State & Status Control (E10 Extension, Auto/Manual Transition)
-- Tool Capability & Capacity Management
-- Port Management (In/Out/InOut Mode, Automation Mode)
-- Hold Tool Control & Abnormal Detection
+- 机台建模 (Fix Buffer, Inline, Sorter, Multi-chamber, NTB as Internal Buffer)
+- 机台状态与控制 (E10 扩展, Auto/Manual Transition, On Top Load Port)
+- 机台 Capability & Capacity 管理 (Constraint Configuration GUI)
+- Port 管理 (In/Out/InOut Mode, Automation Mode, FOSB<->FOUP Transfer)
+- 机台Hold控制与异常检测 (Monitor失败自动禁止)
 - Reserve Equipment (Auto/Semi-auto Mode)
-- MES-EAP Information Synchronization & Alarm Integration
+- MES-EAP信息同步与报警集成 (Recipe Body Content 检查)
 
 #### 2.2 Advanced Equipment Operations (高级设备作业)
 
-- WET Batch Run & Dummy Filling Mechanism
-- Sorter Management (Inline/Ad-hoc, Full Auto, Split/Merge/Exchange)
-- Litho/Photo Equipment Control (Multiple Reticle, Inline Track+Scanner)
-- N2 Purge Integration & QTime Update
-- Stocker/OHB/NTB Synchronization with MCS
-- Contamination Control & Recipe Content Inspection
+- WET Batch Run & Dummy 填充机制 (Side/Fill Dummy 区分)
+- Furnace Batch 控制 (AB Batch, Boat 厚度验证, Zone Mapping, Monitor 量测反馈)
+- Sorter 管理 (Inline/Ad-hoc, Full Auto, Split/Merge/Exchange, Constraint GUI)
+- Litho/Photo 设备控制 (Multiple Reticle, Inline Track+Scanner, Chuck/Tool FeedForward, Reticle Inspection Integration)
+- N2 Purge 集成 & QTime 更新
+- Stocker/OHB/NTB与MCS同步（位置同步、污染管控）
+- 污染管控与配方内容检查（RMS集成）
 
 ### 3. Process Plan (工艺流程)
 
-支持多层级工艺架构、版本控制及动态流程调整：
+支持多层级工艺架构、严格版本控制、动态流程调整及批量维护：
 
 #### 3.1 Flow Architecture & Versioning (流程架构与版本)
 
-- Hierarchical Process Architecture (Flow, Layer, Stage, Step)
-- Process Reuse & Golden Flow Support
-- Version Management & Automatic Upgrade Inheritance
-- Excel Import & Visual Workflow Modeling
+- 层级化工艺架构 (Flow, Layer, Stage, Step)
+- 工艺复用与Golden Flow支持
+- 版本管理与自动升版继承 (SRC/RRC/Ocap Lot 保护, Q-Time/Sampling 继承)
+- Excel导入与可视化流程建模 (Flow Comparison, Tech-based 批量载入/修改, Where Used 查询)
 
 #### 3.2 Dynamic Execution Logic (动态执行逻辑)
 
-- Dynamic Selection (Equipment, Recipe, Reticle, EDC Plan)
-- Virtual Site & Raw Material Turnkey Management
+- 动态选择 (Equipment, Recipe, Reticle, EDC Plan)
+- Virtual Site & 原材料Turnkey管理 (虚拟工序)
 - NPW Flow Modeling (Prepare, InUse, Recycle, DownGrade)
-- Branch/Rework Plan & Q-Time Cross-Flow Management
+- Branch/Rework Plan & Q-Time Cross-Flow 管理 (Dynamic Branch, Future Hold 继承)
 
 ### 4. WIP Management (在制品管控)
 
-支持批次/晶圆级追踪、特殊操作及全流程生产管控：
+支持批次/晶圆级追踪、RunCard体系、特殊操作及全流程生产管控：
 
 #### 4.1 Lot Tracking & Basic Operations (批次追踪与基础作业)
 
-- Lot Create/Wafer Start (Manual/Auto, ERP Integration)
+- Lot Create/Wafer Start (手动/自动、ERP/WMS集成、FOSB->FOUP自动Sorter、T7 Code识别)
 - Track In/Out (By Batch/Lot/Wafer)
-- Special Operations (Split/Merge, Hold/Release, Skip, Back Operation)
+- 特殊操作 (Split/Merge, Hold/Release, Skip, Back Operation)
 - Future Action (Future Hold/Skip/Split/Merge)
-- Dynamic Branch & Flow Change (Auto/Manual Reassign)
+- Dynamic Branch & Flow 变更 (Auto/Manual Reassign, Outsourcing Process Linkage)
 
 #### 4.2 Exception Handling & Traceability (异常处理与追溯)
 
-- Rework Management (Inline/BankIn/StockIn/Customer Return)
+- Rework 管理 (Inline/BankIn/StockIn/Customer 退回, 自动触发RRC)
 - Scrap/Unscrap & Terminate/Unterminate
-- ETC Management (Lending/Borrowing, OA/ERP Integration)
-- Die Lot Management & No-Wafer-Lot Operations
-- Wafer Level Traceability (BinGrade, Map, Defect Review)
+- ETC 管理 (Lending/Borrowing, OA/ERP 集成)
+- Die Lot 管理 & No-Wafer-Lot 操作 (Die Bank 管理)
+- Wafer Level 追溯 (BinGrade, Map, Defect Review)
+- RunCard管理系统 (Split/Recovery/Nested/Future RunCard, 签核集成, Full Auto 支持)
+- Pi-Run 管理 (APC Pi-Lot, On Demand Pi-Lot Logic)
 
 ### 5. Quality & Engineering Control (质量与工程管控)
 
-支持数据采集、超规处理、取样规则及防错机制：
+支持数据采集、图形化OCAP、精细化取样、CP判定及防错机制：
 
 #### 5.1 Data Collection & Analysis (数据采集与分析)
 
-- Engineering Data Collection (EDC) (Manual/Auto/File Mode, Custom Formula)
-- OCAP Management (Graphical Execution, In-Line/Off-Line/Wafer Test)
-- Sampling Rule (Production/YE/Wafer Sampling, Key Tool/Long Time No WIP)
-- Wafer Selection Rule (NearestUp/Down, Ignore Slot, Same As Before)
+- 数据采集 (EDC) (Manual/Auto/File Mode, 自定义公式)
+- OCAP管理 (图形化执行, 签核集成, Inline/Off-Line/Wafer Test 分类, RAC Format)
+- Sampling 规则 (Production/YE/Wafer Sampling, Key Tool/Long Time No WIP, Step Sampling)
+- Wafer Selection 规则 (NearestUp/Down, Ignore Slot, Same As Before)
 
 #### 5.2 Process Control & Interlock (制程控制与互锁)
 
-- Q-Time Control (Max/Min, Nested/Cross-Flow, Auto Action Trigger)
+- Q-Time 管控 (Max/Min, Nested/Cross-Flow, Auto Action Trigger)
 - Tool Constraint & Qualification (Binding, Run-card, Daily/Total Count)
-- Recipe Inhibit & Auto Monitor (Idle Time, Season, Pre/Post Measurement)
-- Process Condition & Contamination Level Control (FE/BE Exchange)
+- Recipe Inhibit & Auto Monitor (Idle Time, Season, Pre/Post Measurement, Cycle Control, Monitor Flow Definition)
+- 制程条件与污染等级管控 (FE/BE Exchange)
+- CP Wafer Judgement System (原始数据加载、规则判定: Yield/Bin/Stat, 策略维护, WJS 集成)
 
 ### 6. Resource & Material Management (资源与物料管理)
 
-支持载具、光罩、化学品、治具及BOM耗用管理：
+支持载具、光罩、化学品全生命周期、治具计米及BOM耗用管理：
 
 #### 6.1 Carrier & Reticle Management (载具与光罩管理)
 
-- Carrier Management (FOUP/FOSB/Pod, Cleaning, Contamination, MCS Sync)
-- Reticle Management (LifeTime/Energy, Kit/UnKit, Inspection, Stocker)
+- Carrier 管理 (FOUP/FOSB/Pod, Cleaning/Inspection 状态, 污染管控, MCS 位置同步)
+- Reticle 管理 (LifeTime/Energy Accumulation, Field设定, Kit/UnKit, Inspection/Clean 周期, Stocker 集成)
 
 #### 6.2 Chemical & Consumable Control (化学品与耗材管控)
 
-- Photo Resist Management (Defrost, Prescription, PR Change, Safety Stock)
-- Consumable & Durable Management (Timer, BOM, Kit/UnKit, Meter Counting)
-- Runtime Consume (Auto/Manual Consumption, Available Material Check)
-- Label Printing Integration (Lot/Carrier/Wafer/Material Level)
+- Photo Resist 管理 (退冰、时效/过期、PR更换、安全库存预警、批次认证)
+- Consumable & Durable 管理 (Timer, BOM 绑定, Kit/UnKit, Meter Counting, DPS Blade 管理)
+- Runtime Consume (Auto/Manual Consumption, 可用物料检查, BOM运行时绑定)
+- Label 打印集成 (Lot/Carrier/Wafer/Material 级别, Multi-level Label Template)
 
 ### 7. Production Support & Advanced Modules (生产支持与高级模块)
 
-支持全自动生产、测试线、Micro OLED及Turnkey业务：
+支持全自动生产、测试线、Micro OLED、先进封装及Turnkey业务：
 
 #### 7.1 Automation & General Production (自动化与通用生产)
 
-- Full Auto Support (Auto 1/2/3, Dispatch/Transport/Equipment Integration)
-- Season Control (Idle/PM/Recipe Change, Mixed NPW/PW Mode)
-- NPW Management (DownGrade, Recycle, Inventory, Full Auto Preparation)
-- Run Card Management (Split/Recover/Nested/Future, Sign-off Integration)
-- Security Management (Data Level Permission, Timeout, Audit Trail)
+- Full Auto Support (Auto 1/2/3, Dispatch/Transport/Equipment 集成)
+- Season 管控 (Idle/PM/Recipe Change, Mixed NPW/PW Mode)
+- NPW 管理 (降级、回收、库存、 Full Auto 准备)
+- 安全管理 (数据级权限、超时、审计追踪)
+- Turnkey 解决方案 (多阶层BOM, Cross-Fab 生产, Outsourcing Linkage)
 
 #### 7.2 Test, Packaging & Specialized Modules (测试、封装与专用模块)
 
-- CP Test Line & Probe Card Management (Program, Touch Down, YMS Integration)
-- Wafer Judgement System (Raw Data Loader, Rule Judgment, Strategy)
-- Wafer Map Module (Parsing, Merge/Comparison, Rotation/Mirroring, Manual Ink)
-- Turnkey Solution (Multi-level BOM, Cross-Fab Production)
-- Lab Product Tracking (Experiment Start/End, QE Result, TQMS Integration)
+- CP Test Line & Probe Card 管理 (Program, Touch Down, YMS 集成)
+- Wafer Judgement System (原始数据加载、规则判定、策略、WJS 集成)
+- Wafer Map 模块 (解析、合并/比较、旋转/镜像、 Manual Ink)
+- Lab Product Tracking (Experiment Start/End、QE 结果、TQMS 集成)
 - Matching Sorter & ODF Bonding (Pre-sorting, Slot/FOUP Matching, Debond)
-- Micro OLED Specifics (Continuous Run, EVA Mask, Frame/Tray, Die PnP)
-- DPS Pick and Place (Die Count, Reconstruction Wafer, Secondary Picking)
+- Micro OLED 专用功能 (Continuous Run, EVA Mask, Frame/Tray, Die PnP)
+- Wafer Bonding 模块 (WoW/WoG, Pre-Bonding/De-Bonding, Mapping Traceability)
+- Die Attach 模块 (DoW, Substrate/Die Matching, EAP上报追溯)
+- DPS Pick and Place (Die Count, 重构 Wafer, 二次拾取, Blade 寿命管理)
 
 # SPC
 
