@@ -119,6 +119,29 @@
 | 智能调度与物流   | RTD, AMA                | RTD 组   |
 | 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
 
+## 一个平台、四大能力、五层架构
+
+建设统一CIM智能制造平台，作为工厂生产管理和设备自动化运行的数字底座。
+
+- 四大能力
+    - 制造执行能力（MES）
+    - 设备自动化能力（EAP/FDC/APC/RMS）
+    - 智能调度能力（RTD/AMA）
+    - 质量分析能力（SPC/YMS/DMS）
+
+- 五层架构
+    - 设备层（Equipment）
+    - 自动化控制层（Automation）
+    - 制造执行层（MES）
+    - 数据分析层（YMS/SPC/RPT）
+    - 决策展示层（Dashboard/FMS）
+
+“一个平台”：即打造统一的CIM智能制造平台，作为中心生产管理、设备自动化运行及制造数据管理的数字化底座，实现生产制造全过程的统一管理、统一数据和统一协同。
+
+“四大能力”：即全面构建“制造执行能力”、“设备自动化能力”、“智能调度能力”、“质量分析能力”四大核心能力，以制造执行系统（MES）为核心，结合设备自动化（EAP、RMS、RCM、FDC、APC）、智能调度（RTD、AMA）及质量管理（SPC、YMS、DMS）等系统，促进科研研发、生产制造、质量控制和运营管理的深度融合与协同发展。
+
+“五层架构”：即重点打通“设备层”、“自动化控制层”、“制造执行层”、“数据分析层”、“决策展示层”五个层级，实现设备互联互通、生产过程实时管控、制造数据集中治理、质量全过程追溯以及生产经营可视化分析，形成从设备数据采集、生产执行控制、质量分析优化到经营决策支撑的完整数字化闭环，全面消除信息孤岛，提升工厂智能化运营水平和制造协同效率。
+
 ## CIM Terminology
 
 | Abbreviation | Full form                        | Desc                                                                      |
@@ -272,6 +295,34 @@ Stock Keeping Unit
 > - Wafer Handling: 机械手取放片 → Chamber 进出 → Wafer Mapping → 异常重试/跳过
 > - Track In/Out: 向 MES 发送过账请求 → 接收确认 → 更新本地物料状态
 > - 异常恢复: 遇到 Alarm 时的自动 Pause/Abort/Resume 逻辑，以及 Hold Lot 策略
+
+| 字段                     | 描述                                                                                                                            |
+| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| **Need EAP**             | 是否需要接入EAP进行设备自动化通信（Y/N）                                                                                        |
+| **GEM Manual**           | SECS/GEM接口说明书，描述设备支持的SECS Message、通信流程、状态模型、Remote Command等，是EAP开发的主要依据。                     |
+| **Interface Spec**       | Interface Specification，描述设备与Host/MES的接口流程、业务逻辑及通信时序。                                                     |
+| **PICS**                 | Protocol Implementation Conformance Statement，说明设备实际支持的SEMI标准功能（如Remote Command、Alarm、Recipe Management等）。 |
+| **SEDD**                 | SECS Equipment Data Dictionary，设备SECS数据字典，包含VID、CEID、ECID、Report等定义。                                           |
+| **VID List**             | Variable ID列表，定义设备可读取的变量（如温度、压力、Recipe Name等）。                                                          |
+| **CEID List**            | Collection Event ID列表，定义设备主动上报的事件（如Lot Start、Lot End、Alarm等）。                                              |
+| **Alarm List**           | 设备报警清单，包含Alarm ID、报警名称及报警说明。                                                                                |
+| **Remote Command List**  | 支持的Remote Command清单（通常对应S2F41），如START、STOP、PAUSE、ABORT等。                                                      |
+| **Recipe Spec**          | Recipe管理接口说明，描述Recipe上传、下载、切换、校验等功能。                                                                    |
+| **PP Format**            | Process Program（Recipe）文件格式说明，如XML、TXT、Binary等。                                                                   |
+| **Recipe File Sample**   | Recipe文件样例，用于解析、验证及接口开发测试。                                                                                  |
+| **COM Type**             | 设备通信方式，如HSMS、SECS-I(RS232)、OPC UA等。                                                                                 |
+| **Device ID**            | GEM Device ID，用于建立SECS/GEM通信时识别设备。                                                                                 |
+| **Port**                 | 通信端口号（HSMS TCP Port等），用于Host与设备建立连接。                                                                         |
+| **Software Version**     | 当前设备软件版本。                                                                                                              |
+| **Firmware Version**     | 当前设备固件版本（如适用）。                                                                                                    |
+| **GEM Version**          | 设备支持的GEM/SECS标准版本或Vendor实现版本。                                                                                    |
+| **Need FDC**             | 是否需要接入FDC系统进行设备状态及工艺参数采集（Y/N）。                                                                          |
+| **EDA Model**            | EDA（Equipment Data Acquisition）数据模型，描述设备可提供的数据对象及结构。                                                     |
+| **Metadata**             | EDA Metadata，定义设备数据项、属性、单位、数据类型等元数据。                                                                    |
+| **Data Collection Plan** | 数据采集方案，定义采集哪些参数、采集方式及采集条件。                                                                            |
+| **Trace Variable List**  | Trace采集变量列表，列出需要连续采集的设备参数（如Pressure、Temperature、RF Power等）。                                          |
+| **Sampling Rate**        | 数据采样频率或采样周期（如100ms、1s、5s等）。                                                                                   |
+| **Trace Event**          | 数据采集触发事件，如Lot Start、Recipe Start、Wafer Start、Alarm等。                                                             |
 
 ## EAP Function List
 
