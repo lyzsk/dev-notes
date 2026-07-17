@@ -3959,5 +3959,3 @@ SWIR 器件 (Short-Wave Infrared 探测器 / 传感器)
 | 6. 合规与安全需求 | 法规标准 (ITAR/ISO)、审计日志要求、权限分级、数据加密、备份恢复 (RTO/RPO)；满足行业监管与客户稽核要求，是 IT Security Review 和 Validation 文档的核心输入           | 符合 ITAR 管控：所有 Recipe 修改、Bin Map 导出操作强制记录 Audit Log(User/Timestamp/Old/New Value)，Log 不可删除且保留 7 年；Recipe 参数传输采用 TLS 1.2 加密；MES DB RTO≤4h, RPO≤15min                                        |
 | 7. 验收标准 (AC)  | 测试方法、通过阈值、测试环境要求、签字确认流程、缺陷分级处理规则；将每条 URS 转化为可执行的验收条款，是 UAT Sign-off 和 Vendor 付款的法律依据                       | [URS-FDC-003 AC] 连续执行 20 批外延 Lot，FDC Trace 采集完整率≥99.9% 且 Hold 触发延迟≤2s 视为 Pass；测试环境：Production Mirror + Simulator；缺陷分级：Trace 丢失=Critical(阻塞 Sign-off)，告警弹窗延迟>2s=Major(限期修复)      |
 | 8. 约束与假设     | 硬件限制、Vendor 配合前提、工艺稳定性假设、项目里程碑依赖、已知技术栈；提前声明 URS 成立的前提条件，避免验收时因外部因素未达成而产生争议                            | 假设：Vendor A 外延炉 Custom Adapter 在 T1 前通过 FAT；约束：Gel-Pak 载具 Barcode 标签由 MFG 统一打印粘贴，EAP 不负责标签生成；依赖：EE 在 UAT 前完成所有 EQP 的 SECS 联机调试并签署 EQP Ready 证书                            |
-
-# wtf
