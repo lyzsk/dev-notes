@@ -203,3 +203,13 @@ git push -f -u origin master
 # git lfs
 
 https://git-lfs.com/
+
+# merge
+
+如果 A 和 B 分别 commit, 并且没有重叠内容, 并且 add 前忘记 pull
+
+强行 push 会进入 merge Vim 编辑器
+
+`Esc`
+
+`:wq`
