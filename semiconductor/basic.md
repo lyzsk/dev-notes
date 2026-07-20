@@ -1660,3 +1660,11 @@ SG-O, SG-A 影像传感器晶圆测试仪两套完整商用级 CIS / ALS / Light
 | Diamond  | 超宽禁带        | 导热率最高       | 热管理、极端功率器件 |
 | Sapphire | 单晶氧化物      | 成本低           | LED 衬底             |
 | Si₃N₄    | 陶瓷            | 高可靠性         | SiC 功率模块         |
+
+#
+
+Raw Wafer -> EPI -> Foundry -> PKG -> FT
+
+前道 -> 后道
+
+最前面是 拉晶 (硅片)
