@@ -1,6 +1,8 @@
 import pandas as pd
 from tabulate import tabulate
 
+"""pip install pandas tabulate"""
+
 file_path = "【CIM】EAP&FDC_Demo需求.xlsx"
 output_path = "output.md"
 

@@ -1,6 +1,8 @@
 from PyPDF2 import PdfMerger
 import os
 
+"""pip install PyPDF2"""
+
 #  必须加 r 前缀，防止 \U 和 \D 被当作转义字符
 base_dir = r"C:\Users\Sichu Huang\Downloads" 
 

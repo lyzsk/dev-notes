@@ -738,25 +738,25 @@ SVID=12004 → 当前加工晶圆数 (Wafer Count)
 
 #### EQP 验收材料清单 (Vendor/EE 提供, 逐项打勾/填路径)
 
-| 字段                  | 内容要求                                                      | 是否收到 | 存放路径/备注 |
-| :-------------------- | :------------------------------------------------------------ | :------- | :------------ |
-| GEM Manual            | SECS/GEM 接口说明书 (PDF/Word), 含 SECS Message/状态模型/RCMD |          |               |
-| Interface Spec        | 设备与 Host/MES 接口流程、业务逻辑及通信时序                  |          |               |
-| PICS                  | SEMI 标准逐条合规性声明                                       |          |               |
-| SEDD                  | SECS 设备数据字典 (XML/Excel)                                 |          |               |
-| VID List              | 变量 ID 列表 (含 SVID)                                        |          |               |
-| CEID List             | 采集事件列表                                                  |          |               |
-| Alarm List            | 告警清单 (ID/名称/说明/严重等级)                              |          |               |
-| Remote Command List   | 远程命令清单 (START/STOP/PAUSE/ABORT 等)                      |          |               |
-| Recipe Spec           | Recipe 上传/下载/切换/校验接口说明                            |          |               |
-| PP Format             | Recipe 文件格式 (Binary/XML/Text)                             |          |               |
-| Recipe File Sample    | 至少一个完整 Recipe 样例                                      |          |               |
-| 非标通信手册          | 2-12 寸非 SECS 设备: 通信协议说明 + 通信手册                  |          |               |
-| COM Type              | TCP/IP(HSMS) / RS232(SECS-I); 新购设备必须要求 HSMS           |          |               |
-| Conn-Mode             | HSMS-SS / SECS-I / Interface A                                |          |               |
-| Device ID / Port      | SECS Device ID / HSMS 端口号                                  |          |               |
-| GEM Version           | E30/E37/E40/E94 等                                            |          |               |
-| Software/Firmware Ver | 机台软件版本 / 固件版本                                       |          |               |
+| 字段                  | 内容要求                                                      | 是否收到(Y/N) | 存放路径/备注 |
+| :-------------------- | :------------------------------------------------------------ | :------------ | :------------ |
+| GEM Manual            | SECS/GEM 接口说明书 (PDF/Word), 含 SECS Message/状态模型/RCMD |               |               |
+| Interface Spec        | 设备与 Host/MES 接口流程、业务逻辑及通信时序                  |               |               |
+| PICS                  | SEMI 标准逐条合规性声明                                       |               |               |
+| SEDD                  | SECS 设备数据字典 (XML/Excel)                                 |               |               |
+| VID List              | 变量 ID 列表 (含 SVID)                                        |               |               |
+| CEID List             | 采集事件列表                                                  |               |               |
+| Alarm List            | 告警清单 (ID/名称/说明/严重等级)                              |               |               |
+| Remote Command List   | 远程命令清单 (START/STOP/PAUSE/ABORT 等)                      |               |               |
+| Recipe Spec           | Recipe 上传/下载/切换/校验接口说明                            |               |               |
+| PP Format             | Recipe 文件格式 (Binary/XML/Text)                             |               |               |
+| Recipe File Sample    | 至少一个完整 Recipe 样例                                      |               |               |
+| 非标通信手册          | 2-12 寸非 SECS 设备: 通信协议说明 + 通信手册                  |               |               |
+| COM Type              | TCP/IP(HSMS) / RS232(SECS-I); 新购设备必须要求 HSMS           |               |               |
+| Conn-Mode             | HSMS-SS / SECS-I / Interface A                                |               |               |
+| Device ID / Port      | SECS Device ID / HSMS 端口号                                  |               |               |
+| GEM Version           | E30/E37/E40/E94 等                                            |               |               |
+| Software/Firmware Ver | 机台软件版本 / 固件版本                                       |               |               |
 
 #### Interface Checklist 判定 (MFG/IT 填写)
 

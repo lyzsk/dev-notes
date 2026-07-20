@@ -11,7 +11,7 @@ anaconda 版本对应: python39 -> Anaconda3 2022.10
 1. `%ANACONDA_HOME%`: C:\ProgramData\Anaconda3
 2. 添加 PATH: `%ANACONDA_HOME%`, `%ANACONDA_HOME%\Scripts`, `%ANACONDA_HOME%\Library\bin`
 
-# 下载源(channel)
+# 下载源 (channel)
 
 切换清华源:
 
@@ -160,7 +160,7 @@ https://pytorch.org/get-started/locally/
 
 https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local
 
-检查 cuda 版本(cmd):
+检查 cuda 版本 (cmd):
 
 `nvcc -V`
 
@@ -196,3 +196,14 @@ xxx:
 paddleocr 3.3.2
 paddlepaddle 3.2.2
 paddlex 3.3.9
+
+# 国内镜像
+
+`pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple`
+
+| 镜像   | 地址                                       |
+| ------ | ------------------------------------------ |
+| 清华   | `https://pypi.tuna.tsinghua.edu.cn/simple` |
+| 阿里云 | `https://mirrors.aliyun.com/pypi/simple/`  |
+| 中科大 | `https://pypi.mirrors.ustc.edu.cn/simple/` |
+| 豆瓣   | `https://pypi.douban.com/simple/`          |
