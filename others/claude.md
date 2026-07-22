@@ -25,6 +25,23 @@ https://www.kimi.com/code 的 key:
 }
 ```
 
+```json
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+        "ANTHROPIC_AUTH_TOKEN": "sk-kimi-你的真实key",
+        "ANTHROPIC_MODEL": "k3",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "k3",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "k3",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "k3",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "k3",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "k3",
+        "ENABLE_TOOL_SEARCH": "false",
+        "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576"
+    }
+}
+```
+
 https://platform.kimi.com/ 的 key:
 
 ```json
@@ -103,3 +120,9 @@ https://platform.kimi.com/ 的 key:
 | `/team-onboarding`                  | 根据过去 30 天使用记录生成团队 onboarding 指南                                   |
 | `/powerup`                          | 通过交互式教程发现 Claude Code 功能                                              |
 | `/radio`                            | 打开 Claude FM 音乐电台                                                          |
+
+# 删除 resume 的 project
+
+```powershell
+Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
+```

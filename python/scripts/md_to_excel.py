@@ -148,7 +148,7 @@ def md_to_excel(md_path, xlsx_path=None, max_row=1000):
 
             for cell in ws[1]:                            # 表头加粗 + 底色 + 居中
                 cell.font = Font(bold=True)
-                cell.fill = PatternFill("solid", fgColor="8DB4E2")
+                cell.fill = PatternFill("solid", fgColor="2f5496")
                 cell.alignment = Alignment(horizontal="center")
             ws.freeze_panes = "A2"                        # 冻结首行
 
