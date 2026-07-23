@@ -1,0 +1,74 @@
+# 缺陷分析
+## 数据查询
+- 支持时间维度查询（相对时间、绝对时间）
+- 支持不同条件快速筛选（product、lot、wafer、EQP、recipe...)
+- 支持高级过滤功能（defect density、scan area、defect count、defective die count、has images、has cluster、has repeat、last scan only）
+## DSA
+- DSA支持Cluster分析计算
+- DSA分析运算支持按照Layer进行过滤设置
+- DSA分析运算支持自定义选择前层
+- 支持用户自定义ignore layer不参与DSA分析
+## Wafer Map 分析
+- 支持Defect Wafer Map显示
+- 支持Lot，Wafer以及Layer级别的Map分析
+- Map上defect可以链接到defect的图像
+- 可以添加删除defect备注
+- 支持重复缺陷分析(Repeater Analysis)，通过叠加缺陷来分析重复的Defect
+- Repeater Analysis支持Die以及Reticle分析
+- 支持在Map上导出KLARF、Txt Map
+- 支持Defect Map信息查看，显示必要的defect信息
+- 支持在map上框选defect，并把结果send to review机台
+- 支持用户设定Map的显示参数，例如标题、大小、颜色
+- 支持defect量距
+- 支持用户自定义条件，重新计算、显示以及修改cluster信息
+- 支持Map显示的快速过滤，例如：Show/Hide Defect Clusters、Show Adder defect Only、show images only、show repeat only、Manual classified only
+- 支持gallery map自定义布局
+- 支持gallery map透视分析
+- 支持Defect Kill Yield Ration 分析与报告
+- 支持两片wafer做compare 分析（post adder、missing、common、different、sum up）
+- 支持叠图分析
+- 支持矩形、自定义框选过滤defect
+- 支持small die功能
+- 支持defect map overlay cp map
+- 支持map、chart、data set交互联动
+- 支持Zone Map分析，包含Zone的定义、Zone分析以及分类
+- 支持defect size的调整
+- 支持select filter
+- 支持By lot/wafer Cross Wip
+- 支持defect map by class查看
+## Defect Image
+- 支持树形结构快速查看image
+- 支持image升降排序（by scan time、by layer、by defect id、by wafer id）
+- 支持image自定义文本显示功能，支持一键展示/隐藏文本
+- 支持image copy 功能
+- 支持双击放大image，切换image
+- 支持image放大、缩小、旋转
+- 支持单选、多选、连选defect image并与map、die交互
+- 支持单选、多选defect进行reclass
+## Defect Chart & Wafer Summary
+- 支持trend、barstack、boxplot图表分析
+- 支持Lot，Wafer以及Layer级别的chart绘制
+- 支持多种运算公式（sum、average、max、min、median、std）
+- 支持split分析
+- 表格数据支持copy
+- 表格列支持自定义展示/隐藏
+- 表格支持删除行
+- 表格、chart数据支持升降序排列
+## Klarf File Viewer
+- 支持klarf文件导入分析
+# 其他功能
+## 基本要求
+- 系统能提供数据处理功能，能收集处理以下类型的数据，如：History/WIP, WAT, CP, Metrology (EDC), Event, FT，Defect，Defect Image
+- 系统能提供数据可视化功能。如：数据表格、图表、Wafer Map
+- 系统能提供Defect数据的识别、分类、运算以及分析功能
+- 系统能提供报告生成功能，能就分析过程中产生的结果自动生成Excel、PPT格式的报告
+## 数据加载程序
+- 数据加载程序支持从文件中加载数据。如：WAT、CP、FT、Defect类型的数据
+- 支持从业务系统中加载数据，如：MES
+- 支持从其它数据源加载数据，如：DB
+- 提供高效、可靠的数据加载程序开发平台（loader）
+- 数据加载程序提供详细日志服务
+- 加载程序自动计算DSA功能
+- 支持Defect Classification的维护，包括增加、删除、更改
+- 支持从KLARF中导入Defect Classification定义
+- 支持整合ADC defect分类结果数据

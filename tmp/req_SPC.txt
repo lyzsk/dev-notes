@@ -1,0 +1,118 @@
+# 基础设定
+## 数据收集
+- > 包括多种数据源监控，如工艺设备的数据采集 (Inline) ， 设备日常点检数据 (Offline) , Reticle，Carrier，厂务数据等
+- > 实时环境可保存一年以上数据的数据存储能力，并提供过期数据处理的脚本
+- > 修改Chart的内容对数据收集无影响
+- > Inline, Offline数据采集系统响应时间控制在3秒之内
+- >支持特殊点的自动排除处理（可配置），如重量，加量，SRC 等
+## Chart 定义
+- >支持以树的方式分不同的数据源管理Chart，每个数据源下可以嵌套任意深度的文件夹来分类组织Chart
+- > SPC Chart 可根据Context key 自定义过滤条件，如 [产品] + [工艺路线] +[加工Step]+ [加工设备] + [Chamber] + [EDC Plan ID] 等
+- > 支持与MES 端Loader集成批量建Chart
+- > 提供友好快捷操作界面方便用户手动建立 Chart
+- > 支持基于Excel的方式批量新建、修改Chart，支持by Pastable Attributes的方式快速修改Chart的内容
+- >支持Chart的移动，可以从当前Folder 移动到其他Folder
+- >进点过滤条件母chart(Group chart)、子chart(Subgroup chart)使用ContextKey为参数的表达式来定义,可以支持正向和反向(排除名单)的过滤条件设定
+- > 支持一个或者多个SPC Chart的数据和原始数据导出功能
+- > 支持 SPC Chart 关联到一个或多个工艺设备或 Process 站点
+- >支持违规告警邮件发送，可根据违规类型如（OOS，OOC，OOW等）单独设置
+- > SPC Chart支持自动分sub chart管控功能，sub chart支持继承上层chart的control limit以及SPC规则，也支持单独配置每个sub chart的control limit以及SPC规则，如Context的值中包含量测数据关联的工艺设备/Chamber/产品/Step/炉管控片所在的不同位置(如Top/Center/Bottom)数据信息时，SPC可以根据这些Context值来建立Sub Chart。
+- > 支持PM后的offline monitor/pilot inline measurement/第一批lot的单独control limit管控，如两倍sigma。
+- > 可以定义 Chart 的离散规格, 并过滤掉离散点
+- > 支持 control/spec/warning line，并支持分别Enable/Disable上界线，下界线，和中心线
+- 支持多种Chart 类型
+- Variables Charts
+- > Xbar/X Chart
+- > Range Chart
+- > Sigma Chart(Standard Deviation)
+- > Raw Value Chart（Trend Chart）
+- > Moving Range Chart
+- > Moving Sigma Chart
+- > Moving Average Chart
+- > EWMA_M Chart for xbar values (Exponential Weighted Moving Average)
+- > EWMA_S Chart for sigma values
+- > EWMA_R Chart for range values
+- Attributive Charts
+- > C Chart for nonconformitiesc不符合项图表
+- >NP Chart for number nonconforming不合格数量的np图表
+- >P Chart for fraction nonconforming不合格率P图
+- >U Chart for average number of nonconformities平均不合格数U图
+# 规则设定与计算
+## SPC 规则
+- > 管制图的检查支持标准WE rule
+- > 支持自定义的方式来配置Rule，如连续n点上升的n是可以配置的
+- >提供开发包，支持Rule二次开发，方便扩展
+## Calc Parameter 计算
+- > 支持内置公式，常用内置公式有：Trigger -Reference[#mean]、Trigger *Reference[#mean]、Trigger +Reference[#mean]、Reference - Trigger[#mean]等
+- >支持丰富的计算函数（如选片选点函数，Round，Cos，Sin，Tan，Log......），可基于这些函数，自定义公式，支持多个参数的复杂运算
+- >计算的结果可link 参与计算的Sample，方便check数据的正确性
+- >提供计算函数的二次开发，方便扩展
+# 分析和报表统计
+## 控制图分析
+- > 多类型的数据绘图能力，如Control Chart，Histogram，NormalProb，Boxplot等
+- > 支持单屏显示一张或多张 Chart 类型并显示 chart 上所选数据点的相关信息，如Context Key，违规信息等
+- > 支持多Chart对比分析，包括垂直分析、水平分析、叠图分析，垂直分析时支持上下sample的对齐分析，对齐分析的Key支持可配置
+- > 支持用Context定义Matching的条件，用于SPC Chart叠图分析
+- > 系统支持手动过滤数据点 (需要注释)
+- >支持手动，自动给Sample打Tag，Tag支持自定义
+- > 支持对单个或多个数据点进行备注说明
+- >支持根据Context Key 配置Chart检索条件
+- >排除数据点之后支持重新显示Chart或者重新计算
+- > 支持显示历史或者当前Chart上配置的规格、控制界限，显示方式支持可配置
+- >支持重置移动图表开始计算时间
+- >X轴的显示Label支持可配置
+- >异常数据可根据OCAP No链接到OCAP系统
+- > 提供接口支持外部系统访问SPC Chart和数据点，点击OCAP信息链接进入SPC 相关OOC/OOS 点界面
+- >By chamber分析能自选chamber, 减少无关组合（假设一片wafer经过A\B\C\D四个chamber，用户可以在SPC上自选A/B或者B/C/D去show 值并进行分析
+- >Chart 图表类型的显示及显示顺序支持可以配置
+- >支持批量查Chart、定时导图的功能
+- >chart上可以勾选显示tool EQP status 异常变化的时间点 （DOWN/PM等）
+- >支持Sample History的功能，支持跨LDS搜索
+- >支持批量disable 数据点，disable的点可批量隐藏
+- >支持在母Chart上查看子Chart的违规信息
+- >支持手动计算Control Limit，计算出来的Limit可编辑、可手动接收或者拒绝
+- >支持新Limit的模拟分析，并用不同的颜色显示模拟后的分析结果，如模拟前无异常，模拟后也无异常则为蓝色等
+- >支持颜色管理，可以自定义不同的控制线的颜色以及数据点在不同状态下的颜色，如控制线的颜色， OOC的点的颜色
+- Char 显示内容包括：Max, Min, Mean, 中位值, 极差, 标准偏差, total count, OOC%, OOS%, USL/LSL, UCL/LCL, Target, Cp, CpK等，显示的统计指标支持可配置
+## 报表统计
+- > 支持根据选择的时间或者其他条件实时统计Chart的CPK相关指标
+- > 支持关键性指标计算(如：CPK(d2),CPK(MEAN),PPK等)，统计哪些指标可配置
+- >支持定期统计，统计对象为SPC chart, 周期为日, 月, 周, 季等，统计周期支持可配置
+- >定期统计支持用户自定义设置查询Chart的过滤条件 (如by product,by module ,by tool等)
+- >数据支持OOS，OOC，SOOS，IQR多种过滤功能，被过滤的数据不进入CPK统计，被排除掉的数据默认不参与CPK的统计
+- >统计值包括：Max, Min, Mean, 中位值, 极差, 标准偏差, 数据点数, OOC%, OOS%,等
+- > 支持CPK\PPK\违规数据的趋势变化分析
+- >支持报表Schedule、执行log详情查看
+- >支持常用文件格式的导出 (如Excel/CSV等)
+- > 支持CPK 总览表统计分析，分为时间周期、部门、Chart 详情三个维度
+- > 支持违反Alarm Rule的Count 及Ratio统计
+- > 支持PPK/CPK达标率统计及趋势分析，目标值可配置
+## ACL 计算
+- > 支持使用选定的数据的3倍Sigma来计算新的Control Limit，数据筛选条件可以使用时间范围或者数据点的个数，几倍Sigma支持可配置
+- >支持基于点数的自动计算，也支持周期性自动计算，如每隔一个季度执行一次
+- >支持数据过滤，如OOS，OOC等，过滤的数据不参与ACL的计算
+- >计算出来的Limit 支持CL Check，如是否违规，是否越来越紧，是否超出Spec limit等
+- >支持计算Limit看图Review，并用不同的颜色显示新旧Limit，以作对比分析
+- >支持Limit的手动接收或者拒绝，也支持与其他签核系统集成
+## Dashboard 统计
+- > 每隔一小时统计活跃Chart的Violation、CPK、Collection Interval、Exclude Sample 四个维度Good、Warn、Bad的百分比，真实展现Fab最近1小时的生产概况
+- > 支持自定义Chart分组，目前支持Department、SPC Folder、Name、Job Name、Key Chart、Control Item、Context Key 等
+- > 支持多种View Type查看：如Chart Summary、Chart Detail、Violation Summary、Violation Detail、Violation Compare、CPK Compare、Violation Pareto、OCAP Summary、OCAP Detail、OCAP Compare
+- > 支持基于宫格的个性化Dashboard设置，可以将常用的Dashboard 放到一起查看
+## 其他需求
+- > 可以依据产品, 设备等不同内容定义Chart的查询权限, 如有规定, 则只有得到授权的人员才可以查询对应的SPC Chart或内容；
+- > 提供详细的log 以追踪Rule Change/Limit Change/ Point Change 等各操作的历史/修改
+- > Chart的control limit修改时要有相关item的修改记录
+- >支持自定义Tag
+- > 支持使用Chart的属性来搜索Chart， 如ChartName，ParameterName，Context值，SPC Rule
+- > 支持数据点的属性来搜索数据点，如Context值，OOC/OOS，Comment，数据收集时间点， 并可以选择以数据点列表模式或者Chart 列表模式来显示
+- > 可以把常用的Chart和搜索条件存为书签
+- > 支持Online SPC Chart动态显示及更新
+- > Trend 图上的Raw Data可以浮动显示LotID、WaferID等
+- > 看图Chart Type 的显示顺序支持可配置
+- > 支持by 测量设备对比分析
+- > 自动导图支持按时间设置
+- >计算CPK时，支持拿历史规格来算
+- >看图ChartID标题后面拼上Key Chart Flag，方便一眼看出当前分析Chart是否是Key Chart
+- >看图图例Spec\Control 线后面拼上Chart 最新的Limit值
+- >选点函数要支持连续、非连续选点，可以根据提供的算法封装新的选点函数自动选点，减少人为操作

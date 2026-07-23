@@ -1,0 +1,108 @@
+# 基本功能
+## 跑货流程控制部分
+- 与机台,BarCode扫码枪、SmartTag/SMIF或者RFID等进行整合,实现对设备的控制与信息交互
+- 支持SECS、HSMS以及PLC等通讯协议,实现与设备的通信
+- 支持支持单台EAP连接多个设备,如Inline机台,SMIF,Smart Tag, RFID Reader
+- 支持连接多种数据库,如Oracle、PostSql等
+- 机台事件动态配置,通过ini文件进行配置
+- 系统信息进行配置管理,通过ini文件进行配置
+- 设备初始化以及工艺前校验模块的配置管理
+- 可配置的EAP Scenario,实现逻辑与功能分离
+- 设备通讯状态监测,至少包含通讯断开(Disconnect),设备离线(Offline),设备本地控制(Online-Local),设备远程控制(Online-Remote),同步设备状态
+- 设备控制状态与工艺状态检查,同步设备状态变化
+- 支持工艺前的Mapping检查,区分数量校验与位置校验,可通过配置文件进行配置
+- 支持控制LoadPort载入载出,同步LoadPort状态变化
+- 支持支持支持工艺Recipe一致性校验
+- 支持工艺时晶圆工艺状态检查,及时上报每片晶圆工艺状态
+- 支持工艺后正常工艺晶圆数量校验
+- 支持工艺后的Mapping检查,区分数量校验与位置校验,可通过配置文件进行配置
+- 支持支持支持量测数据具体位置灵活配置
+- 支持量测数据过滤与数据转换
+- 支持工艺后对设备参数,如SV/EC/DummyStatus的校验
+- 支持切换设备Offline/Online状态
+- 支持设备重连或者Offline切换到Online的自动初始化
+- 支持安全且便于处理的异常处理流程
+- 支持流程异常中断的原地恢复
+- 支持多种下Job方式,By Lot,Batch,Wafer,Recipe等
+- 支持OpenCassette,无LoadPort，文件解析等涉及特殊流程的安全生产控制流程制定，同时进行UI的相应客制化
+- 支持与特殊工艺设备，如MOCVD，Bond,Debond 适配的安全生产控制流程
+- 支持多线程锁
+- 支持Fixed Buffer,  Metrology,Internal Buffer,  Photo Inline,Sorter,  FOUP Clean几种各类型EAP框架
+- 支持与MES,RMS,APC,FDC等系统的整合
+- 支持实时设备警报收集、警报过滤、分级管理,实现邮件通知、HoldLot等功能
+## EAP UI
+- 支持支持简洁清晰的设备状态显示
+- 支持一个UI对应多台EAP,UI关闭不影响EAP正常运行
+- 支持查询UI对应EAP信息
+- 支持支持支持权限配置
+- 支持支持同步MES权限进行管控
+- 支持消息记录查询,UI界面可查询300条数据
+- 支持UI消息记录,按照设备和时间生成日志文件
+- 支持支持支持消息格式与消息颜色设定
+- 支持PDA (安卓)移动终端 APP UI
+## EAP日志
+- 提供详细灵活且分门别类的日志,包括但不限于SECSLog,EventLog,MESLog,RMSLog,UILog,ErrorLog,StatusLog,AlarmLog等
+- 日志文件可以根据时间和大小为每台设备创建日志文件
+- 支持配置日志文件的路径
+- 支持定期文件自动压缩,时间可配置
+- 提供根据日志进行问题定位与解决的方案
+- 支持根据SECSLog,模拟机台进行跑货测试,便于设备测试开发与运维
+# 运维和集成
+## EAP运维
+- 支持根据MESLog模拟MES进行消息收发,复现日志,便于接口开发测试与运维
+- 支持模拟EAP进行SECS测试,便于设备测试与运维
+- 提供设备模拟器与MES模拟器,便于本地测试
+- 提供完整的测试环境，进行测试与开发
+- 系统能跨平台运行：Windows，Linux
+- 客户端至少兼容Windows 10 x86/Windows 10 x64 及以上操作系统
+- 统一的运维监控平台
+- 支持版本回退
+- 支持单台更新和批量更新
+- 支持批量部署，批量进行Common模块的升级替换
+- 支持成熟的开发语言，C#,Java等，便于运维与开发
+- 完善可靠的开发、测试、部署管控流程
+- 支持Scenario可视化配置
+- 支持支持TibcoRV、WebService、RabbitMQ、RocketMQ等主流中间件及相关服务及相关服务,实现与周边系统,如MES,RMS,UI的消息通讯
+- 支持EAP源代码管理,提供各组件源代码
+- 支持异常邮件通知
+- 提供EAP和RMS服务器异常处理流程与恢复SOP
+- 提供EAP开发工具详细文档和开发指导书
+- 提供EAP开发工具培训和各类型设备开发培训
+- 提供项目管理方案,进行项目追踪,保证项目推进状态
+- 提供系统设计文档,开发文档,操作文档,运维文档,系统核心API文档等,用于二次开发和日常运维
+- 面向IT提供系统开发运维培训与问题解答
+- 面向用户提供系统基础操作培训与问题解答
+- 提供测试过程中产生的所有文档,包括但不限于SECS功能测试,Lab测试,Fab测试,Pirun测试,Scenario流程图等
+- 支持双活
+- 提供对应软件的压力测试报告
+- 支持工厂满产负荷（15K）。系统Performance要求如下：
+- 需明确定义消息响应时间及计算方式，基于峰值负荷评估相关事务响应时间
+- SECS通信：<100毫秒
+- Recipe校验：<2秒；
+- 查询Recipe 内容：<2秒；
+- 进站：<3秒；
+- 数据收集：<0.5秒/批，<1.5秒/多批；
+- 出站：<3秒；
+## EAP与MES整合
+- 支持同步MES账户进行用户验证及用户信息获取及权限验证
+- 支持请求MES获取Carrier信息、Lot信息、设备信息、Batch信息等
+- 支持上报MES Carrier信息、Lot信息、设备信息、Batch信息等
+- 支持请求MES验证Lot与设备 是否匹配
+- 支持请求MES获取EDC量测信息与上报设备量测数据
+- 支持上报MES Process Start与Process End时间及信息
+- 支持请求MES执行Job In、Job Out、Cancel Job In、Hold Lot等动作
+- 支持请求MES执行Batch Job In、Batch Job Out
+- 支持上报MES设备PMS Parameter信息
+- 支持上报MES wafer的T7Code
+- 支持 Sorter Job信息请求、Sorter Job In、Sorter Job Out，支持Spilt、Merge等多种类Sorter Action
+- 支持Bonding和Debonding的Job信息请求、Job In、Job Out
+- 支持MOCVD设备的 Job信息请求、Job In、Job Out
+- 支持NPW相关操作请求,Dummy In、Dummy Out、Monitor Start、Monitor End、Clean Start和Clean End等功能
+- 支持MES控制设备Offline/Online状态,EAP需同步更新设备状态至MES
+- 支持异常时请求MES切换设备状态
+## EAP与RMS整合
+- 支持对设备Recipe Parameter、Recipe Body的解析并上传至RMS系统
+- 支持RMS系统请求抓取设备Recipe/Sequence
+- 支持设备Recipe上传至RMS系统与RMS系统中Recipe下载至设备
+- 支持与RMS接口进行整合
+- 支持By LotType/StepId进行判断是否需要进行RMS校验,可通过配置文件配置

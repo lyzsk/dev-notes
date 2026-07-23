@@ -20,7 +20,8 @@ https://www.kimi.com/code 的 key:
         "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-for-coding",
         "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-for-coding",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144",
-        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "262144"
+        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "262144",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
 }
 ```
@@ -37,7 +38,8 @@ https://www.kimi.com/code 的 key:
         "ANTHROPIC_DEFAULT_FABLE_MODEL": "k3",
         "CLAUDE_CODE_SUBAGENT_MODEL": "k3",
         "ENABLE_TOOL_SEARCH": "false",
-        "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576"
+        "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
 }
 ```

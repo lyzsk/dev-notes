@@ -1,0 +1,51 @@
+# 基本功能
+## Recipe管理
+- 支持设定Recipe/Sequence管控列表,默认受管控
+- 支持设定ByPass Recipe,此类Recipe不进行比对
+- 支持Recipe FullBody、CheckSum、Recipe Parameter、Recipe修改时间等多种形式比较
+- 支持支持字符串、整数、小数等多种数据类型
+- 支持设置SubRecipe是否进行卡控
+- 支持Recipe多版本管控和Active版本管控
+- 支持Recipe批量共享
+- 支持提供Recipe/Sequence校验,以及校验失败邮件通知等相关的异常处理流程
+- 支持同类型设备不同Recipe之间、同一Recipe不同版本、系统中与设备中进行比对,可根据需要选择显示全部或者只显示区别
+- 支持多设备共用模板,便于设定Recipe Parameter Spec
+- 支持保存多个Recipe版本
+- 支持Recipe中不同Step的相同参数批量设定Spec
+- 支持设备Recipe/Sequence Spec 批量备份到系统以及批量下载至设备
+- 支持系统与设备之间下载与上传Recipe/Sequence
+- 支持批量加载Recipe,可选择每次加载数目
+- 支持导入导出功能,需要有严格权限管控
+- 支持支持各项排序
+- 支持设置关键参数,进行高亮显示
+- 支持Recipe Binary Body的分析与解析
+- 支持不同条件下查询Recipe/Sequence的版本变更历史详情
+- 支持不同条件下查询Recipe/Sequence的校验历史
+## EC管理
+- 支持按照设备进行EC/SV设定参数管控范围
+- 支持按照Recipe进行EC/SV设定参数管控范围
+- 支持字符串、整数、小数等多种数据类型
+- 支持多设备之间共享EC/SV设定
+- 支持查询设备EC/SV变更历史
+- 支持查询设备EC/SV校验历史
+# 系统管理和功能集成
+## 签核系统集成
+- Recipe Active等关键节点需要进行签核
+- 支持系统内部签核,可设定各区域模块签核人/组
+- 支持设定各关键节点邮件通知,如Recipe校验失败,Recipe签核,Recipe ByPass等
+- 支持与外部签核系统整合
+- 支持批量签核,需特殊标注记录
+- 支持设定的关键参数,签核人员可以查看参数内容
+## 系统管理
+- 支持设置程序比较方式(FullBody/CheckSum/Parameter等)
+- 支持设备关联用户/用户组
+- 支持对用户状态的修改
+- 支持设定不同级别的用户组,管控用户对界面的操作权限,管控用户对设备的操作权限
+- 支持一个用户属于多个用户组
+- 支持用户子管理员,可进行创建不高于自身权限的用户
+- 支持查询用户登入登出记录
+- 支持用户无操作登出,登出时间可配置
+- 支持用户修改密码,管理员重置密码,所有密码加密保存
+- 支持支持配置所有日志保存时间
+- 支持RMS Server之间的网络负载均衡(NLB)的Failover功能
+- 支持Oracle、PostSql等主流数据库

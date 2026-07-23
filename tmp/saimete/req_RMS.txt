@@ -1,0 +1,44 @@
+# Equipment Category
+- "设定设备程序类型为 Standard Recipe - Full Body
+# Equipment List
+- 选择关联角色设定设备负责人员和负责人相关组别测试邮件发送Share Recipe基准设备设定
+# Notification Settings
+- 设定邮件通知时机点（如：RecipeValidationFail、 SetActive等)
+# Recipe List
+- 从设备端获取程序列表设定Recipe/Sequence的UnderControl列表
+# Recipe Configuration
+- Standard Recipe - Full Body: 从设备上传程序，并查看程序大小程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本Active程序变成DeactivateStandard Recipe - Parameter:从设备上传程序手动设定参数规范，支持Recipe Parameter的Absolute/ByRange/ByTolerance/ByList比较类型通过模板复制参数规范通过Excel导入参数规范程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本参数规范可保存成模板Active程序变成DeactivateSequence Recipe:从设备上传主程序设定子程序是否比较手动设定Sequence Parameter规范通过模板复制主程序参数规范通过Excel导入参数规范从设备上传子程序手动设定子程序参数规范通过模板复制子程序参数规范通过Excel导入参数规范子程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本主程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本主程序参数规范可保存成模板子程序参数规范可保存成模板Active程序变成Deactivate
+# Recipe Template
+- 根据设备类型查看所有模板模板规范设定支持公式编辑程序模板修改规范删除选中模板
+# Recipe Advance Active
+- 支持整合工厂现有签核系统根据区域、设备类型或设备查看所有待Approve的Recipe/SequenceApprove/Reject程序
+# Recipe Status
+- 根据区域、设备类型或设备查看所有程序状态根据关键字模糊查询相关程序Bypass/Cancel Bypass/Delete所选中程序
+# Recipe Download
+- Standard Recipe:同型号设备中Active程序Download到指定设备批量Download本设备Active程序Sequence Recipe:同型号设备中Active主程序Download到指定设备同型号设备中Active子程序Download到指定设备
+# Recipe Compare
+- Offline Audit（模拟EAPValidation）比较批量多个程序Offline Audit设备间程序差异比较不同版本程序比较相同程序批量比较多个设备之间的差异两个设备批量比较多个程序之间的差异
+# Batch Load From EQP
+- Standard Recipe:批量从设备中上传多个程序批量Active多个程序Sequence Recipe:批量从设备中上传主/子程序
+# Batch Set Active
+- 根据区域、设备类型或设备查看所有Standard Recipe和Sequence Sub Recipe能够Set Active版本批量选中多个程序Set Active，如整合签核系统产生一张签核审批单
+# Recipe Operate Log
+- Standard Recipe:查询Recipe Version的变更履历查看Parameter SPEC修改履历Sequence Recipe:查询Sequence Version的变更履历查看Sequence Parameter SPEC修改履历子程序是否比较开关履历查看主程序Parameter SPEC修改履历
+# Recipe Validate Log
+- 支持查询Recipe(Sequence)的EAP Validation履历支持查看机台校验结果汇总报表
+# Golden Recipe
+- 设备设定中，新建基准设备，勾选Allow Share Recipe,并勾选Auto Share在Recipe Configuration中，从同型号任意设备中上传程序，程序规范设定同上程序Set Active时，默认共享给同型号所有设备，其他设备无需再设定在Advance Active时，Approve/Reject程序Recipe Status页面中可查看和修改共享关系非基准设备可以设定自己的Active版本
+# Strict Parameter
+- 预设锁定严格检查参数，设定的参数不允许uncheck
+# Recipe Key Param Spec
+- 根据机型设置key param的sepc范围Spec设置方式有ByRange/ByTolerance/公式Load Recipe时自动套用Key Param Spec
+# Uncheck Param List
+- 根据设备机型设置Uncheck的参数Load Recipe的时候自动把不需要的Check的参数Uncheck
+# Recipe Parse Adaptor
+- 支持不停机上线或更新Parse Adaptor
+# Equipment Constant
+- 新建设备常量参数，并编辑参数规范支持设备常量的Absolute/ByRange/ByTolerance/ByList比较类型支持同类型设备之间的设备常量设定Copy支持设定Excel导入支持设定设备常量与设备中常量数值比较支持同类型设备之间的设备常量比较差异
+# EC Operate Log
+- 支持查询设备常量的设定变更履历
+# EC Validate Log
+- 支持查询设备常量的EAP Validation履历

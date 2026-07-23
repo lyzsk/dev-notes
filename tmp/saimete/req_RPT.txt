@@ -1,0 +1,29 @@
+# WIP
+- FAB Indices Report : 汇总每天的生产状况，包括EOH、出货、晶圆下线、Hold Lot、废料和良率等数据。
+- Coming Lot Report:按 Tech / 产品 / 区域 / 设备组统计当前站点及所选时间内即将到站的 Wafer 数量，并支持按 Lot 查看剩余工序。
+- WIP Profile Report:展示各个阶段(Stage
+- Bullet Hot Lot Report:跟踪优先级为1/2的Lot，显示Lot的生产状态、运行时长、等待时长、Hold时长等详细信息，并以甘特图呈现。
+- Move By Day Shift WIP Report:展示选定时间WIP段内每天的Track In & Track Out 的MOVE量，并可查看每个阶段及操作的具体数据。
+- Hold Lot Report:展示所有Hold状态的Lot，按产品、部门等条件查看其持有比率和持有时长。
+- View Lot History Report:按工艺流程顺序图表展示产品的历史数据，包括PRT、PQT、PHT以及累计生产时间。
+- Slow Lot Report:展示全产线长时间停滞的Lot，显示其停滞状态。
+- Scrap Terminate Report:列出状态为废料或终止的Lot，并显示每个Lot的晶圆数量。
+- Rework Lot Report:提供与返工Lot相关的信息。
+- Q Time Report:展示超出Q-Time且尚未结束的Lot的基本信息。
+- RRC Summary Report:按时间段汇总RRC数据。
+- SRC Summary Report:工程师可通过该报表审查SRC信息，了解哪些区域需要调整流程。
+- Target Report:用于维护各个报表的关键指标公式
+- Cycle Time Report:By Area & Tech 查询在制信息以及Remainstep 进行安排批次生产
+- Wafer Start Report:按照产品统计时间段内的投产情况
+- Ship Lot Report:统计每天的每个产品的ship数量及明细
+- Product Monthly Indices(盘点表):按月统计各个指标数据（投产，消耗，废碎片等）
+- Operator Production BY Day Report(作业员产量表):按照站点查看对应日期每个班次下的进出站数量
+- CP Yidle Report:按天查询基于产品和Lot的良率及其他测试指标的均值。
+# EQP
+- EQP Index Report:按区域和时间区间跟踪Fab机台的生产表现。
+- OEE报表:查看机况综合情况和设备利用率，设备加工情况和加工效率等
+- EQP Status:设备历史事件报表，查看详细的设备历史记录以及设备甘特图
+# Other
+- Carrier Status  Report:汇总Carrier的各个状态，并显示超过清洗周期未清洗的Carrier。
+- Reticle Report:By Tech & Prod 展示 Reticle的状态分布。
+- OCAP Reprot:按时间查询所有OCAP的清单，并显示对应的处理履历和异常值数据。

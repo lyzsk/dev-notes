@@ -1,0 +1,77 @@
+# 系统管理
+## 权限管理
+- a.   角色管理：支持对所有人员按照分组角色进行管理。
+- b.   角色权限管理：支持角色权限管理，根据分组角色进行权限管理，可管控到具体某一个功能（按钮），如系统远程发布。
+## 基础数据管理
+- a.   区域管理：支持用户建立不同的区域来管理。
+- b.   派工时效管理：支持用户按需求修改派工的时效。
+- c.   派工配置管理：支持用户按需求修改派工配置。
+- d.   机台派工管理：支持用户手动开关机台的派工状态。
+## 规则建模管理
+- a.   规则管理：支持用户配置派工的先后顺序的规则。
+- b.   版本管控：可保存多个版本，可随时进行版本切换及查询。
+## 进度管理
+- a.   派工监控：提供界面让用户查询已经派工的记录，以及进度。
+- b.   插单：支持用户将需要的工单手动指派到机台任务。
+- c.   替换：支持用户手动替换已派工工单。
+- d.   删单：支持用户手动将已派工工单删除。
+- e.   派工顺序调整：允许用户调整机台上的任务顺序。
+# 场景支持
+## Full Auto 场景：支持以下场景（包含但不局限于此）
+- a.   Basic Scenario;
+- b.   Fix/Internal Buffer automation scenario;
+- f.   WET Batch Scenario;
+- h.   Sorter Scenario （including Wafer Start，Package etc.）;
+- i.   PiLot run Scenario;
+- j.   Back Side Clean Scenario;
+- k.   Super-Hot Lot Scenario;
+- m.   Bonding/DeRe Scenario;
+- n.   Measurement Scenario;
+- o.   Tool Balance Scenario;
+- p.   Mixrun Scenario;
+- r.   Foup Clean, Foup Inspection Scenario;
+- t.   同一个 foup 的 multi Lot 只能被派到同一个机台，但是可以根据派工规则，决定其中 Lot 的派工顺序;
+- u.   工程师不能任意组合 multi Lot，只能 run 同机台，同 stage 或者同 step 的 Lot;
+- v.   支持 Critical Ratio,Move target, Qtime urgency, Cycle time, Shift target, Hot Lot, 交货时间, Wip Balance 等全局因素的派工规则设定和逻辑支持；
+- w.   多样 Qtime 管理，run path, qtime urgency，并能够根据 qtime 提供报警功能；
+- x.   提供有效的 Qtime loop 监控工具，监控 Qtime 模型的执行效率；
+- y.   设备派工优先调度，具有同 ppid 优先派货，同组内机台优先派货;
+## 履历管理操作履历：RTD操作历史记录
+- 履历管理操作履历：RTD操作历史记录。
+## 补充需求
+- a.   Code高可用：RTD逻辑模块可以在不同地方重复调用，而不是复制代码块。
+- b.   高并发性：多个Event并发，RTD能做到快速处理，互不影响速度。
+- c.   管理便捷：RTD支持多选/全选设备进行启动、停止等操作。
+## Scheduling
+- a.  计算时，Scheduling 需考虑所有Litho的WIP，机台状态，Recipe状态，Reticle 状态，ppid状态，MES normal constraint，以及R2R；
+- b.  考虑机台间的Loading Balance，Idle或者最快将要IDLE的机台优先Schedule；
+- c.  与前一个Lot最后一片Wafer所用Chuck不一样的Lot优先；
+- e.  相同Reticle连续进行，减少Reticle Change的次数；
+- f.  反应Reticle送检的时间，提前将Reticle搬送至指定的Stocker；
+- g.  用户提供 Litho 机台升降温的识别方式，Litho 机台 Scheduling 时需考虑机台升降温的setup cost，减少机台升降温；
+- i.  实现Litho 机台 Dedication，即第一层Litho使用的机台，在第二层工艺需要在相同的机台上Process；
+- j.  避免连续派小片数的Lot，造成产能损失；
+- n.  Check Max/Min Batch Size，Check Max/Min Wafer Size；
+- s.  WET在进行Schedule时考虑 瓶颈 Tank，派工时保证瓶颈TANK不Idle；
+# 系统集成和运维
+## 多系统集成系统集成：支持MES、EAP、SPC、ALARM等多系统集成
+- a.   MCS集成，搬运任务,支持自动化搬运。
+- b.   MES集成
+- Ø  WIP清单：可加工工单信息清单；
+- Ø  机台主数据：同步机台主数据信息（如果需要）；
+- Ø  批次信息获取：批次信息下载；
+- Ø  物料库存：查询线边库的库存信息；
+- Ø  耗材管理：查询耗材的信息。
+- c.   EMS集成
+- Ø  机台主数据：同步机台主数据信息（如果需要）；
+- Ø  机台台账：机台信息查询。
+## 功能修改与发布
+- a. 需要支持在线功能发布，并支持在下次运行时自动调用系统发布的最新版本规则；
+- b. 数据同步需要提供除了全表同步外，需要能够进行选定列的数据同步；
+- c. 当需要在目标数据库中添加新的列的时候，需要能够不影响系统的运行；
+## 其它
+- a. 数据同步要具有不弱于 Oracle OGG 的实时性同步能力；
+- b. 系统需要具有自动 load balance 的能力；
+- c. 需要在能使用缓存数据库的情况下，优先使用缓存数据库；
+- d. 需要具备自动编译的功能；
+- e. 需要支持根据版本控制及回退功能； j. 支持事务及异常处理。

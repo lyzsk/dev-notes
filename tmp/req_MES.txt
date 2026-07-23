@@ -1,0 +1,818 @@
+# 工厂基础建模
+## Factory base data modeling （工厂基础数据建模）
+- 可支持 FAB/区域/设备对应关系，设备可以分配到不同的区域用于工艺工程师/设备工程师/制造目的。支持产品设置（工艺--产品--生产流程--工序--工步--对应的 recipe 与机台关系的MES 架构模式），包括产品工艺信息的定义
+## Equipment Modeling （设备建模）
+- 设备分类管理与定义：需满足Litho Inline Tool/Chamber Tool/internal Buffer Tool/fix buffer tool/Stocker，同时equipment应可自定义和转换。
+- 设备能力的定义：（offline，online local,online remote…)
+- 设备配方及参数等配置设置
+- 支持设备Unit的定义： chamber, Header, Tank 等的支持
+- 设备批量数量的定义,例如：最大和最小Wafer数的定义，最大和最小载体数量的定义
+## Stocker Modeling
+- can define stocker : wafer stocker, reticle stocker 支持定义Stocker的类型：wafer STK, Reticle STK...
+- Can define storage form of stocker.STK的容量的定义
+## Process basic data modeling
+- 产品:定义工厂生产的成品/半成品等；产品定义及其属性（可以定义产品的wafer类型，产品责任人）
+- 设置产品的基本信息时，可为产品指定一个或多个流程，并指定缺省流程
+- 支持定义产品组（产品的Type定义）、不同工艺的产品类别、Reticle的设置（能定义不同产品的Photo Layer 的光罩设置）
+- 机台配方:设备配方的定义
+- 版本的控制要能支持Active版本的定义, 每个Object 只有唯一的Active 版本号. 流程支持版本和状态（Unfrozen/Frozen/Active）管理，流程的版本在Unfrozen状态下可以修改，在Frozen和Active状态下无法修改，激活后的版本才会生效。版本Active后不能进行修改和删除，如果要修改，必须升级版本后，对新版本进行修改，然后对新版本进行Active。
+## Code Define
+- 提供Reason Code的定义：Reason的定义用于各种功能，如hold、rework...等。
+- 提供机况定义及其对应的（E10）状态，设置不同机况下的跑货限制，机况转换规则等
+- 提供用户自定义代码定义：增加属性扩展的灵活性，方便使用自定义逻辑。
+## Lot Type Define
+- 提供批次类型和批次子类型定义
+- 提供基于批次子类型的批次id命名规则定义，如起始字符
+- 系统可以为特定批次子类型运行时的机器状态转换提供不同的规则定义
+## Lot naming
+- LotID命名规则支持通过配置方式自定义，满足工厂多样性的要求
+- 当进行批次分批时，应自动生成子批次LotID
+## 用户组
+- 用户可以创建一个用户组，该组具有相同的权限
+- MES可以按组管理用户控制
+- 每个用户都属于某个用户组，他们会被用户组管理或控制，一个命令作用于每个用户
+## 权限管理
+- 操作安全管理（用户/用户组添加/更新/删除）
+- 对关键操作的双重确认支持
+- 由用户/用户组控制的功能权限
+- 用户部门控制的设备权限
+- 由用户部门控制的持有/释放权限
+- 由菜单和操作按钮都要可以控制权限，系统默认要对按钮具备权限管控不能只是对菜单权限管控
+- 支持用户组的角色配置，为角色分配权限。可以在菜单、按钮级别明确权限
+- 支持设备/区域和权限设置，操作者只能使用属于指定设备的设备
+- 系统的菜单布局和顺序应该默认统一。 相同权限组 或者 用户组 的用户登陆系统后需要看到的菜单布局完全一致，方便提高工作效率。
+- 不同权限组 或者 用户组 的用户登陆系统后，系统菜单布局 需要 按照默认统一的顺序展示对应具备权限的菜单，而不能无序展示菜单，让其他用户无法快速定位功能菜单位置， 严重影响工作效率
+- 支持操作员设备操作证书管理，只有持有证书的操作员才能使用设备，支持对接OA系统
+# 流程建模和管理
+## Process Specification Editor
+- Process Specification Editor是一个类似于Windows-Explorer风格的查看器，它提供了一个带有Process Planning信息的层次结构.(小批量修改的功能，不需要导数据,一些小的数据，直接在这个编辑器里改)
+- 用户可以更改其值并在运行时应用它 (大批量修改是批量导入,小批量修改直接在编辑器里面进行修改即可）
+## Recipe
+- 支持多腔设备，支持腔体串并联
+- 支持recipe生命周期管理
+- 可对recipe的类型进行设置（制程/测量等），并可以定义recipe 所属区域。
+- 不同的产品或产品组下可以挂不同的设备
+## Flow
+- 在流程和配方之间需要有一个多层模块化结构，至少有一个额外的层（模块或子计划），以便于未来的维护
+- 模块可以在流程内部和流程之间重复使用。如果系统提供的流程结构相对简单，则有必要提供高效准确的系统解决方案来应对未来的大量变化
+- 一个流程可以被多个产品使用。支持Bond/Debond
+- 支持临时Bond 和 永久Bond
+- 提供流程内部循环数设置，可在批量界面查看
+- 提供构建流程模板，可以快速直观的构建流程。可以直接导入到系统中。在导入之前，应在规则上预先检查流程
+- Active Flow 或者任何一个版本的 Flow 均支持导出
+## Multipath Flow
+- 允许手动或在预设条件下灵活跳转到正常产品流上的其他分支流程
+- 预设条件包含：手动，byProd，ByEDC等
+- byProd：针对不同Prod公用一个Process的场景，可以按照不同ProdID自动选择走不同的分支
+- ByEDC：针对量测结果的不同区间，自动选择该区间对应的分支
+## Reticle
+- 需要 Reticle 组的概念。可以将相同类型的光刻分组为一组。实际在线使用时，可以选择其中之一，完成光刻
+- 系统可以查询每个产品的整套Reticle信息
+## Product
+- 不同prod可以共用同一个Flow，Prod可以设定基本属性
+- 具备ProdAttribute功能，可针对Recipe，Reticle，EDCPlan进行动态匹配
+## Rework
+- Rework次数到了，还要有超级权限可以继续做rework
+- 支持By Prod， By Process设定 Rework Count
+- Rework 需要具备 subplan 级别的计算方式 支持不同工步返工次数的绑定计算，共享相同的返工次数
+## Version Control
+- Process，Product，Subplan要具备 版本控制功能，都要具备历史查询详细的记录
+- Flow 支持版本升级，默认使用最新版本
+- 需要具备人性化的Flow版本比对功能
+## Flip
+- 可以设定Wafer的正反面 Flip属性
+- 需在流程管控体系中支持Flip的各种防呆卡控
+## ProcessLocation
+- 支持不同类型载具在流程中不同step的防呆卡控，例如槽位数量不同需卡控，前后段制程转换需卡控
+## DedicationFlag
+- 支持不同Stage，Layer 卡控必须使用相同的机台或者机台组，前量和后量卡控同一台设备
+## Loop Control
+- Loop次数管理，次数没到上限就自动返回Loop起始站点继续加工，次数达到上限就自动跳出Loop循环
+## EDCPlan
+- 流程上的站点可以设定 EDCPlan
+## 站点污染等级
+- byStep设定污染等级，Lot在该站点出站后的污染等级变更为该站点设定的污染等级
+## Q-time
+- 支持Qtime嵌套，交叉等设定，支持TrackOut触发，TrackIn触发，TrackIn结束，TrackOut结束
+- Lot支持多个Qtime
+- Q-Time设置和Q-Time动作：提供最小和最大Q-Time，多步之间的Q-Time，并提供不同的触发设置，当系统超过Q-Time时自动触发，不同的时间触发不同的警告
+- 具备CancelTrackIn 后Qtime恢复计时的能力，当Lot 处在Q-Time 结束站点时, 如果发生Cancel TrackIn, Q-Time需要继承回来.
+- 分批时, 子批要能自动继承母批的Q-Time
+- 如果 lot 在加工过程中 Over Q-Time, 要能够触发Track Out 后 Hold Lot动作
+- 具备Wafer级别的Qtime记录能力，lot 分批 或者 合批 后 Qtime仍然有wafer级别的单独记录，可以为后续操作提供精准的Qtime数据
+- 支持强制关闭Qtime的功能
+- 支持设定 DummyStepForQtime，人工进行判定是否放行 Qtime
+## BankFlag
+- 可定义允许做Bank操作的站点
+## 导入功能
+- Flow，Subplan，Step等都要支持Excel模版导入，提高工作效率
+# 机台建模和管理
+## EQP基本属性
+- 设备属性/能力/类型管理，设备名称、描述、组别、Batchsize、腔室、module等
+## Define Equipment group
+- Equipment group下面可以挂多个机台
+## Define chamber
+- 可以定义腔室ID。可以定义串行/并行/组合三种模式
+- Chamber机台增加新的chamber时，只需要添加chamber机台（自动继承父设备属性），无需修改其他Flow/Recipe等属性
+## Set Multi Chamber Recipe Mapping
+- chamber RCP系统功能。针对并行模式，需要具备一键关闭某一个chamber就把所有带有该chamber的recipe全部都关闭的能力
+## Equipment status define
+- 提供用户定义的机器状态转换规则 以及 对应的权限
+- 提供原始设备状态的定义，以转换为 MES 定义的设备状态
+- 机台状态切换规则，以及不同 LotType 例如 MonitorLot 进出机台时，机台状态要切换到特定状态，不能简单的 Run-Idle 模式
+## Chamber status define
+- 腔室状态与批次进出站联动，腔室状态将对应转换为不同的设备状态。
+- 主设备状态将根据腔室状态合理的自动更改。
+- 相应的Recipe由设备和腔室状态组合定义。当执行该过程时，系统会选择最佳的可运行配方（RCP系统管控）。
+- chamber 状态可以跟父设备联动，也可以单独切换
+## ECS
+- 具备PN/RN：正向列表：根据限制规则设置，允许 Lot 派工；负向列表：根据限制规则设置，禁止 Lot 派工
+- 提供设置在特定条件下可以根据时间间隔自动重新启动RN
+- 设置的禁止条件可以按照 IdleTime，LotCount(Total/Daily)，WaferCount(Total/Daily)
+- 支持多种的条件组合定义：产品/Flow/LotID/LotType/StepID/Priority/stageID/Recipe/设备/腔室/Reticle等。
+- 支持例外条件，在卡控条件基础上 可以 让 满足例外条件的 获得 通过，提高用户设定的工作效率
+- 支持通配符设定卡控条件和例外条件
+- 需具备Doublecheck才能生效的机制
+## EQP 查询和History查询
+- 支持by各种条件筛选查询
+- 支持查询条件的文本框内直接输入模糊字符（例如带有*号）后点击查询按钮就可以进行查询，不可以是 先点击下拉菜单获取数据后再模糊匹配选择确定数据再查询的方式
+- 查询结果显示要具备分页查询功能，不得将所有数据一起显示造成系统卡死或者闪退
+- 需具备Chamber级别的 Wafer过帐记录的能力：ElogSheet功能
+## 炉管基础功能
+- 支持多种batch方式：生产批次+炉管Monitor lot
+- 仅生产批次
+- 仅Monitor批次
+- 生产批次+RCLot+炉管MonitorLot
+- RCLot+MonitorLot
+- 生产批次+RCLot
+- 生产批次+RCLot+炉管MonitorLot+非炉管区的前制程需长膜的MonitorLot
+- 通过ARG系统针对BatchLot的Wafercount区间，进行layout recipe动态调整
+- 组Batch时需针对batch内多个lot的 Recipe，EDC等信息进行合理的卡控
+- 炉管MonitorLot做完量测后，可以对Batch内的生产批次进行同步的量测过帐以及量测数据贴值
+- 炉管Batch Run异常后，可以先DeleteBatch，然后MonitorLot 和 Batch内其他Lot需要各自走自己Flow
+- 炉管的Fill/Side DummyLot 可以EAPAuto进出站
+## WET基础功能
+- 可以选择相同recipe的Lot在WET进行 单批 或者 2个批次 batchRun
+## Sorter设备
+- 支持SorterJob基本类型，如：Exchange，Split，Merge，WaferFlip，ReadT7Code
+- Sorter 机台要能支持流程内 (Inline Sorter) 和非流程 (Adhoc Sorter)的作业
+- 支持Inline Sorter step, 能够按照用户的设定完成 Sorter动作：例如Split，Flip，ReadT7Code等
+- 支持SorterJob 的查询和取消
+## 机台可接受污染等级
+- 机台设定可接受的Lot的污染等级，支持设定多个污染等级。 污染等级需要精确匹配
+# 载具管理
+## Create Carrier
+- 允许用户创建 Carrier。用户可以根据 Carrier 类型类别和Carrier 型号创建指定数量的 Carrier
+## Assign Carrier
+- 允许用户将 carrier 分配给没有 carrier 的批次。指定的载体必须是Free的，晶片的顺序可以在该功能中更改。
+## Exchange Carrier
+- 允许用户交换载具。原始 Carrier 和交换 Carrier 应为同一类型
+## Hold Carrier
+- 允许用户HoldCST，CST状态应更改为 HOLD。
+## Release Carrier
+- 允许用户放行CST。完成此功能后，CST应处于Hold之前的状态。
+## Clean Carrier
+- 允许用户为任何 Carrier 进行清理操作。设置完成后，其状态应为WaitClean。完成清洗后，状态应为Free
+## 载具查询功能和历史查询
+- 允许用户查询 Carrier 的状态，历史，实时信息，装载的LotID等。
+- 可以根据用户选择的不同条件查询进行查询
+- 支持查询条件的文本框内直接输入模糊字符（例如带有*号）后点击查询按钮就可以进行查询，不可以是 先点击下拉菜单获取数据后再模糊匹配选择确定数据再查询的方式
+- 查询结果显示要具备分页查询功能，不得将所有数据一起显示造成系统卡死或者闪退
+## Change Slot map Info
+- 允许用户更改同一 Carrier 中晶片和原始批次之间的关系
+## Modify Carrier Attribute
+- 允许用户修改 Carrier 的属性
+## 载具类型卡控
+- CST 跟 Processlocation的mapping关系需要可以配置，实现流程管控中的CST类型防呆卡控
+## PCD
+- Carrier 需要由 cassette/pod/door 作为属性组成，RFID内写入的是 carrier id（RFID 安装在 Cassette 中）， cassette/pod/door 扫码输入，系统以 carrier id 做索引
+- 支持清洗周期管理
+- 支持清洗机台的PCD过帐管理
+# Reticle管理
+## Add Reticle
+- 工程师可以通过特定的命名规则添加新的reticle ID, pod, film type, max wafer clean count, max lot clean count等等
+## Hold Reticle
+- 工程师可以使用此功能来 Hold Reticle。在 Hold Reticle 功能中，用户需要输入 Hold Code 和注释
+## Release Reticle
+- 工程师可以使用此功能 Release Reticle。在 Release Reticle功能中，用户需要输入 release code 和注释
+## Return Reticle
+- 如果 Reticle 不再使用，工程师可以将 Reticle ID 返回到 Reticle版室
+## Scrap Reticle
+- 工程师可以使用此功能来报废 Reticle。在报废 Reticle 功能中，用户需要输入Scrap code和注释
+## UnScrap Reticle
+- 如果 Reticle 已经报废，经过工程师的验证，Reticle 仍然可以使用，工程师可以使用此功能来解开 Reticle
+## Bank In Reticle
+- 工程师可以使用此功能将需要的Reticle移动到 mask 室的。
+## Bank Out Reticle
+- 如果经过工程师的验证，Reticle 仍然可以使用，工程师可以使用此功能将 Reticle 从 mask 室中取出
+## Modify Reticle
+- 工程师可以修改Reticle的各种属性
+## Inspect Reticle
+- 工程师可以使用此功能来检查 Reticle
+## Clean Reticle
+- 如果需要清洁 Reticle，工程师可以清洁 Reticle ID
+## Reticle Location
+- 支持记录Reticle位置，例如Stocker，机台，Maskroom等
+## Reticle Pod
+- 工程师可以为 Reticle 添加一个 Pod ID。Pod 信息包括Pod ID、Pod 类型、Pod 容量、清洁周期等
+## Change Reticle Status
+- 可以通过配置方式实现各种状态和切换规则
+## Reticle TrackIn/TrackOut
+- 支持在特定Litho机台做Retcile的进出站过帐并记录对应历史
+- Lot所需的Reticle进站后，lot才允许进站
+- Lot使用的Reticle需要等待Lot出站后，才允许出站
+- 支持机台最大TrackIn的Reticle数量卡控，超出数量不允许TrackIn
+## Printdown
+- 设置PDFlag
+- 设置PD最大使用次数 和 有效期
+- Max Using Count超限后，卡控批次不能进站，状态切为WAIT_PD，Track In后Status切为IN_PD
+- The system keeps a history of reticle and reticle pod state change record
+## IRIS
+- 设置IRISFlag
+- 设置IRIS的管控Spec
+- 设置IRIS最大曝光wafer数量
+- 支持IRIS收值和判定
+## 查询主界面和历史查询
+- 工程师可以使用此功能查看 Reticle 的详细信息，用户可以根据 Reticle ID、group, pod and EQP 来选择 Reticle 的具体信息
+- 可以根据用户选择的不同条件查询进行查询
+- 支持查询条件的文本框内直接输入模糊字符（例如带有*号）后点击查询按钮就可以进行查询，不可以是 先点击下拉菜单获取数据后再模糊匹配选择确定数据再查询的方式
+- 查询结果显示要具备分页查询功能，不得将所有数据一起显示造成系统卡死或者闪退
+## Reticle Group
+- 支持设定ReticleGroup，下面关联多个Reticle
+# Lot管理
+## Lot plan
+- 可以跟ERP系统联动，创建新的Lot
+- 可以跟ERP系统联动，创建半成品Lot
+- 可以支持在MES系统中独立创建Lot
+- 支持Batch创建Lot
+- 支持创建Lot的wafer选择不同物料，而不是 同一个Lot的wafer只能用一种物料
+- 支持创建Lot时具备记录PO，Order，客户信息等 功能
+- 创建Lot的Qty可以自定义
+- 创建Lot ID时 可以根据LotType等信息自动进行编码
+- 未到规定的下线时间不允许下线Lot
+- 支持StartHold功能，并且可选开启还是关闭
+- 物料不足时，不允许创建Lot
+## Cancel lot plan
+- 创建的Lot还未下线之前，可以取消创建Lot，并且LotID编码不会被占用
+## Change lot plan
+- 可以修改Plan好的Lot的Lot类型
+- 可以修改Plan好的Lot的优先级
+- 可以修改Plan好的Lot的StartHold
+- 可以修改Plan好的Lot的Owner
+- 可以修改Plan好的Lot的CustomerID
+- 可以修改Plan好的Lot的Plan Start Day/Due Day
+- 所有修改需要具备历史记录
+## Lot Plan Portal 和 历史查询
+- 工程师可以使用此功能查看 Lot的详细信息，可自定义结果排序
+- 可以根据用户选择的不同条件查询进行查询，Lot ID条件 支持同时输入逗号分隔的多个LotID模糊查询
+- 支持查询条件的文本框内直接输入模糊字符（例如带有*号）后点击查询按钮就可以进行查询，不可以是 先点击下拉菜单获取数据后再模糊匹配选择确定数据再查询的方式
+- 查询结果显示要具备分页查询功能，不得将所有数据一起显示造成系统卡死或者闪退
+## Bank In/Out
+- 可以单个 lot 或多个 lot 同时做 BankIn/BankOut 动作.
+## Ship/UnShip
+- 支持 Lot Ship以及取消Ship
+## Scrap/UnScrap
+- 支持 Lot 整批报废以及取消报废
+## Terminate/UnTerminate
+- 可以针对 Lot 做 Terminate 动作或 UnTerminate 动作
+## Finish/UnFinish
+- 可以针对 Lot 做 Finish 动作或 UnFinish 动作
+## Wafer Start
+- 针对Plan的Lot进行WFS
+- 绑定载具，并且防呆卡控
+- 指定物料，byWafer指定物料
+## 分批/合批
+- 需要支持逻辑/物理分批
+- 物理分批动作后，要自动触发分批的 Sorter Job，后续使用 Sorter 站点标准作业进行分批
+- 需要支持逻辑/物理合批
+- 物理合批动作后，要自动触发并批的 Sorter Job，后续使用 Sorter 站点标准作业进行合批
+- 当分批时,子批默认继承母批的属性,包括 FutureAction，Qtime, wafer 的前量数据，加工站所有信息等
+- 合批时需要具备防呆卡控，确保Lot核心属性一致，不得产生MO风险，例如 Lot Flow版本，站点，污染等级，优先级等等
+- 当子批 Merge 到母批时,子批的 Future Action 等信息需要 Merge 到母批上
+## Hold/Release
+- 可以同时用不同原因 (Reason Code) 对同一个Lot 加以Hold
+- 支持 Batch Hold
+- Hold 和 Release 要有历史记录, 可以清晰的跟踪 release 动作对应的是那个Hold动作, 历史要可以查询
+- Release hold 时须选择相应的 hold code，和填写 release comment
+- 根据 Department 以及Reason Code 管控Hold/Release 动作时的权限
+- 单一 Lot 有多个 Hold Code, 可以选择多个 hold 使用相同的 Release Code 一次 Release
+- 具备强制将机台上发生异常的Lot 做 出站 操作的系统功能
+- Running Hold：因机台故障等各种原因而将所跑的 Lot Hold 住，再使用 Recovery Run Card 进行后续处理
+## FutureHold
+- 支持 Lot 在现在的 Flow 上，对未来某个站点设置 Future Hold
+- 按生效时间点不同, FutureHold 可以分为 PreFutureHold (进站就Hold)和 PostFutureHold (TrackOut 时Hold).
+- Lot 的 Future Hold 支持 Multi Future Hold 的设置. Future Hold 的设置可以被更改, 删除
+- Lot Future Hold生效后,与版本无关 (版本升级后Future Hold应该被继承)
+## Lot Portal和历史查询
+- 查询条件包括: Lot ID, Lot Type, Lot Priority, Location Work Area, Carrier ID, Lot Status,Product, Plan, Stage, EQPGroup ID, Production/NPW/Engineer, Normal/RunCard/All
+- 可以根据用户选择的不同条件组合进行查询
+- 支持查询条件的文本框内直接输入模糊字符（例如带有*号）后点击查询按钮就可以进行查询，不可以是 先点击下拉菜单获取数据后再模糊匹配选择确定数据再查询的方式
+- 查询结果显示要具备分页查询功能，不得将所有数据一起显示造成系统卡死或者闪退
+## 多批次操作
+- 支持炉管batchLot操作进出站，和 cancelTrackin
+- 支持Bond机台多批次一同进出站，和 cancelTrackin
+- 支持WET机台多批次一同进出站，和 cancelTrackin
+## 进出站
+- 支持手动和自动进出站，和 cancelTrackin
+- 针对并行chamber 机台，MFG可以手动选特定chamber进站
+- 进站之前需具备防呆卡控，例如：设备状态，Lot状态，Flow站点信息匹配，ECS，Season，Monitor，RCP，污染等级等等
+## 快速过站 Process Lot
+- 支持快速过站功能，指定Lot和Lot当前站的可用设备，可对批次进行快速加工和过站
+## CHANGE HOLD CODE
+- 对存在的Hold有权限的前提下可以EditHold
+- ChangeHold以后，release权限也相应变更
+- ChangeHold要记录详细的历史，change前后的Holdcode记录
+## Update lot attributes
+- AdjustLot功能提供常规属性的修改
+- 特殊属性支持单独权限修改：例如仅仅修改LotOwner 或者 priority
+## ship label
+- 标签打印需要打印机联调一起使用，例如 Zebra 打印机
+## Reassign
+- 支持 Lot 在现在的站点上进行 Product, plan 的 version upgrade, 或是 Change Product, Plan
+- 支持By Lot Reassign。按多种条件查询和选择一个或多个Lot，指定目标产品（使用产品当前激活的流程和版本）、工序和Step，进行Reassign。可选择是否保留Lot的Future Hold。
+- 支持By ProductChange Reassign。按Product查询和选择一个或多个Lot，指定目标产品（使用产品当前激活的流程和版本），进行Reassign。系统自动Reassign每个Lot到目标产品和流程上，并定位到与Lot当前Step Seq相同的Step。如果目标产品流程上没有Lot对应的Step，Reassign失败并提示。可选择是否保留FutureHold。
+- 支持By FlowVersionUp Reassign。按Product查询和选择一个或多个Lot，进行Reassign。系统自动Reassign每个Lot到目标产品和流程上，并定位到与Lot当前Step Seq相同的Step。如果目标产品流程上没有Lot对应的Step，Reassign失败并提示。可选择是否保留FutureHold。
+- 支持Lot出站后自动执行 Reassign，并且具备防呆卡控，防止不具备升版条件的Lot错误的升版导致MO
+## RepositionStep
+- 支持特殊权限管控
+- 支持防呆卡控，防止污染等级或者载具不匹配等 错误的跳站
+## Qtime显示
+- LotInfo UI 针对多条Qtime都要有显示详细信息的UI展示，并且展示Qtime的相关信息，例如 Start/End 站点，Qtime触发时间等等
+## Rework显示和功能
+- LotInfo UI针对 Rework要能够显示详细的信息，包括 ByStep/ByRoute Rework次数，剩余次数，设定的Rework站点详细信息等
+- 支持Lot在Rework流程开始前的Cancel Rework，Lot自动返回到Rework开始前的工序
+- 超过Rework次数，Lot自动被Hold
+## Loop显示
+- LotInfo UI针对 Loop要能够显示详细的信息，包括 Loop次数，剩余次数，设定的Loop站点详细信息等
+## FetchStep
+- 支持显示Flow的上下游站点信息，并且显示对应的FH，Qtime设定等未来步骤的关键工艺设定
+- 支持显示ReworkFlow
+- 支持显示未来站点的ECS卡控结果，得出可以加工的机台
+## SubconOut/In
+- 前半部分在其它Fab run,后半部分在本厂Run
+- 后半部分在其它Fab run,前半部分在本厂Run
+- 一半部分在本厂Run,然后外包给其它Fab run,再又回到本厂Run
+## Add Comment
+- 支持给Lot在站点增加Comment
+# Bond/Debond
+## Bond/Debond设定
+- ByProd设定 主Prod和副Prod的绑定关系
+- 支持WaferBond时的 TopProd/BottemProd关系的设置，并且需要跟EAPAuto联动
+- 支持主副Bond站点的联动设定
+- 支持主副Debond站点的联动设定
+- 支持副Prod的Loop循环使用设定
+- Bond站点需要设定特殊标记，不得被混用
+- Debond站点需要设定特殊标记，不得被混用
+- 支持永久Bond
+- 支持临时Bond
+## Bond/Debond操作
+- 主次产品批次一起作业，Dispatch前或Move Out时指定Bonding关系。在指定Bonding关系时，可调整主次产品批次的Wafer顺序，系统成对绑定
+- 如果是Dispatch前指定Bonding关系，则如果没有指定Bonding关系，Lot不能进站加工。
+- Bond后，此产品的Lot状态变为Bonded，系统只操作主产品Lot
+- 支持多层Bond，既可以Bond后，再Bond
+- 支持Debonding，走过带有Debonding逻辑的工步，自动Debonding。Debond出来的批次，需要指定合法的新Carrier。
+- Debond也支持多层Debond，可以指定Debond哪一层，缺省是后Bond的先Debond
+- 次产品可以定义完整的Flow，如果可以Debonding，可设定循环次数，并进行控制
+- 可以查询主次产品批次的完整Wafer历史
+- 可以追溯Wafer到Wafer的Mapping关系
+# Run Card management
+## Run card Type
+- 支持Split Run Card（SRC）和Recover Run Card（RRC）。SRC一般由PIE根据实验要求开具，RRC则一般由MA在发生异常后开具
+## RC常规功能
+- 每个RC包括：一个Split Step、多个Loop Flow、一个Merge Step；在Split Step，可以不进行分批，整个母批进入RC
+- RC可以连续执行多个，中间无需走主流程Step
+- 支持自动Split和Merge，或人工Split和Merge
+- RC需要审核和激活，可按照RC的开具的部门，走不同的审核流程，签核顺序需要可调整
+- Loop Flow，可以来源或基于现有Flow进行修改；长度没有限制，可以重用；可以指定EQP/EQP Group、指定Recipe、Check RCP、指定量测选片等
+- RC Lot与普通Lot共用Dispatch界面、各种Trans界面、查询界面，以及Move In和Move Out逻辑…
+- Loop Flow每个Step可以设定：Recipe、EQP，EQPGroup、Reticle、EDC Plan、EDC Wafer List、EDCSpec等
+- RC Lot与普通Lot共用界面、各种Trans界面、查询界面，以及Move In和Move Out逻辑…
+- 支持RC EDC数据采集进SPC，并且支持手动勾选开关是否进SPC
+## SRC
+- 支持当站开SRC或者在未来步骤开 FutureSRC，已经有FH（包括byProdFH）的站点需要可以开RC
+- 支持SRC发生异常嵌套生成RRC的功能
+- SRC支持跟APC等系统集成
+- SRC支持RCP系统联动，并且有对应的设置防呆卡控
+- 支持跳步RC等特殊RC功能
+## RRC
+- 支持PartialRRC
+- 支持RRC 方式Rework
+- 支持RRC方式嵌套SRC
+- 支持Bond/Debond场景的RRC
+## RC Qtime
+- 支持设定 RC Qtime
+- 支持在RC设定时自动识别主FlowQtime 结束站点，并且在RC内继承该Qtime 结束站点的任务
+- 支持Lot在主Flow 开始一个Qtime，且在RC内结束该Qtime
+- 支持在RC设定时自动识别主FlowQtime 起始站点，并且在RC内继承该Qtime 起始站点的任务
+- 支持Lot在RC内触发继承自主Flow的Qtime计时，RC结束回到主Flow后 结束该Qtime
+- 支持在RC内单独设定Qtime开始和结束站点
+- RC内单独设定的Qtime开始和结束站点必须配对出现，不得缺失设定导致Qtime无法正常结束
+# Non-Production Wafer(NPW)
+## Equipment Monitor
+- 支持by Interval Time、Fixed Time、byPM、Manual设置设备Monitor,符合条件后自动触发
+- 支持查询从SPC查询导入的OFFLINE Chart数据
+- 支持提前、推迟、跳过执行Monitor
+- 支持在到达Monitor时间前提前预警
+- 支持Risk Run：即触发执行Monitor后，支持在一段时间内可Run指定的Recipe或Recipe Group
+- 支持一个载具内的Wafer同时Monitor多个Item，如Litho的CD和Overlay
+- 支持配置有效时间，即在设定的时间范围内才会自动触发Monitor
+## Equipment Monitor Plan卡控
+- 同一触发条件下：一个EQP+Chamber+Plan type+组合只能设定一条
+- 一个Plan被触发后执行完成前，不能再次出发
+## NPW定义
+- 支持定义挡控片（NPW）的型号信息，定义回收流程（Recycle Flow），并可定义降转型号（Downgrade）
+- 在Recycle Flow的设定Step，通过输入判定条件，系统按照预设Downgrade，将NPW进行降转。
+- 可按照型号定义NPW可用次数
+- 支持管理和调整挡控片的已经使用次数（By Wafer Level）
+- 支持By 机台/Chamber定义Monitor 流程（包含Monitor 量测机台，加工机台，Recipe，Offline Chart等），有版本管理，并支持Monitor 流程导入导出，控片子批可注册Monitor 流程
+- 量测25片，但是有1片没有收到值，但是没有ocap。 需要可以单独重量这一片
+- 支持挡控片测机历史查询，能查询采集参数，可根据自定义公式计算测机结果
+- 不同测机流程之间升版本必须互相不能影响，要互相独立，松耦合
+- 进站时可修改测机流程Recipe，量测需要支持指定部分Wafer量测
+- 支持手动上传挡控片测机数据
+- 支持量测设备单独做AM的方案
+- 要支持Multilot模式测机
+## 炉管Monitor
+- 对于炉管Monitor片，在组Batch时，需要指定Monitor Lot。在进行炉管加工后，Monitor片会进行测量，测量后的值，会自动复制到Batch内的Product Lot。
+- 一个炉管Batch内可包含多个Product的Lot，但这些Lot的加工Recipe必须相同。如果进行量测，这些Lot的抽片方式不同，则必须在量测前，打散并重组Batch，保证每个量测的Batch内的Lot都有相同的抽片方式。
+- 支持A/B Batch
+## Season
+- 能够定义 season route, season lot, season recipe. 系统应该支持按用户配置的信息做 Season Split
+- 按照ByPM触发Season，且支持多个SeasonProdLot做 ByPM的season
+- 按时间 (Eqp/Recipe idle时间) 触发Season
+- 按Wafer数量 (持续/累计) 触发Season
+- 按recipe group变化触发Season
+- 提供 GUI 给用户维护 Season 信息,如:Query,Add,Modify,View,History,Copy 等
+- Season支持自动逻辑分批的SeasonLot进行season，无需人工参与
+- byPM的 By Step Season Complete 和 cancel，中途down机的场景支持
+- CMP zero-idle: season lot 和 production lot 需要确保连续RUN
+- Chamber 的 season 要以 chamber 实际 Idle 的时间为准, 而非以主机台时间为准
+- 当 season 出现某些异常, 用户可以手动完成 season 或重置season 状态及信息,以使得重新做season.
+- 暖机控制对象包括主机台和子机台, MES在全自动, 半自动及手动模式下都需要支持Season控制
+- 支持多次暖机，即机台需要用多种Season wafer跑多个程序才完成暖机要求，且有时效管控
+# PRMS
+## 光阻MAPPING
+- 支持FAB 的MaterialNo，ResistNo和ResistName对应关系维护界面(ResistMapping）
+- 支持光阻的基本属性管理（Resist No,Resist Name,Material No,Defrost Time:退冰时间，FollowBottleLife,BufferDaysAfferDefrost ）
+- BufferDaysAfferDefrost 支持退冰缓冲天数的管理
+- 支持Operator 通过扫描抢扫描VendorBarcode，
+- 支持Vendor Barcode解析为FAB 内部Barcode（规则需客制化,先默认手动录入）
+- 支持将Barcode 将Barcode 存入PRMS系统中，连同打印机将FAB 内部Barcode 做完瓶身的唯一识别嘛
+- 支持光阻有效期管理
+- 支持光阻、机台、光阻管路的对应关系管理（ResistNo, EQPID, ChamberID，PRPipe）
+- 支持一个光阻可以对应多个设备和光阻管路
+- 支持一个设备和光阻管路只对应一个光阻
+- 支持ResistNo和Recipe的mapping
+- 支持ResisNo和Recipe mapping设置的历史查询
+- 支持光阻的统一查询界面管理
+## 光阻状态
+- 支持光阻的状态管理（'InUse','Empty','Defrosting','Ready','Hold'）
+- 光阻录入时的状态为Status= Defrosting
+- 光阻退冰时间到了自动变为Ready
+- 光阻瓶被换到机台上Status=InUse
+- 光阻报空并且没有被更换前Status=Empty
+- 光阻更换后旧的光阻瓶Status=Finish
+- 除Finish外，其他的状态都可以切换到hold状态
+- 光阻过期，光阻状态自动切换为hold，并备注原因是因为过期
+- 光阻Release后回到Hold之前的状态
+## 光阻更换
+- 支持机台报警时自动切换为Empty（系统集成）
+- 支持机台报警时手动将光阻报空
+- 支持录入新的光阻
+- 支持推荐推荐新光阻BarcodeList（旧光阻同样ResistNo的Status=Ready的光阻瓶并且按照ReceiveTime从小到大排序）
+- 光阻更换后，旧的光阻瓶Status变为InUse,EQPID 和光阻管路
+- 光阻过期，需更改MES机台状态（系统集成）
+# OCAP
+## OCAP FLOW 设置
+- 支持自定义OCAP FLOW，Inline/Offline两种
+- 支持OCAP FLOW Step的自定义
+- 支持自定义OCAP FLOW对应的Action及Handle
+- 支持Re-Keyin Data：重新录入量测数据；弹出EDC采集的数据，用户需要修改数据重新提交，并送SPC
+- 支持Remeasure：按照原来的量测Recipe及选片规则重测；点击Remeasure按钮，用户重测
+- 支持Remeasure With Other Recipes：选择新的量测Recipe加测；点击Remeasure按钮，选择新的Recipe
+- 支持Remeasure With Other Units：重新选量测片加测;点击Add measure按钮，指定量测Wafer
+- 支持lot Release, Lot hold to Owner
+- 支持Confirm OCAP Handle：系统带出OCAP Handle的处理结果，不能修改，只能点按钮
+- 支持OCAP FLOW 每个节点的人员签核管理
+- 支持Flow Action YES/NO/Approve/Reject/Confirm/Skip/Default
+- Inline OCAP 重量要支持 选择同机台组内的其他机台，换机台后不要重复生成SPC收值，需要覆盖收值
+- 支持OCAP Portal查询详细的OCAP信息
+## OCAP FLOW 执行
+- 通过MES新增导入SPC InLine/OffLine Chart，对应Chart 可以指定OCAP Flow ID
+- 支持通过MES端修改导入SPC InLine/OffLine Chart，对应Chart 可以指定OCAP Flow ID
+- 支持InLine Ocap inline/offline 执行，针对OOC可以允许自定义的放行次数，次数没到就不Hold
+- 支持当量测收值SPC 触发lot hold时,根据SPC Chart对应的Ocap Flow触发对应MES的OCAP
+- 支持OCAP RULE的自动生成OCAPYYYYMMDDhhmmssxxx
+- 量测收值任意一片wafer触发lot Hold就触发OCAP
+- OCAP HOLD 限制不能手工ReleaseHold、Edit Hold
+- 支持OCAP的状态管理
+- 批次触发OCAP，OCAP 的状态为ACTIVE
+- 支持RAD管理
+- 支持强制关闭OCAP
+# LotSampling
+## 普通Sampling设置
+- 支持Step Type为Y的Sampling设置
+- Sampling设置条件包含Eqp Group、ProductID、RecipeID、LotID（尾码）等，Sampling条件支持*通配符设置
+- 支持Sampling设置增加、修改、删除、查询
+- 支持excel导入功能
+- 支持系统Sampling设置查询、导出功能
+- Lot按Sampling设置跳站，并记录Trans
+## SmartSampling建模
+- 支持按照加工站或recipe定义采样分组方式
+- 支持按照Prod或者EDCPlan多个维度限定采样产品的范围和步骤
+- 支持按照时间或者waferCount设定spec
+- 支持禁止跳站的特殊Lot属性
+## SmartSampling执行
+- 系统可按照设定的规则，智能动态的调整采样结果
+- 当采样组内有Lot量测通过，则组内其他lot可以跳站，反之不可以跳站
+## YE Sampling设置
+- 支持Wafer Count、Long Time No WIP、Ream Q-Time等条件
+- 支持Key Tool Lot的Sampling
+# checkCust
+## checkCust定义
+- 支持AutoHold和CheckSplit
+- 支持条件公式自定义，包含常用的Lot属性
+## checkCust控制规则
+- 当满足设定的条件时，在出货之前AutoHoldLot
+# Pi-Lot
+## Pi-Lot定义和执行
+- 支持EQP Type为P的Pi-Lot设置
+- 支持BY IdleTime设置触发Pi-Lot，支持By Lot、Wafer层级，如设备为主机台设置为Lot层级、设备为Chamber设置为Wafer层级
+- 支持Max Run Time、Idle Time设置
+- 支持Pi-Lot Wafer Count、Retry Wafer Count设置
+- 支持Pi-Lot设置增加、删除、修改、查询，OFF/ON设置
+- Pi-Lot包含Created、Ongoing、WaitSplit、WaitMerge、Close状态管控及History查询
+# 探针卡
+## Prober Card
+- 创建探针卡，可以绑定探针卡状态模型；定义探针卡基础信息包括供应商、针长、以及库存位置，当前T/D次数，累计T/D次数，预警值，目标值，最大使用次数，报废预警次数，报废次数
+- 探针卡与产品的正反向约束功能
+- 来料加工时MES验证设备当前Mount Prober与产品匹配关系
+- 对探针卡可以执行暂停/释放或报废操作
+- 提供Mount界面 ,选择测试设备，选择Prober card id 可以进行Mount到机台
+- 对探针卡可以Unmout 机台操作
+- 探针卡到达上限后，可以送修并切换状态
+- 提供探针卡送修后再回到可用的状态
+# 跟其他系统集成
+## 跟ERP集成
+- 领料
+- 退料
+- 工单下达，将已经下达的生产订单传输给MES系统
+- WIP报工
+- 报废
+- 入库
+- 退库
+- 工单完成
+- Product Id change
+- LOT TYPE change
+- 其他对接ERP系统功能的集成
+## 跟APC集成
+- 对接APC系统并且实现相关功能集成
+## 跟FDC集成
+- 对接FDC系统并且实现相关功能集成
+## 跟YMS集成
+- 对接YMS系统并且实现相关功能集成
+## 跟DMS集成
+- 对接DMS系统并且实现相关功能集成
+## 跟WJS集成
+- 对接WJS系统并且实现相关功能集成
+# 测试线管理
+## 产品型号定义
+- 产品的基本信息定义； 产品的特殊属性定义；
+## BIN设置
+- 支持Bin name设置，并定义Bin Type（Pass、Fail）
+## BIN GROUP定义
+- 支持Bin Group设置，并关联其所含Bin 根据需求设置BIN中所含的缺陷明细
+## BinControlRule设定
+- Hard Bin 与 Soft Bin的limit管控标准定义； 支持单BIN良率标准； 支持多BIN组合良率标准； 支持良率上限与下限； SBL管控标准定义；
+## TOTAL良率配置
+- SYL管控标准定义； 支持单片良率标准； 支持整批良率标准； 支持良率上限与下限；
+## 缺陷率设置
+- 缺陷率可以by缺陷项设置 缺陷率可以by产品、流程、缺陷项设置
+## 测试程序关系维护
+- 支持定义机台上可以用Recipe/程序；支持产品、工步与测试程序的关系维护
+## 组合设备设置
+- Tester与Prober以及Tester与Handler组合关系设定；
+## 测试规则设定
+- 支持测试SYL、SBL相关设置
+## 测试线管理
+- 可设置产品批次的AQL标准
+- 支持测试Bin分批/不分批的设置
+- 支持测试尾数合并规则自定义
+- 支持by pcs结束； 支持进站校验Recipe； 支持进站产生测试文件； 支持通过FT测试分出各种Bin以及对应数量；复测FailBin数量，根据规则判定复测次数，由系统判定复测结果； 支持从PassBin中抽测一定比例数量进行复测，根据提前设定复测比例，由系统判定复测结果； 支持PassBin、FailBin、LAT好品、LAT次品、EQC好品、EQC次品、各种标签打印； 支持按照Bin等级自动进行分批；
+- 2)支持尾料绑定主批次包装入库
+- 3)支持尾料合批包装入库
+## 拆批
+- 支持HOLD状态下拆批； 支持作业中拆批；
+## 合批
+- 支持HOLD状态下合批； 支持作业中合批；
+## 测试工步管控
+- 支持by wafer结束； 支持程序的防呆； 支持测试设备、治具的校验； 支持读取测试结果文件； 支持SYL/SBL计算与管控； 支持Mapping查看；
+## 测试良率异常处理
+- 测试后良率异常的处理： 放行并拆批重测，批次进行批次拆分，部分进行重测，部分进行流转到下一个工步； 放行并重测，批次留在当前工步待开始，进行重新测试； 放行，批次直接流转到下一个工步；
+## 物料MBB设置
+- 物料吸湿时间管控； 支持物料吸湿时间打开和关闭； 支持手动添加批次的吸湿时间管控；
+## 载带拉力标准配置
+- 根据封装类型配置载带拉力标准
+## 载带拉力送检信息
+- 根据批次创建载带拉力送检信息； 配置批次的载带、盖带的信息
+## 载带拉力检验
+- 填写载带拉力检验数据； 自动校验载带拉力结果；
+## 尾数管理
+- 1)支持尾料包装直接入库
+# 封装线管理
+## 切割站点管控
+- 1)支持产品型号校验（晶圆ID或框架条码），上料核对，绑定产品 2)支持关键治具（刀片）上机验证，记录使用数据 3)支持切割良率与崩边率统计(录入以及集成EAP） 4)切割Recipe管控（集成EAP）
+## 挑选芯片站点管控
+- 1)Wafer Map管理 2)支持关键耗材上机验证，记录使用数据（耗材包括蓝膜/胶带、顶针及吸嘴型号） 3)支持多等级/多类型芯片挑选 4)良品/不良品分类：基于测试数据自动判定芯片等级，指导挑选设备按等级分类 5)支持挑选率（拾取率）统计(录入以及集成EAP） 6)支持挑选芯片存放方式，包含Reel卷带，Tray盘等
+## 芯片贴装站点管控
+- 1)支持贴片芯片型号校验，上料核对，绑定产品 2)支持多芯贴装 3)支持多层叠Die贴装 4)支持首件管理 5)支持EDC数据采集 6)贴装参数防错：MES定义产品/设备Recipe，集成EAP，系统自动校验和下发Recipe 7)治具防错贴装吸嘴/顶针管理：记录贴装头吸嘴、顶针等治具的使用次数，到期自动预警或锁定 8)Wafer Map管理 9)Strip（Wafer） Map管理
+## 塑封站点管控
+- 1)EMC材料扫码校验,比对材料类型、批次、有效期 2)材料解冻回温管理 3)模具上机校验，记录塑封模具的使用次数、保养周期 4)塑封Recipe管控（集成EAP） 5)Strip（Wafer） Map管理
+## 激光打标站点管控
+- 1)激光打标数据源配置-参考标签数据源配置 2)打标数据防错防呆-集成EAP 3)Strip（Wafer） Map管理
+# 治具管理
+## 治具管理
+- 1)支持按照不同治具类型定义状态模型
+- 2)状态转换基于User Group做权限控制
+- 3)治具使用管理：Mount设备时作匹配检查、Unmount设备时可扣减使用量或计数，或者使用时间累计。
+- 4)支持治工具的使用次数、使用时间的自动计算，自动切换状态
+- 5)治工具次数、使用时间达到上限的，不能继续加工
+- 6)治工具维护（更换部件、维修等）后，重置计时和计数
+- 7)支持测试治具，如prober card；支持封装治具，如injection mould的管理
+- 8)支持打印治具标签
+# 物料及BOM管理
+## 产品及物料
+- 1)可继承ERP的物料形成MES的产品、物料基础数据
+## 物料及BOM管理
+- 2)针对物料和产品可定义物料的管控属性（例如化学品的时效等）；
+- 3)可承接ERP的产品BOM形成MES的产品BOM，并基于产品BOM结合工艺流程形成生产BOM（工单BOM、工序BOM）；
+- 4)在MES系统可自行创建BOM（工单BOM、工序BOM）；
+- 5) 产品、物料、BOM可启用版本管理；
+- 2)设置工序消耗的物料BOM
+- 3)设置替代料和替代顺序
+- 4)支持设备MOUNT物料的正确性、有效性检查
+- 5)支持批次进出站物料的正确性、有效性检查
+- 6)物料使用消耗的历史记录，主要运用于可定量统计的物料消耗（按Qty、Lot、Wafer数进行消耗）
+- 2)提供寿命有效期的定义：Life Time,回温时间、次数
+- 3)生产过账时能够获取寿命，并及时进行报警
+- 4)联动EAP实现自动报警和机台控制
+- 系统支持原材料的消耗扣减，同时也支持辅材/耗材消耗，
+- 系统支持半成品自动转原材料，并按照用量完成消耗记录
+## 产品绑定BOM设置
+- 1)定义基础物料信息
+## 特殊材料管控（锡膏、光刻胶）
+- 1)编码、属性、分类、状态、使用范围、生命周期、安全库存等进行管理
+## 物料校验
+- 物料上机时，系统根据上机物料信息，自动校验物料型号和物料效期，超出需要提醒
+## 物料消耗
+- 依据BOM中每个对应工站设定的标准用量完成物料消耗 并支持OP实际调整消耗数量，当消耗数量和用量不一致情况下进行提醒确认。
+## 物料消耗查询
+- 消耗数据BY批次，物料等维度进行查询和查看追溯
+# 工单管理
+## 工单管理
+- 1)工单创建：可通过接口承接上游ERP的销售订单，形成MES系统的生产工单；也可以在MES系统中根据生产所需自行创建生产工单，例如：研发或工程试验等不需要从ERP下单的情况；
+- 2) 工单操作包括：创建、编辑、确认投产、Hold/Release、暂定、完工、强制完工等操作功能；
+- 3) 工单确认下达前，工单需要匹配工艺流程、生产BOM、关联Wafer、封装材料等等关联配置；
+- 4)工单在确认下达投产时，系统根据工单的产品料号及数量，并结合编码规则创建在制品档案；根据编码规则创建lot号;  lot号的编码规则可在基础配置中自定义；
+- 5)确认投产：根据wafer lot执行投产的操作，系统提供投产的登记功能： a)可按wafer lot/pcs lot进行投产 b)登记lot与carrier的关系 c)完成绑定后，后续的生产过账，可by lot、by carrier进行过账；
+- 6)对新建的Lot可定义生产所需的各种属性，包括产品号，Lot数量、Lot类型，优先级、Due Date 、Lot Owner 等
+- 7)建批时可指定加工起始工步，默认从工艺流程第一步开始加工
+- 8)对创建出来的批次进行投批到产线待加工
+- 9)生产批次管理：基于生产工单确认投产后得到生产批lot no,可对生产批进行管控，如拆批、合批、批次扣留等；
+- 10)RunCard管理：基于工单的生产批打印Runcard，供车间现场生产流转时标识在制品以及数据采集所用，可提供lot流程卡；
+- 11) 根据工单和批次可以方便的查看到所用的工艺流程和生产BOM等；
+- 12)支持按工单信息查看，包括已完成数量，生产中数量，报废数量等信息
+- 13)提供追溯查询，查看批次的作业加工履历、物料耗用数据、工时数据等；
+- 14) 工单完工结算：从物料耗用、工时核算两个大的角度对工单进行结算，并将结算的数据回报给ERP。
+# 线边仓管理
+## 线边仓定义
+- 1)建立线边仓组织架构，根据物料类型不同的管控要求，设置各线边仓位的属性；
+## 线边仓管理
+- 2)针对不同的仓位，设置不同级别的操作属性；
+- 2)支持在MES中直接创建收料单实现车间现场物料的接收；
+- 3)支持收料信息直接导入线边仓
+- 2) 物料库存从线边仓发料至生产机台；
+- 3) 在机台，可以利用机台上料的功能实现机台站点的物料上机；
+- 4) 开工单生产领料时将需要长时间回温等前期准备的物料情况考虑进去，提前对应时长通知相关部门对物料进行回温操作；
+- 2) 提供机台退料至线边仓的功能
+- 3) 提供线边仓的物料退料至ERP大仓的功能
+- 4) 根据实际生产类型包含各种形式的退库管理；
+- 2)来料时，可登记wafer的客户、lot、cassette等来料信息，形成wafer档案；
+- 3)可记录每片wafer的die数；
+- 4)生产投产时，可以从wafer库选择wafer进行投产作业，系统记录厂内wafer ID与客户来料wafer ID的关联匹配关系；
+- 5)提供wafer库存的实时查看，查看厂内wafer的状态；
+- 2)寿命模型包括物料的有效期、可回温次数、回温时长、回温后可用时长等；
+- 3)从物料领用或发料时，根据物料的保管状态的变化，记录物料的不同状态下的时长；
+- 4)结合站点的track in和track out，对物料的时效进行计算，超限或超标时，报错提醒并提示处理；
+- 5)存储时效异常时，Hold物料批次并做提醒；
+- 2)收料信息直接导入辅材线边库
+- 2)支持打印物料批标签
+- 3)线边仓物料超期邮件提醒和线边仓库存超期颜色提醒
+- 4)支持安全库存管理
+- 5)线边仓盘点
+- 2)支持实时查看线边仓所有物料当前状态；
+- 3)关键物料支持批次管理，支持单件追踪
+## 收料管理
+- 1) 通过与ERP系统对接，MES自动接收ERP的工单发料信息，产线物料管理人员通过扫描物料标签进行收料确认，登记实际收料信息；
+## 发料管理
+- 1)根据生产排产要求，产线物料管理人员通过扫描物料标签进行发料确认；
+## 物料批次管理
+- 针对物料批次管理策略，能根据批次实现物料追溯管理
+## 退料管理
+- 1) 提供从机台下料的管理功能
+## Wafer bank
+- 1)针对wafer启用wafer库的管理，实现wafer的全面追溯管控；
+## 物料寿命管理
+- 1) 针对关键物料提供寿命管理模型，用于管控对于存储环境和存储时间敏感的物料，例如粘片胶、锡膏、线材等；
+## 辅材管理
+- 1)支持辅材的收料、发料和退料
+## 库内作业
+- 1)支持线边仓库存管理
+## 不合格物料控制
+- 不合格物料控制，对发往产线的物料质量进行型号及批次控制管理；
+## 物料报废
+- 支持材料报废和转等级
+## 系统查询
+- 1) 可以实时查看所有机台的在线物料信息；
+# 质量管理
+## 检验规范定义
+- 1)提供制造过程检验项和检验标准的定义配置；
+## 质量管理
+- 2)根据不同的检验类型，可设定不同的检验标准和检验模板；
+- 3)在工艺流程中可以基于站点设定可用的检验模板；
+- 2)不良code支持自定义
+- 3)支持工步绑定对应的不良code
+- 2)支持质量人员巡检功能
+- 3)首检采集的数据，进入SPC系统进行管控
+- 2)自动触发异常单，异常单处理流程
+- 2.支持自动&手动两种扣留方式，支持批量扣留
+- 3.Hold 需要加Hold Reason，Hold 有特定的Hold Code，Hold Code可在系统上根据实际需求进行灵活的配置，扣留时可指定处理组，不在该处理组的人员不能进行放行操作
+- 4.支持与其他系统进行对接，实现批次及设备等的自动扣留
+- 5.自动扣留规则可配置
+- 6.重大异常扣留，触发OCAP流程
+- 7.扣留及解扣留均需要进行权限管控
+- 8.hold lot 邮件提醒
+## 不良原因定义
+- 1)不良检验项目定义，可批量导入
+## 首巡检功能
+- 1)支持自定义首检触发条件（如换型号、换物料、换模具、换程序、清模、PM等），并根据规则触发创建检验单或报警提醒；
+## 首件检验定义
+- 1)首件检验项目定义，可批量导入
+## 站点良率卡控
+- 1)出站良率异常，自动hold批次
+## 异常处理
+- 1.支持多种类型Hold，如批次、wafer、物料、设备、载具等
+# 包装和标签管理
+## 包装和标签管理
+- 1)支持基于标签设计软件设计标签模板，自动打印包装标签
+- 2)支持补打/重打标签
+- 3)支持多层包装（REEL、Inner Box、Outer Box）和每层标签绑定
+- 4)支持拆包装并保留包装和标签历史记录
+- 5)支持不良品包装
+- 6)支持按照指定包装（REEL、Inner Box、Outer Box）入库
+- 7)支持打印个性化的入库单据
+# Wafer Mapping管理
+## Wafer Mapping
+- 1)WaferMap文件存储路径监控及存储；
+## Wafer Mapping管理
+- 2)WaferMap文件格式解析及图形化展示；
+- 3)WaferBinCode配置及转换；
+- 4)WaferMap人工编辑功能；
+- 5)WaferMap自动角度转换
+- 6)前后工序Map合并，生成新的Map，和导出
+- 7)可追溯性：可基于客户批、产品批、批次号，显示对应的Wafer Map、Strip Map，并可基于图谱结果数据进行数据统计，比如gross die,good die,fail die,yield,每个defect code的统计。关联WaferMap与StripMap的关系，形成完整的产品全生命周期追溯
+- 8)部分功能需要联动EAP实现。
+# Strip（Wafer） Mapping管理
+## Strip（Wafer） Mapping
+- 1)Strip Map展示：产品支持MES 界面上 Map展示
+## Strip（Wafer） Mapping管理
+- 2)支持Strip Map的导出
+- 3)支持Strip Map修改功能.
+- 4)Strip Map 版本管理
+- 5)Strip Map的上传，下载和对比
+- 6)可追溯性：可基于客户批、产品批、批次号，显示对应的Wafer Map、Strip Map，并可基于图谱结果数据进行数据统计，比如gross die,good die,fail die,yield,每个defect code的统计。关联WaferMap与StripMap的关系，形成完整的产品全生命周期追溯
+- 7)支持基板 Strip Map图谱，同时也支持Wafer（Carrier/Base Die） Map图谱。
+- 8)部分功能需要联动EAP实现。
+# 材料外延管理
+## 技术规范管理
+- 主材、产品客规、厂规、出货规范、标签规范管理
+## 品控管理
+- COA、COC模板创建、上传、版本管理、版本对比、数据导入导出等，不同模板需要可以配置完成
+## 材料外延管理
+- COA、COC电子报告生成
+- 主材物料批次COA参数设置、导入、导出等
+- IQC、抽检等
+- 物料上机/下机操作
+- 物料检查(当物料变更时)
+- 生命周期管理，需要监控剩余时间，通过邮件/微信报警
+- 物料Hold/Release
+- 物料拆/合
+- 物料Shipping
+## 标签管理
+- 标签模板设置、标签打印、打印机设置等
+## 包装管理
+- 成品组箱、拆箱、包装、装箱单、发货等
+## 线边仓管理
+- 线边仓定义、收、发、退料、上下架等管理、库存水位、超期预警
+## 物料管理
+- 物料创建、BOM管理、物料使用历史、库存检查

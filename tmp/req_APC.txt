@@ -1,0 +1,202 @@
+# 基础功能模块
+## 数据收集
+- a. 工艺测量数据的收集；
+- b. 可自定义要收集的量测项目；
+- c. 提供不同的计算公式如最小值， 最大值， 平均值， 标准差， 并可客制化扩充的能力；
+- d. 提供量测资料的检查， 过滤， 补点以及超过规格的处理流程。
+## 控制器
+- a. 支持光刻， 刻蚀， 研磨， 湿法，TRIM等工艺模块；
+- b. 可调整工艺流程参数；
+- c. Lot 到 Lot， Wafer 到 Wafer， 并可以切换；
+- d. WET run to run:根据前一步的量测膜厚选择下一步不同的 process Recipe；
+- e. 前反馈和后反馈；
+- f. 与 MES 的配方管理功能集成；
+- g. 提供不同的控制模型（ SISO\MIMO 等） 并能够切换；
+- h. 设备内置的 Rework 功能（ CMP） ；
+- i. 实现 chamber level 反馈控制的实施方案；
+- j. Pi Lot， Rework Lot， 设备 PM， runcard 以及 special Lot 等处理流程；
+- k. 针对控制器输出的值提供多种管控方式如上下限， MTT 等以及 OOS 后可以自定义
+- 处理流程；
+- l. 提供调试和模拟运行验证功能；
+- m. 提供量测数据的异常检查功能， 异常数据不参与反馈及计算；
+- n. 控制器（ Controller） 支持多线程运作；
+- o. 支持离群批次（ Lot） 过滤的功能。 通过设置离群批次（ Lot） 清单；
+- p. 提供重置控制器功能， 如设备 PM 后用户可以手动重置或者外部事件驱动；
+- q. 支持 MPC（ model predictive control） 和 Ewma 控制特性；
+- r. 用户可以在 UI 上设定某种 LOT 或 Product 只跑对应的 Special R2R flow；
+- s. R2R control Block 除了基本的 EWMA 和 MPC 两种外， 如需新加 WMA 或其他算法，
+## 集成及工具
+- a. 为不同的制程提供统一的界面；
+- b. 提供友好的设计界面；
+- c. 与 MES/SPC/FDC/RMS/DISPATCHING/Alarm/Workflow 等其它周边系统的集成；
+- d. 支持 Dedicate Chuck, Dedicate EQP 功能;
+- e. 提供功能组件允许用户开发和集成自己的 APC 控制模块；
+- f. 完善的权限管理机制和历史记录， 如数据级的权限管理；
+- g. 提供全面的报表功能；
+- h. 软件升级和新功能发布不影响系统使用（ 不停机） ；
+- i. 高效的数据清理及恢复机制， 保障系统性能不随时间推移而下降；
+- j. 便捷高效的开发工具；
+- k. 支持多产线同时使用；
+- l. 必要的系统管理工具和性能监控及报警机制。
+## 报表
+- 丰富的报表及图形功能， 用户可以自定义报表字段
+## 流程
+- 可定义子流程（ 计算逻辑） ， 流程间可嵌套， 提高重用性；
+# 区域的 APC 功能
+## Litho Controller
+- CD 功能
+- Litho CD 控制模型： SISO EWMA Model
+- Litho CD FFFB 模型： Lot 级别反馈
+- Litho 支持 Process 机型： ASML， Canon， NIKON
+- Litho CD 控制参数: Dose, Focus
+- Litho CD 输出参数: CD
+- 支持 piLot run, rework run, normal run, special run, runcard run
+- 参数值最小调整阈值
+- tuning 参数的变化量绝对值上限
+- tuning 参数的上下限
+- 调整参数值的截取（ 根据上下限或者变化量上下限）
+- Control Flag: ON， FIX（ 固定值模式） ， OFF
+- 量测数据 site 有效性检查
+- 支持固定值模式
+- 量测有效性检查
+- 反馈有效期控制
+- 根据最近的 run 货值计算返工 Lot 下货值
+- 量测可根据 Wafer process run 进行反馈
+- OVL 功能
+- OVL 控制模型： MSISO EWMA
+- OVL FFFB 模型： Lot 级别反馈
+- 支持 Process 机型： AMSL/CANON/NIKON
+- 支持 8、 10 para 线性参数
+- 支持 piLot run, rework run, normal run, special run, runcard run
+- Chuck dedication
+- Sub Recipe 指定
+- Chuck to Chuck
+- 支持固定值模式
+- 参数值最小调整阈值
+- tuning 参数的变化量绝对值上限
+- tuning 参数的上下限
+- 调整参数值的截取（ 根据上下限或者变化量上下限）
+- Control Flag: ON， FIX， OFF
+- 量测数过滤与验证
+- 量测有效性
+- 量测数据 site 有效性检查
+- 反馈有效期控制
+- 支持 FF, FB 的反馈方式
+- 量测可根据 Wafer process run 进行反馈
+## CMP Controller
+- 控制模型： MIMO MPC
+- FFFB 模型： Lot 级别的前馈/后馈,Wafer 级别的前馈/后馈， Chamber/Header/Platen 级别的前馈/后馈特别地， 对于 CMP 集成量测支持 Wafer 级别反馈
+- 控制参数:研磨时间， RemoveRate
+- 输出: Thickness
+- 支持 piLot run, normal run,monitor run,special/runcard,rework run 功能
+- 参数值最小调整阈值
+- tuning 参数的变化量绝对值上限
+- tuning 参数的上下限
+- 调整参数值的截取（根据上下限或者变化量上下限）
+- Control Flag: ON， FIX（固定值模式） ， OFF
+- 下货参数值与实际下货值差异检查
+- 量测数据 site 有效性检查
+- 主从参数设置
+- 手工前量补录
+- 有效反馈的有效期控制， 控制绪的反馈值连续超出规定时间没有更新， 此控制绪切换至 piLot状态
+- 量测可根据 Wafer process run 进行反馈
+- 自动侦测维修
+- 自动设置维修事件
+- 后量连续不合格， 控制或切换至 PiLot 状态
+## ETCH Controller
+- 控制模型： MIMO MPC
+- FFFB 模型： Lot 级别的前馈/后馈,Wafer 级别的前馈/后馈， Chamber 级别的前馈/后馈
+- 控制参数: 蚀刻时间， Gas Flows 等
+- 输出: CD， Thickness， depth
+- 支持 piLot run, normal run,monitor run,special run， runcard run 功能
+- 参数值最小调整阈值
+- tuning 参数的变化量绝对值上限
+- tuning 参数的上下限
+- 调整参数值的截取（根据上下限或者变化量上下限）
+- Control Flag: ON， FIX（固定值模式） ， OFF
+- tuning 参数连续达到上下限的次数控制
+- 提供不同 Input 之间线性关系的约束
+- 量测数据 site 有效性检查
+- 有效反馈的有效期控制
+- 最新量测反馈控制
+- 支持主/从 tuning 参数
+- 提供 Wafer level 前馈时 缺少 Wafer 的量测数据， 自动补偿计算
+- 手动调整 tuning parameter 下货值侦测
+- 支持前值/后值量测来自于多个站点
+## WET Controller
+- 控制模型： SISO EWMA
+- FFFB 模型： Batch/Lot 级别的前馈， Batch 级别反馈
+- 支持根据前量厚度选择 Recipe、 更新 WET_TIME 两种模式
+- 控制参数： WET_TIME
+- 输出参数: Thickness
+- 支持 piLot run,normal run, special run， runcard run
+- tuning 参数的变化量绝对值上限
+- tuning 参数的上下限
+- 调整参数值的截取（根据上下限或者变化量上下限）
+- Control Flag: ON， FIX（固定值模式） ， OFF
+- 量测数据 site 有效性检查
+- 量测数据 Wafer 有效性检查
+- 量测数据 Lot 有效性检查并做触发 action
+- 有效反馈的有效期控制， 控制绪的反馈值连续超出规定时间没有更新， 会 hold 住
+- 量测可根据 Wafer process run 进行反馈
+## TRIM Controller
+- TRIM by THK
+- 控制模型： MSISO， 控制参数: 去除量， 输出: thickness
+- Lot/Wafer/Point level Feedforward
+- Feedback
+- Tune Flag 可以开关
+- 模型算法： EWMA/WMA
+- 工程师可以在 UI 上可手动调整去除量 Offset
+- 数据模拟计算
+- 新产品或之前条件过期自动 piLot run
+- PiLot Lot 量测结果上传前， 相同条件其他 Lot 禁止进站
+- 多种去除方式
+- 下货值 SPEC 卡控
+- 量测值 SPEC 卡控
+- 去除量 Offset 变动卡控
+- 多种 OOS 点处理方式
+- 支持用户指定去除坐标
+- 工程师操作记录存 Log， 方便追溯
+- 量测数据， 生产数据 Excel 导出功能， 方便工程师数据分析
+- 相关设置可以通过 Excel 导入、 导出
+- 参数值最小调整阈值
+- Process 顺序和量测顺序不一致处理
+- 手工前量补录
+- TRIM by WAT
+- Wafer Level 前馈
+- WAT 量测结果自动处理
+- 支持不同 device
+- 系数计算及引用
+- 支持 By 机台设置系数 Offset
+- Tool Dedication
+- 多种系数选项支持
+- 多种目标值选项支持
+- 最小有效点数卡关
+- 最大 OOS 点数卡关
+- CupLifetime 卡关
+- 量测值 SPEC 卡控
+- OOS Points 卡关
+- OOS Hold Lot 处理
+- 工程师操作记录存 Log， 方便追溯
+- 量测数据， 生产数据 Excel 导出功能， 方便工程师数据分析
+- 相关设置可以通过 Excel 导入、 导出
+- 手工前量补录
+- 文件类型处理
+# Non-Function Requirement （请IT部门进行评估是否完全满足需求）
+## OOB Deployment
+- 提供各区域APC系统的阶段上线计划和方案。
+## High Availability and Reliability
+- 系统架构设计应达到99.99%高可用水平。
+## Scalability
+- 系统整体架构具有良好的扩展性，可满足工厂的产能需求。
+## Application Non-Stop Migration
+- The overall system design must be capable of supporting non-stop Migration, which means that all software, hardware and applications can be upgraded continuously in the workshop.
+- 支持正式环境PiRun：UAT通过后，在指定的机台、流程进行PiRun验证，测试通过则发布生产环境。
+## OS Support
+- The overall system design and program support 32bits & 64 bits.Windows XP,7,8,10,11 Support
+## Performance
+- 99%的处理在5秒或者更短时间内完成
+- 复杂的事务处理不超过60秒
+- 系统的应用服务的故障恢复时间不超过10分钟
+## Source Code
+- 提供二次开发平台

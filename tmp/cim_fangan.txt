@@ -1,0 +1,866 @@
+上海芯源创新中心CIM项目
+建设方案报告
+<TABLE>
+| 申  报  单  位： | 上海芯源创新中心 |
+| 编  制  单  位： | 上海芯源创新中心 |
+| 编  制  日  期： | 2026年01月06日 |
+</TABLE>
+[10] 第一章 项目概述
+[20] 项目名称
+上海芯源创新中心CIM项目
+[20] 项目建设单位及负责人
+项目建设单位：上海芯源创新中心
+项目建设单位负责人：刘军
+项目负责人：黄偲初
+[20] 项目建设背景
+本项目与中心战略定位与发展要求高度契合，同时也是落实国家数字化发展战略与上海市城市数字化转型部署的具体实践。本项目建设的必要性，基于上海芯源创新中心（以下简称“中心”）作为新设立的国家级创新平台的战略定位与发展要求，同时也是落实国家数字化发展战略与上海市城市数字化转型部署的具体实践。
+中心是服务于上海及全国集成电路产业发展战略而设立的国家级创新平台，肩负着引领行业创新、打造示范标杆的使命。作为一个新成立的事业单位，中心具备从零开始、系统规划信息化建设的有利条件。为有效避免传统信息化建设中“先分散、后整合”带来的重复投资与系统壁垒，必须在成立初期进行顶层设计，规划建设CIM项目（以下简称“项目”）。本项目在建厂初期以及后续运营阶段将保障推动中心开展设计、研发、生产、服务、品牌全流程改造升级，支撑中心在研发设计、物理仿真、生产控制等环节应用自主基础软件和工业软件，突破当前约束堵点、卡点、脆弱点，增强中心的竞争力和安全性，以自主可控、高质量的信息技术解决方案，推动中心高效运转，满足现有需求，创造引领新的需求。（TODO）
+[20] 项目建设效益指标
+<TABLE>
+| 规划指标参数 |
+| 项目名称 | 上海芯源创新中心CIM项目 |
+| 项目预算（万元） | 3450 |
+| 总体目标 | 本次建设旨在为承载中心机台Move In阶段所需一系列工业软件、硬件、服务等产品。确保中心核心业务顺利开展，并满足未来围绕发展新质生产力布局所需系统体系自主可控、安全可靠。核心目标如下： 保障的需求 构建符合半导体行业信息系统的建设规范。 灵活扩展，采用模块化涉及，便于根据团队规模和业务需求快速调整。 平滑过渡，为未来深化中心全链路创新预留足够的设备、软件模块、系统接口，降低未来增量业务的新实施方案的复杂度 |
+| 规划指标参数 | 一级指标 | 二级指标 | 三级指标 | 四级指标 | 目标值 |
+|  | 通用指标 | 产出指标 | 产出数量 | 硬件购置完成率 | 100% |
+|  |  |  |  | 软件购置完成率 | 100% |
+|  |  |  |  | 软件开发完成率 | 100% |
+|  |  |  |  | 一次性验收合格率 | 100% |
+|  |  |  | 产出时效 | 项目建设周期 | 至2027年12月31日 |
+|  |  | 基础设施 | 基础设施产出数量 | 核心设备数量 |  |
+|  |  | 支撑系统/数据库/中间件 | 数字底座支撑能力 | 支撑业务数量 |  |
+|  |  |  | 操作系统或数据库或中间件水平 | 系统、数据库或中间件数量 |  |
+|  |  | 应用系统 | 系统与业务融合能力 | 线上业务流程数 |  |
+|  |  |  | 用户使用情况 | 系统用户数量 |  |
+|  | 业务指标 | 效益指标 | 业务承载能力 | 最大业务承载能力 |  |
+</TABLE>
+[10] 第二章 中心概况及信息化现状
+[20] 项目建设单位概况
+上海芯源创新中心是上海市事业单位属性的新型研发机构，成立于2024年11月，位于上海市浦东新区。中心聚焦“人工智能+微电子”前沿领域，围绕微电子新材料、工艺等产业方向开展关键技术攻关，定位为突破型、前瞻型创新策源高地。
+中心重点布局微电子新材料、设计仿真等研究方向，配备世界级科研设施与基础研究平台，联合全国优势单位推动技术发展。其科研团队由国家顶级战略科学家领衔，汇聚行业领军人才、高校专家及全球研发骨干。
+[20] 本领域信息化建设的整体框架规划或设想
+本项目信息系统建设路径，秉持“统一规划、分步实施、平滑演进、持续赋能”的核心原则，旨在确保CIM系统建设与中心产线物理场地建设、工艺量产爬坡阶段高度协同，避免重复投资与数据孤岛，立足中心发展阶段，贯彻中心发展理念，构建智能制造发展格局，推动信息技术与工业领域高质量发展，具体规划如下：
+建设周期根据实际的中心战略规划和产线建设计划，划分为机台Move In阶段和通线阶段。
+机台Move In阶段：首先构建标准化的基础资源池，作为承载所有应用的核心底座。优先建设EAP、FDC、MES三个子系统，确保从过渡机房至永久场地的整个周期内，核心生产验证不间断、数据不迁移、体验不降级。
+通线阶段：在前一阶段的基础上，突出问题导向，陆续部署RMS,RCM,APC,SPC,AMS,PMS,RTD,AMA,YMS,DMS,RPT,FMS系统，确保生产软件系统符合中心长期业务需求，一步一个脚印把建成国家重点实验室的战略目标变为现实。
+[20] 现有管理制度和业务流程分析
+当前中心已公布了《科研项目管理办法》、《科研外协外包管理办法》、《科研供方管理办法》等多个正在执行中的制度。当前中心科研与生产业务覆盖化合物半导体材料、光电子器件、功率射频器件、先进封装及多模态测试五大领域，具体包括：2-12寸光电传感/功率射频/存储处理类材料外延片，金刚石薄膜及金刚石/碳化硅复合热管理材料，氮化硅/陶瓷/有机/玻璃基板，GaN HEMT/SiC MOSFET/GaAs pHEMT/InGaAs PIN/GaN LED/InP激光器等器件，W2W/D2W/D2D三维集成封装，以及光电、射频、传感、可靠性、通信、电磁兼容、存算等全维度测试能力。业务呈现“多品种、小批量、跨尺寸、异质集成、研产并行”的典型特征，对过程追溯、工艺管控、资源调度及数据闭环提出极高要求。经对上述业务范围下的核心工艺流程与现行制度要求进行交叉比对分析，整理得到四大核心业务场景及其系统化支撑需求如下：
+设备自动化与控制
+设备自动化与控制业务模块需要子系统EAP，FDC，RMS，RCM，APC协同，构建覆盖2-12寸全尺寸兼容及化合物半导体特种工艺的异构设备互联与智控平台。通过EAP实现SiC/GaN外延、金刚石薄膜沉积、晶圆键合等非标/定制设备的协议归一化与配方自动下发；利用FDC针对MOCVD/MBE生长速率、刻蚀选择比等关键参数建立多模态故障模型，适配光电/功率/射频不同产品线的敏感特征；借助RMS对碳化硅衬底、氮化镓模板、陶瓷/玻璃基板等昂贵且规格多样的载具与耗材进行全生命周期追溯；依托RCM建立基于设备健康度与科研排程联动的预测性维护机制，保障异质集成与三维封装等高价值工序的连续性；应用APC实现外延厚度/组分、HEMT阈值电压等核心指标的Run-to-Run自适应调控，支撑多材料体系工艺窗口的快速收敛与科研级精密制程能力的稳定输出。
+生产执行与追踪
+生产执行与追踪业务模块需要子系统MES，SPC，AMS，PMS协同，打造适配“材料-器件-封装-测试”全产业链条的柔性制造执行中枢。以MES为核心支持2-12寸晶圆、复合热管理材料及三维集成封装的混合流片与批次拆分合并管理，实现从外延生长、GaN/SiC器件加工、W2W/D2W集成到多模态测试的全链路基因级追溯；集成SPC针对InP激光器波长、SiC MOSFET导通电阻、异质集成对准精度等差异化关键质量特性建立分级管控策略；通过AMS调度兼容洁净室与特殊气体环境的物流传输，适配金刚石/陶瓷基板等特殊物料的搬运防护要求；结合PMS严格管控化合物半导体与硅基工艺配方的版本隔离与权限审批，确保科研试制与量产验证数据的完整可溯、异质集成良率的可解释性及符合科研外协/供方管理办法的过程合规性。
+智能调度与物流
+智能调度与物流业务模块需要子系统RTD，AMA协同，建立面向多品种小批量科研试制与异构集成的全局动态调度与特种物流体系。利用RTD算法统筹2-12寸产线、化合物半导体专线及封装测试资源的产能分配，优先保障金刚石热管理材料、三维集成等长周期/高价值科研任务的流转效率，平衡光电/射频/功率多产品线的交期冲突；协同AMA实现跨洁净等级区域（如外延区、器件区、封装区、测试区）的物料自动转运，针对GaAs/InP等易碎晶圆、有机基板温湿度敏感材料及大尺寸玻璃基板配置专用载具与路径规划，达成异构制造资源利用率最优、特种物料零损伤流转及科研项目节点精准交付。
+工程与质量管理
+工程与质量管理模块需要子系统YMS，DMS，RPT，FMS协同，构建贯通“材料缺陷-器件性能-封装可靠性-系统测试”的全维度数据分析与科研反馈闭环。通过YMS关联外延片位错密度、HEMT/pHEMT电学参数、三维集成互连良率及光电/射频/EMC/存算等多维测试结果，支持跨工序根因定位与异质集成工艺迭代；利用DMS对SiC微管缺陷、GaN表面形貌、封装空洞等进行图谱化管理与AI辅助分类；借助RPT自动生成符合科研项目验收标准的定制化质量报告与供方评价数据，支撑《科研供方管理办法》量化考核；依托FMS将测试端失效分析结论实时反馈至外延/器件/封装前端工序，实现化合物半导体与先进封装良率的系统性提升、科研数据资产化沉淀及质量问题跨模块闭环治理。
+[20] 现有应用系统的情况
+（TODO）
+[20] 拟建项目与已有系统的关系
+（TODO）
+[10] 第三章 需求分析
+[20] 业务需求分析
+[30] EAP域
+<TABLE>
+| 编号 | 需求大类 | 需求小类 | 需求内容 | 所属系统 | 功能模块 |
+| 1 | EAP 模板 |  | > 工厂内的设备应按 Buffer 类型，用途，工艺等分类，按共同性创建模板，便于后期开发。 比如工艺设备（可分为固定 Buffer，内部 Buffer 设备，Inline 等），测量设备，测试设备，分拣设备 （Sorter 等），存储设备（Bare Reticle/Wafer）等。 | EAP系统 | EAP需求 |
+|  |  |  | > 需要提供以下模板，支持 Full Auto Scenario： - Fixed Buffer - Inline（例如：涂胶显影一体机 + Scanner 连接在一起，做一个 EAP） - Furnace - Internal Buffer - Sorter - Left In Right Out（例如：Process 机台由一个 FOUP Track In，Track Out 到另一个 FOUP） - Bonding - EtchDummy - CMP - Foup Clean/Inspection - Bare Wafer Stocker - Reticle Stocker（POD Stocker and Bare Reticle Stocker） - Reticle Inspection - N2 Purge |  |  |
+|  |  |  | > EAP 需支持异常处理流程，及时处理EAP程序，设备，流程等的异常情况。 （异常情况包括：Jobin fail/Jobout fail/Recipe 不存在，等 EAP 交互过程中发现的所有问题） |  |  |
+| 2 | EAP Scenario 图形化 |  | > 可以图形化配置，显示和修改。 |  |  |
+| 3 | 帐料信息的匹配校验 |  | > 在机台执行任务的每个关键步骤中（如载具到达 Port 时），获取 MES 作业信息与实际作业信息并进行对照，确保账料一致（作业信息包括：FOUP ID、Lot ID、Job ID、Recipe 等，载具包括 FOUP、FOSB、Open Cassette、Reticle POD等）。 |  |  |
+|  |  |  | > 验证 Carrier 里 Wafer 的数量、位置是否与 MES 一致（Slot Map）。 |  |  |
+|  |  |  | > 如果帐料信息不匹配，需要根据要求退 Port，Hold Lot，发送 Alarm。 |  |  |
+|  |  |  | > 支持同步 MES 账户，进行用户验证、用户信息获取及权限验证。 |  |  |
+|  |  |  | > 支持请求 MES 获取 Carrier 信息、Lot 信息、设备信息、Batch 信息等。 |  |  |
+|  |  |  | > 支持请求 MES 验证 Lot 与设备是否匹配，判断功能在 MES 里面实现，EAP 只负责上传请求 |  |  |
+|  |  |  | > 支持请求 MES 获取 EDC 量测信息与上报设备量测数据。 |  |  |
+|  |  |  | > 支持请求 MES 执行 JobIn、JobOut、CancelJobIn、HoldLot 等动作。 |  |  |
+|  |  |  | > 支持请求 MES 执行 BatchJobIn、BatchJobOut（以 Batch 为单位执行 Job，只设置一个 JobID）。 |  |  |
+|  |  |  | > 支持工艺前的 Wafer 数量校验与 Mapping 位置校验，可通过配置文件配置 EAP 是否进行校验。 |  |  |
+|  |  |  | > 支持工艺后 Wafer 数量校验与 Mapping 位置校验（验证是否与 MES 要求的一致）。 |  |  |
+|  |  |  | > 支持上报 Mapping 校验信息（Wafer ID Mark/T7 Code 与 Slot ID 的映像信息）至 MES。 |  |  |
+| 4 | Load Port 控制 |  | > 实时更新 Load Port 状态到 MES。 |  |  |
+|  |  |  | > Load Port ID、数量、分类可通过配置管理（MES 实施期间会初始配置好，后期 LP、Chamber 的新增可以动态管理）。 |  |  |
+|  |  |  | > 支持控制遵守 SEMI 的 200mm/300mm Load Ports，可以更新 Load Port 状态到 MES。 |  |  |
+|  |  |  | > 支持控制带有 Purge 功能的 Load Port，依据设备特性控制气体喷充和停止。 |  |  |
+|  |  |  | > 无论 Load Port 处于何种模式下，都将拒绝没有 FOUP/FOSB ID 的 FOUP/FOSB。 |  |  |
+|  |  |  | > 当 Load Port 处于自动传送模式时，Load Port 应当拒绝手动加载的 FOUP/FOSB/OpenCassette。 （MES 上切换 LP 的 Mode，手动/自动） |  |  |
+|  |  |  | > 能够管理并限制 Load Port 接受的 FOUP 类型（如 FOSB, FE FOUP, BE FOUP, Co FOUP 和 Cu FOUP），指定类型以外的类型会被识别为错误，并拒绝物料传输 |  |  |
+|  |  |  | > 支持请求机台优先处理高优先级的 FOUP，无视在设备上原有的的作业顺序（在设备支持插队的前提下）。 |  |  |
+| 5 | Purge 设备 |  | > EAP 需要支持气体 Purge 设备的整合。 |  |  |
+| 6 | 光罩管理 |  | > 光罩处理将在 EAP 控制下执行，并且 EAP 能接受光罩的手动搬送。在光罩管理模块中，EAP 能够更新光罩的使用信息。光罩 Load Port 将作为 Port 的一个单独类别通过配置管理进行分类。 |  |  |
+|  |  |  | > EAP 在光刻设备 Run 货前，需要验证光罩在机台的状态，确保有光罩可用。 |  |  |
+|  |  |  | > EAP 具有管理光罩 Reticle lib 的能力，比如：EAP 可以根据操作员的需要 Load/Unload Reticle，显示 Reticle lib 的使用情况，收集 Reticle 使用次数。 |  |  |
+|  |  |  | > 支持 Reticle inspection，将收集到的 IRIS 数据上报给上位系统。 |  |  |
+| 7 | Recipe 管理 |  | > Run 货前，EAP 要验证设备是否存在对应的 Recipe ID。 |  |  |
+|  |  |  | > 根据特定要求，EAP 支持 MES Recipe ID 到设备 Recipe ID 之间的解析或转换，设备 Recipe ID 的前后缀、路径等信息需要由配置来实现。支持根据 Lot 的类型（Product，Season…），配置相关路径信息。 |  |  |
+|  |  |  | > 配合 RMS 上传、下载 Recipe Body。 |  |  |
+|  |  |  | > 支持对设备 RecipeParameter、RecipeBody 的解析并上传至 RMS 系统。 > 支持将设备上的 RecipeBody 上传至 RMS 系统（RMS 系统负责解析 RecipeParameter）。 |  |  |
+|  |  |  | > 支持 RMS 系统请求抓取设备 Recipe/Sequence（Sequence：多个 Process Recipe 按特定顺序组成流程）。 |  |  |
+|  |  |  | > 支持 by Lot Type、Step ID 判断是否需要进行 RMS 校验，可通过配置文件配置判断规则。 |  |  |
+|  |  |  | > 系统根据 MES 的 Recipe，对机台端的 Recipe 进行比对。 |  |  |
+|  |  |  | > 当前 Run 的 Recipe ID 可以显示在 EAP GUI 界面上。 |  |  |
+| 8 | Buffer 管理： |  | > 与上位系统集成后，可按上位系统要求管理 Buffer，自动更新 Buffer 信息（如各类载具进出 Buffer 的信息）。 |  |  |
+|  |  |  | > 支持带有 NTB Buffer，或 FOUP Exchange Buffer 的设备。 |  |  |
+| 9 | 支持 Wafer 级别的流程控制： |  | > 选择指定 Wafer 进行加工或量测，MES 通过EAP下达指令 |  |  |
+|  |  |  | > 收集指定 Wafer 的开始、结束作业信息，收集 Wafer 进出 Chamber 信息，上报上位系统（MES或其他系统）。 |  |  |
+|  |  |  | > 收集指定 Wafer 的 History 信息上报系统（MES、FDC、或其他系统）。 |  |  |
+| 10 | 数据收集（EDC） |  | > 支持根据 SECS/GEM、TCP/IP 等通信协议，使用 Database、File 等数据收集方式，依照 MES 提供的 EDC SPEC，收集设备常量（EC）数据及状态变量（SV）数据。 |  |  |
+|  |  |  | > EAP 应具备将设备数据格式转换为上位系统需要格式并上报的能力。数据收集的开关、格式转换的规则应该能够方便的配置/修改。 |  |  |
+|  |  |  | > SECS 信息主动收集（Alarm，Event 等）。 |  |  |
+|  |  |  | > 设备 Alarm 数据收集，并上报 AMS 系统。 |  |  |
+| 11 | 物料追踪 |  | > 主动实时上报物料的过账信息（例如：Track-in, Track-out, Hold）到 MES 系统。 |  |  |
+|  |  |  | > 主动上报物料的位置信息（所在的 FOUP、Slot、Tool、Chamber 等）。 |  |  |
+|  |  |  | > 支持在异常发生时（如 Process 异常，Slot Map Fail 等）执行 Hold Lot 等动作。 |  |  |
+|  |  |  | > 可配合 MES/PRMS 等系统进行光阻液管控。 |  |  |
+|  |  |  | > 可配合 MES/PMS 进行靶材管控。 |  |  |
+| 12 | 设备状态同步 |  | > 支持： ① 建模定义设备内组件的具体信息（Parts、靶材等）； ② 收集设备内组件状态信息变化； ③ 主动同步上位系统与 EAP 之间的状态，以保证上位系统对设备和组件的状态转换和追踪。 |  |  |
+|  |  |  | > 基于设备能力及特性，支持暂停、停止设备运行的功能。 |  |  |
+| 13 | 设备接口与通讯方式 |  | > 支持多种设备及系统接入方式，包括基于 SECS/GEM、PLC 等协议的的设备通信，以及通过 Database、文件/FTP 等方式的非标准数据接入。 |  |  |
+|  |  |  | > 支持通过 WebService、TCP/IP 等接口与 MES 等上位系统进行系统级集成。 |  |  |
+|  |  |  | > 支持与以下系统集成（包括但不限于）：MES/RMS/APC/FDC/Alarm/PMS/YMS/DMS……。 |  |  |
+| 14 | 日志文件（Log） |  | > EAP 支持保留多源日志来追踪问题和调试，可以 by type 配置是否记录 Log。日志种类例如： ① SECSI/SECSII Log：通信原始报文+消息内容/格式的定义； ② Trace Log：EAP 内部代码执行流程的详细步骤（用于定位 EAP 程序逻辑问题）； ③ Host Log：记录 EAP 与上层系统（如 MES）之间的交互记录（用于排查系统间集成一致性）。 |  |  |
+|  |  |  | > Log 记录可以分级定义，如 ERROR/Warning/INFO/DEBUG 等。 |  |  |
+|  |  |  | > 支持通过相应的配置文件/工具对指定 EAP 进行配置 （开或关、Log 的格式，以便调试追踪）。 |  |  |
+|  |  |  | > 提供 Log 管理系统/管理任务，用于对 Log 的压缩，备份，删除。 |  |  |
+|  |  |  | > 支持针对日志文件的定时备份机制与自动删除机制。 |  |  |
+|  |  |  | > 提供 Log 分析工具。 |  |  |
+| 15 | 运行环境流程管理工具 |  | > 图形化流程管理工具，支持查看正在运行的 EAP Scenario 当前状态（看一个 Lot 在 EAP 的工作流上跑到哪一步了），支持启动、结束 EAP Scenario。 |  |  |
+|  |  |  | > EAP Scenario 需要可以配置，直观显示、方便修改、维护 |  |  |
+|  |  |  | > 直观查看 EAP 当前状态， 可以查看设备信息/物料信息/错误消息 |  |  |
+|  |  |  | > 可以手动发指令给设备和上位系统处理异常 |  |  |
+|  |  |  | > 在不关闭 EAP 的情况下重新 Load 配置文件 |  |  |
+| 16 | 系统管理工具 |  | > 提供独立的系统来管理和监控所有 EAP 运行状态和 EAP 版本更新 |  |  |
+|  |  |  | > EAP 监控： >> 实时监控 EAP 程序是否有异常，如果 EAP 程序崩溃或挂起，立即重启 EAP 程序, 通过 Alarm 系统发送报警通知（邮件、短信等） >> 监控 EAP 与机台的连接是否有异常，如果通信连接断开或报错, 通过 Alarm 系统发送报警通知 >> 为某个机台的 EAP 做测试时，支持有特定权限的人员临时避开对 EAP 程序的监控 >> 实时监控 EAP 上 Batch 的运行状态，当 EAP 升级之后第一个 Batch 开始运行时，通过邮件或 Alarm 系统发送通知 >> 监控 EAP 运行版本，当发现 EAP 启动或运行版本与部署版本不一致时，通过邮件或 Alarm 系统发送报警通知 >> 有 Dcol 定义功能，针对 EAP 传输出来的 raw process para，measurement para，对这些数据定义整理成需要管理的 key para。 >> RECIPE 设置中 PPID 前 TITLE 可增加 MAIN ROUTE/TEST ROUTE 区分，可在 MR/TR 项目中 RECIPE 名字后打 X，使其不能进行。 >> 实时监控 EAP 程序进程，如果进程消失，立即重新启动，并发送报警 Email |  |  |
+|  |  |  | > EAP 远程控制： >> 远程启动，停止，支持批量启停 >> LOG 目录便捷访问 >> 远程桌面便捷访问 >> 远程重载 EAP 的配置文件 |  |  |
+|  |  |  | > EAP 恢复： >> 如果监测到某个机台的 EAP 程序崩溃并在设定的时间内重启成功，EAP 程序里当前所有对象的状态可以恢复到重启之前的上一个最新状态（不定期地保存当前所有对象的资料） |  |  |
+|  |  |  | > EAP 程序部署升级： >> 支持对同类型机台的 EAP 做拷贝部署，并提供比较功能可以显示同类型机台的不同配置项目 >> 支持远程部署 >> 支持在线升级，不涉及与机台通讯的部分升级时，可以支持在线升级，软件版本变更后提醒 >> 当机台空闲时如有新版本需要更新，EAP 自动执行升级任务，发送提示通知（邮件，短信等）。（注：“空闲(Idle)”表示没有载体（Carrier），没有晶圆（Wafer），没有 Job 在机台中） >> 可支持预约自定义时间段内检测升级。 >> EAP 自动升级完成后，当开始第一个 FOUP 时，可以发送提示通知（邮件,短信等）。 >> EAP的核心版本升级需要停机更新，非产品（非核心版本）部分不需要。 |  |  |
+|  |  |  | > EAP 基本信息显示： >> 显示和比较 EAP 当前版本和配置设置（核心文件信息） >> 支持根据服务器名称 / FAB 区域 / 机台类型查询 EAP 信息，显示 EAP 状态，连接信息，control mode |  |  |
+|  |  |  | > EAP 版本管控： >> 显示 EAP 当前版本，所有者，核心版本 >> 显示 EAP 版本发布历史信息：发布负责人，发布尔日期，版本号，版本说明等 >> 显示正在空闲的机台目录，显示自动升级新版本的 EAP 列表。(注："空闲 (Idle)" 表示没有载体 (Carrier)，没有晶圆 (Wafer)，没有 Job 在机台中) >> 可以保存不同的版本，自由切换不同版本 >> 支持比较同类型机台在线版本的文件差异 >> 从不同层次管控 EAP 所有核心文件 |  |  |
+|  |  |  | > EAP 迁移： >> 批量迁移空闲的 EAP 到另一台 Server >> 预约批量迁移空闲的 EAP 到另一台 Server |  |  |
+|  |  |  | > 面向任务的执行模型： >> 方便扩展的开发模型 >> 统一的任务推送和执行模型，满足各种功能需求 |  |  |
+| 17 | 设备及上位系统（MES, FDC, RMS…) 模拟器 |  | > 支持根据 SECS Log 与上层系统的通讯 Log ，模拟机台发送 run 货记录，便于设备测试开发与运维 |  |  |
+|  |  |  | > 支持模拟 MES 系统发送接收消息, 实现 EAP 程序与模拟器可以完全复现日志里的内容，便于接口开发测试与运维 |  |  |
+|  |  |  | > 支持模拟 EAP 进行 SECS 测试，即支持模拟 EAP 给机台发送 SECS message，用于测机，并能保存测试的 SECS Log |  |  |
+|  |  |  | > 支持同时模拟多个上位系统，如 MES，RMS，FDC… |  |  |
+|  |  |  | > 支持 Load 实际产线 Log，产生 Simulator Message Library，方便测试，直接将Log转换为测试用Message |  |  |
+|  |  |  | > 提供设备模拟器，便于本地测试 |  |  |
+|  |  |  | > Equipment Simulator 可以编辑脚本，实现模拟设备 run 货，自动、连续发送 Message，可以实现自动测试。 |  |  |
+|  |  |  | > 提供完整的测试环境，进行测试与开发 |  |  |
+| 18 | SECS driver 要求稳定可靠并具有良好性能 |  | > 须具备 5 秒内完成单笔 10M 大 Message 的处理能力 |  |  |
+|  |  |  | > 通讯时不允许因 Driver 本身问题发生丢包断线情况 |  |  |
+|  |  |  | > 支持在高频采集场景下，稳定处理采样频率达到 10 Hz 级别的设备数据流 |  |  |
+|  |  |  | > 支持与机台，BarCode 扫码枪，SMIF 等设备进行通讯，实现对设备的控制与信息交互 |  |  |
+|  |  |  | > 支持 SEMI Standards，支持 SECS、HSMS 等通讯协议，实现与设备的通信 |  |  |
+| 19 | EAP GUI（用户界面） |  | > EAP 需提供用户界面，用于 Operator 直观了解设备的 Run 货情况，显示设备信息、设备的连接信息、Port 的状态信息、提示信息、错误信息、物料信息等 |  |  |
+|  |  |  | > 一个 EAP GUI 可以配置显示多台 EAP 的信息 |  |  |
+|  |  |  | > EAP GUI 与 EAP 独立运行，EAP GUI 关闭，不能影响任何 EAP 功能 |  |  |
+|  |  |  | > 支持 GUI 账号登录及权限管控，支持同步 MES 权限进行管控 |  |  |
+|  |  |  | > 支持 GUI 消息记录，按照设备和时间生成日志文件，记录与 EAP 通讯 Log |  |  |
+|  |  |  | > 支持消息记录查询，GUI 界面可查询 300 条数据 |  |  |
+|  |  |  | > 支持中英文消息，可进行配置管理，支持消息分类，支持消息格式与消息颜色设定 |  |  |
+| 20 | 其他需求 |  | > 提供系统 Pilot 机制，当 EAP 任何模块更改时，必须要能够支持在个别设备上先 Pilot 验证，并不影响到未 Pilot 的设备 |  |  |
+</TABLE>
+[30] FDC域
+<TABLE>
+| 编号 | 需求大类 | 需求小类 | 需求内容 | 所属系统 | 功能模块 |
+| 1 | 数据收集 |  | > 支持 SECS/GEM 协议收集数据, 提供 nPortSECS 在机台和 EAP/FDC 之间转发消息，nPortSECS 的功能为消息分发，把机台传出消息分两路转发给EAP和FDC的Y状结构应用 | FDC系统 | FDC需求 |
+|  |  |  | > 支持 Interface A 协议收集数据 |  |  |
+|  |  |  | > 支持 OPC UA 协议收集数据 |  |  |
+|  |  |  | > 提供每类数据的规格书 |  |  |
+|  |  |  | > 可提供数据接口，未来可客制化开发 Web 版界面 |  |  |
+|  |  |  | > 支持收集跟踪数据(Trace data)、传感器数据(sensor data)、事件(event)和事件参数(event parameter)、报警数据(alarm data)等 >> 跟踪数据（Trace data）：机台传上来的所有原始数据（Pressure/RF power等），由机台直接通过SECS协议上报； >> 传感器数据（Sensor data）：传感器的反馈数据； >> 事件（Event）和事件参数（Event parameter）：事件指代机台发生的所有普通事件（包括 Chamber start/end等）,事  件参数指事件下带数据； >> 报警数据（Alarm data）：机台报警时产生的Alarm code与相应数据。 |  |  |
+|  |  |  | > 支持从 File、DB、TCP/IP 中收集数据 |  |  |
+|  |  |  | > 支持通过SECS协议，收集厂务数据（Facility Data），并与生产数据联动 |  |  |
+|  |  |  | > 支持与附属设备（External Sensor）连接并收集数据，如： >> Endura_RGA >> EDWARD_ALTAS_SCR >> Yeapplied_HOTN2, ZhaojiaI_HOTN2 >> Hermes_Chiller >> AMAT_PPS >> EDWARD_iXM_PUMP |  |  |
+|  |  |  | > 不需写代码即可从机台上报的复杂结构的数据中筛选得到想要的数据，如List型（机台数据列表），Array型（表达式形式）等 |  |  |
+|  |  |  | > 支持 Multi Source，主机台的数据和其他来源的数据可以合并在一起，比如附属设备（External Sensor）的数据可以合并到同一个主机台，通过配置即可完成 |  |  |
+|  |  |  | > 根据不同抽样变量和不同Step，可设定不同抽样比例和频率，比例和频率可以设定上下限，防止设错 |  |  |
+|  |  |  | > 追溯模式：可一键找到历史数据，如所有报警的数据，找到根因 |  |  |
+|  |  |  | > 轮检模式：按机台轮流采集 |  |  |
+|  |  |  | > 支持 Polling 方式收集数据：SECS 标准收值方式，收发形式 |  |  |
+|  |  |  | > 支持 Trace 方式收集数据：SECS 标准收值方式，发布形式 |  |  |
+|  |  |  | > 支持 None Wafer data、Non Process data 收集 |  |  |
+|  |  |  | > 提供硬件配置，支持保存一年或以上数据的数据存储能力 |  |  |
+|  |  |  | > 灵活的定义数据收集计划（Data Collection Plan，DCP），可根据机台上报事件、时间间隔、频率、数据点等设置数据收集起始点和结束点 |  |  |
+|  |  |  | > 支持根据工艺类型和腔室级别配置每个SVID（Status Variable Identification），并配置不同的频率作为数据收集计划 |  |  |
+|  |  |  | > 支持数据收集计划（Data Collection Plan，DCP）/ Sensor List / SVID list 的导入导出 |  |  |
+|  |  |  | > 支持设定 Virtual Trace Parameters、Virtual Events 虚拟参数 |  |  |
+|  |  |  | > 支持把 MES Context 信息整合到 FDC 的工艺数据中，如 Lot ID、Prod ID、Stage ID、Recipe ID、Reticle ID等，并且可以让用户加入自定义的信息标签 |  |  |
+|  |  |  | > 可以监控数据采集的质量（实际数据点数量/应收数据点数），且能汇总报告，通过配置支持报警 |  |  |
+|  |  |  | > 机台数据缺失报警：通过配置，支持当机台持续一段时间未收到数据则发送报警 |  |  |
+|  |  |  | > 修改数据收集计划（DCP 的信息与逻辑）无需停机或者 EAP 重启 |  |  |
+|  |  |  | > 同型机台可以共享一个数据采集计划模板，不需要为每个机台个别设定模板，但也可以为特定机台单独设定。 |  |  |
+|  |  |  | > 支持设备在 Idle 时，FDC 可以设置是否请求设备上报数据 |  |  |
+|  |  |  | > 提供 EDA（Interface A）Meta Data 收集工具, 可用于连接机台直接提取 EDA 的整体资料 |  |  |
+| 2 | 数据查看 |  | > 根据 FDC 系统的用户权限有哪些显示设备（部门权限和角色权限：部门权限决定了哪些机台与哪些部门绑定；角色权限决定用户能用的功能） |  |  |
+|  |  |  | > 不同 Chamber/Tool 可放在同一张 FDC Chart 查看 |  |  |
+|  |  |  | > 浏览数据时可放大和缩小, 并显示数据来源, 当鼠标在图表上可以显示 Context 的数据 |  |  |
+|  |  |  | > 提供在数据或图标上标记注释 |  |  |
+|  |  |  | > 可根据 Product、Process Flow、Recipe、Mask ID 等 Context 信息来筛选数据 |  |  |
+|  |  |  | > 可从汇总数据追溯（Drilldown）到原始数据 |  |  |
+|  |  |  | > 支持双Y轴显示 |  |  |
+|  |  |  | > 针对 Raw data：支持图标序列化，根据用户特定指令显示数据（按时间顺序或时间段等） |  |  |
+|  |  |  | > 针对 Summary data：支持图标序列化，按时间顺序显示 Summary data，可按 Recipe、时间、产品型号等排序 |  |  |
+|  |  |  | > 支持叠图显示Trace Data，如overlay by Lot ID、Wafer ID、Tool Name等 |  |  |
+|  |  |  | > 支持叠图显示 Summary Data，例如：以不一样的机台来叠图数据 |  |  |
+|  |  |  | > 不同数据维度（By wafer/lot）同一步数据汇总展示 |  |  |
+|  |  |  | > 支持多图同屏显示 |  |  |
+|  |  |  | > 支持修改图表显示设定，例如显示图例、显示单位、设置数据点大小、设置以点或者线的形式显示等 |  |  |
+|  |  |  | > 为不同系列数据选择颜色 |  |  |
+|  |  |  | > 可以添加显示辅助线，如alarm和event的辅助线 |  |  |
+|  |  |  | > 在UVA trend（单变量分析）中可以显示spec |  |  |
+|  |  |  | > 调整各个轴的刻度 |  |  |
+|  |  |  | > 根据Context为数据点着色并可以生成图例 |  |  |
+|  |  |  | > 可以设置某个run的数据highlight显示 |  |  |
+|  |  |  | > 具备导出数据到Excel的功能 |  |  |
+|  |  |  | > 运行列表信息，展示机台跑货运行的记录 |  |  |
+|  |  |  | > 根据设定条件一键导出FDC Chart |  |  |
+|  |  |  | > 提供简单高效切换数据源（线上,线下）及切换大时间跨度的解决方案 |  |  |
+|  |  |  | > 图中的数据支持筛选后隐藏 |  |  |
+|  |  |  | > 按时间顺序显示多个run的数据，支持把X轴中间Idle的时间段去掉 |  |  |
+|  |  |  | > 支持把csv数据文件导入到FDC图表工具中进行图形化展示和分析 |  |  |
+|  |  |  | > 支持在报表界面对run list增加Tag，如good run，bad run或自定义的名称。支持根据这些Tag进行叠图、分颜色和显示图例等 |  |  |
+|  |  |  | > Tag标记方法提供手动与自动方式。自动标记方法包含Range Based、Peak Based、Time Based等方式 |  |  |
+|  |  |  | > 支持在报表界面对good run，bad run进行标记, 可以对所有Sensor的偏差值进行比较打分并按照分数排序, 从而能快速定位到Key Sensor |  |  |
+|  |  |  | > 支持对 FDC Chart 使用 SPC Chart 进行逻辑分析 |  |  |
+| 3 | 故障侦测 |  | > 基于单变量模型的设备和工艺健康状况监控 |  |  |
+|  |  |  | > 基于多变量模型的设备和工艺健康状况监控 |  |  |
+|  |  |  | > 具备同时运行多个基于单变量的监控模式能力 |  |  |
+|  |  |  | > 用户新建模型时，可以使用未建模型时收集的数据用在新模型上进行新模型的模拟，来快速确认模型的可用性。历史数据回滚以核对该模型, UVA / MVA 模式进行仿真 |  |  |
+|  |  |  | > 基于Trace data数据监控支持固定频带（Fixed band），并能套用 SPC trend rule 降低误报率提高模型精确性 |  |  |
+|  |  |  | > 基于 Trace Data 生成随时间序变动的动态频带（Dynamic band）即 Limit 不再是一个常值，而是一条根据数据波动形成的安全区域带，并能套用SPC Trend Rule 降低误报率提高模型精确性 |  |  |
+|  |  |  | > 根据 Recipe Context 对 UVA 模型进行分组 |  |  |
+|  |  |  | > 群组 Recipe 统计模型，系统可以自动把满足某些条件的 Recipe 自动归入 Recipe Group |  |  |
+|  |  |  | > 依据 Context 设置规则筛选所需监控的特殊 Wafer 以进行 UVA 模型设置，如 First Wafer 使用特定的模型 |  |  |
+|  |  |  | >  一些特殊的晶圆（Wafer），批次（Lot）可以绕过规格控制，例如 PM 后的第一片 Wafer，包括但不局限于第一片 |  |  |
+|  |  |  | >  一些特殊的晶圆（Wafer），批次（Lot）可以设定特殊的规格控制，例如PM后的第一片Wafer，包括但不局限于第一片 |  |  |
+|  |  |  | > 模型的所有设置均支持以 Excel 形式导入导出，包括规格（Spec）设定、群组（Group）设定、数据窗口（Window）设定、客制化公式（Custom Equation）设定、数据转换（Data Transformation）设定等 |  |  |
+|  |  |  | > 允许在一个统计计算时应用多个 Charts 与数据窗口（Windows） |  |  |
+|  |  |  | > 数据窗口（Window）可以通过 Recipe Step、Recipe Time、Sensor 规则、Offset 来截取划分（设定起始点与终点） |  |  |
+|  |  |  | > 数据窗口（Window）的定义支持参数化：参数可以随着当前 Run 的 Context 变化而调整，例如窗口可以自动匹配当前 Recipe 的 Main step |  |  |
+|  |  |  | > 数据窗口（Window）内的任意 Sensor 支持灵活的过滤功能，可以通过设置过滤掉一些噪音数据 |  |  |
+|  |  |  | > 数据窗口（Window）支持对 Recipe Cycle 的任意一段区间进行监控 |  |  |
+|  |  |  | > 提供在 Cycle Step 中批量检查 Main/Sub-step 的解决方案, 支持将 Cycle Step 的所有 Main/Sub-step 设定成一个数据窗口，用一个规格。例如：作为循环的 Step，比如123123123类型的 Step 可以放在同一个或不同的数据窗口检测，查看区别 |  |  |
+|  |  |  | > 自由调节数据窗口（Window） |  |  |
+|  |  |  | > 系统提供功能使 Raw data 通过计算生成虚拟 Sensor，功能包括线性表达式，Max Of Sensor Value，Min Of Sensor Value，Sum Of Sensor Value，Moving Range等，支持自动填充数据中的空值，支持去除原始数据中的特殊点，支持截取数据片段 |  |  |
+|  |  |  | > 系统提供向导式的快速建模工具，并可以通过 Sensor 的历史数据建议使用的统计方法 |  |  |
+|  |  |  | > 支持连续多片 Wafer 之间的模型的统计值计算，例如计算连续两片之间 Moving Range, 并在 Lot ID 切换的时候进行重置，统计算法应该包括 Mean、Max、Min、Sum、Slope、EWMA等 |  |  |
+|  |  |  | > 支持对工艺中的某个步骤 Step 的时间进行累加，在超过规格之后可以报警并复原，例如，需要计算整批 Lot 的某 Step 的累加值 |  |  |
+|  |  |  | > Sensor 的数据质量在检查不合格的情况下，可以配置跳过部分模型的监测避免误报警 |  |  |
+|  |  |  | > 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型，例如当两个模型同时报警的时候，再触发报警 |  |  |
+|  |  |  | > 提供在长时间的制程中及时（实时）检查规格的解决方案，避免在制程结束时才发现问题 |  |  |
+|  |  |  | > 经过配置可以在指定条件下设置关闭或开启检测（例如PM后、Idle n小时后、run过n片后等） |  |  |
+|  |  |  | > 多变量数据分析功能：此功能要求对多个参数进行分析，支持Q、PCA、HT2、Diagonal HT2的MVA 模型 |  |  |
+|  |  |  | > 经过配置可以检测设备一些部件的运行时间，例如：可以记录时间，来计算 Wafer 传送到另一个 Chamber 花费的时间（Transfer time） |  |  |
+|  |  |  | > 可设定 OOC、OOS、Trend up/ Trend down Alarm 规则 |  |  |
+|  |  |  | > 支持以不同计算公式设定模型规格（Spec）： >> Target ± 固定值N >> Target ± 差值Δ >> Target ± Target*N% >> 其他自定义方式（客制化） |  |  |
+|  |  |  | > 支持根据历史数据（Raw Data 和 Summary Data）自动生成 Spec |  |  |
+|  |  |  | > 支持设置 Fixed Spec |  |  |
+|  |  |  | > 支持设置 Delta Spec，即在Target的基础上进行加减运算生成 Spec |  |  |
+|  |  |  | > 支持设置 EWMA Spec |  |  |
+|  |  |  | > 支持根据不同条件（例如 PM 后）动态产生 Spec |  |  |
+|  |  |  | > 支持自动计算 Spec 功能, 并可以查询 Spec 修改记录 |  |  |
+|  |  |  | > 自动计算 Spec，这个功能可以支持使用历史数据计算 Spec 并可以自动过滤不正常的数据（过滤算法可以客制化） |  |  |
+|  |  |  | > 自动计算 Spec的时候，能够个别指定生成 warning limit，Critical limit，Outlier limit 的上下限对应 Sigma 的倍数，Sigma 算法可以选择和自定义 |  |  |
+|  |  |  | > 支持卡 Target 以上百分比的 Spec，例如：Target 上下 n% 的部分才进行卡控，即从 Target 至第一条 Spec 之间均属于 Target 区域，不会报警 |  |  |
+|  |  |  | > 可以根据设备(tool)、腔室(chamber)、配方(recipe)、Recipe Step或其他 Context 信息（Product、Stage等）设定 Spec |  |  |
+|  |  |  | > 支持批量使用历史数据对所有的腔室（chamber）生成 Spec |  |  |
+|  |  |  | > 模型的规格支持复制粘贴，也可以以Excel形式导入导出，方便填写 |  |  |
+|  |  |  | > Golden Tool 功能： >> Golden Tool 和偏离值 Std 计算，通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std >> 具备验机功能 (PM/新设备) ,不同 Chamber，不同设备间的参数（Sensor）比对，例如，生成不同设备 Pressure 值的Run List叠图 >> 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格 >> 参数（Sensor）可以设置 Baseline（以 Golden Tool 作为基准延用其 Spec），Process Data 可以和 Baseline 进行比较，如果出现异常可以报警 |  |  |
+|  |  |  | > 相同工艺的机台的 FDC 模型及规格支持自动套用已有模型，新机台可以自动使用已有的 FDC 模型和选择是否使用 Golden Tool 的规格 |  |  |
+|  |  |  | > 可以定义用于警报, 临界和异常值的不同规格等级 |  |  |
+|  |  |  | > 支持为不同的规格等级定义不同规格准则 |  |  |
+|  |  |  | > 支持为以不同规格等级定义不同规格动作 |  |  |
+|  |  |  | > 系统同时生成所有腔室 (相同工艺) 的规格 (规格产生于本机腔室中的运转) |  |  |
+|  |  |  | > 支持对不同的 Context Group（通过表达式/组合条件筛选后分组）设置 Offset，例如：同一 Group 不同 Recipe 的数据显示在同一张 Chart 上会出现明显的起伏，可以给不同的 Recipe 的结果加上 Offset，使它们在同一个水准上并设置一个合适的 Spec，使不同 Recipe 用同一个模型进行管理 |  |  |
+|  |  |  | > 支持发现工艺时间异常的问题，例如Wafer工艺过程中由于一些原因没有上报End事件，FDC系统可以经过配置及时发现并通过OCAP报警 |  |  |
+|  |  |  | > 模型的报警等级分为预警 Warning，报警 Critical，异常值 Outlier，按严重程度排序如下：异常值Outlier>报警Critical>预警Warning |  |  |
+|  |  |  | > 每个报警等级可以设置不同的规格和对应的OCAP |  |  |
+|  |  |  | > 可以把模型设置为不同的运算状态，支持Disable（不生成 Chart），Online（生成 Chart），Rule（报 Alarm），Not Rule（不报 Alarm） |  |  |
+|  |  |  | > 内置8种sigma算法，可以给不同的模型选择适合的算法。算法列表：PSEUDO Sigma，Bounded Boxplot Sigma，P，ercent of Target，SIMR2, SROBUST, Delta of Target，Dynamic 1 Sided，Dynamic 2 Sided |  |  |
+|  |  |  | > 提供50种以上基本的统计值，包括AAD,Area，Count，Cp，Cpk，Dt，FirstPoint，HitCountAbove，HitCountBelow，Intercept，IQR, Kurtosis，LastPoint，MAD,Max，MaxDownwardSpike，MaxGap，MaxJump，MaxOscillation，MaxSpike，MaxUpwardSpike，Mean，MeanG，MeanH，MeanT，Median，Min，MinGap，Mode，Percentile，PointCount，PointCountAbove，PointCountBelow，PointCountBounded，Q1,Q3,Range，RMS，SampleRat，SampleTime，Skew，Slope，SlopeR2，Stdev，StdevT，Sum，TimeCountAbove，TimeCountBelow，TimeRange，Trend |  |  |
+|  |  |  | > Auto retarget功能，可以是offset change、事件 (event)、或者其他系统触发 |  |  |
+|  |  |  | > 对于 Re-target 的历史记录，在 Trend Chart 中提供辅助线标记，并可以看到 Spec 的修改趋势 |  |  |
+|  |  |  | > 通过集成AMS（Alarm Management System）系统支持多种报警方式 ，如Email/SMS/Phone/Wechat |  |  |
+|  |  |  | > 通过集成MES支持 Hold Lot/Hold Tool/Hold Chamber/Hold Recipe，支持主流的MES系统 |  |  |
+|  |  |  | > 通过集成EAP支持 Stop Tool/Chamber |  |  |
+|  |  |  | > 强制停机：停机由FDC发起至EAP，由EAP处理，可以由EAP自由处理，一般建议停止 Process |  |  |
+|  |  |  | > 支持 Model 算法的二次开发，提供 Sample code |  |  |
+|  |  |  | > 支持 SPC Alarm rules ，支持自定义 Alarm rule |  |  |
+|  |  |  | > 模型支持设置多个 Alarm rule |  |  |
+|  |  |  | > 定义的 Alarm rule 可以让所有的 User 使用，不用每次重新定义 |  |  |
+|  |  |  | > 支持 Alarm rule 的仿真测试，用以评估新的 Alarm rule 的执行结果 |  |  |
+|  |  |  | > 模型可以设置级别，高级别的模型报警后，低级别的模型不再报警 |  |  |
+|  |  |  | > 支持批量设置 Auto-limits 功能，在机台PM后需要大量手动修改规格的时候可以使用，如把需要修改规格的模型批量设置为 Clear limits（清除 Spec，用于 PM 后数据不稳定，导致原 Spec 不适用并产生 Fasle alarm）、Recalculate after N runs（N可以自定义） |  |  |
+| 4 | 报表 |  | > Alarm Log 报表, 统计一段时间内的所有 FDC Alarm 信息, 并支持 Drilldown 到UVA trend |  |  |
+|  |  |  | > OOC/OOS 报表 |  |  |
+|  |  |  | > 汇总数据报表：查看根据 Chamber 或 Recipe 选定的跟踪数据的汇总数据 |  |  |
+|  |  |  | > 可以根据条件查看机台已上线的模型列表，如查看已设置或未设置 Spec 的模型，已打开或未打开Rule 的模型，设置了某一种 OCAP 的模型 |  |  |
+|  |  |  | > UVA Trend 报表，查看模型的 Trend Chart，Chart 中可以显示规格 |  |  |
+|  |  |  | > 规格质量报表，汇总模型的 Cp、Cpk 信息，可以反映模型是应该收紧还是放松 |  |  |
+|  |  |  | > 统计不同机台每天报警次数 Top10 的模型 |  |  |
+|  |  |  | > 统计机台的 Recipe 覆盖率（加入FDC监控模型的 Recipe/机台跑过 Recipe 总数） |  |  |
+|  |  |  | > 统计机台的 Run 覆盖率 |  |  |
+|  |  |  | > 对UVA Data 提供 Box plot报表，可提供多机台比较分析；对同一机台亦可以比较 Day to Day、 Week to Week、Month to Month等不同时间的分析 |  |  |
+|  |  |  | > 用户可以定义常用报表的收藏夹 |  |  |
+|  |  |  | > 可以计划报表生成任务, 报表可以客制化内容, 可以通过电子邮件发送 |  |  |
+|  |  |  | > 开放 DB 表结构的文档 |  |  |
+|  |  |  | > 根据选定的车间（Fab）、区域、设备类型查看设备或腔室（Chamber）或参数的 FDC 实施状况（FDC 实施状况包括数据采集计划（Data Collection Plan，DCP）、规格（Spec）、OCAP设定等） |  |  |
+|  |  |  | > 当新设备上线后，和基准设备比较，汇总超过 Spec 的数据 |  |  |
+|  |  |  | > PMQA 报表（当设备做完 PM 后，自动和基准设备比较，汇总超过 Spec 的数据） |  |  |
+|  |  |  | > 设备反应室群组匹配报告（可用来检查设备反应室 Base line 是否有 Shift） |  |  |
+|  |  |  | > 查询得到的数据能转换为 Report (PDF/PPT) |  |  |
+| 5 | 其他 |  | > 系统提供可视化快速开发工具，不需要写代码，设备工程师和工艺工程师通过拖拽 Block 即可完成Work Flow 的设计，由事件触发执行，从而简单高效地完成二次开发 |  |  |
+|  |  |  | > 提供 Work Flow 工具，支持图形界面开发，并支持工具内功能模块的客制化开发 |  |  |
+|  |  |  | > MES和FDC系统应集成以处理例外情况 |  |  |
+|  |  |  | > 支持集成客户账号管理系统，不需在 FDC 系统里额外创建账号 |  |  |
+|  |  |  | > 能对设备发送的信息进行目标分流 |  |  |
+|  |  |  | > 提供历史记录 |  |  |
+|  |  |  | > 支持签核系统集成 |  |  |
+|  |  |  | > 通过签核系统提供紧急生效功能（特殊情况可以直接修改 Spec，OCAP等，并立即生效） |  |  |
+|  |  |  | > 软件升级和新功能发布不影响系统使用 (不停机) |  |  |
+|  |  |  | > 提供数据保留期限及备份机制 |  |  |
+|  |  |  | > 提供数据清理机制 |  |  |
+|  |  |  | > 通过客制化，实现多产线同时使用 |  |  |
+|  |  |  | > 必要的系统管理工具和性能监控及报警机制。 |  |  |
+|  |  |  | > 提供访问权限的管理 |  |  |
+|  |  |  | > 基于角色的, 可定义访问权限的用户等级 (例如：不同用户显示设备不同, 可操作功能不同) |  |  |
+|  |  |  | > 支持提供 Performance Counter 给第三方监控软件来实现系统监控，支持主流监控系统如 Zabbix |  |  |
+|  |  |  | > 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算 |  |  |
+|  |  |  | > 在对服务器进行软件升级或打补丁之前，支持无缝切换数据采集到另一台服务器而不中断数据采集。升级或打补丁完成后，支持无缝切换回原服务器。 |  |  |
+|  |  |  | > 支持数据采集服务器自动故障转移；自动检测数据采集服务器崩溃并在备份服务器上启动数据采集进程以恢复数据采集。 |  |  |
+</TABLE>
+[30] MES域
+<TABLE>
+| 编号 | 需求大类 | 需求小类 | 需求内容 | 所属系统 | 功能模块 |
+| 1 | 工厂建模（FAB Modeling） | > 工厂建模定义 | 1. 支持 Location 定义，包括：FAB, Area, Bay, Stocker, OHB, NTB 等 2. 支持 WorkArea 定义，包括： CMP, CVD, CWR, DIFF, ETCH, IMP, LITHO, OQA, PHOTO, PVD, WAT, WET, CP 等 3. 支持 Equipment / Tool 定义，支持 Fix Buffer，Internal Buffer，Metrology Tool，Inline Tool 4. 支持 Equipment / Tool 架构，支持 3 层 Level 的 Tool，包含：Main Tool，Chamber，Load Port，Header in Chamber 5. 支持载具暂存区定义，包括：FOUP Stocker, OHB, NTB 等 6. 支持 Port 定义，包含自动化模式（AUTO-1, AUTO-2, AUTO-3） 7. 支持 EQP State 定义（符合标准 E10 Status）；支持定义不同 EQP State 之间转换规则，且切换状态需要权限 8. 支持设备能力 和 Chamber 能力定义 9. 支持 Flow Recipe 和 Recipe Parameter 定义 "10. Reason Code 定义 可定义 Scrap/Release/Hold，可以批量导入 Reason Code" 10. 建模时，支持检查工厂模型（Modeling）的数据是否相互一致。比如：建立一个 Step，这要求相应的 Recipe/ 设备 / 资源都已经准备就绪 11. 运行时，支持检查当前的设置和当前运行状态（比如设备状态、Recipe 状态、Lot 状态）是否有冲突。比如：删除一个 Step，要求 Step 已经没有 Flow 在使用且没有该 Step 的 WIP 12. 支持 Lot Type，step Type，Lot Status 定义 13. 支持后续扩展的天车和 Stocker 14. 支持载具类自定义命名，如 FOSB，FOUP，Reticle Pod 15. 支持制具类自定义命名：如 Reticle，Probe Card 16. 支持耗材类自定义命名：Photo Resist | MES系统 | MES需求 |
+|  |  | > 产品定义（Product） | 1. 可设置产品的规格包含： > > 工艺制程（Technology）、产品（Product）、使用的工艺流程（Flow），并基于产品（Product）跟工艺流程（Flow）来设置或调整相关的资源 > > 产品类型、产品负责人、DPW（每片晶圆 Die 数）、ERP 料号、单位、源产品信息（需要包括关键参数、供应商与供应商合格状态管理、供应商原批次号） 2. 支持自定义产品编码规则 3. 支持产品的版本管控，升版本时进行新旧版本差异比较，以确认修改正确性 4. 支持定义产品与路径的关系，支持一个产品拥有多条工艺路径 5. 支持定义产品与原单晶产品关系 6. 支持定义产品、路径、配方、机台对应关系 7. 支持不同产品类型： > > Production，NPW(Non Product Wafer)，Engineer，3 大类产品的定义 8. 支持产品状态定义及转换 9. 支持产品组自定义与产品组 ERP 集成两种模式 10. 支持与 ERP 集成,如果 ERP 暂时未上线，需要支持在 MES 里手动录入信息； 11. 导入 / 导出：支持批量导入 / 导出，导入 / 导出格式统一，能够将导出的数据修改后直接导入，导入时有比较与校验防错功能 12. 通过功能以及 Excel 模版导入的两种方式都需支持比较与校验防错：①新旧版本比较，并将不同点标识；②数据校验，避免用户误操作，提示用户数据错误信息。比如数据类型、长度、空值、值范围、依赖关系、唯一性、与系统其他数据相关性一致性、是否重复等校验 13. 支持产品创建、修改、复制，支持通过复制其他来生成新产品，支持批量处理 14. 数据清除及存档：提供完整功能给终端用户以及 IT 用户进行产品主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询； 15. 记录历史详情 16. 新增 Lot 可以在不同 Product 之间进行切换（仅限特定人员有权限，且需走签核流程） 17. 当前的 Product / Lot Owner 拥有添加 Product / Lot Owner 的权限（仅限当前 Product / Lot Owner 有权限） 18. 根据 Product + Sub Plan + Step 来设置 Flow 的 Spec（如：Recipe，Reticle，EDC Plan，Process Location 等），Spec 的设定可以放固定值或是使用变量（Parameter）的方式来维护 19. 当使用变量设置 Spec 时，支持 by Product 预设 Spec 匹配规则（Parameter Family），根据每个站点的不同情况，弹性调整 Flow Spec 在 Lot 运行时真正使用的值 |  |  |
+|  |  | > 工艺流程定义（Process Flow） | 1. Process Flow 的层级包含：Top Process Plan 设定，Process Operation 设定，Sub Process Plan 设定，Step 设定等 2. Process Flow 的分类包含：Production，NPW，Rework，Adhoc Plan 3. 在 Process Plan 设定中，可以提供 2D 的设置，在 Sub Process Plan 或 Step 后可以设置多个 Path 4. Process Step type 定义，包含：P-Process, M-Measurement, Y-YE Step, C-Control, I-Inspection, dummy 等 5. 提供 Stage 的定义与设置 6. FOUP Contamination （FOUP 污染等级）及其转换通路设定： > > 包含：FE（FEOL 前段）、BE（BEOL 后段）等, 客户可以自行定义配置 > > 通过子计划+ 步骤定义为 FE, BE, WT, CO, CU 等 7. Lot Type 定义，Lot 可以根据用途被分类为不同类型，如： > > Production, NPW （包含 Monitor 及 Control Dummy 等） 8. Lot Status 定义，包括：Created, Hold, Active, Terminated, Scrapped, Finished, Shipped, Bank, Transferred 等 9. Process Plan 设定（分为 PW / NPW），包括：MainFlow, SubFlow, BranchFlow, ReworkFlow, NPW Flow 处理流程设定 10. 依照产品来调整工艺流程的制造资源： > > 由前层的站点使用的机台，来限制后层站点要使用的机台 > > 由产品的 Parameter，来决定出站后要走的 Path（动态路径选择。Path：不同设备，或同一设备的不同 Recipe） > > 由 Sub Plan+Step 来定义 Stage > > 由前层的站点 Lot 的量测结果，来决定后层站点要使用的 Recipe > > 由前层的站点 Lot 的量测结果，来决定出站后要走的 path" 11. 支持对路径各级对象编号、状态、版本等管控 12. 支持对工艺路径下各工序加工工时、模组定义 13. 支持将产品、路径、工序等关联到机台组、机台、配方、EDC, Qtime、光刻板、探针卡 14. 主路径可有多个子路径组成，包含普通路径、分支路径（Multipath）、返工路径（Rework）、条件判断分支等 15. 支持主工艺路径的工序上绑定计划返工路径（Rework） 16. 支持对对象已有版本调整为可用状态 17. 支持在工艺制程中定义 future action，当批次符合对应条件时会自动执行计划设定的动作，比如 future hold, future rework, future split 等 18. 支持工序上定义不同动作并调整动作顺序，例如预留准备、入机台、EDC、出机台、打标码、更新 Bin 值、晶圆 Die 报废、Hold, Multi-path 等 19. 支持对工艺站点（Process step）与量测站点（Methology step）、前量与后量的关系对应 20. 支持与 ERP 集成 21. 支持批量处理，支持操作者一次处理多条记录，如在新版本中增加 / 移除多个站点或者是子路径 22. 支持在工段特定工序的先后顺序校验 23. 支持工艺制程信息变更签核后生效 24. 支持路径各级对象创建、修改、复制，支持通过复制其他来生成新路径、工序等，支持批量处理 25. Step, EDC, Recipe, Reticle 等工艺参数各自作为独立的组件被调用，不会互相关联 26. Recipe, EDC, Q-time 都可以 by product 单独配置 27. 逻辑 Recipe 的解析可以在产品、制程和站点等多个层面上进行；如果有多分支对多产品的情况，要能支持按产品解析 recipe 28. 记录历史详情 29. 支持在一些特定站点，禁止某些 Action，如：设置 FutureHold，Bank 等 30. Wafer 下线支持 T7 code 识别和系统记录 31. 支持量测站点加量功能且加量支持 EDC 数据收集，EDC Spec 可根据客户自行设置 & 自行设置是否进 SPC Chart，EDC 数据可在 lot history 查阅 32. 支持 by product 设置 future hold 功能 33. 支持设置子母批次 future hold 功能 34. 支持 measure step 跳站功能（特定人员有权限） 35. 支持 process step 跳站（forward/backward）功能（特定人员有权限，但需走签核流程） |  |  |
+|  |  | > 数据收集（DC, data collection）规格定义 | 1. DC Item / DC Site 定义 2. DC Spec 设定，支持 Derived Item 3. DC Plan 设定，设置要收集的 DC Item |  |  |
+|  |  | > 工艺规格定义（Process Spec） | 1. 工艺规格如 Recipe、Reticle、EDC Plan、Process Location、Contamination Level 等，可以根据 Product + Plan + Step 来设置 2. 工艺规格在 Plan + Step 需要提供 Parameter 的设置，可以根据不同的 Product 赋予不同的值 3. Recipe 设定需有能量设置字段，以供光罩计算 life time 使用 4. Recipe 设定需有 Reticle Field 设定字段（可吃一张光罩上的多个 Field） 5. 在 Product 的设置里面，需要提供工艺参数的设置，在 Run Time 的时候提供解析 |  |  |
+|  |  | > 用户及权限设定 | 1. User / User Group 设定 2. User / User Group 的功能权限设定 3. User / User Group 的 EQP Type、Product、Technology、EQP State Transition、PPID、Equipment 等权限设定 |  |  |
+|  |  | > Modeling 工作效率/整合建模工具 | 1. 支持下列 Objects 可以使用 Loader/Excel 导入： - Product / Parameter Family / Plan (Top, Sub, Step) / EQP / EQP Constrain - RCP / EDC / Q-Time / FeedForward - OPR / Reason Code / Area 2. 支持下列 Objects 在增加新版本时，可以继承旧版本的数据： - Q-Time / FeedForward/ Future Action（hold，split，merge） 3. 支持 EDC 在维护 Spec 的时候，可以同时维护 SPC 的 Chart - EDC Plan，Chart 等信息支持使用 Excel 方式批量增删改 4. 支持下列 Objects 可以同时生效： - Product / ParameterFamily / Plan (Top, Sub, Step) / Rework Plan / EDC Plan 5. 在 Objects 生效时，需要进行资料的检查，包含下列检查要项: - Top Plan / EQP Capability / Contamination / Process Location / EDC Plan / Flow Recipe / Reticle / ParameterFamily / FeedForward 等 6. 提供 Object 新旧版本的比较 - Plan (Top, Sub) / Q-Time / EDC / ParameterFamily 等 7. 提供查询可以把结果导出到 Excel 文件进行编辑，并可以把 Excel 文件导入到 Loader 里面进行提交 8. Object（如:Product, Plan 等）的资料可以透过 Excel 的处理方式被复用和共享 |  |  |
+|  |  | >其他功能 | 支持查询所有建模数据（如工厂建模、产品、路径、配方、EDC、设备、代码等）并导出； 支持快捷查询各对象被谁使用； 可以自定义扩展所有模型对象的属性，模型对象包含不限于工厂、机台、机台组、产品、产品组、路径、层、段、站点、EDC、Recipe、Reticle、探针卡、Qtime、批次、晶圆； 在所有数据生效前，必须检查所有设定彼此间是否一致，数据如有变更则需与当前实际情况检查是否一致，是否可以变更。 所有模型对象支持版本控制，模型对象包含但不限于产品、路径、层、段、站点、Logical Recipe、Physical Recipe、EDC、Recipe、Reticle、探针卡、Q-Time等。版本变更时遵循如下要求： 版本的控制要能支持Draft/Frozen/Active的定义，每个Object 只有唯一的Active 版本号。工程师可以从多个版本中指定Active版 新版本生效后，旧版本将会被冻结，工程师不可以随意指定Active版本。 所有的改变都能够被记录下来并且可以被追踪。 定期基于lot 状态（Shipped/Scraped/Terminated/委外加工）对于该flow进行archive 涉及版本变更时，版本号能够自动增加。 关键模型参数，设置功能和查看功能需要分开，避免查看人员有设置权限 MES系统模型逻辑和用户需求逻辑出现冲突时，配合用户需求调整 修改EDC时，按MES内嵌签审流程进行EDC的Retarget，无需升版 |  |  |
+|  | 设备管理（Tool Management） | > 设备类型（Tools needed to be supported） | 1. 支持对 300mm 晶圆厂所需的所有设备的管理。设备包括工艺设备、量测设备、Load Port、存储设备、测试设备、OHB、NTB、e-Rack（智能电子货架）、光罩存储设备、光罩等的检验设备、Sorter、N2 Purge 等其他相关设备。 2. 主设备的定义除了考虑到一般的设备外，还要能够满足一些特定设备的需求。例如：无缓冲区设备/内部缓冲区设备（炉管，酸槽等），内联设备（如：Litho 的 Scanner + Tracker、WAT 的 Prober + Tester，以及 Process + Metrology 的组合）和 Sorter 等。 3. 子机台的定义也需要考虑能否支持，如：腔（Chamber)、槽（Tank）等特定需求 |  |  |
+|  |  | > Tool Hierarchy 多层结构 | 1. 支持机台多层结构： >> Main EQP，Sub EQP（Chamber / Tank），Sub Chamber，出入口（Port） |  |  |
+|  |  | > 设备状态及状况（Tool State & Status） | 1. 包括工艺设备（含子设备）、量测设备、存储设备、Port, OHB 等的状态管理，可单独设定子设备的状态 2. 须支持 SEMI 标准所定义的 E10 主状态，以及用户自定义的设备状态（不能以代码写死为借口造成不能变更供应商提供的内建设备状态） 3. 事件发生时实时触发设备状态按预设定的状态图进行变更，并显示在 FMB 上 4. 设备状态变更可以是事件触发的自动变更也可以是从 GUI 手动切换 5. 切换设备状态要有用户权限限制，通常要严格按设备状态变更图进行变更 6. 提供设备状态变更和当前加工的 Lot 的类型关联图，状态变更必须遵守此类型关联图 7. 提供机台状态变更与机台事件的关系图（矩阵图 / 状态机） 8. 事件发生时实时触发机台状态按预设定的状态图进行变更 9. 用户可以通过机台状态定义该机台 / Chamber 的可用状态 10. 支持同时更改主机台和子机台的状态 |  |  |
+|  |  | > 设备能力 (Tool Ability) | 1. 设备及子设备（Chamber）的容量（Capacity）管理 2. 设备加工能力（Capability）管理 3. Batch 设备 Batch Size 管控（按 Wafer 或 FOUP 设置上下限）--WET和炉管 4. 设备默认的 OHB 及默认 Stocker 管理 5. 提供机台和子机台的启用/禁用功能 6. 机台 internal buffer 容量管理 |  |  |
+|  |  | > 基本特性 (Basic Attributes) | 1. 用户可以通过设备参数定义该 Tool / Chamber 的 Enable / Disable 状态 2. 用户可自定义设备的属性 3. 用户针对设备或 Chamber 等增加、修改 Comment 4. 定义设备与 Port 的对应关系 5. 特性包括 5.1 设备--类型（Equipment Type） 5.2 设备--状态（Equipment Status） 5.3 设备-- 洁净 / 污染等级（Equipment Containmination Level） 5.4 设备-- 所属区域（Equipment Area） 5.5 设备-- 责任人（Equipment Owner） 5.6 设备-- 成本中心（Equipment Cost Center） 5.7 设备-- 供应商（Equipment Vendor） 5.8 设备-- 控制类型（Equipment Control Type） 5.9 设备-- 工艺类型（Equipment Process Type） 5.10 设备-- 能力（Capability） 5.11 设备-- 结构类型（Construct Type），如：Chamber，Chuck, Header, Tank 等 6. 能定义设备的控制状态（Offline, Online-Local, Online-Remote） |  |  |
+|  |  | > Port 管理 | 1. 类型： > > Port 上进出 FOUP 时有（In, Out, InOut）三种模式，使用者可自由切换 2. Port 通讯状态（Access Mode）有（Manual, Auto）使用者可自由切换 > > Port 搬送模式（Transportation mode）/ 派工模式（Dispatch Mode）有 Auto/Manual 3. Port 自动化模式管理（可按 Port 设置 Auto-1, Auto-2, Auto-3） 4. Port 状态管理（可自定义状态图及相关事件，类似于设备状态管理） 5. 支持 FOUP Unload 完后即可离开 Load Port，无须待在 Load Port，即使 Lot 还没有 JobOut，但是 EAP 会 Hold Lot 6. 当所有的 Port 都不能使用时，设备就不可以预约 Lot 7. Port 状态变更可以是事件触发的自动变更也可以是从界面手动切换 8. 可指定特定 Load Port 给特定 FOUP/FOSB 或 Reticle Pod 9. Port 的传输模式管理（Ready To Load/Load Complete/Ready To Unload /Unload Complete/Port down） |  |  |
+|  |  | > 多腔设备 | 1. 支持主设备与子设备（腔）之间状态的联系管理。 "2. 能够定义主设备和子设备（腔）之间状态的互动关系。比如，子设备（腔）是属于关键腔发生宕机时，设备应切换到完全宕机状态。 当然，主设备和子设备的状态也要和Recipe联系起来，以最终决定设备的能力。" 3. 可以通过 EAP 传达 Processing Lot 信息或 Tool Event 给 MES 来更改 Chamber 状态 4. 可以设置优先级来决定 Chamber State 最终状态。举例：同时跑 NPW 和 Product 时，设备状态被优先设置成 Running 5. 如果全部 Chamber 改为 Down，则主 EQP 也同时变更为 Down 6. 支持根据 Chamber 或 Chamber Group 状态配置主 EQP 状态，并按优先级决定最终状态。例如：Chamber A = RUN，Chamber B = ENG，且优先级 RUN > ENG，则系统将主 EQP 状态设为 RUN 7. 支持通过主设备和子设备（腔）的状态、PPID 的开关、相应 Recipe、Chamber 的工艺流程最终确定设备的加工能力 |  |  |
+|  |  | > 设备管理 | 1. Hold：当设备被 Hold 时，禁止分配 Lot 到该设备。 2. 异常检测： 2.1 当设备的运行异常时，且设备未发送 Alarm，系统可以根据历史的同类 Wafer 的 Q-Time 的设定来判断异常 （Internal Q-Time） 2.2 对于某些不设 Internal Q-Time 的站点，且设备未发送 Alarm，系统如何发现异常？ 3. 设备历史： 3.1 设备及子设备可查询 Wafer Chamber 历史 3.2 设备及子设备可查询 Equipment / Chamber 状态变更历史 3.3 设备及子设备可查询 Wafer Process Start / End 历史 3.4 设备及子设备的所有历史查询功能，可以导出结果 3.6 当 EAP 报告异常事件且有批次正在处理时，MES 将取消流程并 Hold Lot 3.7 可以通过 EAP 传达 Processing Lot 信息或 Tool Event 给 MES 来更改设备状态 3.8 EQP 状态转换可以设置优先级来决定最终状态变化 3.9 用户可以手动更改 EQP，Chamber，Load Port 状态并输入注释 3.10 支持定义设备控制状态（Offline，Online Local and Online Remote） 3.11 MES 中可查询 SPC 中测量的 Raw Data 数据，并且支持导出 Excel 功能 |  |  |
+|  |  | > 湿法设备 Batch Run | 1. 用户可选择同时运行 1~2 个 FOUP（适用于 OVEN 设备） 2. 用户可设置批处理的最小晶圆数量（适用于 OVEN 设备） 3. 当设备侧记录的晶圆数量与 MES / EAP 系统中的晶圆数量发生不一致时，应产生报警提示 4. 系统需支持湿法设备的 Dummy Wafer 填充机制 5. 当卸载 Dummy Wafer 时，需要 MES 将其流转至下一步骤 6. 用户可以根据 EQP+Product+Plan+Stage 选择如何形成 Batch "7. 用户可以将 Batch 条件设置为以下之一： >> 常规：Batch 中 Lot 的个数（1 个 Lot 或者 2 个 Lot）、可以设定每个 Carrier 中的 Wafer 的数量范围 >> Slot Map：Batch 中 Lot 的个数（1 个 Lot 或者 2 个 Lot）、Batch Wafer 的数量范围、精确到 Carrier 中的 Wafer 位置的管理，每个 Carrier 中的 Wafer 的数量范围" 8. 用户可以根据 EQP+Product+Plan+Stage 配置 Tank 运行条件 "9. 用户可以将 Tank run 条件设置为以下之一： >> Tank Wafer/Job Count >> Recipe Wafer/Job Count >> Recipe Group Wafer/Job Count >> By Wafer Count or by Life time 二者哪种先达到就以哪个为先行条件" 10. 如果当前 Tank(s) 数不在规格范围内，则 Batch 无法成功保留（Job Prep） |  |  |
+|  |  | > Sorter 全自动作业 | 1. 支持多个 Load Port 的 Sorter，4 个 Port 可以灵活运用，可以支持 1~4 个 FOUP 的 Sorter Action 2. Sorter 设备要能支持流程内（In-Line）和非流程（Ad-hoc）的形式 3. Inline Sorter：需要支持 Inline Sorter Step，且支持全自动化，系统能够按照用户的规则完成制定的 Sorter 动作 4. Sorter Constraints： > > Sorter Load Port Constraints：需要提供以 Carrier/Lot 属性来限制 Load Port 的使用； > > Sorter Carrier Constraints：支持设定 FOUP 是否能传送到另一个 FOUP（如污染卡控）。 5. 需要提供 GUI 用于客户增、删、改、查 Sorter Constraint 6. 在 Sorter Job 队列中的 Lot 不能再被分配 Sorter Job 7. 支持管理 Sorter 执行 FOSB 和 FOUP 之间的传输 8. 支持 Sorter Job 基本类型，如：Foup Exchange，Lot Transfer，Split，Merge，Wafer Start，Wafer Out，Wafer Rotate，Wafer Verification，Wafer Flip 9. 支持 Lot 的 Split(1→N)，和 Merge (N→1) |  |  |
+|  |  | > 光刻设备（Litho / Photo） | 1. Scanner 要能管控多重光罩 （Multiple Reticle） 2. 支持一个主设备同步控管两个子设备, 并可设置两个子设备配方 3. Reticle 检验设备管控方式类似于量测设备，要有状态管控和历史记录，量测数据要进入 SPC（Reticle 的 Data Collection），要有 PM 管控 4. 支持在当前层选定和上一层相同的 Chuck（28nm 以下，对精度要求较高的场景） 5. 支持在当前层选定和上一层相同的光刻工具（28nm 以下，对精度要求较高的场景） 6. 支持 Litho 设备的 FOUP Exchanger 作为运输自动化的缓冲区 |  |  |
+|  |  | > N2 Purge | 1. 系统应该定义 N2-Purge/CDA 的相关设备，并依据不同的安装位置识别和区别对待，如： 1.1 整合至暂存区（如 OHB 等） 1.2 整合至工艺设备的 Load Port 上 1.3 整合进 Stocker 1.4 独立的 N2-Purge 机台 2. N2-Purge 后，MES 应该实时更新 FOUP/Lot 的相关信息，如 N2 Purge Q-Time 时间 |  |  |
+|  |  | > OHB / Stocker / Reticle Stocker | 1. 支持手动或自动的 Stocker, OHB, NTB、各类光罩存储设备等 2. 支持 Stocker 状态跟踪以及与 MCS 的同步 3. 支持 Stocker 库存跟踪以及与 MCS 的同步 4. 支持搬送任务的跟踪以及与 MCS 的同步 5. 提供机制确保 MES 与 MCS 的 FOUP 位置同步 6. 支持跟踪 FOUP ID 在 Stocker 的记录 |  |  |
+|  |  | > NTB and Exchanger | 1. 支持 NTB（Near Tool Buffer），Exchanger 的 Port 与 Buffer Size 的管理与维护 1.1 支持把 NTB 和 Exchanger 当成机台的 Internal Buffer 1.2 把 NTB / Exchanger 的 Load Port 设定为机台的 Port，其中位于设备上端的 Port 需设定为 On Top Load Port，仅支持 Auto 2 和 Auto 3（不可人工） 2. FOUP Load 和 UnLoad 时，根据 Buffer 与 Port 的 Mapping 自动将 FOUP 转移到指定的 Port 或 Buffer 上，EAP 整合与设备共同集成（需要与 EAP 和 MCS 集成） |  |  |
+|  |  | > 预约设备 | 1. 全自动模式的预约功能：接受派工系统预约，系统需要检查 Port 的自动化模式以及设备的状态，以决定预约是否成功 2. 半自动模式预约：用户可手动预约，支持预约与可用 Port 数量一致的 FOUP 数量 3. 用户可以使用画面功能进行筛选 Lot 来约货，约货后触发 MCS 进行 FOUP 的搬运 4. 所有预约在业务允许（Lot 还没 Process Start）的状况下可取消 |  |  |
+|  |  | > MES 和 EAP 的信息同步 | 1. 当 EAP 恢复正常或者设备切换成在线模式时，EAP 将会通知 MES。随之，MES 会将设备的运行模式转换成全自动模式 2. EAP 可以把设备上的报警发送给 Alarm 系统。而且这些报警，可以触发已经在 Alarm 定义好的动作如 Hold Lot |  |  |
+|  |  | > 污染控制 | 1. 设备（或 Port）可被指定为 Cu 和 Non-Cu 类型。可以设定 Cu 或 Non-Cu 的 FOUP 可不可以 Load 到这个 Load Port 上面。当用户将一个 Cu 类型的 FOUP 放到 Non-Cu 的 Port 上时，MES 将会拒绝执行 2. 支持建立载具，Port 和设备之间的对应关系 3. 提供设定污染等级和协议控制的功能（AutoMode）/ 污染代码可以支持自定义配置，可以是数字或者字母 4. 在工艺流程上的站点需要设置相应的污染类别以及可以进站和出站的污染类型 5. 需要支持对 Lot 进行更换载具或者分批合批时，需要有载具的污染类型限制和管理 6. 需要支持对 Sorter 机台的污染类型管控，只有允许的载具才可以上机台进行 Sorter 作业 7. 对于 Runcard 的 Lot 同样也要进行载具种类管理 8. 跳站功能需卡控污染等级 |  |  |
+|  |  | > Recipe 内容检查以及 Recipe 限制 | 1. MES 在约货的时候检查 Recipe Body，此时，EAP 发送指令给 RMS 系统，RMS 将通过 SECS/GEM 的协议来取得设备上关于该 Recipe 的具体内容将加以分析。如果内容不匹配，MES 应采取一些措施，比如，发送邮件报警和禁止使用设备和该 Recipe 等 2. 机台上的 Recipe 使用超过预设 Lot / Wafer 的数量，就会被禁止在这个机台继续使用（可以使用 PPID Control Function 验证） 3. 当设备需要转制程时，用户可以针对设备/Chamber 设置 Season Constraint，是否需要 Season，Season 的 Recipe，Season Wafer 等信息。(Season Recipe Group Change) |  |  |
+|  |  | > FOUP 限制 | 1. 设备 Load Port 与 FOUP Type 之间的 Constraint |  |  |
+|  |  | > 炉管控制 | 1. 支持 3 种 Batch： > > 仅按产品批次（Production Lot）组成 Batch > > 仅按炉管监控批次（Furnace Monitor Lot）组成 Batch > > 按产品批次和监控批次共同组成 Batch 2. 在 Furnace Monitor Lot 使用中，应能够支持预测量、形成批次和后测量 3. 应能够对 Furnace Monitor Lot 执行生命周期控制，包括： Lot Preparation Wafer(s) Using Wafer(s) Recycle Wafer(s) Downgrade 4. 用户可以通过 Furnace 配方进行配置： > > 炉管监控所需 Wafer 数量 > > 基于产品 Wafer 数量的 PPID 和 Layout Recipe ID 组合（如当 product+mo 的总数填不满一管时，需要填充 dummy。填 dummy 的方式由设备和工艺决定。根据片数的不同，选择不同的 Layout Recipe） 5. 支持 internal buffer management of furnace tool，能够从 EAP 中获取 internal buffer 的可用大小，以决定 furnace tool 是否可以用于 Batch 生成 6. 需要有最大预约 Batch 数的管控 (在这个炉管上可以 Reserve 的最大 Batch 数) 7. 支持通过 EQP, Recipe 和 PPID 配置 Boat Thickness Spec，验证设备是否满足生产条件 （实际 Boat Thickness 由 EAP 上报） 8. Furnace Batch 运行前，需要验证： > > 前一或两批次的测量结果是否合格，如果其中一个测量结果不合格，则应禁止 Furnace Batch run（AB 批次验证） > > boat thickness 是否有效，如果不在规格范围内，则应禁止 Furnace Batch run（boat thickness 验证） 9. Furnace Carrier Loading 顺序： > > 栅氧检测（GOI） Monitor 和边缘 Monitor 的载具应为第一第二装载顺序 > > 产品批次的载具应能根据产品的配方和管位区域来配置装载顺序 10. 当 furnace process 完成后，产品批次应等待下一步 monitor wafer 反馈测量结果 11. 在 furnace monitor wafer(s) 进行后测量时，相应的 monitor wafer(s) 应能够将测量结果传回同批次内的相关 production wafer(s) 12. 支持配置 boat postion and zone mapping 关系 13. 当后测量结果传递到 SPC 时，能够按 wafer 位置提供 ZONE 信息 14. 当产品批次正在等待 funrance monitor lot 的后测量结果时，根据 furnace monitor wafer(s)tube position，当 furnace monitor wafer(s) 发生 OOS/OOC 時，相应的产品批次将采取 OOS/OOC 行动。 15. 支持 furnace tool 进行 dummy wafer(s) 填充，并可区分 dummy 是 side dummy 还是 fill dummy 16. 在 dummy 超过最大使用次数，或手动卸载 dummy 后，应该能够将载有 dummy 的载具卸载到装载端口，卸载 dummy 后，所有 dummy 将进入下一步骤 17. 能够支持 TLC Purge 18. 可以支持 AB Batch 控制，第一 Batch 为 A，第二 Batch 为 B，接下来的 Batch 为 C，C Batch 运行前需要检查 A Batch 和 B Batch 的后测数据： 1) 如果 Batch A 的结果通过，则 Batch C 允许运行； 2) 如果 Batch A 的结果失败，但 Batch B 的结果成功，则 Batch C 允许运行； 3) 如果 Batch A 的结果未知，但 Batch B 的结果成功，则 Batch C 允许运行。 10. 能够支持 Furnace Split Runcard 用于 Experiment Purpose，用户允许在 Split Runcard 中设置新配方，强制使机台最终执行新配方 |  |  |
+|  | Process Plan (工艺流程) | > Flow 架构 | 1. Flow 可按层（路径Path、工段 Stage、站点 Step）定义（支持 Sub-Flow），每个层级的 Flow 都可以复用 2. 主路径可有多个子路径组成，包含普通路径、分支路径（Multipath）、返工路径（Rework）、条件判断分支等 3. 一个 Technology 包含一个或若干个 Product；每个 Product 在一个时间点，对应一条 Flow；一条 Flow 可以被一个或多个 Product 引用 4. 一个 Stage 包含一个或若干个 Step；每个 Step 可以有一个或多个 Path 连接到下一个 Step |  |  |
+|  |  | > Flow 复用 | 1. Sub-Flow 可以被复用和共享 2. Flow Recipe 的解析可以在产品，制程和站点等多个层面上进行 3. 能够定义 Rework 站点和指示，Rework 制程可以被多个主制程调用 4. 支持 Golden Flow，在主要站点可以建立 Sub-Flow 设置为 Golden Flow，多个产品可以共用该 Sub-Flow 5. 多个产品可以共用相同的工艺流程（Process Flow / Top Process Plan） |  |  |
+|  |  | > 版本变更 | 1. 版本控制涵盖产品，流程，站点，EDC Plan，EDC Spec 等 Objects 2. 不同版本的产品、流程、站点，可以关联不同的工艺设置 3. 每个 Object 只有唯一的 Active 版本号，工程师可以从多个版本中指定 Active 版本 4. 涉及版本变更时，版本号能够自动增加 "5. 当旧版本的 Sub-Flow 升到新版时，支持： 5.1 Lot 在旧版的 Sub-Flow 上，Lot 会持续在旧版本运行，视需求人工升版到新版的 Sub-Flow 5.2 Lot 在旧版的 Sub-Flow 上，Lot 抵达新版本的 Sub Plan，会自动升级到新的版本" 6. 路径升版本需要继承旧版路径上设定的 Q-Time、采样、Future Hold 等，如果由于增删站点/工段变化导致 Q-Time、实验单SRC、RRC、Pilot等起止站点失效需要识别影响并告知用户，并按合适方式进行处理。 "7. 当设置新版本的 Flow 为 Active 时： >> Lot 升版需要经过 Product / Lot Owner 确认，Processing 中的 Lot 不能变更，等加工完成后判定：非特别要求的 Lot 自动升版，特别要求的 Lot 保留原版本。 >>支持显示变更结果。" 8. 版本升级时不能影响在SRC、RRC、Rework、OCAP处理中的Lot，且这些Lot能够在结束上述非常规工艺返回主Flow后，自动升版到Active的版本；当主/子路径（子）路径升版本导致返回点不存在时，则回到旧版的返回点并Hold Lot，支持人工升版本到新版主/子路径（子）路径 9. Flow 升版应该继承原有的 Q-Time / Sampling / Step Hold / EDC plan / PRP Spec 等设定，Lot 升版也要保留已经触发的Q-time 10. 对于未自动升版成功的 Lot，要有 Alarm 提示并将未成功升版的Lot清单信息发邮件给相关工程师 11. 支持人工批量升版 12. 支持 Lot 可以在当站手动升版，或预约在未来的站点升版 |  |  |
+|  |  | > 制程维护 | 1. 提供 GUI 给用户维护和查看工艺信息 2. 新制程的创建可以通过复制现有制程，然后局部修改来完成 3. 用户可以导入完整的 Product / 工艺 Flow（从 Excel 导入，要有合法性、完整性验证。导入完成后，Product / 工艺 Flow 要是可用的） 4. 用户可以单个或整批维护 Product / Flow 信息（增加 / 修改 Product、Flow、Step、Q-Time 等） 5. 通过 Excel，将已有 Product / Process 信息，完整地 Copy 到需要的 Product / Process 6. 能够比较两条 Flow（可以是不同 Flow 或不同版本），标记出其不同之处 7. 提对 Flow 的加载 / 查询 / 修改 / 复制等标准功能 "8. 特定权限用户可以按 Technology 整批载入或修改产品信息（包括参数） （备注：Technology 工艺平台 → 多个 Product）" 9. 特定权限用户可以按 Technology 整批修改 Flow 信息 |  |  |
+|  |  | > 关联查询 | 1. 能快捷的查询一个对象（Recipe / Step / Sub-Flow / Flow 等）都在哪被使用（where used） 如：某个 Flow 被哪些 Product 引用，指定 Step 在 Flow 中处于哪些 Step，有哪些 Flow 引用了该 Step 等 |  |  |
+|  |  | > 特殊变更 | 1. 工程师可以按需要，动态地将 Lot 分派到这些 Flow 中的某一个 Step，或是不同 Flow 的 Step，或是不同的 Product |  |  |
+|  |  | > 动态选择 | 1. 在运行过程中为某些特殊 Lot 动态选择设备、Recipe、Reticle、EDC Plan（使用 Lot Specialization） |  |  |
+|  |  | > 动作限定 | 1. 在一些特定站点，禁止用户某些 Action。如，设置 Future Hold（Flow Spec 上设定 Not Allow Future Action）、Bank 等 |  |  |
+|  |  | > 虚拟站点 | 1. 可以支持虚拟站点（Virtual Operation）的功能（可用于堆货或其他用途） |  |  |
+|  |  | > 原料管理 | 1. 制程所需要的原料，可以是另一个制程的产品（Turnkey） |  |  |
+|  |  | > NPW Flow Modeling | 1. 支持一般测试用 Monitor / Season / Furnace Monitor / Dummy Wafer 等 NPW 的 Flow 定义 2. 支持灵活的 Step 设置和 Step 数量设置 3. 支持 NPW 的生命周期控制，包括： Preparation InUse UseEnd Recycle Downgrade 4. NPW Attribute 定义： 支持定义 Wafer 的最大使用次数，最大清洗次数，并支持维护 Downgrade Mapping |  |  |
+|  |  | 在制品管控（WIP Management） | 1. 提供自动模式生成 Lot ID。Lot ID 流水号根据用户规则产生，不同 Lot Type 可以有不同命名规则，不得有重复，命名空间要能扩充。 2. 用户可以指定 Lot 片数，Wafer ID 可以手动或自动生成 3. 支持 Wafer ID 手动生成，即在 Create Source Lot 的时候双击 Lot ID 可以 manual input T7 Code 4. Wafer ID 的命名规则，需要包含在 Lot ID 的命名规则里面同时定义，如：Wafer ID 的尾号要与 start Lot 时候 FOUP 的 Slot ID 一致 5. Create Lot 时，用户可以选择 Product，Lot Type，Cost Center 跟 Wafer 的片数，Lot ID 与 Wafer ID 自动生成 6. Create Lot 时，用户可以配置 Start Lot 使用的 Raw Material No，Vendor Name 等信息 7. 需要与 ERP 系统整合：提供标准集成接口，包含接受晶圆物料的数据、工单集成、下线集成、报工集成、报废品集成、出货集成等 8. 提供 raw material 和供应商的配置 9. 在自动下线场景中，可集成 EAP 或 MCS（从 Stocker 读） 根据 FOSB 进行晶圆物料信息的读取，并在 MES 自动产生 Source Lot 10. 允许用户在 FAB Wafer Start 开始之前取消已创建的 Lot，包括原定放入该生产 Lot 和源 Lot 的原材料信息。 |  |  |
+|  |  | > Wafer Start | 1. 提供 Wafer Start 和 Cancel 功能 1.1 提供手动（GUI）和自动（Full Auto）两种 Wafer Start 模式 2. 支持一个 FOSB 可以一次 / 多次 Wafer Start，支持多个 FOSB 一次 Wafer Start 3. Wafer Start 后，Carrier Slot ID 放置的 Wafer 的 Wafer ID 编码，要与 Slot ID 一致 "4. Wafer Start 必须遵从用户的 Constraint 如：产品（Product）& 原材料（Vendor Material）Mapping 如：批次类别（Lot Type）& 材料成本中心（Material Cost Center）Mapping" 4. Wafer Start Function 需要与 ERP 等相关系统整合，领料后才能 Wafer Start 5. Wafer Start 的原材料可以是： 6.1 裸晶圆（Raw Wafers） 6.2 库存产品（Inventory Product）（上一道工艺的输出、外协返回的晶圆、Split / Merge 后形成的产品） 6.3 Production / NPW（Recycle / Reclaim） 6.4 Zero Layer Wafers 6. 提供产品在下线时候，可以使用的原物料编码对应关系。Raw Material 可集成 ERP 接收晶圆物料的数据，也可以是 MES 端维护的数据，后续上线 WMS 后，可以集成 WMS 接口来进行物料确认 7. 下线工单可以从 SAP 接收工单，也可系统上创建工单 8. 支持对于 Wafer Start 操作自动产生 Sorter Job，来完成从 FOSB 到 Carrier 的更换和 T7 Code 的更新 9. 提供 Wafer Start 的 Sorter Action 10. 提供 Product 跟 Raw Material No 对应关系的配置（支持通过 ERP / WMS 系统集成自动配置，支持手动配置）Product Setup 时要把物料各种信息配置好 11. 支持一个 FOSB 对到一个 Production Lot 进行 Start Lot 12. 支持多个 FOSB 对到一个 Production Lot 进行 Start Lot 13. 按照 Create Lot 时选择的 Raw Material 可选项的配置，选择生产批次需要耗用的晶圆物料批次 14. Wafer Start 后，需要记录 T7 Code 与 Wafer ID 的关联 |  |  |
+|  |  | > 批次管理（Lot Management） | 1. 可以按 FOUP 或 Lot 进行管理，一个 FOUP 可以容纳一个或多个 Lot，一个 Lot 在某一时刻只能在一个 FOUP / FOSB 内 2. 用户可以单个或成批修改 Lot 属性 3. 支持创建各类 Lot，Lot 类型支持自定义，包含但不限于 Production、Engineering、Test、Monitor、Dummy、ALTO S/N(追溯特殊管理) 4. 支持 ERP 订单下达时，由 MES 自动创建相应订单的生产批次，也支持手动创建生产批次，生产批次类型为 Production、Engineering、Test、技术研发等 5. 支持重新分配（转产品 Change Product，流程升版，更改至其他工艺流程），在更改时要查询是否有 Future Action，Runcard，Q-Time 等进行提示，User 选择 Cancel 或者不 Cancel，Flow 升版应该继承原有的 Q-Time / Sampling 设定；Lot 升版也要保留已经设置的 Q-Time / Sampling. 6. 提供工程师 / 操作人员，有权限的情况下可以为特定 WIP Lot 运行时指定 Recipe，配方参数，光罩。历史记录应记录此特定配方，光罩相关信息 |  |  |
+|  |  | > 批次预约（Lot Reserve） | 1. 预约时，系统需要检查 Port 的自动化模式以及设备的状态，以决定预约是否成功 2. 预约时，必须提供可 Reserve Lot 的最大数量 3. 预约时，MES 及 RTD 会确认 Lot List 中所有 Lots 一定是可以安全被执行的：检查约束（Constraints）、禁止加工（Inhibit）、洁净等级（Contamination）、Lot Type vs Eqp State、试验片（Pilot）、暖机片（Season）、设备维保（PM near…）等。RTD 也会针对设备效率，做最优的排序 4. Auto 1 and Auto 2，用户可以按 RTD 反送回來的 Lot List 选 Lot。选好 Lot 时， 4.1 Auto 1 – 用户手动预约 Lot 到指定机台 / Loadport / SMIF。MES 将 Lot 从 Stocker 或 OHB 送到一指定 Output Port，Operator 可手动搬送 FOUP 到指定设备的 Load Port 4.2 Auto 2 – 用户手动预约 Lot 到 Reserve Queue，MES 通知 MCS 进行搬送 FOUP 到指定设备的 Load Port 4.3 Auto 3 – Full 会自动从 MES 提供的 Lot List 选 Lot 后进行约货，MES 通知 MCS 搬送 FOUP 到指定设备的 Load Port 5. 所有预约在业务允许的状况下可取消（Cancel Lot Reserve），Lot 状态会返回到 Reserve 之前，在有自动搬运的状况下，FOUP 被搬送到 Stocker 6. Multi-Lot-Per-FOUP 中有 Hold Lot，其它未被 Hold 的 Lot 仍允许被派工 7. Lot 生产时发生机台故障，需要根据当时 Wafer 的状况来处理：未生产的 Wafer，正在生产的 Wafer，以及已生产完的 Wafer，使用 Recovery Runcard 进行后续处理流程 8. Lot 的 Recipe 为 Sequence mode，PPID 必须经过的腔体在实际机台上的状态为不可用（Down 或 PM，不包含 RUN），此时不可开始作业 9. 支持人工预约、外部系统如 RTD 自动预约 10. 系统可以提供机台的 Reserve Queue 的功能，可以提前把 Lot 手动派送到 Queue 里面，在上一个 Lot Track-Out 之后，就自动在 Queue 里面找第一个 Lot 进行 Reserve |  |  |
+|  |  | > Cancel Track In | 1. Cancel Track In 成功后，允许 Lot 退回到跑货开始前的状态 |  |  |
+|  |  | > 部分处理：Running Split | 1. 当因设备故障时，支持根据当时每片 Wafer 的状况而分出未处理的 Wafer，正处理的 Wafer，以及已处理完的 Wafer，创建 Recovery Runcard 并进行签核，核准后可以自动进行处理如分批，走 Recovery Runcard 流程 |  |  |
+|  |  | > 分批 / 合批（Split / Merge） | 1. 需要支持逻辑 / 物理的 Split / Merge；在 MES 完成物理 Split / Merge 动作后，可选择是否使用 Sorter，且 Sorter 能自动 / 半自动进行 Split / Merge 动作 2. Split 时，子批默认继承母批的属性（特定属性除外），包括 Future Action、Q-Time 、Wafer 的前量数据等 3. Split 时，Wafer 的量测数据是跟着 Wafer 一起，不因 Split / Merge 而有影响 4. 对部分特殊工艺，不支持满片过站的工艺，要支持用小批 Lot 过站，即入机台前必须自动 Split，出机台后自动 Merge，Split 规则可以根据工艺灵活设置，如 8/8/9 或 12/13 等 5. 支持一次母批 Split 出一个或多个子批，支持同一时间 Merge 多个子批到母批 6. Split / Merge 后，Lot 命名规则根据系统预设的 Naming Rule 来自动生成 7. 当子批 Merge 到母批时，子批的 Future Action 等信息需要 Merge 到母批上 8. 支持永久分批 |  |  |
+|  |  | > 计划分批 / 合批（Future Split / Merge） | 1. 可以事先设定 Lot 在未来站点自动按设置被 Split 或 Merge 1.1 支持设置未来站点 1.2 支持自动设置 Future Hold 待 Merge 1.3 支持在未来站点执行 Future Merge 2. Future Split / Merge 生效后不受 Flow 版本变化影响 |  |  |
+|  |  | > Lot 特殊化的生产条件 | 1. 可以事先规划某些特殊 Lot（如工程实验 Lot）在未来站点可以调整当站的生产条件（如：Equipment、Recipe、Data Collection Plan、Reticle）自动 |  |  |
+|  |  | > Hold & Release | 1. 因设备故障等各种原因而将处理中的 Lot Hold 住，不再允许动作直到解除（Hold Release） 2. 可以同时用不同原因（Reason Code）对同一个 Lot 加以 Hold 3. 支持 Batch（或 Multi）Hold 4. Hold 和 Release 要有历史记录，可以清晰的跟踪 Release 动作对应的是那个 Hold 动作，历史要可以查询 5. 对一个 Lot 执行 Release 时，支持选择相应的 Hold Reason（Hold Code），并且支持填写 Release Comment 6. 根据 Department 以及 Hold Reason / Code 管控 Hold / Release 动作时的权限 7. 单一 Lot 有多个 Hold Code，可以选择多个 Hold 使用相同的 Release Code 批量 Release 8. 当在跑的 Lot 由于机台故障等各种原因被 Hold 住时，支持使用 Recovery Runcard 进行后续处理 9. 增加 Recipe Prohibiton 功能，能够分类生产禁止/工艺禁止，并且显示禁止原因和可 Release 原因 |  |  |
+|  |  | > Future Hold | 1. 基于产品/路径在某个未来站点设定 Future Hold，即该产品达到该站点就被自动执行 Hold 操作 2. 按生效时间点不同，Future Hold 可以分为 Pre Future Hold（进站就 Hold）和 Post Future Hold（Track Out 时 Hold） 3. Future Hold 生效后，与版本无关（版本升级后 Future Hold 应该被继承） 4. 可以按 Lot 或 Flow 设置 Multi Future Hold，Future Hold 可以被更改，取消 5. 支持 Batch 设置 Future Hold 功能 |  |  |
+|  |  | > 出入逻辑缓冲区（Bank In / Out） | 1. 可以对 Lot 做 Bank In / Bank Out 动作，即逻辑层面上出入工艺缓冲区 2. 支持单个 Lot 或多个 Lot 同时做 Bank In / Bank Out 动作 3. 已在 Bank 的 Lot 可以执行 Change Carrier 或 Transfer Lot 4. 已经在 Bank 的 Lot 可以再转换到另一个 Bank 5. 支持从 Bank 里出来后返回线上 6. 对 Bank 里的 Lot 或物料有操作记录，Bank In，Bank Out 记录 |  |  |
+|  |  | > 动态 Branch | 1. 支持按 Lot 的需要动态进入 Branch 或是 Rework Flow，以便动态增加制程站点。例如，依不同状况，动态加入 N2 Purge，或 Split / Merge / Slot Mapping 等 Sorter Actions (Ad-hoc Sorter Action) |  |  |
+|  |  | > 返工（Rework） | 1. Lot 可以送到 Rework Flow，也可以叫停即将开始的 Rework 2. Lot 出机台时： 2.1 用户标记返工的情况下，系统自动将 Lot 跳转到 Rework Flow 中执行。完成 Rework Flow 后，Lot 将返回当前工段的第一个 Step 2.2 用户未标记返工的情况下，Lot 按照主 Flow 流片出机台后移到下一工序 3. 支持 Plan Rework、动态 Rework （Plan Ad-hoc Rework 以及 Ad-hoc Rework） 4. 支持按 Lot 的需要动态进入 Branch 或是 Rework Flow，以便动态增加制程站点。例如，依不同状况，动态加入 N2 Purge，或 Split / Merge / Slot Mapping 等 Sorter Actions (Ad-hoc Sorter Action) 5. 支持按 Wafer Level 来记录 Rework Count 6. Rework 会受到 Wafer Rework 的次数和站点加工次数（Process Count）限制 7. 当查询 Process Flow 时，其所调用的 Rework Flow 应该在 Process Flow 上可见，并可显示 Rework 的具体内容 8. 支持 Rework 流程与主加工流程一起快速建立，路径、工序、机台、配方、光刻板、Q-Time 等相关信息可通过专门工具一次性导入 9. Rework 需支持 Multipath 10. 分批后，子批自动进入 Rework Flow 时，支持母批自动加 Hold 在安全站点等待 11. 当 Lot 进入 Rework Flow 时，应该在 Lot Detail 信息中可见，并可显示 Rework 的具体内容。 |  |  |
+|  |  | > Lot / Wafer 查询 | 1. 查询条件包括： Lot 身份属性类：Lot ID、Lot Type、Lot Priority、Lot Owner； Lot 位置类：Lot Location、Lot Process Location、Work Area； Carrier / Runcard 相关类：Carrier ID、Run Card Lot、Non-Runcard Lot； 状态类：Processing Status、Step Status； 工艺 / 产品类：Technology、Product ID、Plan ID、Stage、Capability； 设备类：EQP ID； 客户外协追溯类：Customer Lot ID、Vendor Lot ID。 其余客制化 2. 查询显示要对自定义的特殊 Lot 有标记显示，如 Hold，有 Q-Time，优先级高的等 3. 对 Lot / Wafer 的操作会留下历史，并提供详细方便的历史查找功能。Lot / Wafer 历史查询不能对生产造成影响 4. Wafer Slot History：支持 by Wafer 查询载具、Slot ID 变动的历史记录 5. Lot Future Action 的查询，可选择查看 Lot 已生效的 Future Hold，站点可用机台的信息 |  |  |
+|  |  | > 批次标注（Lot Comment） | 1. 可以针对 Lot 的每一站操作留下相关注记（Lot Comment） |  |  |
+|  |  | > 报废与取消报废（Scrap / UnScrap） | 1. 可以进行 Lot 或 Lot Split 后报废以及取消报废 2. 支持 by Wafer 进行单个 / 批量的报废 / 取消报废，取消报废时需要指定 Wafer 返回载具（原载具或新载具），卡控污染等级 3. 取消报废后 Lot / Wafer 所有信息回退到报废前 |  |  |
+|  |  | > Terminate | 1. 可以针对 Lot 做 Terminate 动作或 Cancel Terminate 动作 |  |  |
+|  | > Small Lot | > Lot 规格变更 | 1. 支持 Lot 的规格变更（如：新产品 ID，新工艺路线设置等） |  |  |
+|  |  | > Flow 变更 | 1. 系统支持将 Lot 重新分配（Reassign）到指定的 Flow 的特定 Step |  |  |
+|  |  | > 自动 Flow 变更 | 1. 根据用户设定的规则，当 Lot 加工到指定工序（Step），并在该 Step 出站时，系统支持自动将该 Lot 重新分配到指定的 Process Flow 的特定 Step |  |  |
+|  |  | > 非量产 Wafer 降级（NPW Downgrade） | 1. 用户可以自定义 Downgrade Product 的 Mapping 规则（可以用 Reassign Lot for Monitor 里面的 Downgrade Product Mapping 功能验证） 2. 支持将 Lot 从原 Product 降级到不同类型的 NPW Product，并可支持 Maintain Downgrade Mapping |  |  |
+|  |  | > Flow 查看 | 1. 按 Lot 查看 Flow 信息 |  |  |
+|  |  | > 组批加工与取消组批（Batch / Cancel Batch） | 1. 提供组 Batch 加工的能力，Batch 可以被取消 |  |  |
+|  |  | > 出货与取消出货（Ship / UnShip） | 1. 支持 Lot Ship / UnShip，该功能需要与 ERP 有接口 2. 送入库 / 取消入库时与 ERP 或者 WMS 接口集成 |  |  |
+|  |  | > 跳过工序（Skip / Future Skip） | 1. 支持 Lot Skip（跳过某 Step / Stage）和 Future Skip 2. 跳站可以选择前跳后跳，跳站需要权限管控 |  |  |
+|  |  | > 重新分配（Reassign） | 1. 支持 Lot 在现在的站点上进行 Product，Plan 的 Version Upgrade，或是 Change Product，Plan 2. 支持 Lot 在现在的 Flow 上，对未来某个站点设置 Plan Reassign，进行 Product，Plan 的 Version Upgrade，或是 Change Product，Plan |  |  |
+|  |  | > 其他查询（Other Query） | 1. 支持查询：Lot, Wafer, T7 Code Mapping 2. 支持查询：库存信息（Inventory Information） 3. 支持查询：Bank 信息（Bank Information） 4. 支持查询：下一站点 / 设备（Lot Next Step / EQP） 5. 支持查询：空载具（Free FOUP） 6. 支持查询：生产批次信息（Production Lot Information） 7. 支持查询：工程批次信息（Engineer Lot Information） 8. 支持查询：暖机批次信息（Season Lot Information） 9. 支持查询：控片批次信息（Monitor Lot Information）（Automonitor） 10. 支持查询：非产品片批次信息（NPW Lot Information） 11. 支持查询：完整的批次制造过程的历史记录（Full Lot Report） 12. 支持查询：Wafer 在特定设备中，有关 Chamber Location / Process 的历史信息（Wafer Chamber Tracking History） 13. 支持查询：Wafer 与 FOUP Slot Position 变动的历史记录（Wafer Slot History） 14. 支持查询：Wafer History：查询 Wafer 制造过程的历史记录 15. 所有基础资料的维护都需要保留操作历史记录，并支持按时间、对象等条件查询 |  |  |
+|  |  | > Die Lot 管理 | 批次管理功能，同时支持 Wafer Lot 和 Die Lot。Die Lot 管理需要支持 no wafer lot 操作。对于批次范围包括: 1. Lots - Dispatch 2. Lot History 3. Die Lot Bonus and Die Lot Scrap 4. Future Actions 5. Reassign, Reposition, Rework 6. Hold, Release 7. Split, Merge 7. Terminate, Unterminate 8. Reassign Die Lot 9. Reposition Die Lot 10. Move to Location and Continue 11. Lot Finish 12. Shipping |  |  |
+|  |  | > Double Run 预防 | 1. 当同一批次在相同工艺站点、使用相同 PPID 加工时需要提示，量测站点加量测不在此防控范围内 |  |  |
+|  |  | > 支持串联本厂与委外加工 | 1. 前半部分在其它 Fab run，后半部分在本厂 Run 2. 后半部分在其它 Fab run，前半部分在本厂 Run 3. 一部分在本厂 Run，然后外包给其它 Fab run，再又回到本厂 Run 4. 一部分在外包给其它 Fab run，再又回到本厂 Run |  |  |
+|  | 晶圆级管控（Wafer Level Control) | > Wafer 跟踪 | 1. WIP 的追踪必须细到 Wafer，Chamber，Tank，Chuck，Scanner，Head 等的等级 2. 加工过程中（In-Process）EAP 能够对每片 Wafer 来收集数据 3. 加工结束（Track-Out之前）可以一次性将数据收集项目（先以 Wafer 收集，再以 Lot 收集）收集完整后送回 MES 4. 提供 Lot / Wafer 跑货历史 |  |  |
+|  |  | > Wafer 位置 | 1. 系统能够管理 Wafer ID 和 T7 Code 之间的关系 2. 机台抽片顺序可以是随机的，但是系统需要详细记录 FOUP 内 Slot-Wafer 的对应关系，以及实际 Process Wafer 顺序 3. Wafer 在 Boat / Tank / Chuck 中的位置信息都要被记录 |  |  |
+|  |  | > Wafer 控制 | 1. 可以按 Lot 调整 Recipe / Recipe Parameter。跑货过程中（In-Process），系统可以和 R2R 整合来收送数据和 by Lot 调整的 Recipe 和 Recipe Parameter 2. 按 Wafer 记录，并 by Lot 卡控： 2.1 Rework 次数，检查是否到达 Rework 上限 2.2 NPW 的使用次数，检查是否到达上限 2.3 NPW 的 Recycle 次数，检查是否到达上限 3. 前量和后量必须是同一片 Wafer 4. 对于 Furnace 机台，Monitor Lot 需要记录在 Boat 中位置，需把量测值反馈到相同区域的 Production Lot 上 5. 对于 Litho 机台，可以集成 APC，达到每片 Wafer 要和前层 Litho 使用同样的 Chuck（28nm 以下） |  |  |
+|  | 配方管理（Recipe Management） | > Recipe Type | 1. 产线包含普通独立机台、多腔（Multi-Chamber）机台、炉管机台、CMP 研磨机台、Inline 涂胶曝光显影机台等，Recipe 需要支持这些机台类型的配方配置，Recipe 要支持串行，并行，混合型方式 2. Recipe 分为 Flow Recipe 和 PPID，Flow 的 Step 上定义的是 Flow Recipe，Run 货使用的是 PPID，Flow Recipe 和 PPID 之间有一定的对应关系 |  |  |
+|  |  | > Recipe Group | 1. Flow Recipe 支持组成 Reicpe Group |  |  |
+|  |  | > Recipe 名称规范 | 1. 用户可自己定义 Recipe 的命名规范 |  |  |
+|  |  | > Recipe 复用 | 1. Flow Recipe 的解析可以在产品、制程和站点等多个层面上进行 |  |  |
+|  |  | > Recipe 参数支持 | 1. 在 Lot 履历中要记录 Recipe 和 PPID |  |  |
+|  |  | > 光刻 Recipe | 1. 对于 Track 和 Scanner，必须能在同一个 Step 定义 Track Recipe 和 Scanner Recipe |  |  |
+|  |  | > 炉管 Recipe | 1. 支持炉管 Recipe 限腔限位 2. 炉管机台的 recipe 可以根据 Production wafer 的片数来设置对应的 PPID 与 Monitor Wafer 的数量 |  |  |
+|  |  | > CMP Recipe | 1. CMP 机台的 Recipe 可以根据 Pad No 跟 Pad Life Time 的区间来设置的 PPID |  |  |
+|  |  | > 多腔设备 Recipe | 1. 多腔设备（广义的腔体，也可以是 Tank，Head 等）选择 Recipe 的时候需要考虑腔的状态、腔的制程功能状态，当前 Idle的时间、当前 Idle 的腔的数量等，PPID 的 Chamber Flow 信息，提供 RTD 做到腔的均衡使用 （需要与RTD集成） 2. 提供多腔机台可以配置 3 种不同的 Type 的 Recipe 如下：Parallel，Serial， Combination of both |  |  |
+|  |  | > 维护界面 | 1. 需要有维护 Recipe 的功能用户界面，包括修改、复制、查询、有效性修改等 2. 支持 Recipe 的开关 |  |  |
+|  |  | > Recipe 执行 | "1. 在作业开始/准备工作时，MES 结合 EAP / RMS 将下载 Recipe 参数到设备用于 EAP 创建 CJ/PJ. （MES 联动 EAP 和 RMS 进行派工操作）" 2. 提供 R2R 系统集成能力 3. 多腔机台在派工时，需要考虑腔的状态来选择 PPID 4. 炉管机台会根据 Recipe 和 Production Wafer 的片数来选择对应的 PPID 5. CMP 机台在派工时，可以考虑 Pad Life Time 来选择对应的 PPID 6. 在 Recipe 界面里面可以设置 PPID 的 Recipe Parameter，可以下传到 EAP |  |  |
+|  |  | >（腔室条件）Chamber Condition | 1. 需要定义 recipe 的 type (Parallel, Serial, or Combination of both) ，特别是对于多腔设备 |  |  |
+|  |  | > 批量导入 | 1. 支持 Recipe 批量导入功能 |  |  |
+|  | 设备约束（Tool Constraint） | > 通用 Tool Constraint 设定 | 1. 应提供用户界面来查看和维护 Tool Constraint 信息（查询、添加、修改、删除、复制、查询历史记录） 2. 通过设定，可以限制设备只能运行某种条件的 Lot，提供条件如下： - Product - Process - Stage - Step - Recipe - Lot ID - Lot ID 尾码 - Eqp Capability - Lot Type - Recipe + Daily Wafer Count - Recipe + Total Wafer Count (from Start Date to Expired Date) - 等等支持自由配置 3. 规则需要支持 and 逻辑运算关系 4. 规则要素除 Lot ID 尾码外，支持多个值以及通配符 5. 每条 Constrain 有状态，Owner，生效时间，过期时间等信息 6. 可以有 trackable 跟 non-trackable 的设置，并可设置多笔 Constrain > > 正向列表 trackable：根据限制规则设置，允许 Lot 派工 > > 负向列表 non-trackable：根据限制规则设置，禁止 Lot 派工 7. 增加查询 Constraint Table 的功能，以供用户查询（依据 EQP / Recipe / Device / Reticle 查询） |  |  |
+|  |  | > 设备限定（Equipment / Chamber / Loadport） | 1. 支持在不同的层（Layer）限制使用同样的设备，例如： 1.1 Track 和 Scanner 的使用设置，可以设定当 Lot 使用过某 Track 和 Scanner 后，在其后的 Layer 中，要必须使用相同的设备（主要目的是不同站点要用相同的机台，可以使用 Feedforward 功能实现） 1.2 Monitor 前后量的设备，后量优先使用前量使用过的机台，只有当前量机台宕机时，才允许使用其他机台（使用 Control ID 里面来实现） 2. 支持对设备在限定的期间内，进行限制 Wafer 数量的生产，以降低生产风险： 1. 可按设备设置试生产（STR、MSTR）的时间段 2. 可按设备设置试生产时间段内，每天可以生产的 Wafer 数量，与期间内允许总生产的 Wafer 数量 3. 支持新设备 Move In 后，可以默认禁止使用，需要配置可生产的白名单，才可以按照配置使用 3. Lot 在 Reserve / Track In 的时候要检查 Tool Constraint，被 Constraint 的 Lot 不可以执行成功 4. 预约 PM 时受到限制，根据 PMS 信息或用户 UI 设定，某机台即将 PM，不可以再继续向该机台派工 5. Load port 被限制只能装载非 CU FOUP，则 CU FOUP 不能装载到 Load port |  |  |
+|  |  | > 设备绑定（Equipment / Chamber / Unit Coupling） | 1. 某个 Step 使用了某设备，则对应的 Step 也必须使用特定的 Equipment / Chamber，例如： 1.1 Monitor 前后量的设备，后量优先使用前量使用过的机台，只有当前量机台宕机时，才允许使用其他机台（使用 Control ID 里面来实现）（可以使用 Feedforward 功能实现） |  |  |
+|  | Q-Time（等待容许时间） | Q-Time 设置： | 1. Q-Time 包括 Max 和 Min 两种 2. 触发事件和结束事件可以自定义（如：Lot Track In / Out、Lot Process Start / End、Wafer Process Start / End 等） 3. 可以支持 Lot 的 Q-Time 也可以支持 Wafer 的 Q-Time 4. 支持多 Q-Time，支持嵌套和叠加的 Q-Time 区间 5. 支持跨越主 Flow 和 子 Flow 的 Q-Time（如：Rework、Alternative Flow 等），可以灵活选择在主 Flow 和 子 Flow 的开始站点和结束站点 6. Q-Time 需要支持跨 Flow，如 Run-card / Flow Change 等情况 7. Q-Time 可以包括多个时间级别（可自定义）来触发动作，这些动作包括 Speed Up，Hold lot，Add Comment 8. 支持多个 Q-Time 开始，可以映射到多个 Q-Time 结束，避免错过 Q-Time 开始或 Q-Time 结束 9. Q-Time 可以根据剩余 Q-Time 的比例定义多个 Q-Time 动作，动作包括发送电子邮件、Speed Up，Hold lot，也可以自定义添加 |  |  |
+|  |  | Q-Time 执行： | 1. 能够与 RTD 集成，需要提供 Remaining Q-Time（RQT）机制，以便派工系统使用 2. Split 子批要能自动继承母批的 Q-Time,  Merge 时子批的 Q-Time 要能自动并回母批（短的 Q-Time 进行合并） 3. 当 Lot 处在 Q-Time 结束站点时，如果发生 Cancel Track In，或 Reposition Rule 动作，Q-Time 需要继承回来 4. 当 A Branch 上有 Q-Time 结束站点，但 Lot 实际走了 B Branch，则要有 Q-Time 自动结束机制（同理,该规则适用于多个branch 的情况） 5. 支持 Cancel Q-Time 功能；需要通知 Lot Owner 6. 会以不同颜色展示不同的 Q-Time 状态；支持显示 Q-Time 和 Remain Q-Time 的功能 7. 支持在 SRC（Split Runcard）、RRC（Recovery Runcard）中定义 Q-Time 以及继承原路径上的 Q-Time 8. 在相同开始 / 结束点的 Q-Time 中，针对不同的时间区段定义相对应的 Action 9. 如果 Lot Over Q-Time，支持依照设定执行 Actions（如加工过程中 Over Q-Time，Track-Out 后自动 Hold Lot） 10. 对于 Over Q-Time Lot，支持系统通知 Lot Owner，并在出货前 Hold 住 Lot，防止 Over Q-Time Lot 被 Release 出货给客户，并 Trigger 异常 Lot 出货签核流程 |  |  |
+|  | 制程条件和污染管理（Process Condition and Contamination） | 机台的防污染管理 | 1. 基于当前的 Process Type 和 Process Step，污染被分为不同的类别。在 Process Flow 上，每个 Step 都可以设置接受进站的污染类别，以及出站后需要转换的污染类别，如： 1.1 Wafer 完成 Coating 后 Wafer 带光阻，要变更 FOUP 的污染类别，在 Etch Dry Clean 进行机台 A 进 B 出的 FOUP 转换 1.2 FOUP 会被分成 FE 和 BE，MES 拒绝将一个 FE FOUP 进入一个 BE 的 Step 上 2. 只允许 Lot 放入正确的相应 FOUP。它们之间的映射关系是可配置的。例如：FE Lot 放入 FE FOUP，BE 放入 BE FOUP 3. 污染转换逻辑可配置 4. 机台上要能够设置可接受的污染等级，在派工或允许 Lot 进入设备之前，需要进行 FOUP 的污染等级的检查，当发现不匹配时不允许在该设备上执行任务 5. 系统能够根据实验计划或 Process Plan(Flow) 的规划，针对产品的污染变更完成预先检查，符合规定的污染等级变更才允许其生效 6. Product+Flow+Step 可以设置发生的污染等级，当 Lot 从 Step Track Out 后，会把污染等级打标到 Lot 上面 7. 进行 Recovery Runcard 的 Lot 作业时，也要按照污染类别管理的规则进行加工 8. 在设置实验单（Split Runcard）时，要提供站点的污染类别设置，提交时要进行污染类别检查，符合污染类别转换规则才允许其生效 9. 机台的 Load Port 可以设定：Non-Cu 或 Cu 的 FOUP 是否可以 Load 到这个 Load Port 上面 |  |  |
+|  |  | FOUP 交换: | 1. 当 Lot 将进行另一种污染类型的制程时，必须进行 FOUP 交换；例如：一个 Lot 当前的站点是 FE 的污染类别，而下一站点是 Cu 的污染类别，则需要进行 FOUP Exchange 后才可以进行派工。 2. FOSB 也需要污染等级管理，类似于FOUP：FOSB 可以按照污染类别，在站点进行不同的污染管控 3. 对于 Sorter 机台的污染类别管理，只有设置在污染类别对应表里的 Foup，才可以将 Wafer 传到另一个 FOUP |  |  |
+|  | 生产限定管理（Inhibit） | Recipe 自动 Inhibit | 1. 可以设置某 Recipe 加工了一定数量的 Wafer 后应该被自动禁止使用（通过 PPID-Control 功能实现） 2. SPC 系统可以 Close/Hold PPID（MES OOC Action 需要配置 Close PPID） |  |  |
+|  | 工程数据采集（Engineering Data Collection，EDC） | 收集内容 | 1. 数据收集（Data Collection）包含产品的检测资料以及设备的检测参数 2. 数据收集（Data Collection）须包含加工资料（Lot ID，Process 机台 / Chamber， Process Recipe / PPID） 3. 支持 Recovery Runcard 跟 Split Runcard 的数据采集 4. 支持炉管机台 Monitor Lot 的数据采集，并可以赋值到 Production Lot |  |  |
+|  |  | 收集模式 | 1. 数据收集须提供手动及自动两种模式 2. 在非机台自动情况下，工程师可以通过界面人工输入采集数据/人工选片 |  |  |
+|  |  | 收集对象 | 1. 能支持 Lot，Eqp，Reticle，Carrier，Wafer，Site 等不同层次的信息 2. DC Item 的数据类型包括 Float / Integer / String 等 3. 特例处理：如果一个 Lot 中的晶圆数量少于数据收集所定义的采样数目，则允许收集数据的晶圆数低于定义的采样数量 |  |  |
+|  |  | 自定义公式 | 1. 支持处理 EAP 收集的原始数据。MES 提供基础计算公式，用户可自定义简单的计算公式，并可客制复杂的计算公式 |  |  |
+|  |  | 参考站点 | 1. 单站检测数据收集项目能对应多站加工站点，或多站检测数据能对应单站加工站点 |  |  |
+|  |  | 最大 Item 数量 | 1. 支持在单 Step 数据收集项目数要能支持超过上万 支持在单 Step 执行超过 10000 条 DC Item |  |  |
+|  |  | 增量数据项： | 1. 要能支持前后站（Delta）数据收集项目。后量量测的 Wafer 要与前量量测的 Wafer 一一对应 2. 需要收集并存储 Data 坐标信息 |  |  |
+|  |  | 规格检查 | 1. 支持配置以机台为主体的数据收集，并可以产生 SPC Chart 2. 有生成 trend（chart）功能，横坐标为时间，纵坐标为 Measurement Key Para and Process Key Para（THK，PA，Polish Time，Pressure）可 by machine，by recipe， by chamber，by product 显示 3. 数据收集项目要能支持 SPEC 检查 (SPEC Check)，(SPC Check) |  |  |
+|  |  | OOC/OOS | 1. OOC/OOS，支持执行原设定的 Actions，如：限制 Reticle、限制 EQP、限制 Chamber、限制相关批次（Batch/Lot）等 2. 当发生 OOC/OOS 时，系统能按用户设定自动触发 OCAP （或不触发OCAP）。支持按用户规则，支持自动触发 DRB（Diagnostic review board） 3. Inline OCAP 产生时，Lot 支持立即 Hold 或 Future Hold，当是 Future Hold 时，在 Future Hold 生效时间触发 OCAP。OCAP 结束前，Lot 不能 Move 到其它站点 4. Offline OOC 发生时，系统能按设定对机台进行 Hold，并触发 OCAP |  |  |
+|  |  | APC-R2R 集成 | 1. EDC 数据能送到 APC-R2R 系统 |  |  |
+|  |  | 历史查询 | 1. 数据收集要有历史数据及查询功能 |  |  |
+|  |  | EDC 设定维护 | 1. EDC Plan，Chart 等 DC 信息支持单个或批量增、删、改 2. 支持批量 Load 功能（如Excel），支持按 Excel 批量导出功能 3. DC Spec Item 绑定到 EDC Plan，并可附加到 Product+Plan+Step 的具体量测点 |  |  |
+|  | 批次抽样（Lot Sampling） | 抽样维护 | 1. 需要提供 GUI 查看和维护 Sampling 信息（Query, Add, Modify, Delete, History Query） 2. Sampling 支持 Production Wafer Count 来设置不同 Sampling 的条件 |  |  |
+|  |  | 抽样基本规则 | 1. 根据 Product 2. 根据 Plan 3. 根据 Step 4. 根据 Stage ID 5. 根据 Eqp Capability 6. 根据 Lot ID 的母批最后一码 7. 根据指定 Lot ID 要 Scan |  |  |
+|  |  | YE 规则 | 1. Product ID (by WIP Count) 2. 根据指定 Skip Lot ID 3. 根据指定 Scan Lot ID 4. 根据 Lot Type 5. 根据 Remaining Q-Time 6. 根据 Key Tool，在设置的时间内这个生产设备的 Lot 没有被 Scan，就要强制选 Lot Scan 7. 根据 Long Time no WIP（区间内没有达到设置的 Wafer Count），就要强制选 Lot Scan 8. 设置子批要不要 Skip 9. 根据 Wafer Count 小于设置值，进行 Skip 10. 根据 Lot Priority，进行 Skip 11. 根据两码 Lot 尾号，进行 Scan 12. 可以在某个 Step（一次或多次）上设定（增加或删除）多个的 Scan Lot 或 Skip Lot 13. 可以针对 Lot 在多个 Steps 上设定 Scan Lot 或 Skip Lot 14. 支持用户设置新的挑片规则 15. 支持用户设置按照 Lot 尾号的快速挑片规则 |  |  |
+|  |  | Measurement Step 站点设置 Sampling 规则 (Step Sampling) | 1. 根据 Lot Type 并可以附加 ratio(1/N) 2. 支持 LOG SHEET 中显示 Lot ID / 进出时间 / Recipe / Wafer 数量 / 机台 RF Time / 机台累计 Run Wafer 数 / Load Port 等 |  |  |
+|  |  | Key Tool Sampling 规则： | 1. 提供设置 Key Tool 产生 sampling group 的条件，支持 >> Tool ID >> Product / Recipe / Technology（任选一） >> Interval / Lot Count / Wafer Count（任一达到挑选 Key Lot） 2. 提供配置 Key Tool step 对应到 YE Step 3. 挑选的 Key Lot 必须进入对应的 YE Step 进行量测 |  |  |
+|  | 硅片量测取样（Wafer Selection Rule） | 基本考量 | 1. 在量测站点需要选择一片或者多片 Wafer 进行量测 2. 系统根据 EQP Capability / EQP ID，Work Area，Stage，Recipe，Product ID or Tech 等选择适合的 Wafer Selection Rule |  |  |
+|  |  | 可设定的 Wafer Selection Rule 包括 | 1. 可忽略特殊 Slot 2. 选择跟前量一致的 Wafer 3. 选择 Wafer ID 或 Slot ID 或 Wafer Position 4. 先上再下：从 Target Slot 向 Slot01 的方向找寻 4.1 若存在 Wafer，则选取第一片搜索到的 Wafer 4.2 若不存在 Wafer，则从 Target Slot 的位置到 Slot25 的方向搜索第一片存在的 Wafer 5. 先下再上：从 Target Slot 向 Slot25 的方向找寻 5.1 若存在 Wafer，则选取第一片搜索到的 Wafer 5.2 若不存在 Wafer，则从 Target Slot 的位置到 Slot01 的方向搜索第一片存在的 Wafer 6. 支持以 Start Slot 和 End Slot 作为范围，从 Target Slot 开始，以最近的 n+1 找寻，找不到就找 n-1，再 n+2，n-2 等等继续找，直到找到 Wafer 7. 支持以 Start Slot 和 End Slot 作为范围，从 Target Slot 开始，以最近的 n-1 找寻，找不到就找 n+1，再 n-2，n+2 等等继续找，直到找到 Wafer 8. 提供灵活方便的 GUI 给用户查看与维护 Wafer Selection Rule（包括：Query，Add，Modify，View，Copy）和每个 Lot 的选片结果以及采用了何种选片规则 9. 提供设置规则，挑选需要的量测片数 10. 支持根据机台（EQP Group）/ Product / Tech / Recipe 来设置适合的 Wafer Selection Rule |  |  |
+|  | Full Auto Support (自动化支持) | 支持不同级别的自动化生产 | 1. Auto 3：自动派工，自动搬送，设备自动化 with EAP，MCS，Full Auto 2. Auto 2：手动派工，自动搬送，设备自动化 with EAP，MCS 3. Auto 1：手动派工，手动搬送，设备自动化 with EAP 4. Manual：手动派工，手动搬送，手动操作设备 |  |  |
+|  |  | 模式切换 | 1. 可对 Load Port，设备进行自动化模式切换 |  |  |
+|  |  | 设备模式 | 1. 支持设备三种自动化模式：脱机(Offline)，单边上线(Online-Local)，双边上线(Online-Remote) |  |  |
+|  |  | 搬送模式 | 1. 要能支持设备 Port 自动或手动搬运 FOUP/FOSB 的模式 |  |  |
+|  |  | 派工模式 | 1. 要能支持自动或手动派货的模式 |  |  |
+|  |  | 全自动化 | 1. 可支持车间全设备全自动化 |  |  |
+|  |  | 异常处理 | 1. 发生异常时，要有必要的 Log，报警要被发送到报警系统系统，并且系统有能力自动处理异常 2. FOUP 未到达目的地，发生任何异常，系统要能自动监控并处理该异常，使得搬运正常 3. FOUP 到达目的地，但 TrackIn 之前发生任何异常，系统能自动 Cancel Reserve，且自动将 FOUP 搬至最佳的地点 4. FOUP Location：支持 Stocker，OHB，NTB，Tools，Exchanger 等之间的全自动化 |  |  |
+|  |  | 维护界面 | 1. 需要提供图形界面，以查看和维护全自动相关信息 2. 图形界面中，支持按 Load Port 更改 Auto Mode：Auto1，Auto2，Auto3 3. 图形界面中，支持手动 Reserve Lot (Single/Batch)==JOB Prepare 4. 图形界面中，支持手动 Cancel Reserve 信息 5. 图形界面中，支持用户自定义搬运目的地（OHB / Stocker / Equipment 等） |  |  |
+|  |  | 高效运作 | 1. Fully Auto 要做到最佳搬运方案，设备到设备是被要求且首推的 2. 支持 Swap，即 Unload FOUP 时，就触发 What Next 派送下一个 FOUP 到 Load Port 3. 可预约设备的 Port，当设备 Port 预约满后，支持 Queue 预约机制，将 WIP 预约到附近的 NTB 或 OHB 以避免无效搬运 |  |  |
+|  |  | 搭配 Full Auto 可以支持以下场景： | Production Full Automation - Auto Create Source Lot (MCS Integration) - Auto Create Production Lot (ERP Integration) - Wafer Start - Pre-Wafer Start (FOSB -> FOUP) - Fixed Buffer - Internal Buffer - NTB (Near Tool Buffer) - Sorter - N2 Purge - Pilot - Super Hot Lot NPW Full Auto - Auto Planned Eqp Monitor - Auto Ad-hoc Eqp Monitor - Auto Season |  |  |
+|  |  | 物料验证 | 1. MES 需要保证 Lot 是在正确的设备上，合理的放置在 Load Port 上，Carrier ID 和 Wafer Mapping要验证；如果由于以上任何原因导致 Lot 不能在这个设备上进行处理，异常处理模式将被激活，它也将通过 Alarm 的界面进行通知 |  |  |
+|  |  | 位置追踪 | 1. Lot & Wafer 的位置追踪，MES 将更新 Lot / Wafer 所在的 Carrier 的位置。对所给的 Carrier，如果 Slot 有变化，MES 中的信息也将更新。也可追踪在生产设备之间移动的个别晶圆 |  |  |
+|  |  | Wafer Slot Mapping | 1. Sorter 上的所有 Lot，在 Lot 作业开始时，都会进行内容映射（例如：晶圆 ID 与 Slot ID 映射）。这个信息将通过 Sorter EAP 发送给 MES 并存储在 MES 中 |  |  |
+|  | 自动机台点检（Auto Monitor） | 界面维护 | 1. 提供界面定义周期性的 Auto Monitor 任务 2. 允许通过界面维护这些 Auto Monitor 任务 3. 时间越接近，任务的优先级就越高；Monitor 对象包括主设备和子设备（Chamber） |  |  |
+|  |  | Monitor 类型 | 1. 支持一个 Monitor 任务包含一个或多个量测项目 2. 支持一个 Monitor 任务包含一个或多个 Process Tool 3. 支持一个量测项目对应多台 Process 设备，支持多个量测项目对应一台 Process 设备 4. 一个或多个量测项目对应一台设备或者一个腔体（广义的腔体，也可以是 Tank，Head 等）或者腔体中的一个制程功能，Monitor 结果决定了设备、腔体以及腔体中的制程功能（Recipe）是否可以使用 5. 对于多腔设备，支持同时 Monitor 多 Chamber 6. 系统需支持 User 把 Monitor 结果赋值给指定 Step 的机台 |  |  |
+|  |  | 特例（Auto Monitor Exceptions） | 1. 当 Monitor 前量测失败，系统支持重新创建新的 Monitor Lot 2. Auto Monitor 任务可以手动取消/延后/结束 3. 支持为监控（Monitor）设置一个容许时间窗口 3.1 若本次监控在容许时间内完成，则下次监控的触发时间仍按原定周期执行 3.2 若超出容许时间，则下次监控的触发时间调整为 本次监控结束时间 + 周期 |  |  |
+|  |  | Auto Monitor Flow | 1. 用户可以自己定义 Auto Monitor Flow 2. Auto Monitor flow 由前量、Process、量测站点、后量组成 3. 不同设备的 Auto Monitor，其 Recipe 和 EDC Plan 可以在 Monitor 的设置中分别定义 4. Auto Monitor 是以 Process 设备为对象的 Offline 收值 5. 支持设置 Monitor，支持派 Monitor 进入前量站点 |  |  |
+|  |  | Monitor 周期卡控 | 1. 支持对 Auto Monitor 及其它 Monitor 项目设置运行周期 2. 当日常 Monitor 的失败时（如 Over time、点检超出要求），系统可以支持自动 Inhibit 设备上的 Recipe 3. 当日常 Monitor 的失败时（如 Over time、点检超出要求），系统可以支持自动 Constraint 设备 4. 当 Monitor Over time 时，设备禁止 Run 对应设置的 Production Reicpe |  |  |
+|  |  | Monitor Lot 准备 | 1. 手工生成 2. 支持集成 Full Auto 自动生成（AUTO3） |  |  |
+|  | 暖机管控（Season Control） | Season 一般规则 | 1. Season 控制对象包括主设备和子设备，MES 在全自动、半自动及手动模式下都需要支持 Season 控制 2. Chamber 的 Season 要以 Chamber 实际 Idle 的时间为准，而非以主设备时间为准 3. 能够定义 Season Route，Season Lot，Season Recipe 4. 系统应该支持自动和手动方法按用户配置的信息做 Season Lot 的 Wafer Split / Merge 4. Season Lot 管理包括状态模型，生命周期控制，属性维护，Downgrade，Recycle，Reclaim 等，Season Lot 降级后批次编号需要重新生成 |  |  |
+|  |  | 触发 Season 条件 | 1. 按 Chamber Idle 时间 2. 按 Recipe Group Idle 时间 4. 按 Wafer 数量（持续/累计） 5. 按 PM 后可以执行 PM Season，PM Season Group（按顺序处理 sub PM Season） |  |  |
+|  |  | Season Lot 运行 | 1. Season Lot 和 Production Lot 作为一个组被预约，如果只有一个 Port，应该先发送 Season Lot，当有第二个 Port Idle，立即搬送 Production Lot 2. 支持 Season Lot 可以单独先进机台，Production Lot 后续到达后再进机台 3. 支持 Season Lot 与 Production Lot 要同时到机台的 Load Port 后，先后连续进机台 4. 同时有两个 Chamber 进行 Season 时，可以把两个 Season 合并在一个 Season Lot 进行 Season，同时 Season 两个 Chamber 5. Recipe Change Season：支持 Season Lot 可以是独立 NPW 模式（只有 Season 使用的 NPW Lot 单独进设备），也可以是 NPW 和 PW 混合模式，混合模式时 NPW 与 PW 要同时进设备 6. 支持以一个 Season 来共同执行 Recipe Idle Season 和 Recipe Change Season 7. 支持一个 FOUP 中多个 Season Lot 8. 需要提供 GUI 给用户维护 Season 信息，如：Query（机台、Season内容、Season 剩余时长，剩余加工数量等），Add，Modify，View，History，Copy 等 9. 当 Season 出现某些异常，用户可以手动完成 Season 或重置 Season 状态及信息，以使得重新做 Season 10. CMP zero-idle：Season Lot 和 Production Lot 作为一个组被预约，两个都到机台才会开始生产 |  |  |
+|  | 挡控片管理（NPW Management） | 管理内容 | NPW 管理包括状态模型，生命周期控制，属性维护，Downgrade，Recycle Reclaim（回收，Recycle到一定次数去做清洗等动作或降级，再回收利用）等 |  |  |
+|  |  | 按片管理 | NPW 以片为单位来记录使用，而不是以 Lot 为单位 |  |  |
+|  |  | 等级管理 | 1. 用户可自定义 Downgrade 的规则（限制 Downgrade 的 Wafer 数量，可以用 Downgrade Wafer Quantity Limit 功能） 2. 系统需要提供一种 Downgrade 的方法 |  |  |
+|  |  | NPW 加工流程可配置（包括添加，删除和修改） | 1. 循环工艺流程 Recycle Process Flow 2. 准备/预加工工艺流程 Preparation / Pre-Process Process Flow 3. InUse Flow 4. Monitor Source Process Flow |  |  |
+|  |  | 库存管理 | 1. 对于不同类型 NPW 的使用（比如：Season / Dummy / Auto Monitor Wafers等），可设置库存水位，系统提供统一查询的界面 2. NPW 使用完后能够进行 Merge / 自动 Merge 3. 要在使用前支持搭配 Full auto 系统来自动的准备好这些 NPW， 并做好必要的准备工作（AUTO3，比如做好前量） 4. 对于不同类型NPW的使用（比如：season/dummy/furnace Monitor/Auto Monitor wafers等），系统应提供一种自动管理库存的机制 |  |  |
+|  |  | 回收利用 | 1. NPW Wafer 使用完毕后，要提供用户界面以便用户 by Wafer 选择处理方式（Reuse，Recycle，Downgrade） 2. NPW Wafer Recycle 完毕后，要提供用户界面以便用户 by Wafer 选择处理方式（Reuse，Downgrade） |  |  |
+|  |  | 污染控制 | 1. Monitor 跟 Season 要控制污染等级 |  |  |
+|  |  | 不同用途 NPW 管理 | 1. NPW 支持 Equipment Monitor / Process Monitor / Furnace monitor / Fill Dummy / Site Dummy / Season 系统支持上述 NPW 的 Wafer Using Count 以及 Recycle 等的管控 |  |  |
+|  |  | NPW 跟踪 | 1. 用户可以定义设备内外 NPW 片的使用类型、最大使用时间或最大使用次数等 |  |  |
+|  |  | 其他功能： | 1. 不同于 Production Wafer，NPW Wafer 可以在 Process 制程段被重复使用，直到达到使用次数上限（Usage Count Limit）后不能再被使用 2. 达到使用次数上限后，通过 Recycle 制程段，NPW Wafer 的使用次数被清零（可以继续被重复使用），直到达到循环次数上限（Recycle Count Limit）后不能再被循环 3. 支持 Wafer 片数，炉管加载顺序定义等（如：Slot 1 对应炉管 Top，Slot 2 对应 Center，Slot 3 对应 Bottom ) 4. 允许 by Lot 管理 NPW 的 PPID / Recipe 5. 允许将 Furnace Monitor Lot 的量测数据 Attach 到 Production Lot 6. 支持 Dummy Lot 在 Furnace 机台的进出控制 7. 在 Lot Information 界面显示： 7.1 Lot Usage Count（Lot 内所有 Wafer 的使用次数最大值）/ Lot Usage Count Limit 7.2 Lot Recycle Count（Lot 内所有 Wafer 的循环次数最大值）/ Lot Recycle Count Limit 8. 在 Wafer Information 界面显示： 8.1 Wafer Usage Count 8.2 Wafer Recycle Count" 9. Monitor Lot 所收集的数据能反映整个 Batch 收集的数据状况（炉管、Wet） 10. 支持对于 Equipment 超过 Interval Time 时（over due），必须进行 NPW Monitor 11. 因设备 Loading 或一些紧急情况，需要人工判断和修改 Monitor 的 Interval Time，如果 Mo Lot 测量数据通过，则自动Reset Interval Time 12. 支持 Reclaim 的 Wafer 用作 NPW Lot 或被 Scrap "13. Furnace/Etch/IMP NPW： >> Dummy Lot 管理，在 Furnace，Etch，IMP 机台支持填充 Dummy 设定 >> 能够处理内置 Dummy 和外置 Dummy wafer 的更换 >> 提供界面进行 Dummy Lot 管理 |  |  |
+|  | 流程卡（RunCard） | RunCard 设定 | RunCard 中可以指定使用某台特定的设备 |  |  |
+|  |  | RunCard Type | 包括 Split RunCard 和 Recover RunCard |  |  |
+|  |  | Split RunCard 分类 | 1. Normal RunCard 2. 支持 by Lot 进行 Rework Split RunCard（SRC）, 支持跳站 Reposition Step 3. 用户可以 by Lot 在未来的站点开立 Split RunCard 4. 针对同一个 Lot 在某站点，可以支持不同的 Wafer 做不同的实验 5. 针对同一个 Lot 在多个站点，可以支持不同的 Wafer 做不同的实验 6. Split RunCard 要支持 Copy 功能 7. 按 Module 与 Module 不同的业务可定制不同 Split Run Card 业务 8. 可以设定实验（SRC）使用的 Process Flow，EQP Capability，EQP ID，Chamber ID，Process Location，EDC SPEC，Recipe，Reticle，Probe Card，可以设定 Split / Merge 的站点 9. 实验设定提交的时候（开 SRC），过程要检查实验的合规性（如 Process Location，Recipe，EQP 等） |  |  |
+|  |  | Recovery RunCard 分类 | 1. 可以由 MFG 或 PE 手动触发 Recovery RunCard 2. Recovery RunCard 设置完成下线后，可以进行 Split，分别处理已经加工过的 Lot，尚未加工的 Lot 和正在加工的 Lot 3. 提供加工过程中异常发生 Running Hold，支持由特定角色手动开立 Recovery RunCard（如制造部） 4. 设备部可以 Review 并确认制造部开立的 Recovery RunCard 5. 工艺部可以 Review 并确认设备部开立的 Recovery RunCard 6. 工艺部可以按照 Wafer 不同的状态定制不同的 Rework flow 7. 支持将正在加工的 Wafer，可以按照每一片 Wafer 指定 Rework 的 Step 跟工艺规格 8. 支持将未加工的 Wafer 分出子批后，取消 Track In 9. 支持将已加工的 Wafer 分出子批后，执行 Track Out 10. 支持 EAP 原因的批次作业异常，批次自动扣留同时系统触发 RRC，RRC 处理与机台释放绑定，支持 RRC 处理完成后，设备才能确认机台状态正常后切给 MFG（Auto3） |  |  |
+|  |  | 嵌套流程卡（Nested RunCard） | 1. 当 WIP 已经在 Split RunCard Flow 里，用户可以针对 WIP issue 建立 Recovery RunCard |  |  |
+|  |  | 计划流程卡（Future RunCard） | 1. 用户可以针对 Lot issue 建立 Future Split Run Card |  |  |
+|  |  | 复数流程卡（Multiple RunCard） | 1. 用户可以针对 Lot issue 建立 Multiple Split Run Card |  |  |
+|  |  | 签核流程 | 1. 可与签核系统集成，定义签核流程 |  |  |
+|  |  | 全自动支持 | 1. Recovery RunCard 都要支持全自动生产（机台开启 Trigger auto RRC，Lot 被 Running Hold 时，系统会自动开 RRC） |  |  |
+|  |  | EDC 数据 | 1. Split RunCard 可以由用户自行配置 EDC SPEC（片数，片号） 2. 支持设定 Split RunCard 的 EDC Data 进入 SPC Chart 是否要进行标记（Flag Data） 3. 支持 SRC EDC Data 在 MES Lot History 可查阅 |  |  |
+|  |  | SRC Q-Time 设置 | 1. Split RunCard 要能支持 Q-Time 设置（如添加时间增量等） |  |  |
+|  |  | 实验执行： | 1. 可以针对已经有 Split RunCard 的 Lot，在设置站点的触发 Split 后，子批按照 Split RunCard 的 Flow 和 SPEC 来进行实验子批的 WIP 作业 2. 子批实验做完后，可以跟在设置站点等待的母批进行 Merge |  |  |
+|  |  | 其他 RunCard 设置： | RunCard 的设定内容应支持设置工序、机台、子机台、片号、配方、采集参数、采集规则、光刻板、探针卡、Q-Time、曝光所需信息等，这些信息可以通过快速添加其他正常的站点做原始模版之后再进行变更调整，也可直接添加情景化路径模版（预先定义好的 Rework Flow）作为原始模版之后再进行变更调整 RunCard 可以设定不合批或预计合批站点 RunCard 支持 Lot 手动 / 半自动模式操作 防呆功能：RunCard 里 Recipe 与 Flow 不匹配时，标记红色字体提醒用户，并且进出站异常或跳过 Main Process，在提交界面显示 Warning，可点击 View Detail 展示内容 Split RunCard 分类：支持量测加扫，实验测试，YE 检测，Dummy 跳站等分类，工程师根据 RunCard 不同应用，执行对应的子分类页面 支持 SRC 跳站，需污染等级卡控 SRC 支持物理分批和逻辑分批的区分 SRC 支持 Dummy 站点 |  |  |
+|  | 先行批次跑货（Pi-Run） | MES 需要支持两大类 Pi-Lot Run：APC Pi-Lot(Auto Trigger)，On Demand Pi-Lot (Manual Trigger) | 1. 支持 Adhoc Pi-Run 2. 支持 Normal Pi-Run 3. 支持自定义 Pi-Run 条件 |  |  |
+|  |  | APC Pi-Lot 处理逻辑 | 1. 需要 Pi-Lot 的条件设在 APC(R2R)，包含 Litho，CMP，Etch 2. 当条件符合时，APC(R2R)会将对应数据（机台，Recipe 等）送到 RTD 3. 当对应机台的 What Next 送到 RTD 时，RTD 会决定依 APC 给的数据触发 Pi-Lot 功能 4. 当触发 Pi-Lot 功能时，可以手动/自动需要挑选 Pi-Lot 5. 启动 Pi-Lot 功能后，通知 APC 对应 Run 货数据 6. APC 依照 MES 的 Run 货资料来决定 Pi-Lot 的成功与否，并将结果通知 RTD 来作下一 Cycle 的判断 7. 当 Pi-Lot 失败后，可以启动 3 种 exception handle：Remeasurement，Re-Pilot，Rework 8. 系统允许 Manual Close Pi-Lot |  |  |
+|  |  | On Demand Pi-Lot 处理逻辑 | 1. 人工触发 Pi-Lot 功能 2. 当触发 Pi-Lot 功能时，可以手动/自动需要挑选 Pi-Lot 3. 启动 Pi-Lot 功能后，通知 APC 对应 Run 货数据 4. 当 Pi-Lot 失败后，可以启动 3 种 exception handle：Remeasurement，Re-Pilot，Rework 5. 系统允许 Manual Close Pi-Lot |  |  |
+|  | 超规处理计划（OCAP） | OCAP 设置 | 1. 提供图形化界面可执行下列 MES 的 action - 重新量测：re-measurement - 加扫加量：add measurement（加测支持选片） - 更改配方：change Recipe - 更改测试机台：change measurement EQP - 更改测试站点：change measurement Step - 更改数采计划：change EDC Plan - 更改数采规格：change EDC Spec - 更改采样点数：change number of site - Hold Lot, Release Hold Lot, Track-Out, Release and Track-Out 2. 支持预定义 OCAP 触发条件 3. 集成 SPC 显示对应的 Chart，OCAP 需要提供 SPC Link，方便查看 Chart 信息 4. 支持将产生的 OCAP 与外部签核系统集成，并将批次信息（包含但不限于 Lot ID, Stage, Step, OCAP Reason 等）传递至外部签核系统，OCAP 流程中的指定步骤（如判断重测是否 OOS / OOC）需支持传递至签核系统 5. 需要支持可自定义 OCAP 流程；用户可以自定义 OCAP 流程和 Action；不同的 Step，可能会有不同的 Action，Action 可配置 6. OCAP 完成处理后自动生成 OCAP 单据 |  |  |
+|  |  | OCAP 触发 | 1. 支持与外部 SPC 系统接口集成 2. OCAP 触发：支持通过 EDC 收集数据后进入 SPC / FDC Chart，由 OOS / OOC 触发 OCAP，触发后进入 OCAP 流程 3. 一次 EDC 触发一个 OCAP，一张 Chart 对应一个 OCAP，由用户设置 4. 提供 Inline，Offline 与 Wafer Test 三种 OCAP |  |  |
+|  |  | OCAP 执行 | 1. 支持图形化、流程化来执行 OCAP，用户可以在图行化的界面上，选取要执行的 Path 跟 Node，也可以显示已经执行过的 Node 2. 支持加量（Add-Measurement）时更换 Recipe 3. 支持添加相关 Action 的 Comment 提醒用户去做 Special Handle（如 Split and Rework） 4. 提供 OCAP 执行的历史记录 5. OCAP 发生后系统中应能显示该 OCAP 触发的具体原因，当前状态，以及处理的历史信息 6. 特殊关闭：特殊情况下，可以特殊关闭 OCAP 7. 如果用户选择重量或加量时，系统自动将 Lot 置为合适的状态（OCAP 步骤对应 Lot 状态变化） |  |  |
+|  |  | OCAP 结束时，MES 支持的动作 | 1. Lot Hold to Lot Owner 2. Lot Release Only 3. Lot Release & Job-Out 4. EQP Down 5. EQP Release |  |  |
+|  |  | RAC 格式 | OCAP 处理需要按照预定义 Reason/Action/Disposition 原则书写，系统可给出规定格式栏位 |  |  |
+|  |  | 载具管理（Carrier Management） | 1. 提供 GUI 用于维护载具（FOSB / FOUP / Cassette / Reticle Pod 等）信息，操作如：Query、Add、Modify、View、History 等 2. 载具命名规则由客户定制，名称由系统自动产生 3. 支持 FOSB / FOUP / Cassette / Reticle Pod 等类别的设定及管控，状态更改 4. 支持 FOSB / FOUP 位置的管理，需要集成 MCS 5. 支持 FOUP / FOSB 污染管控 6. 支持 FOUP / FOSB / Reticle Pod 清洗，检测等的状态管控 7. 支持 FOUP 可以与特定的作业绑定，且支持自动化 8. 支持 FOSB / FOUP 操作，搬运及其所使用的历史需要记录，可以高效查询 9. 支持指定的载具 Type 只能装指定 Lot Type 10. 载具与 Lot Type 的关系由用户通过 GUI 自行维护 11. 进行和载具相关动作之前需要验证其有效性（是否有使用限制，清洗时间），如：Track-In，Transfer，Split / Merge，Sorting…… "12. 支持对载具的操作。 12.1 基本操作，如：Create Carrier / Assign Carrier / Exchange Carrier / Remove Carrier 12.2 影响状态的操作，如：Hold Carrier / Release Carrier / Start Clean / End Clean / Scarp Carrier 12.3 其他相关操作：Transfer Lot / Wafer Sort 等 Sorter Actions" 13. 载具清洗作业前检查是否有 Wafer |  |  |
+|  | 光罩管理（Reticle Management） | 维护界面 | 1. 提供界面维护 Reticle 信息，如：Query, Add, Modify, View, History 等 2. Reticle 命名方式可由工程师定义，光罩按 Reticle Type / Grade 分级管理 3. 根据业务需要定义 Reticle 的属性，如：Type，Category，EQP Type，Grade 等 |  |  |
+|  |  | Reticle 状态管理 | 1. 支持追踪 Reticle 的状况变化，并切换 Reticle Status。如：Normal, Hold, Wait_QC, Wait_Inspection, In_Inspection, In_Stocker, Wait_Scan, In_Use, Damage, ReturnToCustomer, Scrap, In_Scan, Clean, Terminate, In_Bank 等 |  |  |
+|  |  | Hold / Release | 1. Reticle 可以进行 Hold 和 Release 的动作 |  |  |
+|  |  | Reticle 位置 | 1. Reticle 和 Reticle Pod 位置管理（需要提供与 E-Rack、Stocker、EQP 集成） 2. 支持手动将 Reticle Pod 位置移入 Mask Room 或 Load / Unload to / from EQP，使物理位置与系统位置保持一致 |  |  |
+|  |  | Reticle 交换 | 1. 可用 Kit / UnKit 来交换光罩盒内容（Reticle），Kit 的时候需要进行 Inspection |  |  |
+|  |  | Reticle 处理流程 | 1. Reticle 清洗，检测等的状态管控 "2. 用户可以设置 IRIS， PD 等参数的规格，每个检测内容可以包括一个或多个 Spec，每个 Reticle 可以关联一个检测内容, Reticle 检测时需要检测检测内容里的每个 Spec，并采取相应动作 每个 Reticle 可以关联一个检测内容，每个检测内容可以包括一个或多个 Spec，用户可以设置每个 Spec 中的 IRIS、PD 等参数的规格。检测 Reticle 时，需要检测其关联的检测内容里的每个 Spec，并根据检测结果采取相应动作。" 3. 周期管控 Reticle 清洗，检测等的功能 |  |  |
+|  |  | 使用控制 | 1. Process 时，需要检查 Reticle 的相关数据 Constraint，如：状态，WaferCount，Inspection 时间…等 2. Process 时，MES 要能自动更新 Reticle 状态，Location，WaferCount… 3. 支持 Reticle Inspection /starlight 执行 4. 支持通过所选 Reticle 来决定需要使用的 Recipe |  |  |
+|  |  | Reticle 选用 | 1. 在制程设置的时候，支持在多个 Reticle 里面选择一个 Reticle，或是支持同时使用 2 个 Reticle |  |  |
+|  |  | Reticle 使用历史 | 1. Reticle 操作及其所使用需要记录历史，历史可查询 |  |  |
+|  | Reticle stocker | 检测设备整合 | 1. Reticle 检测设备整合 EAP 和 MES，MES 要能按检测设备查询到 Reticle 处理历史 |  |  |
+|  | 收集检测数据 | 基本功能 | 1. 查看操作纪录（Reticle And ReticlePod History） 2. 创建光罩（Create Reticle） "3. 需有 Reticle Life Time 字段（属性）设定（Energy）/ 需有光罩上之 field 设定字段（属性）： - 工程单位于 Recipe Setup 时，系统提供 Reticle ID, Field NO. , Recipe Name , Energy , Step 字段以供设定管控，每进行一次制程则依据设定之 Energy 进行累加，如达到光罩 LifeTime 上限，则该光罩需自动变更为无法使用之状态，须待检验后判断是否可继续使用或需出厂修复。" 4. 确认光罩质量（Confirm Mask Quality） 5. 请求检查（Request Inspection） 6. 开始检查（Inspection In） 7. 结束检查（Inspection Out） 8. 清洗（Clean） 9. 完成（Scan Complete） 10. 设置晶圆计数（Wafer Count） 11. 装载光罩（Load Reticle） 12. 卸载光罩（Unload Reticle） 13. 扣留光罩（Hold Reticle 14. 查看扣留原因（Check Hold Reason） 15. 释放光罩（Release Reticle） 16. 修改属性（Modify Attribute） 17. 更改位置（Change Location） 18. 设置光罩清洗时间（Mask Clean） |  |  |
+|  | 光阻管理（Photo Resist Management） | 光阻建模 | 1. 提供创建光阻料号 2. 提供创建光阻存放柜和放置的位置 3. 提供建立光阻料号和光阻位置的关联 4. 提供建立光阻料号和机台、类型、管道的关联 5. 提供按照光阻料号设置解冻时间、待上机安装时间、并记录光阻瓶的有效时间 |  |  |
+|  |  | 光阻接收（Receive） | 1. 依据的条形码格式，通过扫描光阻瓶身上的条形码，可以在系统生成光阻瓶的编码（该瓶光阻唯一标识） 2. 提供设置光阻批次（Batch）认证机台功能 3. 提供设置光阻批次（Batch）未认证前，可以指定可使用的机台 4. 机台更换新光阻批次（Batch）提醒工艺工程师，是否需要 Pirun（Batch Confirm） |  |  |
+|  |  | 光阻退冰（Defrost） | 1. 光阻建账后选择开始退冰，系统自动开始退冰计时 2. 退冰时间达到后，自动更改光阻 Status |  |  |
+|  |  | 光阻更换（PR Change） | 1. 光阻更换/安装时，系统检查用于更换的新光阻是否符合要求，若不符合要求，则不可更换/安装 2. 光阻更换完成后，自动更改新旧两瓶光阻 Status 3. 提供光阻更换预留光阻功能，系统按照 FIFO 方式指定最优先的光阻 |  |  |
+|  |  | 光阻时效管理（PR Prescription Management） | 1. 光阻超过有效期后自动 Hold 光阻 2. 光阻退冰完成后，超过设定时间后，自动 Hold 光阻 |  |  |
+|  |  | 设备维护（EQP Maintain） | 1. 用于维护不同机台所需的光阻类型 2. 系统可设定各 Chamber or Tank 可使用特定的化学品料号，并由工程人员于 Refill 后输入料号（Barcode），系统比对设定与输入之信息吻合才可生产，反之则无法动作并发报异常讯息 |  |  |
+|  |  | 历史查询（History Query） | 1. 光阻在系统内状态的改变，均需产生 History 2. User 在系统内的操作的作业，均需产生 History 3. 支持 by Tool 查询 Type 跟 Pipe ID 上的光阻液 ID 4. 光阻安装和使用的历史信息，存储柜储位的历史信息均可查询 |  |  |
+|  |  | 光阻相关通知（Notice） | 1. 机台上光阻使用完毕后会有警示（在机台支持报空的情况下） 2. 光阻使用过程可以强制结束 3. 光阻安全库存提前预警 |  |  |
+|  |  | 光阻维护（PR Maintain） | 1. 用户可以手动变更光阻液的状态 2. 光阻使用过程可以强制结束（Terminate） |  |  |
+|  | 测试线与探针卡管理（CP Test Line And Probe Card Management） | 测试项目管理（Test Program Management） | 1. 在 CP 测试的时候，支持探针卡透过 ProbeCardGroup 与 Eqp Capability 来和测试机台关联 2. 在 CP 测试的时候，支持通过关联 ProbeCardGroup 和 Eqp Capability，来将探针卡和测试机台相关联 3. 在 WAT 测试的时候，提供探针卡透过 ProbeCardGroup 跟 Flow Recipe 关联 4. 在 WAT 测试的时候，支持通过 ProbeCardGroup，来将探针卡和 Flow Recipe 相关联 5. 提供界面设置 PPID Parameter，供用户对 Product, Step, ProbeCardGroup, Test Program 与 ProbeCardSetupFile 等设置对应关系 6. 提供界面设置 PPID Parameter，供用户对 Product, Step 与 Test Program 等设置对应的 TestProgramVersion |  |  |
+|  |  | 运行时间（Run Time） | 1. CP 机台 Run 货时，根据机台上的 PPID Parameter 与 Probe Card 的信息，与 EAP 集成后可以自动获取 Test Program，TestProgramVersion and ProbeCardSetupFile 的信息 |  |  |
+|  |  | MES 与 YMS 或 WJS 系统整合，获取测试结果 | 1. CP 测试时，支持取消 Track-In 后再 Track-In，已经测过的 Wafer 不会再测试一次 2. 支持依据前段实验单（Split Run Card）的场景，提供 CP 的实验单（Split Run Card） 3. MES 可以设 WAT/CP 站点，具体流程如下：WAT/CP Test -> WAT/CP Result(Dummy Step) -> Next Step 4. 当 WAT/CP Test 站点 JobOut 之后， Lot Hold 在 CP Result 站点等 Rule Judge Management 回结果。 5.  MES 可以针对 WAT/CP Test 站点定义 Tester 和 Probe Card 的 mapping "6. .Judge 后的处理逻辑: 6.1 Pass-> Release lot 然后跳到 Next Step； 6.2 Pass-> Release lot 然后跳到 Next Step； 6.3 No Data->允许发送要求去取得 Rule Judge Management 的結果。" "7. OCAP Flow 的处理逻辑: 7.1 允许重测 (Re-Measurement) 7.2 允许重选 Wafer 和 PPID (Select Wafer and PPID) 7.3 允许重新判別结果 (Result Check)" 8.  支持依照 WJS 机台类型进行 Raw Data 文件进行客制化解析： 8.1 定时扫描机台生成的 Raw Data File 进行 Parsing 到 Database，支持至少一种机台的 File Format，并做 Raw Data 的         Site Level/Wafer Level/Lot Level 的 Summary：AVG/STD/CP/CPK。 8.2 当文件服务器故障重启后， WJS 系统能自动重连文件服务器。 8.3 解析报错发消息给 Alarm 系统。 |  |  |
+|  |  | 探针卡管理 | 1. 可以接收探针卡信息来创建探针卡，并更新 Location 2. 提供探针卡的 ProbeCardGroup 3. 在 WAT/CP 测试的时候，提供探针卡透过 ProbeCardGroup 跟 Eqp Capability 来跟测试机台关联 4. 在 WAT/CP 测试的时候，提供探针卡透过 ProbeCardGroup 跟 Flow Recipe 关联 5. 提供探针卡检查对应关系后可以 Mount 到机台 6. 提供探针卡记录 Touch Down，Wafer Count 7. Touch Down 和 Wafer Count 大于上限后要限制使用 8. 提供探针卡可以 Unmount 机台 9. 提供探针卡到达上限后，可以送修并切换状态 10. 提供探针卡送修后再回到可用的状态 11. 提供探针卡 Mount 到机台的查询 12. 提供探针卡状态切换的历史信息 |  |  |
+|  | CP Wafer 检测结果判定模块（CP Judgement Rule Module） | 1. 元数据加载 RawData Loader | 1.1 定时扫描机台产出的明文 RawData 文件，执行解析并写入数据库；支持至少一种机台格式，并完成 RawData 的 Lot Level、Wafer Level 数据汇总 1.2 多语言支持：简体中文/英文 |  |  |
+|  |  | 2. Maintain UI 账号管理 | 2.1 账号支持查询与修改。仅有权限用户可编辑 Spec 及 Strategy，所有修改动作均会被记录，系统仅采用 Function Level 权限管控 2.2 支持账号的新增 / 修改 / 删除 / 查询 |  |  |
+|  |  | 3. 限制文件维护界面 Limit File Maintain UI | 3.1 By Product 和 Recipe 查看 Limit File 配置，支持模糊查询 3.2 支持可读明文 txt 手动导入新建 Limit File 3.3 支持复制已有的 Limit File 到新的 Limit File，支持修改 Limit File |  |  |
+|  |  | 4. 规则判断 Rule Judgement | "4.1 支持常见的 Judge rule如下 规则1：若晶圆的合格晶粒数（Good Die）占总晶粒数（Gross Die）的良率小于设定百分比，则本规则判定失败 规则2：若晶圆中指定 Bin的失效晶粒数占总晶粒数（Gross Die）的比例大于设定百分比，则本规则判定失败 规则3：若晶圆内任意一项参数的统计量（平均值 AVG、标准差 STD、过程能力指数 CPK、中位数 Median）超出 [下限值，上限值] 区间范围，则本规则判定失败 规则4：若晶圆合格晶粒数占总晶粒数的良率大于设定百分比 x，则该晶圆判定为合格（Pass） 若批次内合格晶圆数占总晶圆数的比例小于设定百分比 y，则本规则判定失败 规则5：若批次（Lot）内任意一项参数的统计量（平均值 AVG、标准差 STD、过程能力指数 CPK、中位数 Median）超出 [下限值，上限值] 区间范围，则本规则判定失败 规则6：若晶圆的总晶粒数与设定总晶粒数 [GrossDie] 不相等，则本规则判定失败" 4.2 支持常见的判断 Rule: 4.2.1 支持 By limit file 中 parameter 的 OOC/OOS/AVG/STD/CPK 规则判断。 4.2.2 支持设置 Site/Wafer/Lot Level Rule 的 pass/fail 条件。 4.2.3 支持提供客制化 rule 的能力。 4.2.4 用户可为 Rule 添加描述或 hold comment。 4.2.5 记录 rule 操作的历史记录。 |  |  |
+|  |  | 5. 策略维护界面 Strategy Maintain UI | 5.1 By product 和 Recipe 查看 Strategy 配置，支持模糊查询 5.2 支持 Excel 导入新建 Strategy 5.3 支持复制已有的 Strategy 到新的 Strategy 5.4 支持 By Product/Recipe 定义策略 5.5 支持策略中的增/删/查/改 Judgement Rule 5.6 支持 Excel 导入/导出策略，批量新建/修改 Judgement Rule 5.7  支持策略设置 Judge Rule 的 pass/fail 条件 5.8 支持复制已有的策略到新的策略 5.9 支持修改 Strategy，增 / 删 Judge Rule |  |  |
+|  |  | 6. 规则结果查询界面 Rule Result Query UI | 6.1 By Lot 查询 RawData 和 Rule Judge 的结果，各个 Rule Pass 和 Fail 的 Wafer 以及 Parameter 6.2 支持导出资料到 Excel 文件 |  |  |
+|  |  | 7. MES 集成（MES Integration） | 7.1 支持与 MES 集成 Pulsar 接口 7.2 WJS 主动上报 Judge 结果给 MES 7.3 MES 主动向 WJS 查询 Judge 结果 |  |  |
+|  |  | 8. 颜色标识 | 系统界面是否可显示已到站点的 lot list, 并以不同颜色区分，例如：正在机台测试的 Lot 显示绿色，被 hold lot 显示红色，待测 lot 显示黄色，并在后面显示出 lot 所在的位置（机台号或者架子上） |  |  |
+|  | 权限管理（Security Management） |  | 1. 人员账号信息管理，包括新增，修改，删除人员账户 "2. 人员所属角色及角色权限管理 2.1 人员→功能权限设置 2.2 角色→功能权限设置" 3. 重要的功能操作都要有权限验证，重要操作需要再次输入账号和密码 4. 登入账号要有时效限制，时间到后不可以登入使用 5. 权限要控制到数据级别，需要提供 GUI 进行操作 - EqpType - Product - Technology - Eqp State Transition (将设备状态从什么状态切到什么状态) - Equipment 6. 需要提供图形界面维护设备操作权限 7. 按用户或用户组增减设备或设备组操作权限 8. 按设备或设备组增减可操作的用户或用户组 |  |  |
+|  | 耗材管理（Consumable Management） |  | 耗材管理功能包括 1. Part Master：材料简介 2. 材料计时器： 2.1 材料过期时间 2.2 等待时间限制 2.3 限制时间约束 2.4 耗用控制时间限制 3. 耗材操作： 3.1 创建物料批次：手动创建物料 3.2 移动：在位置之间移动材料，位置可以是仓库、耗用品商店、生产线或设备位置……。移动事件将触发材料计时器，如等待时间和限制时间 3.3 调整：提供调整材料数量和属性 3.4 Scrap：报废材料批次 3.5 UnScrap：未报废的材料批次 3.6 更改状态：更改物料批次状态以遵循状态模型 3.7 Hold 保留：保留物料批次 3.8 Release 下达：下达材料批次 3.9 Terminate：终止物料批次 3.10 Unterminate：未终止的物料批次 4. 查询功能： 4.1 Material Lot History：物料操作历史 4.2 物料查看：查看物料批次清单 4.3 物料计时器查询与历史可追溯性 |  |  |
+|  | BOM – 物料清单和业务简介 |  | "BOM 模块与 BP、物料、设备可用物料设置和运行时操作绑定——将库存物料设置到设备控制、物料耗用等。对于设备和材料设置的运行时操作，包括： 1. 设备可用材料设置 2. 将库存材料设置到设备控制" BOM 模块可通过 MES 设置 UI 设置 BOM。用户配置材料通过 MES 设置 UI 逐步完成。原材料和库存产品可以配置为耗用材料。 BOM 模块功能包括： 1. 设置 BOM：BOM 配置文件设置并绑定到产品 2. 设置 BOM 位置：设置位置配置文件并链接到可用物料列表 3. 设置 BP：设置 BP 配置文件并绑定到流程计划 4. 设置 BP BOM：BP 绑定到 BOM 5. 设置 BP 步骤位置：映射流程步骤和耗用材料位置，以供耗用参考 |  |  |
+|  | 治具管理（Durable Management） |  | 需要治具的模块来支持 DPS 刀片管理。治具模块将提供治具管理和运行时验证功能。治具的管理功能包括， 1. 治具属性管理 2. 治具运行： l   Create Durable: create durable manually l   Scrap: scrap durable l   UnScrap: unscrap durable l   Hold: hold durable l   Release: release durable l   Inspection – Start, End, Cancel l   Clean – Set, Start, End, Cancel 3. 装备和治具关系设置 4. 调度可用的治具验证 5. Adhoc EDC for Durable（非批次 EDC） 6. 计米管理 |  |  |
+|  | 晶圆图模块（Wafer Map Module） |  | Wafer Map 模块是支持 Wafer Map 文件处理的，它是处理文件的基础。Wafer Map 系统读取客户提供的原始文件并记录在Wafer Map 系统中。 Wafer Map 系统将统计每个晶圆的 Bin 数量，并更新 Wafer DB 中每个晶圆的 Bin QTY。 Wafer Map 系统将提供显示和更新系统中 Bin 值的功能，并提供导出文本文件。包括： 1. 解析 Wafer Map 文件并将其导入 Wafer Map 系统 - 1 种类型 2. 从 Wafer Map 系统导出Wafer Map 文件 - 1种类型 3. 更新 Wafer Map 中的Bin 4. Ink die in Wafer Map 5. 更新历史查询 6. Wafer Map 版本管理 |  |  |
+|  | 运行时 - 耗用（Runtime Consume） |  | 对于批次的运行时的操作，包括： 1. 派工检查可用材料 2. 耗用 - 自动耗用：不会显示耗用屏幕 3. 耗用 - 手动耗用：在弹出窗口输入耗用材料批次或确认数量 4. 耗用 - 原材料和库存产品可以被耗用 5. 耗用 - 仅检查可用材料批次，但可不配置耗用数量 6. 查询功能：耗材批次可追溯性 |  |  |
+|  | 取料放料流程（Wafer to Die Process / Wafer to Wafer Process） | 设置 （Setup） | 1. Product Bin 矩阵设置 2. 捡晶标准单位数量依照产品配置 3. 捡晶站点设置 4. Wafer Die Count 良率设置 by Lot/Wafer 与 by Total/Step Yield, 可设置以全局、以客户、以产品、以站点设置 |  |  |
+|  |  | 拾放单元的转换与可追溯性 （Pick and Place Unit Convertion and Tracibility） | 1. 支持 Wafer 下线产出 Die Count Wafer 出站 2. 支持 Die Count Wafer 捡晶成为 Reconstruction Wafer 或是 Tape/Reel 或是 Tray 模式 3. 支持二次捡晶 4. 支持以产出的目标 by Lot/Wafer 追溯原始的 By Lot/Wafer 信息 |  |  |
+|  |  | Die bank 管理 | 1. Die bank 库存产品管理 2. Lot Wafer Bin Die Count 数量更新 3. Wafer Die Count 与 Bin 数量信息与 Wafer Map 模组透过 MES 功能集成 |  |  |
+|  |  | 生产管制 | 1. 支持良率计算与管制 2. 支持首尾片检查 3. 支持简易 Idle Time 管制 4. 支持简易更换 Recipe 前必须先行 Monitor Lot 进行 Recipe 验证 |  |  |
+|  | WOM – 工单管理 工单管理将集成到 ERP 工单中，并保留手动创建工单功能。为了保持 MES 结构的一致性，各流程包含在工单管理中。 WOM 功能包括： | 工单管理功能 | 1. 创建工单：手动创建工单 2. 修改工单：修改创建的工单 3. 激活工单：集成 SAP，Start Lot 会同时触发 Start Work Order 4. Hold 工单：当工单暂停时，工单下的批次被 Hold，将 Hold 现有的批次 5. 下达工单：工单下的批次在工单下达时会被下达，将 Hold 现有批次 6. 完成工单：工单在没有 WIP 的情况下可以完成，即工单下的所有批次都完成、终止、发货。 7. 删除工单：工单完成后可以删除工单。 |  |  |
+|  |  | 工单支持 ( Turnkey ) | 1. 提供 Turnkey 工单, 可以将 Raw Wafer 与 Intentory Product 下线 2. 系统依据工单 Turnkey 标注决定批次将转为 Inventory Product For Next Work Order Start 或是 Finish Lot For Shipping |  |  |
+|  |  | 标签 （ Label ） | 标签模块可提供批号、载具、晶圆和物料信息给贴标中间数据交换表，以集成第三方标签打印软件。标注中间数据包括： 1. 批次级别 2. 载具级别 3. 晶圆级别 4. 物料级别 |  |  |
+|  |  | 晶圆键合 （ Wafer Bonding (Wafer on Wafer ) ） | 1. 需要支持 Wafer to Wafer 跟 Wafer to Glass 的 Bonding 2. 需要设置 Bonding Product Mapping 关系 "3. MES 可以设 Bonding 站点, 具体流程如下： Pre-Bonding (Dummy Step) → Cleaning → Bonding → Measurement" 4. 当 Measurement 站点 JobOut 之后, 允许 Rework to De-Bonding 5. 当 Wafer Mapping 不一致, 可以在 Pre-Bonding 透过 Adhoc Sorter 调整 FOUP 的 Wafer Slot 6. 允许手动 Pre-Bonding 以及 De-Bonding 7. 可以透过接口查询 Bonding History 8. 需要提供 GUI 给用户查看和维护 Wafer Bond 规则信息，如：Query，Add，Modify，View，History，Copy 等 9. 系统需要记录详细的 Wafer Bond Mapping 和历史，用户能够简单清晰地查看到该信息 10. Support Wafer to Wafer Bond (Wafer to Wafer Bond 还需要提供 GUI 给用户维护 Bond Mapping) 11. 支持 Manual 和 Auto Bond 两种 Bond 方式 (Auto Bond 指 EAP Run) 12. 支持 Debond 功能 13. 业务模式: 13.1 两片 Wafer 都由本厂 Process 13.2 一片或两片 Wafer 部分在本厂 Process，部分在其它厂 Process |  |  |
+|  |  | 芯片贴装 Die Attach  ( Die on Wafer ) | 1. 支持 Assebmly Work Order 指定 Substrate Wafer 与 Die Wafer， Die Lot 下线 2. 支持厂内自制 Die Wafer，Die Lot 投产 3. 支持厂外购买 Die Wafer，Die Lot 投产 4. 支持指定 Die Attach Wafer 与 Die 的 Attach 关系, 包含 Die Attach Step，Die Attach 顺序与 Die Attach Die 颗数 5. 支持来料 Substrate Location 配置，并且支持实际可用 Location 数量调整下线 6. 支持 Bond，Ahoc De-Bond 以支持 Wafer on Wafer 业务 7. 支持记录 Die on Wafer，Wafer on Wafer 的关系追溯；EAP 支持上报可记录实际位置，Manual Mode 支持逻辑关系记录 8. 支持外购 Die Wafer 与 Die Lot 入线边 ( Inventory Lot) 9. 支持 Die Attach 站点 Substrate 与 Die 的 Resource 校验，必须为匹配关系才能够进行加工 10. 支持 EAP 上报 Die Attach 关系并记录在 MES History 中提供追溯 |  |  |
+|  |  | 交钥匙服务（Turnkey Solution） | 支持一站式服务业务模式，支持配置一站式 Source 与 Target 关系配置： 1. 透过 Turnkey Product Mapping 与 MBOM 阶层关系，系统可实践多阶层 BOM 生产应对 Support (不同制程有不同的Product，每个 Product 有对应的 BOM，不同制程的 Product 可以通过 Turnkey Product Mapping 实现多阶层串联，从而实现多阶层 BOM 生产) 2. 支持业务场景 WLP → CP → DPS → WLP，WLP → DPS 等各类组合方式的一站式服务 3. 一站式服务的制程段可同时支持厂内自制与外来的 Wafer 投产，Process Flow 中可透过工单属性(是否为 Turnkey)，决定入库 Shipping 或是入 Inventory |  |  |
+</TABLE>
+[20] 信息量分析与预测
+为满足中心未来3-5年的业务发展、人员扩张（规划至1500-2000人规模）及高可用、高性能的系统承载需求，本项目依据以下数据增长模型与硬件资源规划进行设计，旨在构建一个弹性、可靠、高效的基础设施平台，以全面承载CIM全栈系统集群的高可用与高性能运行。
+数据量分析与存储规划如下：
+[30] 数据构成与增长模型
+- 核心事务数据（OLTP）：主要包括MES/WIP批次追踪、EAP设备交互报文、RMS配方参数、RTD派工指令等。该类数据对IOPS和延迟极度敏感，随投片量线性增长，预计年增量约为200GB - 500GB，但要求读写延迟<1ms。
+- 工程与时序数据（Time-Series/FDC）：核心为FDC传感器波形、APC反馈数据、SPC量测值、YMS/DMS缺陷图谱等。该类数据写入并发极高，单台设备每秒可产生数千条记录，预计年增量约为5TB - 10TB，需支持高速批量写入与实时检索。
+- 系统与日志数据：包括15个CIM系统的运行日志、EAP通信Trace、AMS告警流水及安全审计日志。日均产生量预计为100GB - 200GB，需保留至少90天在线热数据+180天温数据，循环存储空间需求约30TB - 50TB。
+[30] 存储空间估算与规划
+- 总量需求：综合CIM核心库、FDC历史库、日志归档及RAID荣誉开销，，规划配置80TB - 100TB总可用容量的企业级高性能存储系统。
+- 存储架构分层：为满足CIM“事务+分析”混合负载，采用 “全闪存NVMe SAN + 高密度对象/分布式存储”的分层架构。
+- Tier-0 核心事务层（全闪NVMe SAN）：部署一套高端全闪存阵列（NVMe协议），专用于MES、EAP、RMS、RTD、AMA等强事务系统，提供<0.5ms极致延迟与百万级IOPS，保障产线不停机。
+- Tier-1 工程数据层（高性能分布式/对象存储）：部署一套横向扩展存储集群，专用于FDC、YMS、DMS、SPC等海量时序与文件数据，支持高吞吐并发写入与S3/HDFS协议访问。
+[30] 硬件架构需求分析
+本项目规划建设两个物理隔离、独立冗余的高性能虚拟化资源池，分别承载CIM实时控制类系统与工程分析类系统，杜绝分析负载干扰产线实时控制：
+- CIM实时控制资源池（Production Zone）
+- 定位：承载MES、EAP、RMS、RCM、APC、RTD、AMA、PMS、AMS共9个对实时性与稳定性要求极高的生产控制类系统，确保产线7×24小时连续运转。
+- 计算层：部署4-6个高主频、低延迟X86服务器节点（CIM控制类优先保证单线程性能与确定性延迟，而非单纯堆核数），构成N+2高可用集群。
+- 单节点配置：2颗高主频X86处理器（主频≥3.0GHz，单CPU核心数不少于24核），512GB - 768GB内存，配置RDMA/RoCE网卡以加速EAP通信。
+- 虚拟化：部署工业级Hypervisor，启用NUMA亲和性绑定与CPU预留策略，消除资源争抢导致的抖动。
+- 存储层：通过双冗余32Gbps FC-SAN网络独占访问Tier-0全闪NVMe阵列，路径负载均衡，确保存储链路零单点故障。
+- 管理：通过虚拟化管理平台实现控制类资源的严格隔离、性能监控与自动化故障迁移。
+- CIM工程分析资源池（Engineering Zone）
+- 定位：承载FDC、SPC、YMS、DMS、RPT、FMS共6个数据密集型、计算密集型工程分析系统，支持离线分析、模型训练与报表生成。
+- 计算层：构建3-4个多核高并发X86服务器集群。
+- 单节点配置：2颗多核X86处理器（核心数≥32核/CPU），768GB - 1TB内存，为大模型推理与海量数据ETL提供充足算力。
+- 存储层：通过独立万兆以太网/RoCE网络访问Tier-1分布式存储集群，满足FDC/YMS对高带宽顺序读写的需求，与控制池存储路径完全物理隔离。
+- 管理：纳入统一管理平台，支持弹性伸缩与容器化部署（K8s），适应工程分析任务的潮汐特性。
+[30] 整体架构优势
+本方案通过生产控制池与工程分析池的物理级隔离，从根本上杜绝了FDC/YMS大数据查询对MES/EAP实时控制的性能干扰，符合半导体工厂CIM架构最佳实践。Tier-0 NVMe全闪与Tier-1分布式存储的分层设计，精准匹配了15个CIM系统差异化的IO特征，在保障产线微秒级响应的同时，以最优成本支撑工程数据的长期留存与分析。统一的虚拟化管理平台实现了跨资源池的集中运维与差异化QoS保障，为CIM系统群的稳定运行与未来3-5年产能扩张提供了坚实、弹性、工业级可靠的基础设施底座。
+[10] 第四章 项目建设方案
+[20] 建设原则
+[20] 总体设计方案
+根据前期深入调研与统筹规划，本项目将紧密围绕服务科研主业、赋能智能制造、增强创新发展的核心使命展开。项目秉持“统一规划、智能协同、数据驱动、安全可控”的建设理念，着力构建覆盖材料研发、晶圆制造、先进封装、测试验证等全业务流程的一体化CIM智能制造平台，实现生产全过程数字化、设备自动化、制造协同化和管理智能化，为中心科研创新、中试验证及产业化生产提供稳定、高效、可持续的信息化支撑。
+该平台将面向生产管理人员、工艺工程师、设备工程师、质量工程师、测试工程师及管理决策人员等不同层级用户，提供统一入口、统一数据、统一流程、统一权限的一站式智能制造服务，实现生产透明化、设备自动化、工艺标准化、质量可追溯、数据可分析、决策可支撑，最终构建覆盖研发、生产、质量、设备、物流及运营全过程的数字化制造体系，全面提升中心智能制造水平和科研成果产业化能力。
+具体建设架构遵循“一个平台、四大能力、五层架构”的设计方针：
+“一个平台”：即打造统一的CIM智能制造平台，作为中心生产管理、设备自动化运行及制造数据管理的数字化底座，实现生产制造全过程的统一管理、统一数据和统一协同。
+“四大能力”：即全面构建“制造执行能力”、“设备自动化能力”、“智能调度能力”、“质量分析能力”四大核心能力，以制造执行系统（MES）为核心，结合设备自动化（EAP、RMS、RCM、FDC、APC）、智能调度（RTD、AMA）及质量管理（SPC、YMS、DMS）等系统，促进科研研发、生产制造、质量控制和运营管理的深度融合与协同发展。
+“五层架构”：即重点打通“设备层”、“自动化控制层”、“制造执行层”、“数据分析层”、“决策展示层”五个层级，实现设备互联互通、生产过程实时管控、制造数据集中治理、质量全过程追溯以及生产经营可视化分析，形成从设备数据采集、生产执行控制、质量分析优化到经营决策支撑的完整数字化闭环，全面消除信息孤岛，提升工厂智能化运营水平和制造协同效率。
+[30] 业务架构
+根据智能制造业务特点及半导体制造全过程管理需求，本项目业务架构围绕“研发支撑、制造执行、设备自动化、质量控制、数据分析、运营决策”六大业务域展开，以统一CIM智能制造平台为核心，贯通设备、生产、工艺、质量及管理全链路闭环，实现研发制造一体化、生产过程透明化、设备运行自动化、质量管控数字化。
+CIM项目以MES为业务核心，通过EAP、FDC、RMS、APC、SPC、AMS、PMS、RTD、AMA、YMS、DMS、RPT、FMS等专业系统协同运行，实现从生产任务下达、设备自动执行、过程数据采集、异常分析处理到生产运营决策的完整业务闭环。
+具体业务架构如下：
+[a9] 研发与工艺支撑业务层
+面向化合物子平台、材料子平台、集成子平台、测试子平台、封装子平台等需求部门，规划材料研发、工艺开发、中试验证等业务场景，构建设计研发与制造执行之间的业务连接能力。
+[a9] 主要支撑：
+[a9] 产品设计与工艺开发
+[a9] 工艺流程定义
+[a9] 配方管理
+[a9] 工艺参数维护
+[a9] 工艺验证与优化
+[a9] 研发数据沉淀
+通过PLM、EDA、LIMS等系统协同，实现研发数据向制造环节的有效传递，支撑科研成果快速向生产验证转化。
+[a9] 制造执行业务层
+以MES系统为核心，实现晶圆制造、先进封装及测试验证全过程生产管理。
+主要涵盖：
+[a9] 工厂模型管理
+[a9] 产品及批次管理
+[a9] 工艺流程管理
+[a9] 生产计划管理
+[a9] 在制品管理
+[a9] 生产任务派发
+[a9] 物料及载具管理
+[a9] 生产过程追踪
+[a9] 异常处理与闭环管理。
+MES作为CIM平台的业务中枢，负责承接生产计划、组织制造执行，并向设备自动化系统下发生产指令，实现生产全过程数字化管理。
+[a9] 设备自动化业务层
+面向制造设备及自动物流设备，建设设备互联互通及自动化控制能力。
+通过EAP、RMS、RCM等系统，实现：
+[a9] 设备自动接入
+[a9] 设备状态监控
+[a9] 自动上下料控制
+[a9] 配方自动调用
+[a9] 设备参数采集
+[a9] 设备异常报警
+[a9] 设备运行状态同步
+实现MES与设备之间的实时交互，减少人工操作，提高生产自动化水平。
+[a9] 智能调度与生产优化业务层
+面向复杂制程流程及多设备、多工序协同场景，建设智能生产调度能力。
+通过RTD、AMA等系统，实现：
+[a9] 动态生产调度
+[a9] 自动派工
+[a9] 设备负载均衡
+[a9] 在制品平衡优化
+[a9] 生产节拍优化
+[a9] 产能分析
+根据实时生产状态动态调整制造资源配置，提高设备利用率和生产效率。
+[a9] 质量控制与工程分析业务层
+围绕半导体制造高精度、高可靠质量要求，建设全过程质量分析与工艺优化体系。
+通过FDC、SPC、APC、YMS、DMS等系统，实现：
+[a9] 制程参数实时监控
+[a9] 设备状态分析
+[a9] 异常检测
+[a9] 缺陷管理
+[a9] 良率分析
+[a9] 工艺参数优化
+[a9] 质量追溯
+形成“数据采集-一场识别-原因分析-参数优化-效果验证”的质量闭环管理模式。
+[a9] 数据分析与运营决策业务层
+建设统一制造数据分析及可视化展示能力，为管理决策提供数据支撑。
+主要包括：
+[a9] 生产运营分析
+[a9] 设备效率分析
+[a9] 产品良率分析
+[a9] 工艺趋势分析
+[a9] 产能分析
+[a9] 经营指标展示
+通过制造数据集中治理，实现生产过程透明化和经营管理智能化。
+[a9] 项目建设成效
+项目建成后，将实现：
+[a9] 打通设备、生产、工艺、质量管理之间的信息链路
+[a9] 消除制造过程中的数据孤岛
+[a9] 实现生产过程可视、可控、可追溯
+[a9] 支撑研发试制、中试验证及产业化生产协同运行
+[a9] 全面提升中心智能制造水平和科研成果转化能力
+[30] 功能架构
+本项目功能严格遵循“制造流、数据流、控制流”三流融合的设计原则，以统一CIM智能制造平台为核心，通过CIM-15专业系统的协同建设，实现设备、生产、工艺、质量和运营管理全过程数字化。
+整体功能架构围绕：“制造执行、设备自动化、工程分析、智能优化、质量管理、数据服务” 六大功能体系进行设计，各系统之间通过统一接口和数据平台实现业务协同和数据贯通，形成从设备数据采集、生产任务执行、过程监控分析、工艺优化控制到运营决策支撑的智能制造闭环。
+其关键建设内容与逻辑关系如下：
+[a9] 制造执行与生产管理体系
+以MES为核心，建设覆盖晶圆制造、先进封装、测试验证全过程的生产执行管理能力。
+主要功能包括：
+[a9] 工厂模型管理
+[a9] 产品管理
+[a9] 工艺流程管理
+[a9] 生产订单管理
+[a9] 生产计划管理
+[a9] Lot管理
+[a9] WIP管理
+[a9] 工序流转管理
+[a9] 生产任务派发
+[a9] 生产状态跟踪
+[a9] 异常事件管理
+[a9] 生产报表分析
+MES作为CIM平台的业务核心，承接生产计划及工艺流程要求，实现制造任务的数字化执行，并与设备自动化系统进行实时交互，实现生产全过程透明化管理。
+[a9] 设备自动化与设备管理体系
+面向晶圆制造、封装、测试等生产设备，建设设备互联和自动化控制能力。
+以EAP、RMS、RCM为核心，实现：
+[a9] EAP设备自动化平台
+[a9] RMS配方管理系统
+[a9] RCM远程控制系统
+通过上述系统，实现MES与设备之间的自动化协同，减少人工操作，提高设备利用率和制造稳定性。
+[a9] 工程数据采集与分析体系
+围绕半导体制造过程中海量设备数据和工艺数据管理需求，建设工程数据分析能力。
+以FDC系统为核心，实现：
+[a9] 设备数据实时采集
+[a9] 制程参数监控
+[a9] Trace数据分析
+[a9] 异常检测
+[a9] 故障模型管理
+[a9] 报警管理
+[a9] 数据趋势分析
+通过对设备运行数据和工艺参数的持续分析，实现设备状态预测、异常提前发现和制程稳定性提升。
+[a9] 智能调度与制造优化体系
+针对半导体制造多工序、多设备、多批次协同生产特点，建设智能制造优化能力。
+以RTD、AMA、APC为核心，实现：
+[a9] RTD实时派工系统
+[a9] AMA全自动化控制平台
+[a9] APC先进过程控制
+通过智能算法优化生产资源配置，提高设备利用率和整体产能。
+[a9] 质量管理与制造过程控制体系
+围绕半导体制造高可靠、高精度质量要求，建设全过程质量管理能力。
+以SPC、YMS、DMS为核心，实现：
+[a9] SPC统计过程控制
+[a9] YMS良率管理系统
+[a9] DMS缺陷管理系统
+通过质量管理体系，实现“数据采集→异常识别→原因分析→工艺优化→效果验证”的质量闭环。
+[a9] 制造数据平台与运营展示体系
+建设统一制造数据平台，实现CIM系统数据统一管理和价值应用。
+主要功能包括：
+[a9] 制造主数据管理
+[a9] 设备数据管理
+[a9] 工艺数据管理
+[a9] 生产数据管理
+[a9] 质量数据管理
+[a9] 数据交换接口
+[a9] 数据分析服务
+通过RPT及Dashboard展示，实现：
+[a9] 生产运营分析
+[a9] 设备效率分析
+[a9] 产能分析
+[a9] 良率分析
+[a9] 工艺趋势分析
+[a9] 管理指标展示
+为生产管理和经营决策提供数据支撑。
+[a9] CIM统一集成与安全管理体系
+建设统一CIM平台基础能力，实现各专业系统之间的数据共享和业务协同。
+主要包括：
+[a9] 用户统一认证
+[a9] 权限管理
+[a9] 系统接口管理
+[a9] 数据交换服务
+[a9] 日志管理
+[a9] 系统运行监控
+实现生产制造、设备自动化、工程分析以及外围PLM、EDA、LIMS等系统之间的集成。
+[30] 网络架构
+[20] 应用系统建设方案
+[30] EAP系统
+[40] 系统架构
+[40] 系统功能
+设备建模与模板管理
+建立统一的设备建模与自动化管理平台，对半导体制造设备、生产资源及工艺场景进行标准化建模，支持设备快速接入、模板化部署及自动化配置，实现设备资源统一管理，提升设备开发效率和工厂自动化水平。生产流程控制
+设备生产控制
+实现设备生产过程自动化控制，围绕载具、晶圆、Recipe、Reticle 等生产对象建立完整的作业控制机制，支持设备作业调度、异常处理、状态联动、生产校验及物料追踪，确保设备生产过程安全、稳定、高效运行。
+设备互联与系统集成
+建立统一的设备互联平台，支持半导体制造设备、自动化物流系统及上位应用系统之间的数据交互与业务协同，实现设备与 MES、AMHS、RMS 等系统的无缝集成，构建统一的设备自动化运行环境。
+数据采集与运行监控
+实现设备运行状态、生产过程及设备数据的实时采集与监控，建立设备数字化运行模型，支持设备状态同步、通讯监测、运行分析及生产追溯，为设备管理及生产优化提供数据支撑。
+运维管理与系统管理
+建立统一的 EAP 运维管理平台，提供日志管理、系统监控、远程维护、部署升级、版本管理及运行恢复等能力，实现设备自动化系统全生命周期管理，保障系统稳定运行及持续运维。
+仿真测试与通讯平台
+建立完整的设备仿真测试环境及工业通讯平台，支持设备模拟、协议验证、自动化测试及全链路业务复现，为设备开发、联调测试、上线验证及问题排查提供支撑，提升设备接入效率和系统可靠性。
+[40] 详细功能描述
+<TABLE>
+| 一级功能模块 | 二级功能模块 | 功能描述 |
+| 设备建模与模板管理 | 设备分类与模板定义 | 支持设备根据Buffer类型、用途、工艺等进行分类，基于共同性创建模板，以提升后期开发效率。 |
+|  | 内置标准场景模板 | 支持设备根据特定模板，支持 Full Auto Scenario，包含：Fixed Buffer、Inline、Furnace、Internal Buffer、Sorter、Left In Right Out、Bonding、Etch Dummy、CMP、Foup Clean/Inspection、Bare Wafer Stocker、Reticle Stocker、Reticle Inspection、N2 Purge |
+| 生产流程控制 | 异常处理与图形化配置 | 支持完善的异常处理流程，及时响应程序、设备、流程等异常情况，并提供图形化配置能力。包含：异常响应、图形化Scenario。 |
+|  | 帐料信息匹配校验 | 支持在载具到达 Port、获取 MES 作业信息、过账等关键时间点，通过验证实际作业信息与 MES 数据的一致性，确保生产准确性。包含：载具与信息一致性验证、Slot Map 与 Wafer 校验、异常处置机制、MES 账户与权限同步、MES 数据交互与业务动作、优先级调度控制。 |
+|  | Load Port 智能管控 | 支持控制遵守 SEMI 标准的 200mm/300mm Load Port，并具备严格的安全与优先级管理机制。包含：状态同步、安全拒绝机制、Purge 功能支持、FOUP 类型管控、优先级调度。 |
+|  | 专项设备与物料管理 | 支持针对特定设备和物料类型提供专门的管理模块，确保精细化控制。包含：Purge 设备整合、Reticle 管理、Recipe 管理、Buffer 管理。 |
+|  | Wafer 级流程控制 | 支持精确到单片 Wafer 级别的追踪与控制，满足高阶制程需求。包含：指定 Wafer 作业、Wafer 信息收集、Wafer History 追踪、Sorter 内容映像。 |
+|  | 数据收集 (EDC) 与物料追踪 | 支持全面的数据采集、格式转换与物料流转追踪能力，保障生产透明化与数据可追溯性。包含：多协议数据收集(EDC)、数据格式转换与配置、物料追踪。 |
+|  | 设备状态同步与控制 | 支持建立设备数字模型，确保上位系统与物理设备状态实时一致，并支持基于状态的设备管控。包含：组件级建模与配置、主动状态同步、通讯状态监测与展示、设备运行控制、Port Access Mode 管理。 |
+| 设备互联与集成 | 接口与协议支持 | 支持多种标准及非标准接口，实现广泛的设备与系统互联。包含：设备接入、系统对接、集成范围、多连接能力。 |
+| 日志与运维工具 | 日志管理 | 支持提供完善的日志记录与分析机制，便于问题追踪与系统调试。包含：多种日志类型、分级与配置、生命周期管理、分析工具。 |
+|  | 运行环境流程管理工具 | 支持图形化工具，简化 EAP 的日常运维与异常处理。包含：Scenario 管理、状态监控、异常干预、热重载。 |
+| 系统管理平台 | 监控与告警 | 支持全方位监控 EAP 运行健康度，确保系统高可用。包含：连接监控、Batch 监控、版本监控、维护豁免。 |
+|  | 远程控制与恢复 | 支持远程运维操作及故障后的状态自愈。包含：远程操作、状态恢复。 |
+|  | 部署与升级 | 支持灵活的部署与平滑升级机制，最小化对生产的影响。包含：拷贝部署、远程/在线升级、空闲自动升级、预约升级、首件通知。 |
+|  | 信息与版本管控 | 支持集中管理 EAP 资产，确保版本一致性与可追溯性。包含：基本信息、版本历史、版本切换、差异对比、分层管控。 |
+|  | 迁移与执行模型 | 支持大规模集群管理及可扩展的软件架构。包含：批量迁移、执行模型。 |
+| 设备及上位系统模拟器 | 仿真与测试能力 | 支持基于实测数据与业务需求的提供完整的模拟环境，实现全链路仿真，加速开发测试、测机验证与运维排查。包含：SECS 规范设计与测机验证、Log 驱动全链路复现、多系统与脚本化测试、完整测试开发环境。 |
+| 底层通讯引擎 | 稳定性与性能指标 | 支持SECS Driver的高性能、高可靠性的工业级通讯要求。包含：大消息处理、零丢包架构、高频数据采集。 |
+|  | 多协议与设备兼容 | 支持统一通讯驱动层，覆盖标准与非标设备，无需嵌入第三方驱动，便于后期维护与扩展。包含：SEMI 标准协议、工业控制协议、通用应用层协议、外设与辅机通讯、非标设备扩展接入、协议客制化。 |
+|  | 测机与日志支持 | 支持模拟 EAP 向机台发送 SECS 消息并自动格式化，用于通讯合规性验证与功能测试。支持完整保存测试及生产环境的 SECS 日志，提供可视化查看与分析工具，支撑问题定位与回溯。 |
+| EAP GUI | 界面功能与交互 | 支持独立、直观的操作界面，支持多语言与权限管控。包含：信息展示、多机台聚合、独立运行、权限管控、消息记录、多语言与样式。 |
+| 发布与变更管理 | Pilot 验证机制 | 支持Pilot，当 EAP 任何模块更改时，支持在个别设备上先进行 Pilot 验证，且不影响未参与 Pilot 的设备正常运行。 |
+</TABLE>
+[30] FDC系统
+[40] 系统架构
+[40] 系统功能
+生产数据采集与治理
+建立统一的生产数据采集平台，实现生产设备及相关系统数据的实时采集、融合、治理与存储，支持多源异构数据统一管理，为故障检测、制程分析及持续改善提供高质量数据基础。
+制程监控与故障检测
+建立覆盖生产全过程的故障检测体系，支持生产过程实时监控、模型分析、异常识别及报警联动，实现制程异常快速发现、自动预警及闭环处理，提高产品良率及制程稳定性。
+模型管理与质量控制
+建立统一的故障检测模型管理平台，支持检测模型、规格体系及工艺规则的统一维护，实现模型持续优化、动态调整及质量评估，提升异常检测准确率，降低误报和漏报。
+数据分析与决策支持
+建立多维度生产数据分析平台，支持历史数据分析、趋势分析、关联分析及异常追溯，为制程优化、设备改善及质量分析提供可视化的数据分析和决策支持能力。
+报表管理与运营分析
+建立统一的统计分析及报表管理体系，对故障检测、设备运行、模型质量及生产绩效进行统计分析，实现报表自动生成、任务调度及多渠道发布，提高生产运营分析效率。
+系统管理与开放集成
+建立高可用的 FDC 平台架构，支持系统监控、权限管理、运行维护及开放接口能力，实现与 MES、EAP、SPC 等制造系统集成，为智能制造提供稳定可靠的制程监控平台。
+[40] 详细功能描述
+<TABLE>
+| 一级功能模块 | 二级功能模块 | 功能描述 |
+| 数据采集与集成 | 多协议与多源数据接入 | 支持广泛的工业协议与数据源接入，实现全厂设备数据的统一采集。包含：标准协议支持、非标数据接入、附属设备整合、Multi-Source 融合、复杂结构解析 |
+|  | 采集策略与计划管理 | 支持灵活、精细化的数据采集配置，平衡数据完整性与系统负载。包含：动态采样控制、DCP 计划定义、轮检与追溯模式、Idle 状态管控、模板化部署、热更新机制 |
+|  | 数据质量与上下文整合 | 支持数据有效性校验及业务上下文关联，确保分析数据的可用性。包含：Context 整合、质量监控、虚拟参数、存储能力 |
+| 故障侦测与模型引擎 | 数据质量与上下文整合 | 支持数据有效性校验及业务上下文关联，确保分析数据的可用性。包含：Context 整合、质量监控、虚拟参数、存储能力 |
+|  | 智能窗口与过滤 | 支持基于工艺特征的动态数据切片，提升模型信噪比。包含：多维窗口定义、动态参数化窗口、多级窗口叠加、噪音过滤、向导式建模 |
+|  | 规格管理与自适应 | 支持多层次、动态化的规格体系，降低误报率。包含：多级规格体系、多种 Spec 类型、Auto-Limits 自动生成、Golden Tool 机制、Context Offset、Baseline 比对、动态规格触发、Auto Retarget |
+|  | 实时侦测与报警联动 | 支持制程中的实时异常拦截与闭环处置。包含：实时检查、GuardBand 动态频带、逻辑组合报警、Data Quality 联锁、分级抑制、系统集成处置、Alarm Rule 管理 |
+| 数据可视化与分析 | 交互式图表分析 | 支持多维度、深层次的数据探索与根因定位。包含：多源叠图、Context 着色与筛选、双轴与多图、Drilldown 追溯、Tag 标记系统、Idle 时间压缩、CSV 导入分析、图表定制、一键导出 |
+|  | 时间跨度与数据源切换 | 支持高效的历史数据访问与对比。包含：时间跨度方案、Filter 功能 |
+| 报表与统计 | 标准与定制报表 | 支持全方位的 FDC 绩效与质量统计。包含：Alarm 统计、覆盖率分析、模型质量评估、趋势与分布、实施状况总览、PMQA 与匹配报告、新设备验收 |
+|  | 报表自动化与分发 | 支持报表任务的调度与多渠道交付。包含：任务调度、邮件推送、格式转换、收藏夹、开放 Schema |
+| 系统架构与运维 | 高可用与无缝升级 | 支持企业级连续性保障，确保 7x24 小时监控不中断。包含：数据采集无缝切换、自动故障转移、不停机发布、多产线支持 |
+|  | 低代码扩展与集成 | 支持业务人员自主开发与外部系统对接。包含：可视化 Workflow、Python 脚本引擎、账号集成、签核集成、消息分流 |
+|  | 安全与监控 | 支持细粒度权限管控与系统健康自监控。包含：RBAC 权限、性能监控、数据生命周期、历史记录 |
+</TABLE>
+[30] MES系统
+[40] 系统架构
+[40] 系统功能
+工厂基础数据管理
+建立统一的工厂制造基础数据平台，对工厂资源、设备、产品、工艺、物料及生产规则进行标准化建模，实现制造基础数据统一管理，为生产执行提供标准数据支撑。
+生产执行管理
+实现生产计划执行、工艺流转、设备协同及在制品全过程管理，支持生产任务调度、生产作业控制、工艺执行及异常处理，实现制造过程标准化、自动化及可追溯管理，提高生产效率和执行能力。
+制程质量管理
+建立全过程质量控制体系，实现生产数据采集、过程监控、制程控制、质量判定及异常管理，保障制造过程符合工艺规范，提高产品质量及生产稳定性。
+生产资源管理
+实现载具、光罩、原材料、耗材及生产资源统一管理，对生产资源使用过程进行全过程管控，实现资源可视化、可追溯及精细化管理，提高资源利用效率。
+高级制造管理
+面向半导体先进制造场景，提供自动化生产、测试、封装、实验管理及特殊工艺管理能力，支持复杂制造流程、先进封装及多工厂协同生产，满足高端半导体制造业务需求。
+制造协同与系统集成
+建立 MES 与设备自动化系统、质量管理系统、物流系统及企业信息系统之间的协同平台，实现生产数据共享、业务流程贯通及制造资源协同，构建智能制造一体化管理平台。
+系统管理与平台支撑
+建立统一的 MES 管理平台，提供权限管理、系统配置、版本管理、运行监控、开放接口及平台运维能力，保障系统稳定运行，支撑大规模半导体制造工厂持续运营。
+[40] 详细功能描述
+<TABLE>
+| 一级功能模块 | 二级功能模块 | 功能描述 |
+| FAB Modeling (工厂建模) | Physical & Resource Modeling (物理与资源建模) | - Factory/Area/Bay Modeling (Production/Storage Type, 数据一致性检查)- Location 定义 & 库存查询 (OHB, NTB, Stocker, 运行时冲突检查)- WorkArea 定义 (OLED, ODF, CMP, CVD, ETCH, LITHO, etc.)- Equipment/Tool 架构 (Main Tool, Chamber, Loadport, Header, Custom Attribute Extension)- 天车与端口定义 (Auto-1/2/3 Mode, Internal Buffer Logic)- 机台状态 & Capability 定义 (E10 标准, 关键参数设置/查看权限分离)- 耗材与耐用品物料建模 (自定义命名、计时/计米管理定义)- 用户权限与建模对象加载器 (Excel 导入导出、批量生效/冻结) |
+|  | Product & Process Definition (产品与工艺定义) | - Product & Process Flow Modeling (PW/NPW、多版本、可视化拖拽、版本比较)- Recipe & Parameter 定义 (批量导入、RMS集成检查)- 数据采集与制程规范建模 (EDC Spec & SPC Chart 联动)- ReasonCode & Bank 定义 (Start/End/Reticle/Receive Bank, 批量导入)- 污染管控 (FOUP/Sorter Level 转换, Future Action 定义) |
+| 设备管理 | Equipment Status & Control (设备状态与控制) | - 机台建模 (Fix Buffer, Inline, Sorter, Multi-chamber, NTB as Internal Buffer)- 机台状态与控制 (E10 扩展, Auto/Manual Transition, On Top Load Port)- 机台 Capability & Capacity 管理 (Constraint Configuration GUI)- Port 管理 (In/Out/InOut Mode, Automation Mode, FOSB<->FOUP Transfer)- 机台Hold控制与异常检测 (Monitor失败自动禁止)- Reserve Equipment (Auto/Semi-auto Mode)- MES-EAP信息同步与报警集成 (Recipe Body Content 检查) |
+|  | Advanced Equipment Operations (高级设备作业) | - WET Batch Run & Dummy 填充机制 (Side/Fill Dummy 区分)- Furnace Batch 控制 (AB Batch, Boat 厚度验证, Zone Mapping, Monitor 量测反馈)- Sorter 管理 (Inline/Ad-hoc, Full Auto, Split/Merge/Exchange, Constraint GUI)- Litho/Photo 设备控制 (Multiple Reticle, Inline Track+Scanner, Chuck/Tool FeedForward, Reticle Inspection Integration)- N2 Purge 集成 & QTime 更新- Stocker/OHB/NTB与MCS同步（位置同步、污染管控）- 污染管控与配方内容检查（RMS集成） |
+| Process Plan (工艺流程) | Flow Architecture & Versioning (流程架构与版本) | - 层级化工艺架构 (Flow, Layer, Stage, Step)- 工艺复用与Golden Flow支持- 版本管理与自动升版继承 (SRC/RRC/Ocap Lot 保护, Q-Time/Sampling 继承)- Excel导入与可视化流程建模 (Flow Comparison, Tech-based 批量载入/修改, Where Used 查询) |
+|  | Dynamic Execution Logic (动态执行逻辑) | - 动态选择 (Equipment, Recipe, Reticle, EDC Plan)- Virtual Site & 原材料Turnkey管理 (虚拟工序)- NPW Flow Modeling (Prepare, InUse, Recycle, DownGrade)- Branch/Rework Plan & Q-Time Cross-Flow 管理 (Dynamic Branch, Future Hold 继承) |
+|  | Lot Tracking & Basic Operations (批次追踪与基础作业) | - Lot Create/Wafer Start (手动/自动、ERP/WMS集成、FOSB->FOUP自动Sorter、T7 Code识别)- Track In/Out (By Batch/Lot/Wafer)- 特殊操作 (Split/Merge, Hold/Release, Skip, Back Operation)- Future Action (Future Hold/Skip/Split/Merge)- Dynamic Branch & Flow 变更 (Auto/Manual Reassign, Outsourcing Process Linkage) |
+|  | Exception Handling & Traceability (异常处理与追溯) | - Rework 管理 (Inline/BankIn/StockIn/Customer 退回, 自动触发RRC)- Scrap/Unscrap & Terminate/Unterminate- ETC 管理 (Lending/Borrowing, OA/ERP 集成)- Die Lot 管理 & No-Wafer-Lot 操作 (Die Bank 管理)- Wafer Level 追溯 (BinGrade, Map, Defect Review)- RunCard管理系统 (Split/Recovery/Nested/Future RunCard, 签核集成, Full Auto 支持)- Pi-Run 管理 (APC Pi-Lot, On Demand Pi-Lot Logic) |
+| Quality & Engineering Control (质量与工程管控) | Data Collection & Analysis (数据采集与分析) | - 数据采集 (EDC) (Manual/Auto/File Mode, 自定义公式)- OCAP管理 (图形化执行, 签核集成, Inline/Off-Line/Wafer Test 分类, RAC Format)- Sampling 规则 (Production/YE/Wafer Sampling, Key Tool/Long Time No WIP, Step Sampling)- Wafer Selection 规则 (NearestUp/Down, Ignore Slot, Same As Before) |
+|  | Process Control & Interlock (制程控制与互锁) | - Q-Time 管控 (Max/Min, Nested/Cross-Flow, Auto Action Trigger)- Tool Constraint & Qualification (Binding, Run-card, Daily/Total Count)- Recipe Inhibit & Auto Monitor (Idle Time, Season, Pre/Post Measurement, Cycle Control, Monitor Flow Definition)- 制程条件与污染等级管控 (FE/BE Exchange)- CP Wafer Judgement System (原始数据加载、规则判定: Yield/Bin/Stat, 策略维护, WJS 集成) |
+| Resource & Material Management (资源与物料管理) | Carrier & Reticle Management (载具与光罩管理) | - Carrier 管理 (FOUP/FOSB/Pod, Cleaning/Inspection 状态, 污染管控, MCS 位置同步)- Reticle 管理 (LifeTime/Energy Accumulation, Field设定, Kit/UnKit, Inspection/Clean 周期, Stocker 集成) |
+|  | Chemical & Consumable Control (化学品与耗材管控) | - Photo Resist 管理 (退冰、时效/过期、PR更换、安全库存预警、批次认证)- Consumable & Durable 管理 (Timer, BOM 绑定, Kit/UnKit, Meter Counting, DPS Blade 管理)- Runtime Consume (Auto/Manual Consumption, 可用物料检查, BOM运行时绑定)- Label 打印集成 (Lot/Carrier/Wafer/Material 级别, Multi-level Label Template) |
+| Production Support & Advanced Modules (生产支持与高级模块) | Automation & General Production (自动化与通用生产) | - Full Auto Support (Auto 1/2/3, Dispatch/Transport/Equipment 集成)- Season 管控 (Idle/PM/Recipe Change, Mixed NPW/PW Mode)- NPW 管理 (降级、回收、库存、 Full Auto 准备)- 安全管理 (数据级权限、超时、审计追踪)- Turnkey 解决方案 (多阶层BOM, Cross-Fab 生产, Outsourcing Linkage) |
+|  | Test, Packaging & Specialized Modules (测试、封装与专用模块) | - CP Test Line & Probe Card 管理 (Program, Touch Down, YMS 集成)- Wafer Judgement System (原始数据加载、规则判定、策略、WJS 集成)- Wafer Map 模块 (解析、合并/比较、旋转/镜像、 Manual Ink)- Lab Product Tracking (Experiment Start/End、QE 结果、TQMS 集成)- Matching Sorter & ODF Bonding (Pre-sorting, Slot/FOUP Matching, Debond)- Micro OLED 专用功能 (Continuous Run, EVA Mask, Frame/Tray, Die PnP)- Wafer Bonding 模块 (WoW/WoG, Pre-Bonding/De-Bonding, Mapping Traceability)- Die Attach 模块 (DoW, Substrate/Die Matching, EAP上报追溯)- DPS Pick and Place (Die Count, 重构 Wafer, 二次拾取, Blade 寿命管理) |
+</TABLE>
+[10] 第五章 项目建设与运行管理
+[20] 领导和管理机构
+[20] 运行维护保障
+[20] 项目风险管理
+[20] 项目具体实施进度
+[10] 第六章 投资估算和资金来源
+[20] 投资的有关说明
+[20] 项目投资估算
+[20] 预算明细表

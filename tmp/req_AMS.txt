@@ -1,0 +1,71 @@
+# Access Control
+## User Management
+- 支持用户管理功能，包括用户的查询、导出及查看历史记录等。
+## User Group Management
+- 支持用户组管理，包括用户组的新增、查询及查看历史记录等。
+## Role Management
+- 支持角色管理，包括角色的新增、查询、查看拥有该角色的用户、菜单授权及警报源授权等。
+## Authorization Mgt
+- 支持用户组，用户进行角色关联授权
+# Equipment Mgt
+## Area Management
+- 支持区域管理，包括区域的新增（下拉选择工厂、输入区域名称）、编辑、删除及查看操作历史。
+## Equipment Type Management
+- 支持设备类型管理，包括新增（下拉选择工厂/区域、输入名称、配置过滤规则）、编辑（重新挂靠工厂/区域、修改过滤规则，名称不可改）、删除及查看历史。
+## Equipment Management
+- 支持设备全生命周期管理，包括新增（关联工厂/区域/类型、配置过滤规则）、编辑（除名称外均可改）、导入、导出、删除、状态控制（可用/不可用）及查看操作历史。
+## Chamber Management
+- 支持设备内腔体（Chamber）的增删改查功能。
+## Alarm Task Configuration
+- 支持查看设备下的告警任务配置（规则）。
+## Equipment Type Authorization
+- 支持根据区域查询设备类型列表，并对角色进行设备类型的授权与移除，记录操作历史。
+## Equipment Authorization
+- 支持对用户进行具体设备的授权管理，并记录操作历史。
+# Alarm Mgt
+## Alarm Source Management
+- 支持警报源管理，包括新增、编辑（工厂/来源系统/访问控制/回调/描述等）、删除、启用/禁用、查看详情及操作历史。
+## Alarm Classification
+- 支持警报分类管理，包括新增、编辑、删除、查看详情及操作历史。
+## Alarm Level
+- 支持警报等级管理，包括新增、编辑、删除、查看详情及操作历史。
+## Alarm Rule Management
+- 支持告警规则管理，包括新增、导入、导出、编辑、删除、启用/禁用、查看详情、查看所属策略及操作历史。字段卡控与新增逻辑一致。
+## Alarm Strategy Management
+- 支持告警策略管理，区分系统策略与设备策略。包括新增（选择警报源/分类/规则等）、导入、导出、编辑、删除、启用/禁用、查看详情、查看关联规则及操作历史。
+## Equipment Alarm Strategy
+- 支持设备级告警策略管理，包括新增、导入、导出、编辑、删除、查看详情、配置告警任务及操作历史。
+## Alarm Ftp Config
+- 支持FTP文件告警策略管理，包括新增、编辑、删除、查看详情、配置告警任务及操作历史。
+# Alarm Task
+## Alarm Task Query
+- 支持设备告警作业查询，可根据工厂、警报源（必填）、警报分类、策略类型等进行精确查询，并查看任务详情及进度。
+## Equipment Alarm Task
+- 支持设备告警作业的独立查询入口，查看任务详情及执行进度。
+## Alarm Log
+- 支持告警记录查询，可查看匹配的告警策略及告警时间等详细信息。
+## Equipment Alarm History
+- 支持设备告警历史记录查询，可根据起始日期、区域、设备类型、设备名称、Alarm ID/Code等条件筛选，并查看记录详情。
+# Main
+## Workplace Dashboard
+- 提供工作台视图，展示各种告警数据量、告警分布情况、处理率等关键监控指标。
+# System Mgt
+## Data Dictionary & Menu
+- 支持数据字典管理及菜单配置管理。
+## Permission & Log
+- 支持权限管理及系统操作日志记录。
+## Notification & Action
+- 支持通知任务设定及动作设定。
+# Report
+## Alarm Statistics
+- 支持告警统计报表，可按区域、设备类型等维度查询并导出单日告警记录。
+## Alarm Query Report
+- 支持按区域、设备类型等维度查询单日告警记录明细。
+## Alarm Count Statistics
+- 支持按“设备+Alarm ID”等维度统计告警发生次数。
+## Alarm Availability
+- 支持告警有效性统计，按区域、设备类型等维度进行分析。
+## Alarm Completion Statistics
+- 支持告警完成情况统计，可按区域、设备类型、日期等维度查询。
+## Alarm Date Comparison
+- 支持不同日期的告警时间对比分析，并支持结果导出。

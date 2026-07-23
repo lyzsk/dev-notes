@@ -1,0 +1,49 @@
+# 标准功能
+## EAP模板管理
+- 按设备Buffer类型、用途、工艺、通讯方式建立模板库；支持FixedBuffer、Inline、Furnace、Wet、InternalBuffer、Sorter、CarrierExchange、Bonding、FoupClean、FoupInspection、ReticleStocker、ReticleInspection、N2Purge、开盒器等模板；503台设备中390台NewType优先按模板沉淀复用。
+# 设备接入
+## SECS Driver / 设备通讯
+- 支持SECS-I、HSMS、SECS-II、GEM等标准通讯；支持Serial、TCP、TCP_SECS1、UDP、PIPE、PLC、Barcode、RFID、SMIF等接入；支持大报文处理、断线重连、通讯超时和异常恢复。
+# GEM能力
+## GEM基础状态机
+- 实现Communication、Control、Processing三类状态机；支持COMMUNICATING、OFF-LINE/LOCAL/REMOTE、IDLE/READY/EXECUTING等状态同步；支持S1/S2/S5/S6/S7/S10等常用Stream。
+## 事件、报警、变量与远程命令
+- 支持Collection Event、Report、SV/DV/EC数据采集；支持Alarm Set/Clear成对上报；支持Remote Command START、STOP、PAUSE、RESUME、ABORT等命令及ACK处理。
+# 流程控制
+## Scenario流程配置
+- 支持图形化配置、显示和修改EAP Scenario；支持异常流程、动态事件配置、Port/Chamber/Recipe路径配置、Inline多设备配置、FOUP/Cassette优先级和wafer级流程控制。
+# 业务校验
+## 帐料校验与作业管控
+- 支持向MES查询Carrier、Lot、Equipment、Batch、EDC信息；支持Lot与设备匹配校验、Recipe校验、JobIn/JobOut/CancelJobIn/HoldLot/BatchJob动作；不匹配时支持退Port、Hold Lot、报警。
+# 载具管理
+## LoadPort / Carrier控制
+- 支持300mm LoadPort、FOUP/FOSB/OpenCassette自动/手动模式控制；支持E84/E87场景下Carrier到达、ID验证、SlotMap验证、Proceed、Complete、Release、CarrierOut等流程。
+# 配方协同
+## Recipe / RMS集成
+- 支持RecipeBody、RecipeParameter解析与上传；支持RMS请求抓取、下载、比对、版本校验；Run货前校验RecipeID存在性与MES/RMS配方一致性；支持当前Recipe信息展示。
+# 数据采集
+## EDC/FDC/AMS数据上报
+- 支持SECS/GEM、TCP/IP、File、Database、FTP、PLC等方式采集设备事件、报警、状态、常量、工艺参数；支持数据格式转换、采集开关配置，并向FDC/AMS/MES等系统上报。
+# 状态同步
+## 设备状态与控制同步
+- 支持设备通讯状态、Online/Offline、Local/Remote、Port Auto/Manual、设备运行状态、Chamber状态同步；支持MES侧状态查询和切换控制。
+# 物料追踪
+## Carrier/Wafer/Buffer追踪
+- 支持Track-in、Track-out、Hold等过账信息实时上报；支持Buffer管控、Cassette进出Buffer上报、wafer进出Chamber与wafer history采集。
+# 光罩管理
+## Reticle管理
+- 面向12寸光刻相关设备，支持光罩Load/Unload、Reticle Library状态展示、使用次数采集、IRIS检测数据上报、预约与Run货前光罩状态验证。
+# 系统集成
+## 上位系统接口
+- 支持与MES、RMS、FDC、APC、AMS、PMS、AMHS、RCM等系统集成；接口方式支持Message Bus、REST/Web API、TCP/IP、DB/File等，具体以客户CIM接口规范为准。
+# 客户端
+## OUI / EAP客户端
+- 支持一个OUI对应多台EAP，OUI关闭不影响EAP运行；支持账号权限、中英文消息、消息记录、设备/物料/错误信息查询、手动指令发送和异常处置。
+# 运维管理
+## MC部署与版本管理
+- 支持EAP状态查询、Start/Stop/Restart、Code Version查看、日志查看、远程部署、批量升级、版本比对、预约升级、Pilot、Rollback、跨环境同步。
+## 日志、审计与监控
+- 支持Log分级、按时间/大小切分、定时备份和清理；支持问题追踪、日志分析工具、第三方监控接入、异常告警、部署与操作审计。
+# 测试工具
+## 模拟器与测试环境
+- 支持SECS Log回放、设备模拟器、MES模拟器、EAP模拟器、SECS测试工具；支持NewType模板开发、Lab Test、Fab Test、回归测试和量产切换验证。

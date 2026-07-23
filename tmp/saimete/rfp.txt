@@ -1,0 +1,2023 @@
+<TABLE>
+| Request For Proposal |
+| CIM系统 版本号1.0 |
+</TABLE>
+文档信息
+<TABLE>
+| 文档名称 | CIM系统RFP |
+| 文档建立日期 | 2026年6月29日 |
+| 文档作者 | 黄偲初 |
+| 文档所有人 |  |
+</TABLE>
+文档修改记录
+<TABLE>
+| 版本 | 日期 | 变更记录 |
+| V1.0 | 2026/6/298 | Draft版本 |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+</TABLE>
+[1] 保密
+本文档中包含的所有信息，都必须绝对保密。收到本RFP的所有厂商不得以任何方式向第三方传播、散布或授权其它方使用本文档的任何信息，同时上海芯源创新中心需对服务提供商应答的方案建议书和财务报价单保密并禁止传播。
+关于保密义务及相关约束事项，均以双方签署生效的《上海芯源创新中心 CIM项目 保密协议（一般保密义务）- 赛美特 - signed》文件约定为准。
+[1] SOW
+为配合上海芯源创新中心CIM系统（EAP、FDC、RMS、RCM、APC、MES、SPC、AMS、PMS、RTD、AMA、YMS、DMS、RPT、FMS）的战略部署，中心亟需完善CIM内容与能力建设，已解决当前的如下问题：
+项目选型困难：软硬件厂商种类繁多，15个CIM子系统运维管理独立，面临松散、繁多的技术栈；各家厂商的解决方案各异、独立，资源联合交付的标准化程度不匹配
+无法引入先进技术：现中心软件聚焦于OA、ERP等技术领域，并未从半导体Fab视角部署CIM系统，难以满足未来生产需求并全栈对制造业信息技术进行孵化；在使用和管理上均难以互通，造成基础设施和能力平台孤岛
+难以迅速响应业务变化：基础设施扩容周期漫长，主要提供系统软件部署、增量功能二次开发、IaaS资源（虚拟机、存储、商用负载均衡、CDN等），中间件、数据库和大数据等应用从场景需要额外立项采购软件和硬件进行部署交付
+无法支撑信创工作目标达成：服务于国家战略，需要导入信创解决方案以完成国家信创工作的部署
+可运维/监控/扩展：兼容中心现有的运维监控体系，同时具备较好的扩展自定义能力以满足运维和运营侧个性化定制需求。
+CIM系统作为上海芯源创新中心与生产制造紧密联系的一部分，需有效解决当前无工业软件系统可用的状态，为工业软件、中间件、数据库、大数据和AI类应用的部署与支撑生产提供有效支撑，同时为后期开发测试和生产环境的搭建奠定基础。
+[2] CIM系统全景图
+[2] EAP系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 分类 | 一级功能 | 二级功能 | Reply |
+| EAP | 标准功能 | EAP模板管理 | 按设备Buffer类型、用途、工艺、通讯方式建立模板库；支持FixedBuffer、Inline、Furnace、Wet、InternalBuffer、Sorter、CarrierExchange、Bonding、FoupClean、FoupInspection、ReticleStocker、ReticleInspection、N2Purge、开盒器等模板；503台设备中390台NewType优先按模板沉淀复用。 |  |
+| EAP | 设备接入 | SECS Driver / 设备通讯 | 支持SECS-I、HSMS、SECS-II、GEM等标准通讯；支持Serial、TCP、TCP_SECS1、UDP、PIPE、PLC、Barcode、RFID、SMIF等接入；支持大报文处理、断线重连、通讯超时和异常恢复。 |  |
+| EAP | GEM能力 | GEM基础状态机 | 实现Communication、Control、Processing三类状态机；支持COMMUNICATING、OFF-LINE/LOCAL/REMOTE、IDLE/READY/EXECUTING等状态同步；支持S1/S2/S5/S6/S7/S10等常用Stream。 |  |
+| EAP | GEM能力 | 事件、报警、变量与远程命令 | 支持Collection Event、Report、SV/DV/EC数据采集；支持Alarm Set/Clear成对上报；支持Remote Command START、STOP、PAUSE、RESUME、ABORT等命令及ACK处理。 |  |
+| EAP | 流程控制 | Scenario流程配置 | 支持图形化配置、显示和修改EAP Scenario；支持异常流程、动态事件配置、Port/Chamber/Recipe路径配置、Inline多设备配置、FOUP/Cassette优先级和wafer级流程控制。 |  |
+| EAP | 业务校验 | 帐料校验与作业管控 | 支持向MES查询Carrier、Lot、Equipment、Batch、EDC信息；支持Lot与设备匹配校验、Recipe校验、JobIn/JobOut/CancelJobIn/HoldLot/BatchJob动作；不匹配时支持退Port、Hold Lot、报警。 |  |
+| EAP | 载具管理 | LoadPort / Carrier控制 | 支持300mm LoadPort、FOUP/FOSB/OpenCassette自动/手动模式控制；支持E84/E87场景下Carrier到达、ID验证、SlotMap验证、Proceed、Complete、Release、CarrierOut等流程。 |  |
+| EAP | 配方协同 | Recipe / RMS集成 | 支持RecipeBody、RecipeParameter解析与上传；支持RMS请求抓取、下载、比对、版本校验；Run货前校验RecipeID存在性与MES/RMS配方一致性；支持当前Recipe信息展示。 |  |
+| EAP | 数据采集 | EDC/FDC/AMS数据上报 | 支持SECS/GEM、TCP/IP、File、Database、FTP、PLC等方式采集设备事件、报警、状态、常量、工艺参数；支持数据格式转换、采集开关配置，并向FDC/AMS/MES等系统上报。 |  |
+| EAP | 状态同步 | 设备状态与控制同步 | 支持设备通讯状态、Online/Offline、Local/Remote、Port Auto/Manual、设备运行状态、Chamber状态同步；支持MES侧状态查询和切换控制。 |  |
+| EAP | 物料追踪 | Carrier/Wafer/Buffer追踪 | 支持Track-in、Track-out、Hold等过账信息实时上报；支持Buffer管控、Cassette进出Buffer上报、wafer进出Chamber与wafer history采集。 |  |
+| EAP | 光罩管理 | Reticle管理 | 面向12寸光刻相关设备，支持光罩Load/Unload、Reticle Library状态展示、使用次数采集、IRIS检测数据上报、预约与Run货前光罩状态验证。 |  |
+| EAP | 系统集成 | 上位系统接口 | 支持与MES、RMS、FDC、APC、AMS、PMS、AMHS、RCM等系统集成；接口方式支持Message Bus、REST/Web API、TCP/IP、DB/File等，具体以客户CIM接口规范为准。 |  |
+| EAP | 客户端 | OUI / EAP客户端 | 支持一个OUI对应多台EAP，OUI关闭不影响EAP运行；支持账号权限、中英文消息、消息记录、设备/物料/错误信息查询、手动指令发送和异常处置。 |  |
+| EAP | 运维管理 | MC部署与版本管理 | 支持EAP状态查询、Start/Stop/Restart、Code Version查看、日志查看、远程部署、批量升级、版本比对、预约升级、Pilot、Rollback、跨环境同步。 |  |
+| EAP | 运维管理 | 日志、审计与监控 | 支持Log分级、按时间/大小切分、定时备份和清理；支持问题追踪、日志分析工具、第三方监控接入、异常告警、部署与操作审计。 |  |
+| EAP | 测试工具 | 模拟器与测试环境 | 支持SECS Log回放、设备模拟器、MES模拟器、EAP模拟器、SECS测试工具；支持NewType模板开发、Lab Test、Fab Test、回归测试和量产切换验证。 |  |
+</TABLE>
+[3] 典设的技术架构：（对3rd SW的依赖：middleware，DB，3rd SW，负载均衡）
+EAP按“设备接入层、协议Driver层、业务执行层、系统集成层、运维管理层”设计，覆盖503台设备，其中390台NewType按设备族模板化开发，剩余113台按既有/特殊协议适配。
+<TABLE>
+| 逻辑层 | 主要模块 | 职责 | 接口/协议/框架 |
+| 设备接入层 | SECS设备、Non-SECS设备、Barcode/RFID/SMIF/PLC/LoadPort | 负责设备连接、端口状态、物理载具到达、特殊协议适配 | Serial、TCP/IP、TCP_SECS1、UDP、PLC、I/O |
+| 协议/Driver层 | SECS Driver、HSMS Session、SECS-II解析、GEM状态机 | 负责S/F消息收发、W-bit/T3超时、Linktest、Alarm、Event、SV/DV/EC、Remote Command | SEMI E4/E5/E30/E37，必要时扩展E40/E87/E90/E94/E42 |
+| EAP业务执行层 | EAP Engine、Scenario Runtime、Job/Carrier/Recipe/EDC处理模块 | 执行Run货流程、帐料校验、Port控制、Recipe校验、数据采集、异常恢复 | 内部API、配置文件、消息事件 |
+| 模板与配置层 | FixedBuffer、Inline、Furnace、Wet、Sorter、CarrierExchange、Reticle等模板 | 沉淀NewType开发公共逻辑，降低390台NewType重复开发量 | 模板库、版本库、参数化配置 |
+| 系统集成层 | MES、RMS、FDC、APC、AMS、PMS、AMHS、RCM接口适配 | 统一转换设备事件、作业、配方、报警、状态和采集数据 | Message Bus、REST/Web API、TCP/IP、DB/File、客户CIM接口规范 |
+| OUI交互层 | EAP OUI、产线操作界面、多设备监控界面 | 展示设备/物料/错误/消息记录，支持人工异常处理和手动命令 | PLUS消息通道、权限服务、日志文件 |
+| 管理运维层 | MC部署工具、版本管理、日志中心、监控告警 | 远程部署、批量升级、Pilot/Rollback、Start/Stop/Restart、运行状态看板 | PLUS/Message Bus、SSH/Agent、监控Agent、日志采集 |
+</TABLE>
+[3] 典设的部署架构：
+生产环境建议按四个工厂分区部署EAP AP资源，MC/版本/监控能力可集中双节点部署；各工厂如网络隔离，则在各自CIM服务器区部署独立EAP AP池，通过受控防火墙策略访问MES/RMS/FDC等上位系统。按本次503台EAP设备规模，生产EAP AP Server按约10台设备/Server估算，共需51台。
+EAP硬件清单建议如下，实际采购可按虚拟化资源池等价折算：（deploment by all of linux？）
+<TABLE>
+| 服务器/设备 | 环境 | 形态 | OS | CPU Core | 内存GB | 系统盘 | 数据盘/存储 | 数量 | 用途/备注 |
+| EAP Product AP Server | PROD | 虚拟机/物理机 | Windows Server 2016及以上 / Red Hat、CentOS 7.9及以上 | 8 | 32 | 500G | 500G | 51 | 承载503台EAP，按约10台设备/Server估算 |
+| MC Product AP Server | PROD | 虚拟机/物理机 | Windows Server 2016及以上 / Linux | 16 | 64 | 500G | 500G | 2 | 部署、监控、版本管理，双节点互备 |
+| MC Product DB Server | PROD | 虚拟机/物理机 | Windows Server 2016及以上 / Linux | 16 | 64 | 300G | 1T起 | 1 | MC配置、审计、版本和运行元数据 |
+| EAP DEV/UAT Server | DEV/UAT | 虚拟机 | Windows Server 2016及以上 / Linux | 8 | 32 | 500G | 按需 | 6 | NewType开发、Lab Test、Fab Test回归 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | Windows Server 2016及以上 / Red Hat、CentOS 7.9及以上 | EAP AP、MC、测试服务器 | 承载EAP Runtime、MC、模拟器； |
+| 数据库 | Oracle 19c或客户指定数据库 | MC DB Server | 保存MC配置、版本、审计、运行元数据；EAP AP本身不强依赖集中DB |
+| 消息中间件 | PLUS / Message Bus | EAP AP、OUI、MC | EAP与OUI、MC之间消息通道，支持点对点、点对多和Domain隔离 |
+| 运行时 | .NET Framework / .NET Runtime | OUI客户端、部分管理工具 | 支撑OUI界面与客户端工具运行 |
+| Web/代理 | Nginx或客户标准负载均衡 | MC Web入口，可选 | 用于统一入口、反向代理和高可用切换，若客户已有负载均衡可复用 |
+| 监控/日志 | 客户现有监控Agent、Filebeat/Fluent Bit等 | EAP AP、MC、DB、Message Bus | 接入客户运维体系，采集进程、端口、磁盘、日志、异常告警 |
+| 备份软件 | 客户标准备份/快照工具 | MC DB、版本库、日志归档 | 支持配置、版本包、数据库和日志定期备份与恢复演练 |
+</TABLE>
+[2] FDC系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| FDC | 3 故障侦测 | 3.8 支持建模处配置条件时可选择用户加入自定义的信息标签(MES Context字段 (可与工艺绑定)) |  |
+| FDC | 3 故障侦测 | 3.9 UVA激活时支持签核功能 |  |
+| FDC | 3 故障侦测 | 3.10 依据Context设置规则筛选所需监控的Wafer以进行UVA模型设置，如First wafer monitoring |  |
+| FDC | 3 故障侦测 | 3.11 数据窗口可以通过Step，Recipe Time，Sensor规则，offset来划分 |  |
+| FDC | 3 故障侦测 | 3.12 数据窗口可以通过连续多点上升下降规则划分 |  |
+| FDC | 3 故障侦测 | 3.13 数据窗口的定义支持参数化。参数可以随着当前Run的Context变化而调整，例如窗口可以自动匹配当前Recipe的main step |  |
+| FDC | 3 故障侦测 | 3.14 提供Function使Rawdata通过计算生成虚拟Sensor，Function支持表达式方式，并可以通过客制新方法扩充aFunction |  |
+| FDC | 3 故障侦测 | 3.15 提供Function使Rawdata和指标值通过前后多点的运算生成Moving Average ， MovingRange 等虚拟Sensor，并支持无缝扩展 |  |
+| FDC | 3 故障侦测 | 3.16 提供Rawdata的非线性监控 |  |
+| FDC | 3 故障侦测 | 3.17 窗口内的任意Sensor支持灵活的过滤功能，可以通过设置过滤掉一些噪音数据 |  |
+| FDC | 3 故障侦测 | 3.18 系统提供向导式的快速建模工具，并可以通过Sensor的历史数据建议使用的统计方法 |  |
+| FDC | 3 故障侦测 | 3.19 支持连续多片wafer之间的模型的统计值计算，例如计算连续两片之间MovingRang，并在LotID切换的时候进行重置。统计算法应该包括Mean，Max，Min，Sum，Slope，EWMA |  |
+| FDC | 3 故障侦测 | 3.20 支持对工艺中的某个步骤的时间进行累加，在超过规格之后可以报警并复原 |  |
+| FDC | 3 故障侦测 | 3.21 Sensor的DataQuality在检查不合格的情况下，可以跳过部分模型的监测 |  |
+| FDC | 3 故障侦测 | 3.22 提供在长时间的制程及时检查规格的解决方案，避免在制程结束时才发现问题 |  |
+| FDC | 3 故障侦测 | 3.23 窗口支持对Recipe的任意一段区间进行监控 |  |
+| FDC | 3 故障侦测 | 3.24 提供在cycle step 中批量检查main sub-step 的解决方案, 支持将cycle step 的所有main sub-step 设定成一个窗口,用一个规格. |  |
+| FDC | 3 故障侦测 | 3.25 支持发现工艺时间异常的问题，例如Wafer工艺过程中由于一些原因没有上报End事件，FDC系统可以经过配置及时发现并通过OCAP报警 |  |
+| FDC | 3 故障侦测 | 3.26 支持设置Fixed spec |  |
+| FDC | 3 故障侦测 | 3.27 支持设置Delta spec，即在Target的基础上进行加减运算生成spec |  |
+| FDC | 3 故障侦测 | 3.28 可以根据设备(tool),腔室(chamber),配方(recipe),recipe step,或其他Context信息(product,stage)设定规格 |  |
+| FDC | 3 故障侦测 | 3.29 模型的报警等级分为Warning，Alarm，Outlier |  |
+| FDC | 3 故障侦测 | 3.30 每个报警等级可以设置不同的规格和对应的OCAP |  |
+| FDC | 3 故障侦测 | 3.31 支持批量使用历史数据对所有的腔室生成规格 |  |
+| FDC | 3 故障侦测 | 3.32 生成规格时选择的run list支持抽样 |  |
+| FDC | 3 故障侦测 | 3.33 自动计算规格的时候，能够个别指定生成warning limit ,Alarm limit, Outlier limit的上下限对应sigma的倍数，sigma算法可以选择和自定义 |  |
+| FDC | 3 故障侦测 | 3.34 每一个Indicator都可以单独设定计算规格时的训练样本组：PerProcessType、PerTool、PerChamber每次计算LIMIT都保留记录并且可以查看每次计算所用样本 |  |
+| FDC | 3 故障侦测 | 3.35 内置5种sigma算法，可以给不同的模型选择适合的算法。算法列表：PSEUDO Sigma，Bounded Boxplot Sigma，SIMR2, SROBUST, SUMVU |  |
+| FDC | 3 故障侦测 | 3.36 规格种类支持N-Σ(目标值 +- N-Σ), Δ(目标值 +-Δ), 删除百分比(目标值 +- 删除*N%), 移动平均目标值(用户定义N值). |  |
+| FDC | 3 故障侦测 | 3.37 target bias(目标值偏移)支持product、tool、chamber维度设置offset值 |  |
+| FDC | 3 故障侦测 | 3.38 具有50种基本的计算公式，平均绝对偏差AAD,Area，Count，Cp，Cpk，Dt，FirstPoint，HitCountAbove，HitCountBelow，Intercept，IQR, Kurtosis，LastPoint，MAD,Max，MaxDownwardSpike，MaxGap，MaxJump，MaxOscillation，MaxSpike，MaxUpwardSpike，Mean，MeanG，MeanH，MeanT，Median，Min，MinGap，Mode，Percentile，PointCount，PointCountAbove，PointCountBelow，PointCountBounded，Q1,Q3,Range，RMS，SampleRat，SampleTime，Skew，Slope，SlopeR2，Stdev，StdevT，Sum，TimeCountAbove，TimeCountBelow，TimeRange，Trend |  |
+| FDC | 3 故障侦测 | 3.39 支持MeanAgg算法拓展算法计算两组平均值之间的差值 |  |
+| FDC | 3 故障侦测 | 3.40 通过集成AMS系统支持多种报警方式 ，如Email/SMS/Phone/Wechat |  |
+| FDC | 3 故障侦测 | 3.41 通过集成MES支持HoldLot/HoldTool/HoldChamber/HoldRecipe |  |
+| FDC | 3 故障侦测 | 3.42 支持设置MES/EQP Chamber之间的Mapping关系 |  |
+| FDC | 3 故障侦测 | 3.43 支持Model算法的二次开发，提供sample code |  |
+| FDC | 3 故障侦测 | 3.44 FDC需要卡target以上百分比的规格 (例如, target以上10%的部分才卡) |  |
+| FDC | 3 故障侦测 | 3.45 模型的规格支持复制粘贴， |  |
+| FDC | 3 故障侦测 | 3.46 支持SPC Alarm rules ，支持自定义Alarm rule |  |
+| FDC | 3 故障侦测 | 3.47 支持基于算法、参数设定Alarm rule模版 |  |
+| FDC | 3 故障侦测 | 3.48 支持Alarm rule的仿真测试，用以评估新的Alarm rule的执行结果 |  |
+| FDC | 3 故障侦测 | 3.49 模型支持设置多个Alarm rule |  |
+| FDC | 3 故障侦测 | 3.50 模型可以设置级别，高级别的模型报警后，低级别的模型不再报警 |  |
+| FDC | 3 故障侦测 | 3.51 支持MVA多变量分析 |  |
+| FDC | 3 故障侦测 | 3.52 AI集成，支持利用AI算法建立监控模型 |  |
+| FDC | 4 报表 | 4.1 警报中包含详细的违规信息 |  |
+| FDC | 4 报表 | 4.2 经由集成发送外部系统的，过滤Run中重复警报 |  |
+| FDC | 4 报表 | 4.3 机台 Alarm 信息单独呈现在 FDC Report 模块中 |  |
+| FDC | 4 报表 | 4.4 FDC Alarm模块 提供 按周月、季度、年汇总FAB、Module的警报数量 |  |
+| FDC | 4 报表 | 4.5 支持BY FAB、By Module、By Tool、By Recipe、By Indicator、By Ooc、By Lot统计 |  |
+| FDC | 4 报表 | 4.6 支持查看uchart中报警点分布 |  |
+| FDC | 4 报表 | 4.7 分级汇总Tool/Recipe的警报数量 |  |
+| FDC | 4 报表 | 4.8 支持按照Lot查询警报 |  |
+| FDC | 4 报表 | 4.9 支持按照警报动作查看警报 |  |
+| FDC | 4 报表 | 4.10 支持按照机台腔查看UVA设置详情列表 |  |
+| FDC | 4 报表 | 4.11 支持查看UVA设置覆盖率统计图表 |  |
+| FDC | 4 报表 | 4.12 支持查看uchart时点击link到tchart |  |
+| FDC | 4 报表 | 4.13 查看警报记录列表时点击单条可直接在右侧弹出uchart绘图 |  |
+| FDC | 4 报表 | 4.14 支持数据导出功能：所有列表支持导出 |  |
+| FDC | 4 报表 | 4.15 支持收藏功能：收藏内容为当前页面中的条件，收藏夹列表中点击收藏标题后进入首页查看收藏内容 |  |
+| FDC | 5 Dashboard | 5.1 提供Dashboard 工具，支持生产数据的大屏展示 |  |
+| FDC | 5 Dashboard | 5.2 看板支持轮播样式自定义 |  |
+| FDC | 5 Dashboard | 5.3 看板支持快速开发 |  |
+| FDC | 5 Dashboard | 5.4 看板支持多数据源配置 |  |
+| FDC | 5 Dashboard | 5.5 看板数据可视化配置 |  |
+| FDC | 5 Dashboard | 5.6 看板业务监控和风险预警展示 |  |
+| FDC | 5 Dashboard | 5.7 看板可视化展示庞杂数据 |  |
+| FDC | 5 Dashboard | 5.8 看板支持API、SQL、数据源 |  |
+| FDC | 5 Dashboard | 5.9 看板轮播切换样式可配置 |  |
+| FDC | 5 Dashboard | 5.10 看板轮播时长可配置 |  |
+| FDC | 6 扩展算法 | 6.1 默认提供50+以上默认统计算法 |  |
+| FDC | 6 扩展算法 | 6.2 支持以Java Method 扩展新的算法API及其他API |  |
+| FDC | 6 扩展算法 | 6.3 支持通过上传Jar 或者 Class ，实时支持扩展API |  |
+| FDC | 6 扩展算法 | 6.4 支持实时不停机扩展API |  |
+| FDC | 6 扩展算法 | 6.5 支持脚本式算法 |  |
+| FDC | 6 扩展算法 | 6.6 厂商需要具备基本客制及升级脚本语法的能力 |  |
+| FDC | 6 扩展算法 | 6.7 建立监控时,支持可视化的调整模板，提供脚本编辑的界面 |  |
+| FDC | 7 图形化工作流 | 7.1 具备图形化工作流平台 |  |
+| FDC | 7 图形化工作流 | 7.2 支持利用图形化接口定制与第三方接口能力 |  |
+| FDC | 7 图形化工作流 | 7.3 具备说数据库访问，访问外部WebService等能力 |  |
+| FDC | 7 图形化工作流 | 7.4 利用工作流实现query Lot Process Context接口业务 |  |
+| FDC | 7 图形化工作流 | 7.5 基于当前流程， 创建新流程 |  |
+| FDC | 8 系统 | 8.1 基于 Spring Cloud 微服务框架进行封装，平台设计灵活可扩展、可移植、可应对高并发需求 |  |
+| FDC | 8 系统 | 8.2 支持灵活的可配置性和拓展性 |  |
+| FDC | 8 系统 | 8.3 微服务架构，提供了系统的高可扩展性，以及高可用性。 |  |
+| FDC | 8 系统 | 8.4 基于微服务的应用程序的开发和部署，基于服务发现和注册，实现自动负载平衡和故障切换。基于分布式配置，简化了跨多个环境和服务的配置管理，提高了系统的一致性。 |  |
+| FDC | 8 系统 | 8.5 系统平台监控工具，对OS和运行程序全方位监控和预警 |  |
+| FDC | 8 系统 | 8.6 微服务化构建FDC核心程序，支持RAW，ROUTE , ADMIN数据库分离，支持异构数据库 |  |
+| FDC | 8 系统 | 8.7 除Oracle数据库外，系统支持PostgreSQL和SQLServer作为FDC核心业务数据库 |  |
+| FDC | 8 系统 | 8.8 开放DB schema |  |
+| FDC | 8 系统 | 8.9 支持FDC核心应用服务运行于Linux/CentOS操作系统 |  |
+| FDC | 8 系统 | 8.10 提供角色管理，自定义角色 |  |
+| FDC | 8 系统 | 8.11 提供按钮级别权限控制 |  |
+| FDC | 8 系统 | 8.12 提供数据层权限控制 |  |
+| FDC | 8 系统 | 8.13 支持rawdata分表存储、文件存储 |  |
+| FDC | 8 系统 | 8.14 支持日志文件的大小、路径等参数可配置 |  |
+</TABLE>
+[3] 典设的技术架构：
+<TABLE>
+| 逻辑层 | 主要模块 | 职责 | 接口/协议/框架 |
+| 设备接入层 | SECS/GEM、Facility Data、Trace/Event/Alarm、Polling/Trace、External Sensor | 负责设备连接、采集计划执行、复杂结构解析、采集质量监控和数据缺失告警；采集链路与EAP业务链路隔离。 | SECS/GEM、PT方式、DCP、Sensor List、SVID List、List/Array解析 |
+| 实时数据管道层 | DC采集服务、Kafka、ZooKeeper、Redis | 对496 tools在线采集数据进行缓冲、分发和状态缓存，支持按厂区、网络段、设备协议分组横向扩展。 | Kafka 3.6.1、ZooKeeper 3.8.3、Redis 7.4.6 |
+| 模型与报警层 | UVA/MVA、窗口规则、Spec规则、SPC Alarm Rule、OCAP联动 | 执行单变量/多变量监控、Rawdata非线性监控、Fixed/Delta Spec、Warning/Alarm/Outlier分级和OCAP动作。 | Spring Cloud微服务、Java Method/Jar/Class/脚本扩展 |
+| 数据存储层 | Oracle 19c、SAN、NAS/MinIO、RAW/SUM/ADMIN库 | 存储结构化业务数据、模型与报警结果、rawdata和原始采集文件，支持rawdata分表和文件存储。 | Oracle 19c、SAN 24.8TB/年、MinIO |
+| 应用展示层 | UChart、TChart、Rawdata Viewer、Report、Dashboard | 提供多图同屏、Overlay、Step对齐、sigma线/limit线、报表统计、看板轮播和数据导出能力。 | Web UI、Nginx 1.14.1、权限服务 |
+| 系统集成层 | MES、AMS、EAP、Workflow、AI分析服务 | 整合MES Context并联动AMS通知、MES Hold动作、第三方WebService/DB访问和AI模型分析结果。 | REST/HTTP、DB/File、Kafka、客户CIM接口规范 |
+| 运维管理层 | Nacos、Keepalived、日志/监控、配置管理 | 支撑服务注册、分布式配置、入口高可用、进程/端口/磁盘/日志监控和参数化配置。 | Nacos 2.2.0、Keepalived 2.1.5、客户监控Agent |
+</TABLE>
+[3] 典设的部署架构：
+FDC硬件清单建议如下
+<TABLE>
+| 服务器/设备 | 环境 | 形态 | OS | CPU Core | 内存GB | 系统盘 | 数据盘/存储 | 数量 | 用途/备注 |
+| FDC Product AP Server | PROD | 虚拟机/物理机 | Red Hat 8.10 | 32 | 256 | 100G | 1T | 8 | FDC服务、建模、报表、工作流、高可用 |
+| FDC Product DC Server |  | 虚拟机/物理机 | Windows Server 2019 Standard | 16 | 32 | 100G | 500G | 17 | 设备数据采集、协议解析、边界缓存；依赖.NET/IIS，不能改为Linux |
+| FDC Product DB Server |  | 虚拟机/物理机 | Red Hat 8.10 | 24+ | 256+ | 100G | 1T本地盘+SAN 24.8TB/年 | 2 | Oracle 19c核心库，RAC或主备，保存模型、报警、报表和业务数据 |
+| FDC Release Server |  | 虚拟机/物理机 | Windows Server 2019 Standard | 16+ | 24+ | 100G | 300G | 1 | 客户端/服务包发布、版本仓库、部署包管理；依赖.NET/IIS，不能改为Linux |
+| FDC SAN Storage |  | 存储 |  |  |  |  | 24.8TB/年 | 1 | Oracle数据库共享存储、结构化业务数据 |
+| FDC NAS/MinIO Storage |  | 对象/文件存储 | Red Hat 8.10 |  |  |  | 24.8TB/年 | 1 | Rawdata、原始采集文件、分析结果、日志和归档 |
+| FDC TEST APP Server | TEST | 虚拟机 | Red Hat 8.10 | 16 | 32 | 100G | 500G | 1 | FDC测试应用、配置验证、功能回归 |
+| FDC TEST DC & Release Server |  | 虚拟机 | Windows Server 2019 Standard | 8 | 16 | 100G | 500G | 1 | 测试采集、发布服务、接口联调；依赖.NET/IIS |
+| FDC TEST DB Server |  | 虚拟机 | Red Hat 8.10 | 16 | 32 | 100G | 1000GB | 1 | Oracle 19c测试数据库 |
+| FDC AI Analysis Server | 可选 | 虚拟机/物理机 | Red Hat 8.10 | 8起步 | 16起步/建议32 | 100G SSD | 200G SSD起步 | 1 | HTTP分析服务，接收设备数据并返回模型/分析结果 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件清单：
+<TABLE>
+| c | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | Red Hat 8.10；Windows Server 2019 Standard | AP、DB、NAS/MinIO、AI使用Linux；DC、Release、TEST DC & Release使用Windows | FDC不可全部Linux Server。DC/Release依赖.NET Framework、.NET 5、IIS及采集/发布组件。 |
+| 数据库 | Oracle 19c | PROD DB Server 2台；TEST DB Server 1台 | 需要DB。保存核心业务数据、模型配置、报警记录、报表统计、权限和运行元数据；生产建议RAC或主备。 |
+| Middleware | Nacos 2.2.0、Redis 7.4.6、ZooKeeper 3.8.3、Kafka 3.6.1、MinIO RELEASE.2023-06-23T20-26-00Z | AP、DC、NAS/MinIO节点 | 需要middleware。用于服务注册配置、缓存、实时数据管道、Topic分发、对象/文件存储。 |
+| 负载均衡/高可用 | Nginx 1.14.1、Keepalived 2.1.5 | FDC入口、AP入口、Release/管理入口 | 需要负载均衡。提供反向代理、统一入口、虚拟IP切换和基础高可用。 |
+| Windows运行时 | .NET Framework 4.7.2、.NET 8、IIS | DC Server、Release Server、TEST DC & Release Server | 支持采集服务、发布服务和相关Windows组件运行；这是FDC不能全Linux的关键原因。 |
+| 监控/日志 | 客户现有监控Agent、Promethus/Grafna等 | FDC全节点 | 需要接入客户运维体系，采集进程、端口、磁盘、日志、异常和容量告警。 |
+| 备份软件 | 客户标准备份/快照工具 | DB、SAN、NAS/MinIO、配置库 | 用于数据库、配置、模型、rawdata、版本包和日志定期备份与恢复演练。 |
+| 第三方接口 | REST/HTTP、DB/File、Kafka接口；按客户CIM接口规范 | MES、EAP、AMS、RMS、Workflow、AI分析服务 | 支持MES Context整合、AMS告警、MES Hold动作、第三方WebService/DB访问和AI结果回写。 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| Web客户端 | Vue | Vue2.0 | 用于Report、Dashboard等Web页面。 |
+| 服务端/FDC AP | Java | JDK 8 | Spring Cloud微服务、模型服务、报表服务、权限与配置服务。 |
+| Client | C# | .NET Framework 4.7.2 | 客户端基于winform，基础机台配置和UChart、TChart、Rawdata Viewer查看。 |
+| DC | .NET | .NET 8 | 部署于Windows Server，负责设备数据采集、协议解析和边界缓存。 |
+| AI分析服务 | Python | Python3.9 | 对外提供HTTP接口，接收设备数据并返回分析结果；可独立扩容。 |
+</TABLE>
+系统是否支持全Linux服务器，如果不支持，哪些服务器需要Windows
+回答：FDC不支持全部Linux Server。AP Server、DB Server、NAS/MinIO、AI Analysis Server可部署在Linux（Red Hat 8.10）；DC Server、Release Server、TEST DC & Release Server需要Windows Server 2019 Standard，原因是采集/发布组件依赖.NET Framework 4.7.2、.NET 5、IIS及相关Windows运行环境。
+[3] 大数据和AI能力（非必填项）
+AI能力按独立HTTP分析服务规划，可接收设备数据并返回分析结果；默认不改变FDC主链路，高负载或模型复杂度提升时可横向扩展AI服务节点。
+<TABLE>
+| 所属系统 | 计算方式和依赖关系 | 硬件配置与数量 |
+| FDC-AI分析服务 | 对外提供HTTP接口，接收设备数据并返回分析结果；可被FDC建模、报警、报表或工作流模块调用。输入可来自在线HTTP请求、Kafka实时数据、Oracle历史数据或MinIO/NAS文件；分析结果回写FDC模型结果、报警建议或报表数据。 | 1台服务器；8核CPU起步，建议1路8核或以上（Intel Xeon/AMD EPYC同级）；内存16GB起步，建议32GB；系统盘100GB SSD；数据盘200GB SSD起步，用于输入数据、分析结果、日志和临时文件。 |
+</TABLE>
+[2] RMS系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| RMS | Equipment Category | "设定设备程序类型为 Standard Recipe - Full Body |  |
+| RMS | Equipment List | 选择关联角色设定设备负责人员和负责人相关组别测试邮件发送Share Recipe基准设备设定 |  |
+| RMS | Notification Settings | 设定邮件通知时机点（如：RecipeValidationFail、 SetActive等) |  |
+| RMS | Recipe List | 从设备端获取程序列表设定Recipe/Sequence的UnderControl列表 |  |
+| RMS | Recipe Configuration | Standard Recipe - Full Body: 从设备上传程序，并查看程序大小程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本Active程序变成DeactivateStandard Recipe - Parameter:从设备上传程序手动设定参数规范，支持Recipe Parameter的Absolute/ByRange/ByTolerance/ByList比较类型通过模板复制参数规范通过Excel导入参数规范程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本参数规范可保存成模板Active程序变成DeactivateSequence Recipe:从设备上传主程序设定子程序是否比较手动设定Sequence Parameter规范通过模板复制主程序参数规范通过Excel导入参数规范从设备上传子程序手动设定子程序参数规范通过模板复制子程序参数规范通过Excel导入参数规范子程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本主程序Set Frozen/Audit against EQP/Set Active/Approve生成Active版本主程序参数规范可保存成模板子程序参数规范可保存成模板Active程序变成Deactivate |  |
+| RMS | Recipe Template | 根据设备类型查看所有模板模板规范设定支持公式编辑程序模板修改规范删除选中模板 |  |
+| RMS | Recipe Advance Active | 支持整合工厂现有签核系统根据区域、设备类型或设备查看所有待Approve的Recipe/SequenceApprove/Reject程序 |  |
+| RMS | Recipe Status | 根据区域、设备类型或设备查看所有程序状态根据关键字模糊查询相关程序Bypass/Cancel Bypass/Delete所选中程序 |  |
+| RMS | Recipe Download | Standard Recipe:同型号设备中Active程序Download到指定设备批量Download本设备Active程序Sequence Recipe:同型号设备中Active主程序Download到指定设备同型号设备中Active子程序Download到指定设备 |  |
+| RMS | Recipe Compare | Offline Audit（模拟EAPValidation）比较批量多个程序Offline Audit设备间程序差异比较不同版本程序比较相同程序批量比较多个设备之间的差异两个设备批量比较多个程序之间的差异 |  |
+| RMS | Batch Load From EQP | Standard Recipe:批量从设备中上传多个程序批量Active多个程序Sequence Recipe:批量从设备中上传主/子程序 |  |
+| RMS | Batch Set Active | 根据区域、设备类型或设备查看所有Standard Recipe和Sequence Sub Recipe能够Set Active版本批量选中多个程序Set Active，如整合签核系统产生一张签核审批单 |  |
+| RMS | Recipe Operate Log | Standard Recipe:查询Recipe Version的变更履历查看Parameter SPEC修改履历Sequence Recipe:查询Sequence Version的变更履历查看Sequence Parameter SPEC修改履历子程序是否比较开关履历查看主程序Parameter SPEC修改履历 |  |
+| RMS | Recipe Validate Log | 支持查询Recipe(Sequence)的EAP Validation履历支持查看机台校验结果汇总报表 |  |
+| RMS | Golden Recipe | 设备设定中，新建基准设备，勾选Allow Share Recipe,并勾选Auto Share在Recipe Configuration中，从同型号任意设备中上传程序，程序规范设定同上程序Set Active时，默认共享给同型号所有设备，其他设备无需再设定在Advance Active时，Approve/Reject程序Recipe Status页面中可查看和修改共享关系非基准设备可以设定自己的Active版本 |  |
+| RMS | Strict Parameter | 预设锁定严格检查参数，设定的参数不允许uncheck |  |
+| RMS | Recipe Key Param Spec | 根据机型设置key param的sepc范围Spec设置方式有ByRange/ByTolerance/公式Load Recipe时自动套用Key Param Spec |  |
+| RMS | Uncheck Param List | 根据设备机型设置Uncheck的参数Load Recipe的时候自动把不需要的Check的参数Uncheck |  |
+| RMS | Recipe Parse Adaptor | 支持不停机上线或更新Parse Adaptor |  |
+| RMS | Equipment Constant | 新建设备常量参数，并编辑参数规范支持设备常量的Absolute/ByRange/ByTolerance/ByList比较类型支持同类型设备之间的设备常量设定Copy支持设定Excel导入支持设定设备常量与设备中常量数值比较支持同类型设备之间的设备常量比较差异 |  |
+| RMS | EC Operate Log | 支持查询设备常量的设定变更履历 |  |
+| RMS | EC Validate Log | 支持查询设备常量的EAP Validation履历 |  |
+</TABLE>
+[3] 典设的技术架构：
+RMS采用B/S与后台服务分层架构，客户端通过浏览器访问RMS Web；Nginx作为统一入口，Web服务提供Recipe管理、设备配置、权限、查询统计等能力；App/后台服务负责Recipe上传、校验、下载、比对、冻结/激活、设备接口适配和批处理任务。
+系统通过消息总线或接口组件与EAP、MES、OA/BPM、钉钉等外部系统集成，支持TibcoRV、RavenCast、IBM MQ、CORBA、Web API等现场常见接入方式。
+硬件架构图如下：
+图4-1 RMS硬件及应用技术架构图
+[3] 典设的部署架构：
+部署拓扑图如下，生产环境建议RMS Web/AP服务、数据库服务分别采用多节点部署，Nginx和应用层Fail-Over/Load Balancing提供统一入口与高可用。
+硬件配置如下：
+<TABLE>
+| 环境 | Server Name | Qty. | CPU | Memory | Disk | OS | Application |
+| PROD | RMS DB Server | 2 EA | 2GHz，16 Core以上（2 CPU） | 64GB以上 | 600GB * 2EA | Linux 7.6以上；MySQL/Oracle/MSSQL/PostgreSQL/GaussDB | Dual configuration（HA/Cluster） |
+| PROD | RMS AP Server / Web Server | 2 EA | 2GHz，16 Core以上（2 CPU） | 64GB以上 | 300GB * 2EA | Linux 7.6以上 | M/W Fail-Over & Load Balancing；建议高主频CPU |
+| PROD | Storage（Disk Array） | 按需 | - | - | 1TB起，按10K/Month及保留周期扩容 | - | 共享存储/磁盘阵列 |
+| PROD | Web Server Nginx | 2 EA | 2GHz，4 Core以上 | 8GB以上 | 50GB * 2EA | Linux 7.6以上 | 可独立部署；若AP Server选用Linux，可共用服务器 |
+| UAT | RMS DB Server | 1 EA | 2GHz，8 Core以上（1 CPU） | 32GB以上 | 300GB | Linux 7.6以上；MySQL/Oracle/MSSQL/PostgreSQL/GaussDB | 数据库服务 |
+| UAT | RMS AP Server / Web Server | 1 EA | 2GHz，8 Core以上（1 CPU） | 32GB以上 | 300GB | Linux 7.6以上 | 应用服务、Web服务 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件依赖清单如下，
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| Middleware | UAT 单节点；Prod 双节点节点 | 配置参考MES Middleware | 用于与EAP通讯 |
+| Nginx+Keepalived | UAT 单节点；Prod 双节点节点 | 配置参考见上方（3） 若AP Server选用Linux，可共用服务器 | 生产建议M/W Fail-Over与应用服务负载均衡 |
+| RMS关系数据库（MySQL/Oracle/MSSQL/PostgreSQL/GaussDB） | UAT 单节点；Prod 双节点节点 | 配置参考见上方（3） | 存储Recipe元数据、版本、参数规范、设备关系、签核与日志； 生产建议HA/Cluster/RAC或主备复制 |
+</TABLE>
+各产品/模块开发语言如下：
+<TABLE>
+| 产品/模块 | 客户端开发语言 | 服务器端开发语言 | 备注 |
+| RMS Web客户端 | HTML5、CSS3、JavaScript、jQuery；通过Chrome/Edge/Firefox等浏览器访问 | - | 客户端无需安装Windows专用程序 |
+| RMS Web服务 | C#、jQuery（页面交互） | C#/.NET 或现场版本对应Web运行时 | 用于Recipe管理、设备配置、报表查询、权限和系统设置 |
+| RMS App/后台服务 | - | Python | 用于Recipe解析、上传、校验、下载、比对处理 |
+| RMS数据访问与数据库对象 | - | SQL；按数据库选型适配MySQL/Oracle/MSSQL/PostgreSQL/GaussDB | 数据库脚本和存储对象随现场数据库品牌调整 |
+| RMS接口适配 | Web前端调用RMS API，C#语言开发 | 服务端接口通过中间件通讯方式实现，Python语言开发 | 接口协议以现场EAP/MES/OA/BPM开放能力为准 |
+</TABLE>
+Linux Server支持说明：RMS服务器端支持全部部署在Linux Server，无需Windows Server；客户端为浏览器访问，可在Windows、Linux、macOS等桌面环境使用主流浏览器。若客户选择MSSQL Server，应采用Linux兼容版本或接入客户既有数据库服务，RMS应用节点本身不依赖Windows Server。
+[2] RCM系统需求及架构
+[3] 需求拆分：
+RCM 客户端
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 功能描述 | 预算估计 |
+| RCM 客户端 | 登录 | 登录 | 输入账密，通过后端接口验证 |  |
+|  | 个人设置 | 宫格设定 | User自定义宫格页面,1*1,2*2,3*3等 |  |
+|  |  | 轮播间隔 | User自定义宫格画面的轮播间隔 |  |
+|  |  | 样式选择 | 皮肤样式 |  |
+|  |  | 修改密码 | 修改当前密码并保存 |  |
+|  | Tool List | 机台列表收藏 | 查看收藏机台列表 |  |
+|  |  | 机台列表加载 | 按照设定权限加载机台 |  |
+|  |  | 机台模糊查询 | 机台ID模糊查询 |  |
+|  |  | 连接与断开 | 连接宫格和断开宫格开关 |  |
+|  |  | 刷新机台列表 | 在后台给用户添加/删除机台，用户可以不退出刷新最新的机台列表 |  |
+|  | 宫格页面 | 界面加载 | 按照设定加载宫格矩阵并自动排布 |  |
+|  |  | 画面连接与轮播 | 开始连接后，对选中的机台画面进行连接并轮播 |  |
+|  |  | 开启操作页 | 双击或点击操作页按钮，开启选择的画面的操作页 |  |
+|  | 操作页 | 远程操作 | 正常的远程操作，包括双荧幕的操作 |  |
+|  |  | 画面比例切换 | 支持原比例、等比缩放 |  |
+|  |  | 保存截图 | 保存机台当下的画面 |  |
+|  |  | 全屏/窗口切换 | 可进行全屏操作和窗口操作 |  |
+|  |  | 鼠标矫正 | 智能模式/标准模式下可矫正鼠标（需硬件支持） |  |
+|  |  | CTRAL+DEL+ALT快捷键 | 特殊快捷键位，容易本近端拦截，故采用按钮命令 |  |
+|  |  | 隐藏/显示远端鼠标 | 可隐藏和显示远端鼠标 |  |
+|  |  | 连接信息 | 显示KVM的相关信息（需硬件支持） |  |
+|  |  | 画面侧录 | 有操作权限时按规则对画面进行侧录、保存并记录侧录log供之后多维度快捷查询 |  |
+|  |  | 请求操作 | 与PlantU RCM Server交互，进行操作页的权限分配 |  |
+|  |  | 聊天室 | 可以和打开同一操作页的用户进行聊天 |  |
+</TABLE>
+RCM Web后台
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 功能描述 | 预算估计 |
+| RCM Web后台 | 登录 | 登录 | 使用DB/LDAP验证，且通过PlantU RCM DB权限验证 |  |
+|  | 机台设定 | 区域维护 | 对区域信息维护 |  |
+|  |  | 机台组维护 | 对机组信息维护，机组在区域下层 |  |
+|  |  | KVM维护 | 对KVM信息维护，KVM的基本连接信息 |  |
+|  |  | 机台维护 | 对机台信息的维护，机台所在的机组及绑定的KVM，以及双荧幕的KVM设定 |  |
+|  | 角色设定 | 角色设定 | 对角色的新增/修改/删除及对菜单权限进行分配 |  |
+|  | 人员设定 | 人员设定 | 设定人员ID和名称等基本信息 |  |
+|  | 群组设定 | 群组维护 | 对群组信息维护 |  |
+|  |  | 人员维护 | 为群组内的人员进行维护，设定群组对应的机组的权限，权限划分为无权限，查看权限，操作权限 |  |
+|  | 菜单设定 | 菜单设定 | 对菜单进行排序 |  |
+|  | 系统设置 | 侧录信息 | 设定侧录开关，保存方式，保存路径，侧录配置等 |  |
+|  |  | 登录方式 | 设定使用LDAP登录 |  |
+|  |  | 自动退出 | 设定操作页和软件超时退出的时间 |  |
+|  |  | 最多操作数 | 设置宫格页面可最大打开的操作数 |  |
+|  | 汇总统计 | 人员统计 | 查看/导出人员的使用的统计情况 |  |
+|  |  | 机台使用 | 查看/导出机台的使用的统计情况 |  |
+|  | 审计回溯 | 审计回溯 | 查询测录信息相关信息 |  |
+|  | 切换用户 | 切换用户 | 跳转到登录页，重新登录 |  |
+</TABLE>
+[3] 典设的技术架构：
+[a9] RCM系统架构
+RCM 客户端HP-Socket / HTTP，访问 VIPWindows 故障转移群集（VIP 统一对外提供业务）服务器 A（主）IIS：WebAPIIIS：WebUIWebServer（由 Service 调起）服务器 B（备）IIS：WebAPIIIS：WebUIWebServer（由 Service 调起）故障切换数据库服务器、存储服务器RCM 客户端HP-Socket / HTTP，访问 VIPWindows 故障转移群集（VIP 统一对外提供业务）服务器 A（主）IIS：WebAPIIIS：WebUIWebServer（由 Service 调起）服务器 B（备）IIS：WebAPIIIS：WebUIWebServer（由 Service 调起）故障切换数据库服务器、存储服务器
+RCM系统组成
+<TABLE>
+| 类别 | 逻辑层 | 主要模块 | 协议 | 技术框架 |
+| RCM Client | 表现层 | 业务操作模块、界面展示模块（DevExpress 组件）、权限交互模块 | HTTP/HTTPS，RESTful | WinForm + DevExpress UI |
+| WebUI | 表现层 | 维护功能页面、数据交互模块（Axios 调用 WebAPI） | HTTP/HTTPS 接口调用 | Element UI + Axios |
+| WebAPI | 业务逻辑层 | 业务接口模块、数据访问模块（SqlSugarORM） | SqlSugar ORM，数据库协议 | ASP.NET WebAPI + SqlSugar ORM |
+| WebServer | 业务逻辑层 | 客户端连接管理、操作页权限交互 | HP-Socket，TCP 长连接 | HP-Socket |
+</TABLE>
+[3] 典设的部署架构：
+<TABLE>
+| 类型 | OS环境 | 参考配置 | 数量 | 备注 |
+| 测试环境 | 操作系统：Windows Server 2016+ 运行环境：.Net Framework 4.7+ 三方工具：Dbeaver/Notepad++ | CPU：Xeon Bronze 3204(6C6P) 内存：32GB ECC 硬盘：500GB*1 | ×2 |  |
+| 正式环境 | 操作系统：Windows Server 2016+ 运行环境：.Net Framework 4.7+ 三方工具：Dbeaver/Notepad++ | CPU：Xeon Bronze 4208(8C16P) 内存：64GB ECC 硬盘：1T*2 | ×2 |  |
+| 客户端配置 |  | 操作系统：Windows Server 2016+ 运行环境：.Net Framework 4.7+ 三方工具：Dbeaver/Notepad++ | N |  |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+<TABLE>
+| 类别 | 版本/版本建议 | 用途 | 备注 |
+| 服务端操作系统 | Win Server 2016 | 部署服务端程序WebAPI、WebUI、WebServer等 |  |
+| 客户端操作系统 | Win10 | 运行RCM客户端 |  |
+| 数据库 | MySql>=5.7 | 存储RCM数据 |  |
+| 运行时 | .net framework4.6+;.net 6;.net6 hosting; vc++ >=2015 | 服务端、客户端运行依赖 |  |
+</TABLE>
+[3] 开发语言&环境&工具
+<TABLE>
+| 类别 | 开发语言 | 环境 | 工具 |
+| RCM Client | CSharp | .net framework 4.6+ | Visual studio 2022 |
+| WebAPI | CSharp | .net 6 | Visual studio 2022 |
+| WebUI | Vue+ElementUI | Nodejs | Visual studio Code |
+| WebServer | CSharp | .net 6 | Visual studio 2022 |
+</TABLE>
+RCM系统中除了DB数据和系统产生的录屏数据可以存放到Linux中，其余业务软件/服务需要在Windows环境下运行；
+[2] APC系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| APC | 平台功能 | 产品提供的控制模型：MA,WMA,EWMA,MPC; 支持用户开发自定义控制模型; 完全国产化，自主知识产权; 支持集群，具有高可用性; 支持Windows/Linux平台部署; 支持SQL Server/ Oracle/MySQL/Pg SQL/Vastbase G100/Open Guass等多种数据库; 支持多种消息总线，如Tibco RV/Raven Cast/H101/Web API/Rabbit MQ等，和其他系统通讯; 支持pilot，rework，special，runcard ，normal run等scenario; 软件升级以及新功能发布不影响系统使用，不停机; 消息并行处理，处理速度快; 易于通过客制化扩展自定义功能; 支持图形化workflow; 提供图形化的接口与其他系统集成; 支持workflow及sub workflow Debug; 图形组件快速定位; 图形组件多选/全选，复制，整体移动; 产品提供开发验证; 开发的流程间可嵌套，提高重用性; 提供测量数据收集及过滤功能; 提供收值项目和机台下货参数的配置; 产品提供常用函数如最小值、最大值、平均值、标准差等; 可自定义异常量测数据以及客制化检查流程，例如滤除低GOF (goodness-of-fit)量测资料不参与R2R反馈计算; 提供机台支持提供不同程度的前馈反馈控制器开发，如lot-level, batch-level, or wafer-level 前馈和后馈; 根据前值选择不同的生产recipe; 支持多步骤的同一Parameter同时控制; 计算模型版本控制; Request的数量及生命周期按不同控制器统计; Web UI，支持多浏览器访问; 登录支持接入OA验证; 支持SISO/MIMO系统; 分module R2R执行情况的监控; 查询 R2R计算执行失败履历; |  |
+|  | Litho Controller | Litho CD控制模型：SISO EWMA Model; Litho CD FFFB模型：Lot级别反馈; Litho 支持Process机型：ASML，Canon，NIKON; Litho CD控制参数: Dose,Focus; ; Litho CD输出参数: CD ; 支持pilot run, rework run, normal run, special run, runcard run; 参数值最小调整阈值; tuning参数的变化量上限控制; tuning参数的上下限控制; Control Flag: ON，FIX(固定值模式)，OFF; 量测数据有效性检查; 支持固定值模式; 反馈有效期控制; 反馈有效批次控制; 按Lot Type反馈; 根据最近的run货值计算返工lot下货值; Thread 状态控制; FEM下货参数支持; OVL控制模型：MSISO EWMA; OVL FFFB模型：Lot级别反馈; 支持Process机型：AMSL/CANON/NIKON; 支持8、10 para线性参数; 支持HOPC/iHOPC 高阶参数; 支持pilot run, rework run, normal run, special run, runcard run; 参数值最小调整阈值; tuning参数的变化量上限控制; tuning参数的上下限控制; Control Flag: ON，FIX(固定值模式)，OFF; 量测数据有效性检查; wafer数据有效性检测; 支持固定值模式; 反馈有效期控制; 反馈有效批次控制; 按Lot Type反馈; 根据最近的run货值计算返工lot下货值; Thread 状态控制; Tool dedication检查; Simulate功能; 曝光记录手动补录; Chuck dedication; Wafer级别前层对准; |  |
+|  | CMP Controller | 控制模型：MIMO MPC; FFFB模型：Lot 级别的前馈/后馈,Wafer 级别的前馈; 特别地，对于CMP集成量测支持Wafer级别反馈; 控制参数:研磨时间，研磨时间+分区压力; 输出参数:  研磨量，分区厚度; 支持pilot run, normal run, special/runcard,rework run功能; 参数值最小调整阈值; tuning参数的变化量绝对值上限; tuning参数的上下限; 调整参数值的截取(根据上下限或者变化量上下限); Control Flag: ON，FIX(固定值模式)，OFF; 下货参数值与实际下货值差异检查; 量测数据site有效性检查; 主从参数设置; 手工前量补录; 有效反馈的有效期控制， 控制绪的反馈值连续超出规定时间没有更新，此控制绪切换至pilot状态; 量测可根据wafer process run进行反馈; 自动侦测维修; 自动设置维修事件; 后量连续不合格，控制绪切换至pilot状态; |  |
+|  | ETCH Controller | 控制模型：MIMO MPC; FFFB模型：Lot 级别的前馈/后馈,Wafer 级别的前馈; 控制参数: 蚀刻时间，ESC Chuck Temperatures，Gas Flows 等; 输出:  CD，Thickness，depth; 支持pilot run, normal run, special run，runcard run功能; 参数值最小调整阈值; tuning参数的变化量绝对值上限; tuning参数的上下限; 调整参数值的截取(根据上下限或者变化量上下限); Control Flag: ON，FIX(固定值模式)，OFF; tuning参数连续达到上下限的次数控制; 提供不同Input之间线性关系的约束 ; 量测数据site有效性检查; 支持基于单output 的多个zone的计算，; 有效反馈的有效期控制; 最新量测反馈控制; 支持主/从tuning 参数; 提供wafer level前馈时 缺少wafer的量测数据，自动补偿计算; 手动调整tuning parameter下货值侦测; 支持前值/后值量测来自于多个站点; 支持Hydra uniformity system（raw metro data and X/Y coordinates ）; 支持有关first wafer效应的处理; |  |
+|  | Furnace Controller | 控制模型：MIMO MPC; FFFB模型：Batch 级别的反馈:; 支持Process机型：Kokusai furnace, Tel furnace; 控制参数： 各区的温度(usually 5 or 6, up to 10), deposition的时间或者ALD loop; 输出参数：各区的厚度(usually 5 or 6, up to 10); 支持pilot run, normal run, special run, runcard run scenarios; Zone的反馈资料识别; 根据必要Zone量测资料反馈; 有效反馈的有效期控制; 输出预测; 量测数据site有效性检查; 量测有效检查; 最新量测反馈控制; 量测超期处理; 参数值最小调整阈值; tuning参数的变化量绝对值上限; tuning参数的上下限; 调整参数值的截取(根据上下限或者变化量上下限); Control Flag: ON，FIX(固定值模式)，OFF; 下货tuning参数连续超限处理; 手动调整tuning parameter下货值侦测; 控制器Enable/Disable; 手动调整tuning parameter 参数的delta限制; Boat zone定义; |  |
+|  | WET Controller | 控制模型：SISO EWMA; FFFB模型： Batch级别前馈，反馈; 支持1）根据前量厚度选择recipe，2）更新ETCH_TIME两种模式; 控制参数：ETCH_TIME; 输出参数:  Thickness; 支持pilot run,normal run, special run，runcard run; tuning参数的变化量绝对值上限; tuning参数的上下限; 调整参数值的截取(根据上下限或者变化量上下限); Control Flag: ON，FIX(固定值模式)，OFF; 量测数据site有效性检查; 量测数据wafer有效性检查; 量测数据lot有效性检查并做触发action; 有效反馈的有效期控制， 控制绪的反馈值连续超出规定时间没有更新，会hold住; 量测可根据wafer process run进行反馈; |  |
+|  | Thin Film Controller | 控制模型：MIMO MPC; FFFB模型：Lot 级别的前馈/后馈,Wafer 级别的前馈; 控制参数: Dep Time,RF Power 等; 输出:  Thickness; 支持pilot run, normal run, special run，runcard run功能; 参数值最小调整阈值; tuning参数的变化量绝对值上限; tuning参数的上下限; 调整参数值的截取(根据上下限或者变化量上下限); Control Flag: ON，FIX(固定值模式)，OFF; tuning参数连续达到上下限的次数控制; 提供不同Input之间线性关系的约束 ; 量测数据site有效性检查; 支持基于单output 的多个zone的计算，; 有效反馈的有效期控制; 最新量测反馈控制; 支持主/从tuning 参数; 提供wafer level前馈时 缺少wafer的量测数据，自动补偿计算; 手动调整tuning parameter下货值侦测; 支持前值/后值量测来自于多个站点; |  |
+|  | Trim Controller | 根据THK Data Trim: 控制模型：MSISO，控制参数: 去除量，输出:  thickness; Wafer level Feedforward; Feedback; Tune Flag可以开关; 模型算法：EWMA; 工程师可以在UI上可手动调整去除量Offset; 数据模拟计算; 新产品或之前条件过期自动pilot run; Pilot Lot量测结果上传前，相同条件其他Lot禁止进站; 多种去除方式; 下货值SPEC卡控; 量测值SPEC卡控; 去除量Offset变动卡控; 多种OOS点处理方式; 支持用户指定去除坐标; 工程师操作记录存Log，方便追溯; 量测数据，生产数据Excel导出功能，方便工程师数据分析; 相关设置可以通过Excel导入、导出; 参数值最小调整阈值; Process顺序和量测顺序不一致处理; 手工前量补录; 根据WAT Data Trim: Wafer Level前馈; WAT量测结果自动处理; 支持不同device; 系数计算及引用; 支持By机台设置系数Offset; Tool Dedication; 多种系数选项支持; 多种目标值选项支持; 最小有效点数卡关; 最大OOS点数卡关; CupLifetime卡关; 量测值SPEC卡控; OOS Points卡关; OOS Hold Lot处理; 工程师操作记录存Log，方便追溯; 量测数据，生产数据Excel导出功能，方便工程师数据分析; 相关设置可以通过Excel导入、导出; 手工前量补录; 文件类型处理; |  |
+</TABLE>
+[3] 典设的技术架构：
+[3] 典设的部署架构：
+[3] 操作系统、中间件、数据库的依赖清单
+<TABLE>
+| 所属系统 | 操作系统 | 中间件 | 数据库 | 配置 | 数量 | 领域 |
+| APC | Linux（CentOS 7.9/Linux Red Hat7.6以上） | PlantU Messagebus | Oracle | CPU：32 core Memory：64G Disk：1T | 2*2 | DB和AP分别部署 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| Server端 | Python | 3.8.5 |  |
+| UI端 | C# | .net core 10 |  |
+</TABLE>
+系统是否支持全Linux服务器，如果不支持，哪些服务器需要Windows
+回答:是
+[3] 大数据和AI能力（非必填项）
+<TABLE>
+| 所属系统 | 计算方式和依赖关系 | 硬件配置与数量 |
+| APC | AI小模型为可选项：包含机器学习基本模型和基于深度神经网络的系统预测和参数计算模型(针对非线性系统控制) | 配置：同上 数量：2 |
+</TABLE>
+[2] MES系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| MES | 基础FLOW建模 | 所有基础资料的维护都需要保留操作历史记录，并支持按时间、对象等条件查询。 |  |
+|  |  | 支持查询所有建模数据（如工厂建模、产品、工艺流程、配方、工程数据收集、设备、代码等）并导出。 |  |
+|  |  | 支持快捷查询各对象被谁使用。 |  |
+|  |  | 可以自定义扩展所有模型对象的属性，模型对象包含不限于工厂、机台、机台组、产品、产品组、工艺流程、层、段、站点、工程数据收集、配方（Recipe）、光罩（Reticle）、探针卡、容许时间（Qtime）、批次、晶圆。 |  |
+|  |  | 在所有数据生效前，必须检查所有设定彼此间是否一致，数据如有变更则需与当前实际情况检查是否一致，是否可以变更。 |  |
+|  |  | 所有模型对象支持版本控制，模型对象包含但不限于产品、工艺流程、层、段、站点、逻辑配方（Logical Recipe）、物理配方（Physical Recipe）、工程数据收集、光罩（Reticle）、探针卡、容许时间（Qtime）等。版本变更时遵循如下要求： |  |
+|  |  | 版本的控制要能支持Active版本的定义，每个对象只有唯一的激活（Active）版本号。工程师可以从多个版本中指定激活（Active）版本； |  |
+|  |  | (新版本生效后，旧版本将会被冻结，工程师不可以随意指定激活（Active）版本； |  |
+|  |  | 所有的改变都能够被记录下来并且可以被追踪； |  |
+|  |  | 涉及版本变更时，版本号能够自动增加。 |  |
+|  |  | 关键模型参数，设置功能和查看功能需要分开，避免查看人员有设置权限。 |  |
+|  |  | MES系统模型逻辑和用户需求逻辑出现冲突时，应以用户需求为准进行调整。 |  |
+|  |  | 修改工艺量测参数采样计划时，按MES内嵌签审流程进行工艺量测参数的重设目标值，无需升版。 |  |
+|  | 厂区建模管理 | 支持多工厂建模及生产，8英寸及先进封装工厂、微组装工厂，每个工厂独立，批次产品、流程、批次隔离，且支持后续新工厂模型扩展建立和生产流片运转。 |  |
+|  |  | 支持工厂（Fab）、区域（Area）、片区（Bay）、暂存位（Bank）等定义。 |  |
+|  |  | 支持扩散（DIFF）、光刻（Litho）等工作区域定义。 |  |
+|  |  | 支持工厂、区域、设备对应关系，设备可以分配到不同的区域用于工艺工程师、设备工程师、生产制造。 |  |
+|  |  | 支持工厂日历。 |  |
+|  |  | 支持生产排班，批次加工历史能正确记录该班次信息。 |  |
+|  |  | 支持产品在多工厂切换加工。 |  |
+|  | 机台建模 | 支持设备对象分级定义，比如主机台、子机台（chamber、Tube、Loadport等），主机台与子机台关联。 |  |
+|  |  | 支持设备分类管理；同时应可定义设备类型/型号。主设备除普通设备外还有特殊设备，比如倒片机（Sorter）、光刻的联机设备（Inline）等。 |  |
+|  |  | 支持定义设备对象（主、子机台）属性：污染等级，状态切换模型，加工类型，最大加工能力，单次并行加工能力（Batch）等。 |  |
+|  |  | 支持定义机台可接受的载具类型。 |  |
+|  |  | 支持可配置主、子设备状态及状态转换，状态转换标准支持E10以及用户自定义的设备状态。 |  |
+|  |  | 支持管理设备状态模型：设备状体定义及状态切换表，支持事件发生时实时自动触发设备状态切换，比如批次入机台时机台/子机台由“闲置”转为“运行”状态等；也支持手动用MES功能进行状态转换。 |  |
+|  |  | 设备状态转换支持用户权限设定，没有权限的则不能转到该种状态，比如某类角色能从某状态转换到另外一种状态。设备状态转换权限配置支持批量导入导出，支持变更调整。 |  |
+|  |  | 支持配置运行时设备（主、子机台）状态检查。 |  |
+|  |  | 支持手动和自动化（Online-Remote状态，通过EAP控制机台加工）操作管控。 |  |
+|  |  | 支持通过机台/机台组关联产品、工艺流程、工序，各工艺流程相关工序需要增减机台时可快速变更，无需对所有产品工艺流程一一更新，比如按照机台组内新增机台即可。 |  |
+|  |  | 支持批量处理，支持操作者一次处理多条记录。 |  |
+|  |  | 支持设备各级对象创建、修改、复制，支持通过复制其他来生成新设备，支持批量处理。 |  |
+|  |  | 数据清除及存档：提供完整功能给终端用户以及IT进行设备主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询。 |  |
+|  |  | 可查询全部设备列表，包含设备编码、设备名称、主状态、子状态、旧主状态、旧子状态、维修信息、设备组、机台责任人、最新动作、备注等。 |  |
+|  |  | 历史记录机台所有过程详细信息，包含机台信息、状态转换信息、批次加工信息、上下光刻板信息。 |  |
+|  | 产品建模 | 支持定义产品模型，属性包含产品类型、产品负责人、DPW（每片晶圆Die数）、ERP料号、单位等。 |  |
+|  |  | 源产品信息需要包关键参数、厂家、供应商原批次号。 |  |
+|  |  | 支持自定义产品编码规则。 |  |
+|  |  | 支持不同产品类型，如量产、科研、监控片、挡片。 |  |
+|  |  | 支持产品版本管控，升版本时进行新旧版本差异比较，以确认修改正确性。 |  |
+|  |  | 支持定义产品与工艺的关系，持多对一对应关系。 |  |
+|  |  | 支持定义产品与原单晶产品关系。 |  |
+|  |  | 支持定义产品、工艺流程、配方、机台对应关系。 |  |
+|  |  | 支持产品状态定义及转换。 |  |
+|  |  | 支持产品组定义。 |  |
+|  |  | 支持产品创建、修改、复制，支持通过复制其他来生成新产品，支持批量处理。 |  |
+|  |  | 数据清除及存档：提供完整功能给终端用户以及IT进行产品主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询。 |  |
+|  |  | 记录历史详情。 |  |
+|  | 工艺流程建模 | 支持工艺流程、工段、站点多层级，支持模块化建模，各级模型对象能复用和共享。 |  |
+|  |  | 支持定义工艺流程各级对象类型（量产、工程、实验、返工、监控等）。 |  |
+|  |  | 多个产品可以共用相同的工艺流程。 |  |
+|  |  | 支持对工艺流程各级对象编号、状态、版本等管控。 |  |
+|  |  | 可由工艺流程/站点来定义段/层。 |  |
+|  |  | 支持基于产品、工艺流程、工序等关联机台组、机台、配方、工程数据收集、容许时间（QTime）、光刻板、探针卡。 |  |
+|  |  | 主工艺流程可有多个子路径组成，包含普通路径、分支路径（Multi-Path）、返工路径（Rework）、条件判断分支等。 |  |
+|  |  | 支持主工艺路径的工序上绑定计划返工路径（Rework）。 |  |
+|  |  | 能够定义返工站点和指示，返工制程可以被多个主制程调用。 |  |
+|  |  | 支持对工艺站点（Process steps）与量测站点（Metrology step）、前量与厚量的关系对应。 |  |
+|  |  | 支持虚拟站点。 |  |
+|  |  | 支持批量导入/导出，导入/导出格式统一，能够将导出的数据修改后直接导入，导入时有比较与校验防错功能。 |  |
+|  |  | 支持在工段特定工序的先后顺序校验。 |  |
+|  |  | 支持工艺制程信息变更签审后生效。 |  |
+|  |  | 工艺流程升版本需要继承旧版工艺流程上设定的容许时间（Qtime）、采样、计划扣留等，如果由于增删站点/工段变化导致容许时间（Qtime）、实验分片单(SRC)、故障处理单(RRC)、先行批（Pilot）等起止站点失效需要识别影响并告知用户，并按合适方式进行处理，比如对在制批次处理：当新版本的流程激活（Active）时，除了特别要求的批次外，批次都应该自动升版至激活版本；作业中批次批次不能变更，等加工完成后判定非特别要求的批次外自动升版，特别要求的批次保留原版本； |  |
+|  |  | 升版时不能影响在实验分片单(SRC)、故障恢复单(RRC)、返工、超规计划（OCAP）处理中的批次，且这些批次能够在结束上述非常规工艺返回主流程后自动升版到激活的版本，当（子）工艺流程升版本导致返回点不存在时，则回到旧版的返回点并扣留批次，支持人工升版本到新版（子）工艺流程； |  |
+|  |  | 流程升版应该继承原有的容许时间/取样计划/站点扣留等设定；批次升版也要保留已经触发的容许时间； |  |
+|  |  | 对于未自动升版成功的批次，要有提示并将未成功升版的批次清单信息发邮件给相关工程师。 |  |
+|  |  | 支持工艺流程各级对象创建、修改、复制，支持通过复制其他来生成新工艺流程、工序等，支持批量处理。 |  |
+|  |  | 支持比较两条工艺流程（不同工艺流程或工艺流程的不同版本）标记不同之处。 |  |
+|  |  | 配方（Recipe）、工程数据收集、容许时间（Q-Time）都可以按产品单独配置。 |  |
+|  |  | 数据清除及存档：提供完整功能给终端用户以及IT进行工艺流程主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询。 |  |
+|  |  | 记录历史详情 |  |
+|  | 配方建模管理 | 流程的站点上定义的是配方，跑货时下给设备的是 设备工艺流程程序ID (PPID ,Process Program ID)，配方和 设备工艺流程程序ID(PPID)之间有一定的对应关系。 |  |
+|  |  | 支持配方的分组。 |  |
+|  |  | 产线包含普通独立机台、多腔（Chamber）机台、炉管机台、研磨机台、联线机台匀胶曝光显影光刻机台。配方需要支持这些机台类型的配方配置。 |  |
+|  |  | 需要有维护配方的界面，包括修改，复制，查询，状态修改等。 |  |
+|  |  | 更新配方，无需对所有产品工艺流程一一更新，需要仅作少量调整即可。 |  |
+|  |  | 增加机台，无需对所有产品工艺流程一一更新，按照机台组内新增机台即可；并且具备查询机台组对应使用工艺流程。 |  |
+|  |  | 根据配方查询哪些产品在使用。 |  |
+|  |  | 记录历史详情。 |  |
+|  |  | 多腔机台在派工时，需要考虑腔的状态来选择 设备工艺流程程序ID(PPID)。 |  |
+|  |  | 炉管机台会根据配方和生产晶圆片的片数来选择对应的设备工艺流程程序ID(PPID)。 |  |
+|  |  | 在生产批次的履历中要记录设备加工所使用的配方/设备工艺流程程序ID(PPID)。 |  |
+|  |  | 支持配方的启用和停用。 |  |
+|  | 工程数据收集计划(EDC PLan) | 支持定义工程数据收集计划(EDC Plan)的对象：采集点、采集计划、采集参数（EDC参数）、采样规则、上下限规则、上下文内容，列出要收集的所有的需要的数据。采集计划、采集参数、采样规则、上下限规则可以复用。 |  |
+|  |  | 支持工程数据收集计划(EDC Plan)各对象的版本控制及修订追踪。 |  |
+|  |  | 工程数据收集计划(EDC Plan)需支持版本控制。 |  |
+|  |  | 支持工程数据收集计划(EDC Plan)与产品、工艺流程、站点关联使用。 |  |
+|  |  | 工程数据收集计划(EDC Plan)规格可定义数据收集的类型：Lot/Wafer 。 |  |
+|  |  | 支持在采集点关联设置采集计划、采集参数、采样规则、上下限规则。 |  |
+|  |  | 支持在采集计划关联设置采集参数、采样规则、上线规则。 |  |
+|  |  | 支持数据采集时伴随收集的上下文信息。 |  |
+|  |  | 工程数据收集计划(EDC Plan)的参数支持传入SPC，支持接受SPC结果发起一些动作，例如扣留批次（Hold lot）、锁定机台（Hold Tool）等。 对于违反工程数据收集计划(EDC Plan)规格导致OOC的时候，可以扣留批次（Hold lot）、锁定机台（Hold Tool）。 |  |
+|  |  | 对于炉管设备，需支持炉管监控批次的量测数据共享给生产批次。 |  |
+|  |  | 基于生产批次采集的工艺参数，如果母批前测完成后进行分批，子批应该支持前测量测结果，和支持子批进行后测及对应关系的计算。 |  |
+|  |  | 支持批量处理，支持操作者一次处理多条记录。 |  |
+|  |  | 支持工艺制程信息变更签审后生效。 |  |
+|  |  | 支持工程数据收集计划(EDC Plan)各对象创建、修改、复制，支持通过复制其他来生成新工程数据收集计划(EDC Plan)对象，支持批量处理。 |  |
+|  |  | 数据清除及存档：提供完整功能给终端用户以及IT进行工程数据收集计划(EDC Plan)主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询。 |  |
+|  |  | 与SPC集成支持将工程数据收集计划(EDC Plan)的内容送SPC用来定义SPC 管制计划收集数据的过滤条件，如：按设备，按子设备，按配方， 按产品， 按流程； |  |
+|  |  | 与SPC集成接受SPC OOC触发的超规动作计划(OCAP)流程； |  |
+|  |  | 支持SPC 管制计划和MES的工程数据收集计划(EDC Plan)规格设置根据规则关联查询， 并支持批量工程数据收集计划(EDC Plan)规格与关联SPC 管制计划同时新增和修改； |  |
+|  |  | 支持历史详情记录。 |  |
+|  | 选片规则 | 工程数据收集计划(EDC Plan)采集的规则可以定义，规则号可以自行编辑，可以根据不同片数的批次选择不同的片数，且wafer的位置均可以配置。 |  |
+|  |  | 可忽略特殊位置。 |  |
+|  |  | 从目标插槽开始搜索，从目标插槽的位置到结束插槽中所搜索到的第一片晶圆。 |  |
+|  |  | 从目标插槽开始搜索，从目标插槽的位置到起始插槽中所搜索到的第一片晶圆。 |  |
+|  |  | 从目标插槽开始搜索，从目标插槽的位置到结束插槽若存在晶圆，则选取第一片搜索到的晶圆，若不存在晶圆，则从目标插槽的位置到起始插槽搜索第一片存在的晶圆。 |  |
+|  |  | 从目标插槽开始搜索，从目标插槽的位置到起始插槽若存在晶圆，则选取第一片搜索到的晶圆，若不存在晶圆，则从目标插槽的位置到结束插槽搜索第一片存在的晶圆。 |  |
+|  |  | 可设置搜索插槽位置的上限/下限。 |  |
+|  |  | 提供设置规则需要挑选的量测片数。 |  |
+|  |  | 支持多种维度绑定规则，如不同的片数的批次，不同的产品的规则，不同参数的规则均可以设定。 |  |
+|  | 机台限制 | (j-1) 机台限制可根据主机台和子机台（Tube、chamber等）设置控制条件: 产品/工艺流程/段/站点/配方/光罩/探针卡/晶圆片数量/批次， 所有控制条件需要支持可用通配符，所有控制条件可以单独设定也可组合设定。 |  |
+|  |  | 基于相同的主机台和子机台允许设定多条。 |  |
+|  |  | 可支持动态条件管控：批次可在特定时间区间内去限制最大可运行的晶圆片数或批次数。 |  |
+|  |  | 可复制机台限制，并支持复制后修改。 |  |
+|  |  | 可用已有的批次通过模拟器确认机台限制的设定正确与否。 |  |
+|  |  | 需支持对于机台限制正反向的设定。 |  |
+|  |  | 支持设定不同的层需要使用相同的设备。 |  |
+|  |  | 需要支持优先级设定，后设定的优先级高于先设定机台限制条件。 |  |
+|  |  | 支持基于产品、工艺流程、工序、模组、机台组、机台类型、机台、子机台进行查询筛选已设定的机台限制规则，至少有一个筛选条件需要输入值。 |  |
+|  |  | 批次流片被机台限制卡控住时需要提示被哪些条机台限制卡控住，以及机台限制设定人信息。 |  |
+|  |  | 预先验算批次在未来的指定站点是否在哪个机台/子机台被限定无法加工，用户必须给出明确单站点及机台/子机台，无需支持一次性多站点查询。 |  |
+|  |  | 支持机台限制信息批量导入导出。 |  |
+|  |  | MES自检机台限制设置是否正确（含格式）。 |  |
+|  |  | 机台限制模拟：提供指定批次和指定机台是否存在机台限制的查询。 |  |
+|  | 容许时间 | 支持提前设定容许时间( Q-Time)，允许设定最小时间、预警时间、最大时间，在各个时间可以设定暂停、发邮件、加急动作其一或多个动作并存；发邮件支持不同邮件组、收件人。 |  |
+|  |  | 支持把定义好的容许时间(Q-Time)复用，关联到不同产品、工艺流程、工序进行复用。 |  |
+|  |  | 修改工艺流程时如有变更站点之前有设定容许时间(Q-Time)需要一并更新相应容许时间(Q-Time)，如有无效容许时间(Q-Time)需提示给用户进行修改。 |  |
+|  |  | 支持在实验分片单(SRC)与异常恢复单(RRC)中定义容许时间(Q-Time)以及继承原工艺流程上的容许时间(Q-Time)。 |  |
+|  |  | 支持容许时间(Q-Time)创建、修改、复制，支持通过复制其他来生成新容许时间(Q-Time)，支持批量处理。 |  |
+|  |  | 数据清除及存档：提供完整功能给终端用户以及IT进行容许时间(Q-Time)主数据及历史数据进行删除以及存档动作，该动作不能影响报表数据库，不能影响现有批次流片及查询。 |  |
+|  |  | 批次出机台之后可以对多个容许时间(Q-Time)在同一时间点开始计时。 |  |
+|  |  | 批次入机台之后可以对多个容许时间(Q-Time)在同一时间点结束，在取消入机台后可以对容许时间(Q-Time)继续计时。 |  |
+|  |  | 当分支路径A上有容许时间(Q-Time)结束站点，但批次实际走了另外一条分支路径时，则需要有容许时间(Q-Time)自动结束机制。 |  |
+|  |  | 容许时间(Q-Time)的时间条件达到时系统需要自动采取预设的动作，容许时间(Q-Time)触发机制需要合理，避免不生效、邮件爆发等异常问题。 |  |
+|  |  | 当批次处在容许时间(Q-Time) 结束站点时，如果发生取消进站，或跳站动作，容许时间(Q-Time)需要继承回来.。 |  |
+|  |  | 如果批次在加工过程中容许时间(Q-Time)超时，要能够在出站后触发批次扣留动作。 |  |
+|  |  | 分批时，子批要能自动继承母批的容许时间(Q-Time)。 |  |
+|  |  | 并批时，检查子母批的容许时间(Q-Time)， 要能自动将子批里面比母批短的容许时间(Q-Time)带回母批。 |  |
+|  | 产品物料清单(BOM)管理 | (先要进行物料的分类维护（如主要材料、间接材料、辅料等），维护物料编码，从而工步配置对应的材料。 |  |
+|  |  | 产品物料清单(BOM)管理，需对产品物料清单(BOM)进行分类管理（如返工、试制、量产、替代、设备维修等）、版本管理、状态、适用范围等管理，并与ERP中产品物料清单(BOM)管理功能有效配合、集成，可在产品族、产品、制造资源、批次等对象中定义产品物料清单(BOM)结构；对各个对象的 产品物料清单(BOM)进行变更追溯及变更履历记录。 |  |
+|  |  | 消耗追溯及记录管理，订单及批次的产品物料清单(BOM)中可记录实际的物料消耗情况以及物料的数量、来源、批次、质量等级信息。 |  |
+|  |  | 物料管理，需与ERP仓库管理模块集成共同完成线边仓、发料、检查、退库、物料容许时间(Q-Time)等业务。 |  |
+|  |  | 可按工步设置、查询，版本及激活权限控制。 |  |
+|  | 编码、代码模型管理 | 可基于业务需要，灵活配置定制包括但不限于产品批次（子母批）、工艺配方、产品、制造资源等对象的编号规则。 |  |
+|  |  | 可基于业务需要，灵活配置各类原因代码（如报废代码、扣留代码、释放代码、终止代码等），并方便的查询、展示。 |  |
+|  |  | 支持批量导入/导出，支持批量新增、修改、删除。 |  |
+|  |  | 可根据业务需要，灵活配置各类形式的打印条码。 |  |
+|  | 统一维护工具 | 支持查看全流程配置信息，包含产品、工艺路径、分支路径、工段、站点、机台组、机台ID、配方&设备工艺流程程序ID (PPID ,Process Program ID)、工程数据收集计划(EDC Plan)、光刻板、探针卡、容许时间(Q-Time)、污染、工时、模组、作业指南等信息。 |  |
+|  |  | 支持基于一款产品、工艺流程所有相关数据（包含关联机台或机台组、分支路径、配方、工程数据收集计划(EDC Plan)、光刻板、探针卡、容许时间(Q-Time)、污染、工时、模组、作业指南等）的一键完整导入/导出功能。 |  |
+|  |  | 支持批量导入/导出，导入/导出格式统一，能够将导出的数据修改后直接导入，导入时有比较与校验防错功能。 |  |
+|  |  | 通过功能以及Excel模版导入的两种方式都需支持比较与校验防错： |  |
+|  |  | 新旧版本比较，并将不同点显著标识； |  |
+|  |  | 数据校验，避免用户误操作，提示用户数据错误信息。比如数据类型、长度、特殊字符、空值、值范围、依赖关系、唯一性、与系统其他数据相关性一致性、是否重复等校验。 |  |
+|  |  | 各列要有栏位填写说明要求。 |  |
+|  |  | 支持工艺制程信息变更签审后生效。 |  |
+|  |  | 支持在工段特定工序的先后顺序校验。 |  |
+|  |  | 工艺流程及工艺流程下各对象升版本时需要定位出影响范围：实验分片单(SRC)、容许时间（Qtime）、在制批次、先行批（Pilot），反馈用户进行处理。 |  |
+|  |  | 导入完成后，可以基于此产品/工艺流程进行正常流片生产。 |  |
+|  | 在制品管控 | MES批次为MES流片监控等操作主体对象晶圆批次，生产流片批次承接来自内外部生产订单，监控等则为库房领料用来做日常、机台保养、挡位用的晶圆批次。 |  |
+|  |  | 支持创建各类批次，批次类型支持自定义，包含生产、工程、测试、控挡片、陪片等。 |  |
+|  |  | 生产批次支持ERP订单下达时MES自动创建相应订单生产批次，也支持a手动创建生产批次，生产批次类型为生产、工程、测试： |  |
+|  |  | 自动创建：ERP订单下达MES能自动创建生产批次，接收ERP对生产批次产品、工艺流程、数量、收货库房、长文本、优先级、计划扣留、计划下线时间、计划入库时间、批次负责人、招标方等信息，并能根据批次命名规则及ERP订单类型自动确定批次类型； |  |
+|  |  | 手动创建：支持用户手动创建批次编号，并按一定规格校验防错；支持Excel批量导入创建批次，并校验防错。 |  |
+|  |  | 需支持包括外延订单、晶圆订单、划片订单、晶圆复测订单，芯片复测订单在内各种订单的批次创建。 |  |
+|  |  | 允许用户在批次还没有开工之前取消已创建的批次。 |  |
+|  | 创建源批次 | 自动创建：支持ERP发料时MES自动创建相应物料源批次，源批次建立与生产订单批次关联，也支持手动创建源批次，源批次可选建立或不建立与生产订单批次关联。 |  |
+|  |  | 手动创建：支持用户自动批次编号并关联到生产批次，系统创建时需按一定规格校验防错；支持Excel批量导入创建批次并关联到生产批次，并校验防错。 |  |
+|  | 批次下线 | 绑定生产批次、源批次装载到载具中，如有源批次、生产批次有生产订单对应则通过生产订单关联，如无生产订单信息则通过产品与源产品对应关系匹配才能下线，对批次类型、载具类别进行对应管控。 |  |
+|  |  | 支持打印履历卡、批次标签、流程卡，已有相关模版。 |  |
+|  |  | 批次下线时需要支持记录晶圆片Wafer的背刻码（T7Code），背刻码伴随批次全生命周期。 |  |
+|  | 批次与载具关联管理 | 一个载具可以容纳一个或多个批次，一个批次只能在一个载具内。 |  |
+|  |  | 系统需要记录批次与载具的关联，晶圆片与插槽位置的关联。 |  |
+|  | 批次查询 | 提供多种界面查询批次，可通过筛选条件过滤批次清单。 |  |
+|  |  | 提供按设备，按站点查询批次。 |  |
+|  |  | 查询批次界面提供基本在制品操作按钮。 |  |
+|  |  | 查询条件包括：批次号，批次类型，批次优先级，位置，工作区域，载具号，批次状态，产品，工艺流程，子流程，工序段，设备组，设备，批次负责人等，支持定制。 |  |
+|  |  | 显示要对特殊的批次高亮显示，如扣留的，有容许时间，优先级高的等。 |  |
+|  |  | 批次未来作业的查询，可选择查看批次已触发的 容许时间，计划扣留，站点可用机台的信息。 |  |
+|  |  | 批次/晶圆 的操作会留下历史，并提供详细方便的历史查找功能。批次/晶圆历史查询不能对生产造成影响。 |  |
+|  | 批次进站出站 | 支持手动，自动模式。 |  |
+|  |  | 支持进站（Track-In）检查一系列逻辑，如机台状态，污染，容许时间，机台限制等一系列逻辑。 |  |
+|  |  | 允许的状况下可取消批次进站，批次状态会返回到进站之前。支持EAP端发起的取消批次进站。 |  |
+|  |  | 可配置批次出站后批次停留在当站或下一站。 |  |
+|  | 预约/取消预约 | 预约时，系统需要检查批次开工所必须通过的条件，如设备机限，配方管理(RMS)，污染等。 |  |
+|  |  | 提供可设置预约载具的最大数量。 |  |
+|  |  | 支持将批次预约到指定机台。 |  |
+|  |  | 支持取消预约。 |  |
+|  |  | 人工预约支持预约列表，支持排序。 |  |
+|  | 扣留及释放 | 支持按照扣留原因代码（HoldCode）及角色进行批次扣留，用户可以被赋予多个角色，释放代码（ReleaseCode）与扣留原因代码（HoldCode）有对应关系表配置。 |  |
+|  |  | 支持叠加扣留暂停，支持转扣留暂停的代码，支持更改备注。 |  |
+|  |  | 扣留时支持发邮件通知相应角色里所有人员，默认自动发送对应角色人员，同时支持额外手动勾选具体人员。如扣留给光刻工艺工程师，则只需发送邮件给光刻工艺工程师。 |  |
+|  |  | 支持所有状态下批次都可扣留，对应扣留类型不同。 |  |
+|  |  | 每次释放仅能释放对应一条扣留。 |  |
+|  |  | 支持扣留/释放原因代码可调整配置及查询。 |  |
+|  |  | 加工状态的暂停(Running Hold)：支持因设备故障等原因将在加工中的批次扣留住。 |  |
+|  |  | 批量扣留/释放。 |  |
+|  |  | 支持根据不同筛选条件查询所有被扣留批次，批次已扣留时间、扣留代码、扣留人、释放责任角色，支持导出查询结果为Excel、CSV文件； |  |
+|  | 计划扣留/取消计划扣留 | 支持设定当站（还未入机台时）出机台扣留，未来站点入机台前及出机台计划扣留，计划扣留重复生效默认为F，批次未到站时可取消该计划扣留，支持批量设定及批量取消计划动作。 |  |
+|  |  | 支持批次在当前的流程上，对未来某个站点设置计划扣留。 |  |
+|  |  | 按生效时间点不同，计划扣留可以分为 进站就扣留(Pre Future Hold)和出站时扣留(Post Future Hold)。 |  |
+|  |  | 批次的计划扣留支持批量预设扣留的设置。计划扣留的设置可以被更改，删除；支持批量设定及批量取消计划动作。 |  |
+|  |  | 批次的划扣留生效后，与版本无关 (版本升级后计划扣留应该被继承)。 |  |
+|  |  | 支持叠加计划扣留。 |  |
+|  |  | 在取样站点设定计划扣留，批次即使非抽样批次也需要扣留在取样站点。 |  |
+|  |  | 基于产品/工艺流程计划扣留某个站点设定计划扣留，即该产品达到该站点就被自动扣留。 |  |
+|  |  | 在取消本设定的同时需要将已经受该规则影响批次的计划扣留需要一并取消，已经扣留批次则单独释放。 |  |
+|  | 分批及合批 | 需要支持逻辑/物理分批，支持写分/合批备注。 |  |
+|  |  | 支持一次分一个或多个子批，支持同一时间合并多个子批到母批。 |  |
+|  |  | 分批时可同时设定计划合批站点或不合批，该计划合批动作可以被单独取消。 |  |
+|  |  | 当分批时，子批默认继承母批的（包括正常产品批次、实验分片批、先行批、非生产批等批次分批）的基本属性、当前站点信息、上下流程、长文本、备注、容许时间、实验单、扣留、 计划扣留 、计划分批、污染等级。 |  |
+|  |  | 同家族且相同产品相同工艺流程相同站点的子批可以互相合批，但合批原始（祖宗）批次不能被合并到子孙批中，有计划合批动作的批次不允许被合批，除非计划合批已到达合批当站或提前取消计划合批动作。 |  |
+|  |  | 支持倒片机EAP自动化分、合批。 |  |
+|  | BankIn/BankOut | 对于停留在当站长时间不流的批次，可以将批次进行暂存（bank），由提出人将批次扣留给制造部且为暂存的专用扣留代码，然后由制造部部决定是执行暂存还是拒绝暂存转扣留代码给提出人部门角色，该动作权限必须赋予制造部制定人员；已暂存的批次可以执行暂存转出操作回到产线。 |  |
+|  |  | 暂存位货架操作需要指定批次暂存到的目标边仓位置，便于后续查找暂存的实物批次。 |  |
+|  |  | 在扣留批次中不显示暂存批次。 |  |
+|  | 跳站及退站 | 跳站及退站（Skip/Reposition）时校验载具，批次和站点的污染等级，以及工艺工序重复跑货（Double Run）防控。 |  |
+|  |  | 需支持量测机台跳站，权限可放宽至PE，各模组只能跳自己的站点。 |  |
+|  | 报废及取消报废 | 支持基于晶圆报废/取消报废和整批报废/取消报废，取消报废时需要指定返回载具（原载具或新载具）进行分配，卡控污染等级。 |  |
+|  |  | 基于晶圆报废可针对不同晶圆选定不同报废原因代码。 |  |
+|  |  | 基于整批报废选定统一报废原因代码。 |  |
+|  |  | 批次报废时影响到在该批次上设定的实验分片单(SRC)等单据（涉及未来站点确定晶圆）需要提前识别并告知单据设定人进行单据变更或取消重设，要求实验分片单(SRC)即使已经审批发布也能撤回进行修改。 |  |
+|  |  | 如果一个载具多批次情况，则载具中所有批次须统一报废或取消报废。 |  |
+|  |  | 取消报废后批次所有信息回退到报废前。 |  |
+|  |  | 支持报废原因代码可调整配置及查询。 |  |
+|  | Terminate/UnTerminate | 支持整批终止或取消终止。 |  |
+|  |  | 支持不同终止原因代码。 |  |
+|  |  | 基于整批终止选定统一终止原因代码。 |  |
+|  |  | 如果一个载具多批次情况，则载具中所有批次须统一终止或取消终止。 |  |
+|  |  | 取消终止后批次所有信息回退到终止前。 |  |
+|  |  | 支持终止原因代码可调整配置及查询。 |  |
+|  | 入/出库 | 需支持晶圆入库、外延片入库、芯片入库等多种形式产品入库。 |  |
+|  |  | 支持入库时，先由制造部入库，再由仓库人员进行操作入库确认，入库进度可以查询，入库信息可以通过接口抛转到ERP。 |  |
+|  |  | 入库支持退库返回现场的操作。 |  |
+|  | 键合(Bonding) | 支持键合(Bonding)和解键(De-bonding)。 |  |
+|  |  | 可配置器件批次主产品/封装批次辅产品批次产品对应关系，在键合站点选择主产品批次跟已经配对的辅产品批次进键合机台；出机台后，辅产品批将会被终止/走回收流程。支持手动/半自动操作模式。 |  |
+|  |  | 支持多层键合/堆叠。 |  |
+|  | 标签打印 | 便捷的标签制作工具，标签布局可以由用户制作和修改。 |  |
+|  |  | 标签数据可以由IT配置，无需开发代码。 |  |
+|  |  | 支持文字，图片，条码，二维码等。 |  |
+|  |  | 支持打印预览和默认打印机设置和标签打印。 |  |
+|  |  | 支持不同尺寸标签。 |  |
+|  |  | 可将标签打印策略挂载在站点上，在批次进出站是打印相对应的标签。 |  |
+|  |  | 可对接主流标签打印机。 |  |
+|  | 包装管理 | 支持设置对应产品的包装标准文件，以及包装示范文件（扫描批次号自动调取该客户或产品的包装说明书）。 |  |
+|  |  | 通过标签模块，可设置对应包装条码的格式。可对应多个包装标签，每个标签可支持多个打印条码（一维或二维）与内容。 |  |
+|  |  | 包装工步，支持通过标签扫描二次比对功能。 |  |
+|  |  | 可根据产品物料清单(BOM)以及产品数据，自动给出对应包装材料的数量、型号。 |  |
+|  |  | 支持多层包装及包装ID管理。 |  |
+|  | 线边仓管理 | 根据物料类型不同的管控要求，设置各线边仓位的物料属性。 |  |
+|  |  | 收料管理：产线物料管理人员通过扫描物料标签进行收料确认，登记实际收料信息。 |  |
+|  |  | 发料管理：根据生产计划要求，产线物料管理人员通过扫描物料标签进行发料确认。 |  |
+|  |  | 批次管理：根据约定的规则形成批次管理策略，能根据批次实现物料追溯管理。 |  |
+|  |  | 退库：剩余料的退库管理。 |  |
+|  |  | 线边仓存储时效管理：支持对存储时间敏感的物料进行存储时效管控。存储时效异常时，扣留物料批次并提醒。 |  |
+|  | 作业流程单管理 | 作业流程单管理模块要求将作业流程单按照业务需要关联各相关对象，支持按工单/按批打印，并记录打印历史。 |  |
+|  |  | 作业流程单可通过MES系统在各工位显示相应的作业要求，并可以在投批时进行打印。 |  |
+|  |  | 打印印记可以通过配置对应的图片打印在流程单上，供作业人员参考。 |  |
+|  | 现场货架管理 | 支持创建货架，货架有货架ID、类型、区域、架位，行列数等属性。 |  |
+|  |  | 货架存放内容有工装、批次成品、批次半成品等。 |  |
+|  |  | 材料、批次上下货架都可以记录，并且有对应的代码选择。 |  |
+|  | 先进封装管理(WLP) | 支持晶圆先进封装(WLP)管理。 |  |
+|  |  | 支持产品键合关系的配置，预先配置键合的工步位置。 |  |
+|  |  | 支持多层键合关系。 |  |
+|  |  | 键合工步限制必需选择了最少一组晶圆进行作业，也允许多片一起键合。 |  |
+|  |  | 键合错误或者异常允许解绑重新作业。 |  |
+|  |  | 键合的两片晶圆的Bin值支持叠加分析综合良率。 |  |
+|  |  | 键合的两片晶圆的AOI结果值支持叠加分析综合良率。 |  |
+|  |  | 键合之后的晶圆支持重新导入新的分选文件给分选机作业。 |  |
+|  |  | 分选之后的晶圆经过人工检验，如有不良，系统支持手动打点(ink)去除。 |  |
+|  |  | 系统可以支持统计打点(ink)之后的良率，追溯到颗粒级别。 |  |
+|  |  | 生产过程的测试数据，系统可以解析。 |  |
+|  | 批次科研调整(SRC) | 实验分片单(SRC)设定 |  |
+|  |  | 实验分片单(SRC)的设定内容应支持设置工序、机台、子机台、片号、配方、采集参数、采集规则、光刻板、探针卡、容许时间、曝光所需信息等，这些信息可以通过快速添加其他正常的站点做原始模版之后再进行变更调整，也可直接添加情景化路径模版（预先定义好的Rework flow）作为原始模版之后再进行变更调整。 |  |
+|  |  | 采集规则：采集片数、片号，支持工程数据收集，识别管制计划来获取工程数据的的规格与控制线。 |  |
+|  |  | 容许时间：实验分片单(SRC)内部子流程新增容许时间，支持关联原主流程上容许时间(Q-Time)设定，需要支持继承原有容许时间(Q-Time)起止站点设定，如果容许时间(Q-Time)的起点或终止站点（或起点和终止站点都）在分片单的分/合批站点之间，工艺未设置时需要提醒用户进行设定。 |  |
+|  |  | 支持设定实验分片单的类型、原因、代码等。 |  |
+|  |  | 设定时需要校验提醒是否与机台限制反向设定（不允许入机台）相违背，如有违背则需提醒用户进行修正。 |  |
+|  |  | 设定时需检查机台/子机台上配方开关状态。 |  |
+|  |  | 实验分片单可以配置采集工程数据参数，参数是否进SPC 管制计划，允许由用户自行配置。 |  |
+|  |  | 支持设定起止站点。 |  |
+|  |  | 用户可以针对批次创建当前站点或未来站点的实验分片单，用户可以这对一个批次开立多张实验分片单，但不允许同一站点开立多张实验分片单。 |  |
+|  |  | 实验分片单不允许嵌套开立。 |  |
+|  |  | 支持实验单过程批次设定计划扣留，计划扣留站点可以在实验单站点或终止站点。 |  |
+|  |  | 支持快速复制已有实验分片单后进行修改调整创建，快速复制的实验分片单创建时必须进行所有逻辑校验，不限定必须相同产品或工艺流程，如果复制的实验分片单的起止站点当前批次不存在允许用户进行调整。 |  |
+|  |  | 实验分片单创建完成后，可以有预设的签核流程进行签核，签核完成即可等待批次到实验分片单开始站点进行实验分片单执行，如果签核未完成，批次提前到达实验分片单开始站点，则自动对批次进行暂停等待签核完成。 |  |
+|  |  | 批次执行实验分片单 |  |
+|  |  | 可以针对已经有实验分片单的批次，在设置的触发站点分批，分批后，子批按照实验分片单的流程跟规格来进行实验子批的在制品作业。 |  |
+|  |  | 当片数与实验分片单设定片数不符合时需提交创建人进行确认，该判断需要提前告知。 |  |
+|  |  | 子批实验做完后，可以跟在设置站点等待的母批进行合批。 |  |
+|  | 批次调整 | 支持批次在当前站点上进行产品，工艺流程的版本升级，或是改变产品，工艺流程。 |  |
+|  |  | 支持生产批次在当前的流程上，对未来某个站点设置流程重新绑定，进行产品，流程的 版本升级，或是改变产品，流程。 |  |
+|  | 异常恢复单(Recovery Run Card，RRC) | 在生产工步加工过程中，批次或者设备发生异常，批次在生产状态下暂停(Running Hold)，可触发异常恢复单。 |  |
+|  |  | 提供手动触发异常恢复处理单，开立流程可以开给工艺、设备进行签核。 |  |
+|  |  | 触发异常处理单后，提供选择已经加工过的晶圆片，尚未加工的晶圆片和正在加工的 晶圆片进行分批后分别处理。 |  |
+|  |  | 支持将未加工的晶圆片分出子批后，取消进站（Track In） |  |
+|  |  | 支持将已加工的晶圆片分出子批后，执行出站（Track Out） |  |
+|  |  | 支持将正在加工的晶圆片分出子批后，进入重工流程（Rework Flow) |  |
+|  |  | 支持选择部分晶圆片，设定临时作业步骤进行作业，设定内容应支持设置工序、机台、子机台、片号、配方、采集参数、采集规则、光刻板、探针卡、容许时间(Q-Time)、曝光所需信息。 |  |
+|  |  | 异常恢复单执行时，可以分别对配置的不同情景的晶圆进行分批作业，作业完成再合批回到异常恢复单中配置的完成节点。 |  |
+|  | 先行批试跑(Pi-Run) | 产品先行试跑：为了验证批次情况，通常流程为分批前量、加工、后量合批，主要实现的是主动提示并要求分批，并连续加工多个工序后自动合批。 |  |
+|  |  | 机台先行试跑：为了验证子机台情况，通常流程为分批前量、先行批加工验证、后量合批，主要实现只有先行批子批才能入要试跑的子腔加工，其他批次只能使用非试跑腔体及配方： |  |
+|  |  | 多腔体机台的子腔在PM之后都需要先行批试跑（Pi-Run），试跑合格后才放行。 |  |
+|  |  | 先行批试跑（Pi-Run）子批在试跑先行站点只能进试跑子腔。由用户在设定先行批试跑（Pi-Run）单时指定哪几片晶圆进入哪个机台的哪个子腔加工，一个先行批试跑（Pi-Run）单可以允许同时设定多个先行批试跑（Pi-Run）子批。 |  |
+|  |  | 批次先行试跑：主要有分批和合批设定，基本与先行批试跑机台相同，区别在于没有必须要入的先行试跑子腔。 |  |
+|  |  | 先行试跑单子设定： |  |
+|  |  | 先行试跑批次具体跑多少片需要由用户（工艺指定）设定。 |  |
+|  |  | 需要支持可提前设定先行试跑单。 |  |
+|  |  | 一个批次生效的先行试跑单子只能一张，如有多个的需求，则先对批次做计划扣留，待当前的先行试跑单执行完成后再设定新的。 |  |
+|  |  | 如果先行试跑单子设定的分批晶圆在到达分批站点前已经报废，则将单子提交给工艺进行再确认，工艺在再确认过程中可修订其他晶圆作为先行试跑子批。 |  |
+|  |  | 不能将所有晶圆全部设定到先行试跑子批中，无论是单批还是多批。 |  |
+|  |  | 先行试跑优先级高于静态采样，即先行试跑的子批经过采样站点时一定执行而不跳过，在采样站点的片数抽样规则按站点本身设定。 |  |
+|  |  | 支持在合批站点设定计划扣留，在合批前扣留。 |  |
+|  | 机台暖机(Season) | 暖机控制对象包括主设备和子设备（Chamber）。 |  |
+|  |  | MES在自动及手动模式下都需要支持暖机控制。 |  |
+|  |  | 暖机批次管理包括状态模型，生命周期控制，属性维护，降级，清洗，回收等，暖机批降级后批次编号需要重新生成。 |  |
+|  |  | 触发暖机条件包括：按时间（idle时间） 、按数量（按连续加工或累计加工晶圆片数量） 、按配方（更换或闲置时间）。 |  |
+|  |  | 暖机条件设置 |  |
+|  |  | 能够定义暖机计划，暖机批，暖机配方，系统应该支持按用户配置的信息做暖机。 |  |
+|  |  | 按时间 (设备/配方闲置时间)； |  |
+|  |  | 按晶圆片数量 (持续/累计)； |  |
+|  |  | 按配方（组）更换； |  |
+|  |  | 用户维护暖机信息，如：查询，新增，修改，履历，复制等。 |  |
+|  |  | 设备配方更换的暖机，支持并行批量（Batch）。 |  |
+|  |  | 设备配方闲置的暖机， 支持并行批量（Batch）。 |  |
+|  |  | 暖机可以是独立非生产片管理模式：只有暖机使用的非生产批单独进设备；也可与生产批一起进设备。 |  |
+|  |  | 一个机台的不同子设备（Chamber）可以并行跑暖机。 |  |
+|  |  | 当暖机出现某些异常，用户可以手动完成暖机或重置暖机状态及信息，以使得重新做暖机。 |  |
+|  |  | 支持污染等级管控。 |  |
+|  |  | 持多次暖机，即机台需要用多种暖机片跑多个程序才完成暖机要求，且有时效管控。 |  |
+|  | 机台监控(Monitor) | 控制对象包括主设备和子设备（Chamber）。 |  |
+|  |  | 支持对设备机台的稳定性可靠性进行监控，根据时间，作业量的要求进行配置进行配置监控要求，设备监控量测的参数必需合格才允许设备或者腔体子设备继续作业。 |  |
+|  |  | MES在半自动及手动模式下都需要支持监控控制。 |  |
+|  |  | 需要提供页面给用户维护监控信息，如:查询，新增，修改，履历，复制等。 |  |
+|  |  | 需要基于时间周期来设定监控执行内容及单据，可重复执行，并可设定在目标时间的有时间区间，并有提前通过邮件预警功能，超出时间则必须做监控。 |  |
+|  |  | 支持自定义测机监控流程，监控流程支持作业和量测站点，支持设备监控参数的前后计算，支持一次测机，可以监控设备的多个参数。 |  |
+|  |  | 支持定义设备和监控流程的对应关系，可以根据设备组，来定义整个设备组的测机流程。 |  |
+|  |  | 设备测机监控流程中所使用的测机片产品、测机片数，循环测机的次数，测机片回收循环的次数军均可以配置管控。 |  |
+|  |  | 因设备负荷或一些紧急情况，可以人工修改监控的间隔时间。 |  |
+|  |  | 如果批次测量数据通过，则自动重置机台间隔时间。 |  |
+|  |  | 监控批次的可以支援来自不同的源批次，监控批次的晶圆支持来自不同批次的多片晶圆。 |  |
+|  |  | 监控可以是独立非生产批模式，只有监控使用的非生产批单独进设备，也可与生产批一起进设备。 |  |
+|  |  | 监控批次使用完成后可以回母批、直接回收、废弃；监控批次在使用过程中量测值超标允许报废、回母批进行回收。 |  |
+|  |  | 监控源批可以回收(Recycle)、降级(DownGrade)、报废(Scrap)，回收(Recycle)完成后将批次当前使用次数清零，并更新回收(Recycle)次数、总使用次数。监控批降级后批次编号需要重新生成。 |  |
+|  |  | 支持使用EAP操作并自动收值。 |  |
+|  |  | 支持污染等级管控。 |  |
+|  | 挡片(Dummy) | 支持挡片批次在炉管机台的进出控制。 |  |
+|  |  | 无论设备是自动模式还是手工模式，都支持挡片批次放入和取出作业 。 |  |
+|  |  | 晶圆使用计数、膜厚累加控制机制。 |  |
+|  |  | 支持大小回收流程及次数控制。 |  |
+|  |  | 支持污染等级管控。 |  |
+|  | NPW Downgrade | 用户可以自定义非生产片降级规则。 |  |
+|  |  | 提供界面进行非生产片降级到其它非生产批的类型。 |  |
+|  | 机台管理 | 普通设备 |  |
+|  |  | 设备号支持自定义，建模期设备支持批量导入。 |  |
+|  |  | 设备的类型、物理区域、工艺区域、资产编码、负责人等信息均可维护。 |  |
+|  |  | 设备的最大加工批数、片数均可以管控。 |  |
+|  |  | 校验载具，批次污染等级，通过才能开工。 |  |
+|  |  | 支持一个载具中存在多个批次。 |  |
+|  |  | 倒片机作业 |  |
+|  |  | 多个装载端口（Load Port）的倒片机，如机台能力的情况允许下，支持 4个装载端口可以灵活组合，在装载端口数量允许的情况下，同时执行多个导片任务。 |  |
+|  |  | 支持导片任务基本类型，如：载具更换，批次转移，分批，合批，批次下线（Wafer Start），批次入库（Wafer Out），转角，晶圆片ID验证，晶圆片排序，晶圆片翻转。 |  |
+|  |  | 倒片机机台要能支持流程内 (Inline Sorter) 和非流程 (Adhoc Sorter)的载具作业。 |  |
+|  |  | 支持批次的分批（1-N)，合批(N-1)。 |  |
+|  |  | 倒片机装载端口（Load Port）限制：需要提供以载具/批次属性来限制装载端口（Load Port）的使用。 |  |
+|  |  | 倒片机载具限制：提供设定来决定载具是否能传送到另一个载具。 |  |
+|  |  | 在倒片机任务列表中的批次不能再被倒片机任务预约。 |  |
+|  |  | 支持流程内倒片机站点，能够按照用户的设定完成导片动作。 |  |
+|  |  | 支持原物料盒和载具之间的传递。 |  |
+|  |  | 炉管控制 |  |
+|  |  | 支持生产批次跟 炉管监控批次一起组批，也支持只有生产批次或是监控批次单独 组批的跑货模式。 |  |
+|  |  | 炉管所用的监控晶圆片纳入非生产批管理，进行准备/使用/回收/降级（Preparation/In-Use/Recycle/Downgrade）的管理。 |  |
+|  |  | 支持炉管监控批次在 In-Use 的作业中，可以进行前量/组批/后量。 |  |
+|  |  | 在炉管 (Furnace) 作业，支持指定批量组合中的生产批次在炉管中的顺序(Boat Position)。 |  |
+|  |  | 炉管批量批次中若有监控批次，支持其相应的监控片(Process Monitor Wafer ) 获取量测结果应用于（贴值）同一批量（Batch）的生产批次。 |  |
+|  |  | 炉管之后生产批次需要在当站等待监控批次量测结果。 |  |
+|  |  | 支持根据监控片所处的位置，对相应区域的产品批次采取动作，如果某一个监控片超规，只对其对应的批次采取动作。 |  |
+|  |  | 支持炉管缓冲批管理，支持从 EAP 得到炉管缓冲批次剩余数，决定是否可以组批。 |  |
+|  |  | 支持设定并行批量（Batch）的最少晶圆片数量，跑货时根据生产片数量决定配方。 |  |
+|  |  | 支持炉管机台填充挡片（Dummy）的机制。 |  |
+|  |  | 需要有最大预约并行批量（Batch）数的管控 (在这个炉管上可以预约的最大批量数)。 |  |
+|  |  | 酸槽批量跑货(WET Batch Run) |  |
+|  |  | 可以选择同时跑2个载具或是 1个载具。 |  |
+|  |  | 用户可设定并行批量（Batch）的最少晶圆片数量。 |  |
+|  |  | 光刻机台 |  |
+|  |  | 光刻 (Photo) 机台支持双光罩使用。 |  |
+|  |  | 支持一个主机台同步控管两个子机台 (Tracker/Scanner)，并可设置两个子机台的配方(Tracker Recipe/Scanner Recipe)。 |  |
+|  |  | 多腔体设备 |  |
+|  |  | 支持多腔体设备并行/串行跑货模式。 |  |
+|  |  | 可根据子机台的状态，下达给EAP最合理的 设备工艺流程程序ID (PPID ,Process Program ID)组合。 |  |
+|  |  | 化学机械研磨(CMP)设备 |  |
+|  |  | 开工前校验研磨垫(PAD)、抛光头(Head)的使用期限。 |  |
+|  |  | 定义进出装载端口所允许的载具类型，并在开工前进行校验。 |  |
+|  |  | 可定义进出装载端口的组合，如装载端口1(Port1)进，装载端口2(Port2)出，装载端口3(Port3)进，装载端口4(Port4)出。 |  |
+|  |  | 量测设备 |  |
+|  |  | 可将工程数据采集计划下达给EAP。 |  |
+|  |  | EAP根据工程数据采集计划将量测数据上传至MES。 |  |
+|  |  | 激光打码机台(Laser Mark) |  |
+|  |  | 支持用户根据客户，产品，订单等信息建模。 |  |
+|  |  | 支持通过EAP自动打码。 |  |
+|  | 晶圆探针检测(Wafer Sort/Probe) | 持基于芯片探针测试（CP）机台测试结果文件一定规则解析获取工程量测数据，并支持基于该工程量测数据结果计算每片晶圆片合格管芯数更新到晶圆上。 |  |
+|  |  | 支持基于量测CP测试结果文件按照一定规则叠加运算；并进行相应的批次扣留，异常片号自动分批扣留、报废等功能。 |  |
+|  |  | 支持一定规则的卡控，例如片号不一致、晶圆标准颗粒数不一致等问题。 |  |
+|  |  | 支持异常OCAP出发后正常片号分子批出站继续流片功能。 |  |
+|  |  | 晶圆合格Die二次报废需求 |  |
+|  |  | 可作为工序动作，也可临时专门操作，需要手动进行晶圆上Die报废，当一片的Die合格率或指定参数低于一定值时该片自动报废或扣留，此时批次可在产线正常流片。 |  |
+|  |  | 需要历史记录。 |  |
+|  |  | 支持随时打印晶圆合格Die数。 |  |
+|  |  | 复测业务 |  |
+|  |  | 支持对已入库批次重新投入产线，进行CP测试、或者外观检查、或者重新包装。 |  |
+|  |  | 总要求：①复测订单下达发料；②复测流程模型；③复测操作Die报废；④质量追溯到源批计算良率。 |  |
+|  |  | CP测试及外观检查需要支持更新良率数量（基于上次入库合格数再手动报废晶圆上Die数更新） |  |
+|  | FT测试 | FT后的BIN结果可以进行良率卡控。 |  |
+|  |  | 在FT等待结果站点可以根据BIN结果自动进入下一步(扣留、放行等)。 |  |
+|  |  | 在FT等待结果站点如果失败了可以扣留，工程师处置时候可以选择放行合格Die(拆批)，重工不合格Die(拆批)。也可以选择整批重测。 |  |
+|  |  | 可手动通过MES 扣留/放行。 |  |
+|  |  | 工程师可以对需要重测的部分选择站点(多个或一个)进行重工。 |  |
+|  |  | 在FT步操作中显示返工次数(子批次从父批次复制)。如果超过返工计数，显示警告并保持。 |  |
+|  |  | FT测试完成后，需要按BIN进行分批，合格Bin流通，不合格Bin 自动扣留等待处置。 |  |
+|  |  | FT时候支持维护载带等耗材的对应关系，作业时进行校验，防止用错并对载带批次记录使用历史以供查询。 |  |
+|  |  | FT做完后需要在下一个站点等待处置。 |  |
+|  |  | FT后支持并批，需要能自定义并批规则(规则参数配置包括批次，产品名等)。 |  |
+|  |  | FT零头并批需要支持先进先出，少的先推荐原则，由用户并批时候显示出满足条件的批次，不满足条件的也要能显示出原因。 |  |
+|  |  | FT后支持自动拆批。 |  |
+|  |  | 整批可以继续流通，零头留在零头仓库中。 |  |
+|  |  | FT的不良品随良品整卷一起流通入库。 |  |
+|  |  | 良品进良品仓，不良品进废品仓。 |  |
+|  |  | FT支持在作业过程中部分出站功能。 |  |
+|  | WAT | MES可以设WAT站点。 |  |
+|  |  | 当WAT测试站点出站之后，批次扣留在WAT 结果等待站点等待规则检验的结果。 |  |
+|  |  | 结果判定后需要支持放行批次，不合格批次触发OCAP流程，无数据的部分需要手动或者自动发送要求去取得规则检验的结果。 |  |
+|  | 产品测试Bin管理 | 可根据工厂管理需要，对指定的产品设置 Bin 等级以及Bin等级划分机制，以及不同Bin 等级对应的产品编码、加工工艺数据、处置方式（如降级、报废等）。 |  |
+|  |  | 可设置Bin划分工序，在此工序完成后自动按照Bin 测试结果分级生成新的分级批次，并记录新分级批次与原批次的对应关系以及新分级批次中每个关键对象的ID 信息及来源信息，并按照设定的业务规则根据不同Bin 等级对应到不同的产品编码。 |  |
+|  |  | 需可记录并根据Bin 等级自动完成批次拆分并进行对象、单位、产品编码的转换，拆分后的批次中需记录其中芯片的来源片号、批号、Bin等级等信息，并按照设置的业务规则及工艺要求，MES对不同Bin 等级的批次进行使用限制、适用范围限制并规定其后加工过程，比如根据Bin 等级规定并限制其可发往的工序、机台等。 |  |
+|  |  | 系统可支持能根据产品、对象来源、Bin 等级，规定其入库及加工等方面的限制条件，例如可设定根据Bin 等级进行分级分批入库，不允许不同批次、不同bin 等级的芯片混合入库或混合发料，不允许不同Bin 等级的批次进行合批等规则。 |  |
+|  |  | 可根据 Bin 等级，对产品进行降级或报废处理，并对应到相应的产品编码。 |  |
+|  | 超规动作计划 (OCAP) | 支持自定义不同超规动作计划(OCAP)流程，超规动作计划(OCAP)流程步骤支持用户方便的自行编制并部署上线。 |  |
+|  |  | 可以在超规动作计划(OCAP)流程中定义超规动作计划(OCAP)功能/行为/操作，例如扣留批次/释放批次/重量/加量（片号）/转换机台状态/重工。 |  |
+|  |  | 支持设置量测站点关联多个工艺站点，支持允许设置当量测站点数据超规格线(OOS)则将对应工艺机台扣留，也支持接收来自SPC系统传递扣留工艺机台要求时，将对应工艺机台扣留。 |  |
+|  |  | 超规动作计划(OCAP)流程涉及批次需要返工处理的则需要开立异常恢复单(RRC)。 |  |
+|  |  | 支持针对批次自动生成相关超规动作计划(OCAP)ID。 |  |
+|  |  | 支持与外部SPC系统接口集成设定超控制线(OOC)时对批次设定扣留动作等及相应超规动作计划(OCAP)流程，并自动触发扣留批次、对应工艺机台以及自动生成超规动作计划(OCAP)单据。 |  |
+|  |  | 集成SPC显示对应的管制图。 |  |
+|  |  | 支持批次超控制线(OOC)/超规格线(OOS)时对批次设定扣留动作等及相应超规动作计划(OCAP)流程，并自动触发扣留批次、对应工艺机台以及自动生成超规动作计划(OCAP)单据。 |  |
+|  |  | 产生超规动作计划(OCAP)后需要与质量异常单签核系统集成，并将批次信息（包含但不限于批次、段、站点、超规动作计划(OCAP)原因等）传递至外部签核系统，超规动作计划(OCAP)流程中的指定步骤（如判断重测是否超控制线(OOC)/超规格线(OOS)）需支持传递至签核系统。 |  |
+|  | OQC | 支持设置出货检查(OQC)站点，允许出货检查(OQC)人员在出货检查(OQC)站点为批次指定质量等级，按照晶圆等级进行分批入库。 |  |
+|  |  | OQA AVI 站：如果发生超规格线(OOS)， 自动扣留批次。 |  |
+|  |  | 进站、出站、包装。 |  |
+|  |  | 可根据其他系统（如WAT / Defect /SPC/Lot Type 等）系统集成，检查批次是否符合出货条件。 |  |
+|  |  | 出货条件可维护在MES或其它系统。 |  |
+|  | 污染管理 | 在工艺流程上，每个站点都可以设置接受进站的污染类别，以及出站后需要转换的污染类别。 |  |
+|  |  | 在批次派工之前，需要对载具与站点的污染类别进行检查，当发现不匹配时不允许进行派工。 |  |
+|  |  | 当批次将进行另一种污染类型的制程时，必须进行载具交换；例如：一个批次当前的站点是 FE 的污染类别，而下一给站点是 Cu 的污染类别，则需要进行载具更换后才可以进行派工。 |  |
+|  |  | 对于倒片机机台的污染类别管理，只有设置在污染类别对应表里的载具，才可以将晶圆片传到另一个载具。 |  |
+|  |  | 进行实验分片单与异常恢复单的批次作业时，要提供站点的污染类别设置，提交时要进行污染类别检查，符合污染类别转换规则才允许其生效，也要按照污染类别管理的规则进行加工。 |  |
+|  |  | 基于制程的污染级别，载具分为不同的污染类别。 |  |
+|  |  | 对于批次进入机台和站点的污染等级对应关系的管控，批次出机台时更新为工序污染等级及载具类型。 |  |
+|  |  | 对于批次重新定位(退站、跳站、调整工艺流程、调整站点等)进行污染等级的管控。 |  |
+|  |  | 跳站、调整工艺流程、交换载具、分批、取消报废、取消终止等操作需要卡控污染等级匹配问题。 |  |
+|  | 载具管理 | 支持用户创建载具，分配载具，释放载具，废弃载具，取消废弃载具，报废载具，取消报废载具，清洗载具，交换载具，调整载具。 |  |
+|  |  | 载具管理提供查询载具具体信息，查询载具历史，查询载具状态的功能。 |  |
+|  |  | 支持批次类型与载具种类关联对应。 |  |
+|  |  | 支持污染管控。 |  |
+|  |  | 需支持来料盒子、过程载具、送库房载具等各类载具管理。 |  |
+|  |  | 命名规则可自定义批量创建，也可根据 自行创建，也可批量导入。 |  |
+|  |  | 所有通过载具编码查询批次的功能都需要能通过批次编码查询。 |  |
+|  |  | 对载具进行生命周期管理。 |  |
+|  |  | 载具上有唯一码标签。 |  |
+|  |  | 载具信息包含但不限于载具状态、模型、位置、最后位置、载具类型、清洗时间、载具种类、载具槽位信息等。 |  |
+|  |  | 载具清洗需要通过对载具的模型设置，需要在站点中检查是否达到载具清洗次数或期限，当批次入/出机台时检查载具已达到载具清洗次数或期限时系统需要提示用户交换载具并清洗旧载具但不卡死本次入/出机台加工。 |  |
+|  |  | 快捷查询需要清洗的载具以及当前存储位置。 |  |
+|  |  | 若由于批次长期扣留导致载具超清洗周期，系统需支持自动更换载具并将过期载具送洗。 |  |
+|  | 光罩管理 | 光罩命名方式可由用户定义。 |  |
+|  |  | 光罩按类型，等级管理。 |  |
+|  |  | 提供界面维护光罩信息，如：查询，新增，修改，履历。 |  |
+|  |  | 根据业务需要定义光罩的属性，如：类型，目录， 设备类型，等级。 |  |
+|  |  | 提供光罩相关状况变化，追踪及跳转控制，支持光罩状态管理。 |  |
+|  |  | 光罩扣留可以多重扣留，可以针对不同扣留分别释放。 |  |
+|  |  | 支持与 EAP 集成的光罩盒位置管理。 |  |
+|  |  | 支持手动将光罩盒位置管理（移动）。 |  |
+|  |  | 支持光罩和光罩盒清洗，检测等的状态控管。 |  |
+|  |  | 用户可以设置检测的规格，对于光罩的检验能够收集数据，可通过 SPC 系统控制。 |  |
+|  |  | 支持周期控管光罩检测。 |  |
+|  |  | 支持周期控管光罩盒清洗。 |  |
+|  |  | 作业时，需要检查光罩的晶圆数量和检测的时间。 |  |
+|  |  | MES要能自动更新光罩状态，位置，晶圆片计数。 |  |
+|  |  | 支持通过所选光罩决定配方。 |  |
+|  |  | 检查光罩运行间隔控制（不能连续超时使用）。 |  |
+|  |  | 支持光刻板工程量测数据采集，光刻板量测结果（颗粒）超标需要自动扣留光刻板。 |  |
+|  |  | 提供光罩操作及其所使用需要记录历史，历史可查询。 |  |
+|  |  | 光罩检测机台整合EAP 和 MES，MES能查询到光罩处理历史。 |  |
+|  |  | 支持对光罩装载端口(通过配置管理) 进行管理；支持与EAP对接。 |  |
+|  |  | 光罩盒（光罩Pod）管理：清洗时间/清除时间。 |  |
+|  | 光阻管理 | 通过扫描光阻瓶身上的条形码，可以在系统生成光阻瓶的编码(该瓶光阻唯一标识)。 |  |
+|  |  | 光阻退冰(Defrost) |  |
+|  |  | 光阻建账后自动开始退冰计时。 |  |
+|  |  | 退冰时间达到后，自动更改光阻状态；并自动发送/显示预警。 |  |
+|  |  | 默认优先使用退冰完成光阻； 也可手动选择。 |  |
+|  |  | 光阻更换(PR Change) |  |
+|  |  | 光阻更换时，系统 check 用于更换的新老光阻是否符合要求，若不符合要求，则退回。 |  |
+|  |  | 更换光刻胶时需检查同种型号领入时间，优先使用最先领入的光刻胶(先进先出原则)。 |  |
+|  |  | 光阻更换完成后，自动更改两瓶光阻状态。 |  |
+|  |  | 可更换单个管路光阻。 |  |
+|  |  | 光阻超过有效期后自动扣留光阻。 |  |
+|  |  | 光阻退冰开始，超过设定时间后，自动扣留光阻。 |  |
+|  |  | 用于维护不同机台所需的光阻类型。 |  |
+|  |  | 光阻在系统内状态的改变，均需产生履历。 |  |
+|  |  | 用户在系统内的操作的作业，均需产生履历。 |  |
+|  |  | 机台上光阻使用完毕后会有警示。 |  |
+|  |  | 光阻使用过程可以强制结束。 |  |
+|  |  | 光阻安全库存提前预警。 |  |
+|  | 探针卡管理(Probe Card Management) | 提供界面供用户对产品，站点，分组，测试程序与设置文件等设置对应关系。 |  |
+|  |  | 可以接收探针卡信息来创建探针卡，并更新位置。 |  |
+|  |  | 提供探针卡的分组。 |  |
+|  |  | 在CP测试的时候，提供探针卡透过探针卡分组跟设备组来跟测试机台关联。 |  |
+|  |  | 提供探针卡检查对应关系后可以装载/卸载到机台。 |  |
+|  |  | 探针卡需要增加扎针次数属性，并进行寿命管理(EAP通过EAP接口，非EAP通过文件解析)；支持探针卡记录晶圆片计数。 |  |
+|  |  | 批次进站时候需要校验有效期。 |  |
+|  |  | 扎针次数与晶圆计数已达上限或超过需要限制使用。 |  |
+|  |  | 如果晶圆计数剩余数量还没达到上限，但是少于本次作业的晶圆片数量则报警，由员工选择继续进站还是终止进站。 |  |
+|  |  | 提供探针卡到达上限后，可以送修并切换状态。 |  |
+|  |  | 提供探针卡送修后再回到可用的状态。 |  |
+|  |  | 提供探针卡装载到机台的查询。 |  |
+|  |  | 当CP 的实验分片单(SRC) 时也需要计算探针卡寿命。 |  |
+|  |  | 提供探针卡状态切换的历史信息。 |  |
+|  | 治具管理 | 可以由用户自由创建治具类型。 |  |
+|  |  | 用户可定义治具状态变更逻辑。 |  |
+|  |  | 用户可定义治具的生命周期。 |  |
+|  |  | 治具可以挂载至机台/站点，并在跑货期间进行计时/计数。 |  |
+|  |  | 批次进出站校验治具可用性，并有防呆报警。 |  |
+|  |  | 治具可建立工程量测数据在SPC中进行管控。 |  |
+|  |  | 治具加工历史可查询。 |  |
+|  | 机台保养 | 计划的维修保养管理。 |  |
+|  |  | 非周期的维修管理。 |  |
+|  |  | 基于时间的周期性保养管理。 |  |
+|  |  | 基于使用情况的周期性保养管理，与EAP整合，接受对应参数值进行触发 (例如晶圆计数以及RFTM)。 |  |
+|  |  | 混合类型的(基于时间周期和基于使用情况)的保养管理。 |  |
+|  |  | 支持通过API供其他系统创建临时的维修保养单。 |  |
+|  |  | 计划性维护保养模板按照设备模板统一管控或者按照机台ID进行维护（版本控制）。 |  |
+|  |  | 计划性维护（按照设备，按照子设备进行配置）。 |  |
+|  |  | 选择所需的已经建立设备检查清单模板，并且可支持一次添加多个设备检查清单模板。 |  |
+|  |  | 支持设置触发设备维保所需要的参数（递增性以及替换性参数）。 |  |
+|  |  | 设置设备维保的提前预警，规定时间以及逾期时间，并且可以定义是否需要在逾期自动设置机台维保超期的状态。 |  |
+|  |  | 支持定义计划性维护保养所生成的设备维保任务命名规则。 |  |
+|  |  | 支持定义浮动性以及静态型类型的PM，即跟据PM完成时间或者固定的时间来重新规划下一次PM时间。 |  |
+|  |  | 添加PM过程中用户需要的共享附件（例如SOP文件）。 |  |
+|  |  | 定义PM需使用的部品详细信息（料号与描述信息）。 |  |
+|  |  | 增加、修改以及复制维修保养管理模板。 |  |
+|  |  | 设置PM保养管理所需要的原因代码。 |  |
+|  |  | 设置PM保养所需要的预估保养时间以及标题。 |  |
+|  |  | 提供系统默认签核逻辑（权限群组设定）管理维修保养管理模板。 |  |
+|  |  | 维保清单建立(PM设备检查清单) |  |
+|  |  | 支持设备检查清单模板配置功能（按设备模板或者按设备），支持系统默认的签核逻辑。 |  |
+|  |  | 支持添加、删除以及修改设备检查清单步骤。 |  |
+|  |  | 支持导出设备检查清单模板以及导入设备检查清单模板。 |  |
+|  |  | 参数类型（设置必填以及选填参数）。 |  |
+|  |  | 参数提示（未填写必输入参数，完成会进行报警提醒）。 |  |
+|  |  | 规格限制以及检查（是否需要OOS上下线卡控）。 |  |
+|  |  | 添加用户执行设备检查清单步骤时所需的共享附件（如执行PM所需要SOP文件或者图片）。 |  |
+|  |  | PM复机设备检查清单的检查执行步骤设置。 |  |
+|  |  | 增加、修改以及复制维修PM设备检查清单模板。 |  |
+|  |  | 支持非计划性宕机（UnScheduling Down）手动建立故障单作业请求，并手动添加所需设备检查清单 |  |
+|  |  | 预测维修保养的时间。 |  |
+|  |  | 周期性保养自动安排下一个维修保养管理。 |  |
+|  |  | 具备达到强制维修保养条件逾期时，强制切换设备/子设备可用性的功能。 |  |
+|  |  | 预约PM。 |  |
+|  |  | 通过用户定义的提前时间预先报警发送给预警系统。 |  |
+|  |  | 通过用户定义的设定时间报警发送给预警系统。 |  |
+|  |  | 通过用户定义的逾期时间报警发送给预警系统。 |  |
+|  |  | 维修保养任务需要支持开始、中止、取消、继续、完成、延迟等操作。 |  |
+|  |  | 支持非计划维修保养任务。 |  |
+|  |  | 关联的保养计划，可以合并执行，如周保养和月保养遇到时可以选择合并。 |  |
+|  |  | 可按照设备、拟定的设备群、默认时间范围来查询。 |  |
+|  |  | 查询维修保养管理计划。 |  |
+|  |  | 查询维修保养管理状态。 |  |
+|  |  | 查看维修保养清单列表。 |  |
+|  |  | 导出维修保养清单列表。 |  |
+|  |  | 定义PM计划时候定义一定要更换的关键配件清单（料号与描述信息）。 |  |
+|  |  | 完成PM的时候检查需更换关键配件的是否已完成更换，否则PM不可以结束，更换可设置是否强制，且需要填写备注。 |  |
+|  |  | 提供用户权限的管理机制，包括配置以及运行的权限管理。 |  |
+|  |  | 权限管理模块与MES进行整合，减少用户重复定义 |  |
+|  | 备品备件管理系统 | 支持填写配件基本信息进行领料，录入系统；支持导入。 |  |
+|  |  | 提供产品默认的配件录入工具。 |  |
+|  |  | 将配件组里面配件组装到 设备/子设备，将此时挂在 设备/子设备的配件进行卸载，并且选择处理的方法(废弃，等待维修，待装机，已拆换，清洗)。 |  |
+|  |  | 配件替换支持非维保任务的替换以及维保任务的替换。 |  |
+|  |  | 替换过程中显示当前配件的使用情况。 |  |
+|  |  | 系统提供设置配件的最大循环量。 |  |
+|  |  | 支持对于配件使用次数的统计，当用户将配件从设备/子设备或者子设备拿下来时候，配件对应的次数属性自动加1，并与配件循环使用规格进行比较。 |  |
+|  |  | 当配件领入，会有一个唯一识别号，当配件领入到在线仓以后，可以唯一性的进行跟踪记录。 |  |
+|  |  | 显示配件的相关信息以及执行的时间。 |  |
+|  |  | 与报警系统(AMS)系统进行整合，系统对于配件的使用期限会进行定时的监控，如果发现配件逾期，会将相关信息发送给预警系统。 |  |
+|  |  | 用户可以配置维保需要更换的配件清单。 |  |
+|  |  | 支持维保对配件更换的卡控，如果未更换必更换的配件，维保任务无法完成。 |  |
+|  |  | 提供用户建立配件组的界面，并且同时支持导入工具可以进行统一的创建。 |  |
+|  |  | 提供用户界面可以给机台添加配件组，用户在进行配件上机的时候会从该组中找到可用的配件。 |  |
+|  |  | 提供用户可以根据配件号，序列号，供应商序列号，模组，状态，位置等进行查询对应配件的数量。 |  |
+|  |  | 用户可以根据查询出来的配件清单，用户可以根据导出功能把配件信息导出。 |  |
+|  | 权限管理 | 人员任职周期管理。 |  |
+|  |  | 重要的系统及其功能操作都要有权限验证，重要操作需要再次输入账号和密码。 |  |
+|  |  | 按设备或设备组。 |  |
+|  |  | 按用户或用户组增减设备或设备组操作权限。 |  |
+|  |  | 按设备或设备组增减可操作的用户或用户组。 |  |
+|  |  | 当用户对设备进行设置或动作时，需要根据用户设置对设备的操作权限.如：进站（Track-In），出站（Track Out），切换设备状态/模式等。 |  |
+|  |  | 设备状态权限，需要提供界面维护该权限.即什么样的角色可以将设备状态从什么状态切到什么状态.。 |  |
+|  |  | 提供管控产品/工艺流程建模维护权限。 |  |
+</TABLE>
+[3] 典设的技术架构：
+PlantU 平台为自研业务平台，采用 C# 桌面客户端、RavenCast 自有通信中间件、Java 后端服务和 Oracle 数据库组成整体技术架构。
+平台通过 RavenCast 实现前后端解耦通信，支持同步调用和异步消息；后端 Java 服务可部署多个节点，并通过 RavenCast 的多活和负载均衡能力实现服务级高可用。
+<TABLE>
+| 逻辑层 | 技术实现 | 主要职责 |
+| 表现层 | C# 桌面客户端 | 用户交互、业务操作、请求封装、结果展示 |
+| 通信层 | RavenCast | 前后端通信、同步调用、异步消息、路由转发、负载均衡 |
+| 服务层 | Java 服务 | 业务逻辑处理、流程控制、接口处理、数据访问 |
+| 数据层 | Oracle Database | 业务数据、配置数据的存储与持久化 |
+| 高可用层 | RavenCast 多活 + Java 多节点 | 服务多活、流量分发、横向扩展 |
+</TABLE>
+[3] （3）典设的部署架构：
+MES 分4个工厂，12吋先进封装工厂、8吋晶圆工厂、材料A外延工厂、载板工厂，分别需要4套数据库,4个MES客户端，所有AP、存储服务器都是4套配置。
+<TABLE>
+| 服务器 | 环境 | 数量 | 形态 | 系统 | CPU Core | 内存GB | Disk | 用途/备注 |
+| MES DB Server | PROD | 2*4 | 物理机 | Linux Oracle | 64 | 256 | 2000G | MES PRD数据库 |
+| Archive DB Server | PROD | 2*4 | 物理机 | Linux Oracle | 16 | 64 | 1000G | MES 数据备份 |
+| Batch Job AP Server | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 32 | 64 | 1000G | MES Batch Job |
+| EIS AP Server | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 32 | 64 | 1000G | EIS AP 服务器（对接EAP） |
+| MES Server AP Server | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 32 | 64 | 1000G | MES AP服务器（客户端） |
+| Archive AP Server | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 32 | 64 | 1000G | MES ArchiveAP服务器 |
+| Middleware Server | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 16 | 64 | 600G | 消息中间件 |
+| Admin | PROD | 2*4 | 虚拟机/物理机 | CentOS 7.9/8.10/8.8 | 8 | 32 | 300G | MES 服务认证使用 |
+| DB Storage | PROD | 2*4 | / | / |  | 512 | 16TB 以上SSD | Oracle RAC使用SAN存储 |
+| Backup Storage | PROD | 1*4 | / | / |  | 256 | 16TB 以上SSD+HDD | PRD 数据库备份,SSD缓存、HHD主存 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | CentOS 7.9/8.10/8.8 | MES、RC、ADMIN 服务器 | MES 服务器 中间件 服务认证 |
+| 数据库 | Oracle 19C | MES DB Server | 保存MES执行数据 |
+| 消息中间件 | PLUS / Message Bus | MES AP | MES与前端或子系统通信 |
+| Web/代理 | Nginx或客户标准负载均衡 | MES Web入口 | 用于统一入口、反向代理和高可用切换，若客户已有负载均衡可复用 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| 前端 | C# |  |  |
+| 后端 | Java |  |  |
+</TABLE>
+[2] SPC系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| SPC | 数据采集 | >支持产品/设备关键参数/厂务低频率定时汇总/原材料/出货数据类型 |  |
+|  |  | >支持多种采集方式，手动录入、EAP上传、文件解析、FTP、邮件解析 |  |
+|  | 基础设置 | >支持整数、小数等数值类型，并可设置系统显示时保留数值的小数位数和Chart Y轴小数位数 |  |
+|  |  | >支持K/NK/NC属性用于区分关键、非关键、不管控等Chart类型 |  |
+|  |  | >支持Channel分组管理，可设定分组、子组、Report Group |  |
+|  |  | >支持参数版本管控 |  |
+|  |  | >支持多种控制限，内规、客规、控制限、Target、Center Line、警告限、屏控限等 |  |
+|  |  | >支持按照图表设置判异准则和Action（Email/Hold Lot/Down EQP/OCAP等），支持优先级触发OCAP，Action支持拓客制化扩展 |  |
+|  |  | >按参数、Channel（数据采集维度）、CKC维度设定目标CPK |  |
+|  |  | >支持复制其他参数的Channel、CKC信息、规则、控制限 |  |
+|  |  | >支持Excel模板导入/导出建模数据 |  |
+|  |  | >参数、Channel（数据采集维度）、Chart三层建模数据的基本属性继承 |  |
+|  | 管控维度 | >按工艺流程、设备、Recipe等多种主要信息设定数据采集维度（Channel），数据采集维度支持扩展 |  |
+|  |  | >可动态启用或禁用特定Channel |  |
+|  |  | >支持【*】、【XX*】模式，数据采集时自动生成CKC |  |
+|  |  | >Channel维度可设置过滤条件，排除符合过滤条件的数据 |  |
+|  | 计算型参数 | >支持计算型参数设定，一个参数可配置多个计算公式 |  |
+|  |  | >支持跨站点参数计算 |  |
+|  |  | >支持多种计算函数，以及加减乘除和常数 |  |
+|  |  | >支持因子Raw Data计算，按照Index取部分原始值进行计算 |  |
+|  | 判异规则 | >支持SPC八大判异准则 |  |
+|  |  | >支持判异准则判定点数设定 |  |
+|  |  | >支持上下限判异，OOS/OOC/OOR/OOT/OOW |  |
+|  |  | >支持连续N点异常等客制化规则 |  |
+|  |  | >支持组合基本规则的客制化规则 |  |
+|  | 收藏夹管理 | >支持按用户创建收藏夹，将用户关注的关键Chart存入收藏夹中，方便查找和查看。 |  |
+|  |  | >支持按收藏夹批量打开Chart。 |  |
+|  |  | >支持按收藏夹批量导出Chart。 |  |
+|  | 图表样式管理 | >按参数、Channel、Chart等多个维度设置图表显示样式。 |  |
+|  |  | >支持设置点的形状、大小、颜色等样式，包含正常点、异常点、备注点等。 |  |
+|  |  | >支持设置线的类型、粗细、颜色等样式，包含USL、LSL、UCL、LCL等。 |  |
+|  |  | >支持设置箱线图点位偏移量，让重叠数据左右偏移。 |  |
+|  |  | >支持设置X轴Lable默认显示信息，包含时间、UNIT_ID、LOT_ID等。 |  |
+|  |  | >支持设置X轴默认Lable显示数量、倾斜角度等。 |  |
+|  | 图表管理 | >支持多种图表类型（X、Sigma、Rang、Move Range、Move Sigma、Move Avg、XBAR、XBAR_S、XBAR_R） |  |
+|  |  | >支持正态分布图显示 |  |
+|  |  | >支持计数型Chart，P、NP、C、U图 |  |
+|  |  | >支持按Channel/CKC查看Chart |  |
+|  |  | >支持多条件过滤Chart，参数名、Chart名、样本ID，支持保存常用筛选条件 |  |
+|  |  | >支持不同样式显示点，正常点、异常点、备注点样式区分 |  |
+|  |  | >支持Y轴调整，根据管控限或自定义范围调整Y轴，支持科学计数法、对数显示 |  |
+|  |  | >可显示为时间、UNIT_ID、LOT_ID、T7 Code，可组合显示 |  |
+|  |  | >Chart控制线使用历史数据进行展示 |  |
+|  |  | >支持显示数据点详细信息，数据采集的主数据与辅助信息 |  |
+|  |  | >支持显示Count/Avg/Std/StdP/K/Pp/Ppk/Cp/Cpk/Oos Count/Oos Ratio/Ooc Count/Ooc Ratio/Abnormal_Count/Abnormal Ratio等指标 |  |
+|  |  | >支持高亮A/B/C区 |  |
+|  |  | >可对数据点添加备注，查看该点过往所有备注记录 |  |
+|  |  | >支持数据点临时/永久隐藏，临时/永久取消隐藏 |  |
+|  |  | >隐藏点或过滤数据点后按照过滤后数据重新计算Cpk、Avg等相关计算数据 |  |
+|  |  | >支持一键导出Chart与原始数据，导出格式Excel/PPT |  |
+|  |  | >支持多时间维度排序，Process Time、Measure Time、System Time |  |
+|  |  | >支持按点数、时间周期过滤，按重量、离散点、屏控限等条件批量过滤Chart数据 |  |
+|  |  | >支持按辅助信息、CKC分段显示控制图数据 |  |
+|  |  | >基于当前Chart数据推荐控制限，计算公式Avg±3Sigma |  |
+|  |  | >支持选择数据点手动触发OCAP |  |
+|  |  | >支持从异常点跳转至OCAP处理页 |  |
+|  | 自动计算 | >支持设置计算公式，数据过滤条件 |  |
+|  |  | >支持自动/手动计算，自动计算周期月度/季度 |  |
+|  |  | >计算结果以报表形式展示 |  |
+|  | 报表 | Cpk报表 |  |
+|  |  | 报警率报表 |  |
+|  |  | 管控限报表 |  |
+</TABLE>
+[3] 典设的技术架构：
+PlantU 平台为自研业务平台，采用 C# 桌面客户端、RavenCast 自有通信中间件、Java 后端服务和 Oracle 数据库组成整体技术架构。
+平台通过 RavenCast 实现前后端解耦通信，支持同步调用和异步消息；后端 Java 服务可部署多个节点，并通过 RavenCast 的多活和负载均衡能力实现服务级高可用。
+<TABLE>
+| 逻辑层 | 技术实现 | 主要职责 |
+| 表现层 | C# 桌面客户端 | 用户交互、业务操作、请求封装、结果展示 |
+| 通信层 | RavenCast | 前后端通信、同步调用、异步消息、路由转发、负载均衡 |
+| 服务层 | Java 服务 | 业务逻辑处理、流程控制、接口处理、数据访问 |
+| 数据层 | Oracle Database | 业务数据、配置数据的存储与持久化 |
+| 高可用层 | RavenCast 多活 + Java 多节点 | 服务多活、流量分发、横向扩展 |
+</TABLE>
+[3] 典设的部署架构：
+单产线
+<TABLE>
+| Server Name | Qty. | CPU | Memory（GB） | Disk(GB) | OS | Application |
+| SPC Oracle DB Server | 2 EA | 64 Core | 256 | 1000 | Linux Oracle | DB Server |
+| SPC AP Server | 2 EA | 32 Core | 128 | 400 | Redhat7.9/8.10/8.8 | Ap Server |
+| SPC AP Server(Job) | 1 EA | 32 Core | 128 | 400 | Redhat7.9/8.10/8.8 | Job Server |
+| Middleware Server | 2EA | 16 Core | 64 | 400 | Redhat7.9/8.10/8.8 |  |
+| Admin Server | 1 EA | 8 Core | 32 | 300 | Redhat7.9/8.10/8.8 |  |
+| Storage (Disk Array) | - | - | - | 3 TB 以上 | - | 后续视实际业务量增加 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | Redhat7.9/8.10/8.8 | SPC Ap、RavenCast Ap、ADMIN Ap | SPC 应用服务器 中间件 服务认证 |
+| 数据库 | Oracle 19C | SPC DB Server | 存储SPC数据 |
+| 消息中间件 | RavenCast | Middleware Server | SPC与前端或其他系统通信 |
+| 第三方插件 | DevExpress | 开发终端 | 开发 |
+| 第三方插件 | Grape City | 开发终端 | 开发 |
+| 第三方插件 | TeeChart | 源代码编译发布机 | 发布 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| 前端 | C# |  |  |
+| 后端 | Java |  |  |
+|  |  |  |  |
+</TABLE>
+系统支持全Linux服务器
+[2] AMS系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| AMS | 用户管理 | 角色管理 |  |
+| AMS | 用户管理 | 角色权限 |  |
+| AMS | 用户管理 | 账号管理 |  |
+| AMS | 用户管理 | 用户组管理 |  |
+| AMS | 设备信息 | 产线结构树信息 |  |
+| AMS | 设备信息 | 设备信息管理 |  |
+| AMS | 系统管理 | 数据字典 |  |
+| AMS | 系统设置 | 邮件设置 |  |
+| AMS | 基础配置 | 报警级别管理 |  |
+| AMS | 基础配置 | 报警规则设定 |  |
+| AMS | 基础配置 | 报警统计配置 |  |
+| AMS | 基础配置 | 报警代码维护 |  |
+| AMS | 手动操作 | 状态切换 |  |
+| AMS | 手动操作 | 报警转单记录 |  |
+| AMS | 手动操作 | 报警作业 |  |
+| AMS | 查询统计 | 报警历史记录 |  |
+| AMS | 查询统计 | 报警次数统计 |  |
+| AMS | 查询统计 | 报警动作记录 |  |
+| AMS | 看板管理 | 报警看板 |  |
+| AMS | 日志管理 | 日志查询 |  |
+| AMS | 系统设置 | 邮件模板设置 |  |
+| AMS | 系统设置 | 报警看板设置 |  |
+| AMS | 系统设置 | 通用设置 |  |
+| AMS | 定制功能 | 发送企业微信、飞书、短信等第三方通知平台 |  |
+| AMS | 定制功能 | SSO登录(统一登陆)、账号验证 |  |
+</TABLE>
+[3] 典设的技术架构：
+AMS采用B/S应用架构，客户端通过浏览器访问AMS Web；Web/API服务通过Nginx统一入口提供报警规则配置、报警看板、查询统计、日志审计和系统管理能力；后端服务与Redis缓存、关系数据库、EAP/MES接口及邮件/短信/企业微信/飞书等通知平台交互。
+硬件架构图如下：
+图9-1 AMS硬件架构图
+[3] 典设的部署架构：
+部署拓扑图如下，生产环境建议Web/API服务、数据库服务分别采用多节点部署，Nginx和Keepalived提供统一入口与高可用。
+硬件配置文字版如下：
+Test/UAT：
+<TABLE>
+| Server Name | Qty. | CPU | Memory | Disk | OS | Application |
+| AMS DB Server | 1 EA | 2GHz，16 Core以上（2 CPU） | 32GB以上 | 300GB * 2EA | Linux（MySQL/Oracle/MSSQL/PostgreSQL/GaussDB） | 数据库服务 |
+| AMS UI / AMS Server / Redis | 1 EA | 16 Core以上（2 CPU） | 32GB及以上 | 500GB及以上 | CentOS 7.6+ | Net 6.0、Nginx、Redis 5.0 |
+</TABLE>
+Prod：
+<TABLE>
+| Server Name | Qty. | CPU | Memory | Disk | OS | Application |
+| AMS DB Server | 2 EA | 2GHz，16 Core以上（2 CPU） | 64GB以上 | 600GB * 2EA | Linux（MySQL/Oracle/MSSQL/PostgreSQL/GaussDB） | 双机HA/RAC架构 |
+| AMS UI / AMS Server | 3 EA | 16 Core以上（2 CPU） | 64GB及以上 | 500GB及以上 | CentOS 7.6+ | Net 6.0、Nginx、Keepalived、Redis |
+| Storage（Disk Array） | 按需 | - | - | 500GB起，按报警历史保留周期扩容 | - | 共享存储/磁盘阵列，按现场容量规划 |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件依赖清单如下，
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| Middleware | UAT 单节点；Prod 双节点节点 | 配置参考MES Middleware | 用于与EAP通讯 |
+| Nginx+Keepalived | UAT 单节点；Prod 双节点节点 | 配置参考见上方（3） 若AP Server选用Linux，可共用服务器 | 生产建议M/W Fail-Over与应用服务负载均衡 |
+| AMS关系数据库 （MySQL/Oracle/MSSQL/ PostgreSQL/GaussDB） | UAT 单节点；Prod 双节点节点 | 配置参考见上方（3） | 存储Recipe元数据、版本、参数规范、设备关系、签核与日志； 生产建议HA/Cluster/RAC或主备复制 |
+| AMS Redis缓存 | UAT 单节点；Prod 双节点节点 | 配置参考见上方（3） | 存储报警历史、规则配置、用户权限、日志和统计数据 |
+</TABLE>
+各产品/模块开发语言如下：
+<TABLE>
+| 产品/模块 | 客户端开发语言 | 服务器端开发语言 | 备注 |
+| AMS Web客户端 | 浏览器端：HTML5、CSS3、JavaScript/TypeScript；通过Chrome/Edge/Firefox等浏览器访问 | - | 客户端无需安装Windows专用程序 |
+| AMS Web/API服务 | - | C#，ASP.NET Core / Net 6.0 | 运行在Linux Server上的应用服务 |
+| AMS后台任务/报警处理服务 | - | C#，Net 6.0 | 用于报警统计、通知推送、定时任务和接口处理 |
+| AMS数据访问与数据库对象 | - | SQL；按数据库选型使用PL/SQL、T-SQL或PostgreSQL SQL扩展 | 数据库脚本随MySQL/Oracle/MSSQL/PostgreSQL/GaussDB选型适配 |
+| AMS接口适配 | Web前端仅调用AMS API | C#，REST/HTTP；按现场需要接入EAP/MES/Ravencast/SSO/通知平台接口 | 接口协议以现场系统开放能力为准 |
+</TABLE>
+Linux Server支持说明：AMS服务器端支持全部部署在Linux Server，无需Windows Server；客户端为浏览器访问，可在Windows、Linux、macOS等桌面环境使用主流浏览器。若客户选择MSSQL Server，应采用Linux兼容版本或接入客户既有数据库服务，AMS应用节点本身不依赖Windows Server。
+[2] PMS系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| PMS | 机台保养 | 计划的维修保养管理。 |  |
+|  |  | 非周期的维修管理。 |  |
+|  |  | 基于时间的周期性保养管理。 |  |
+|  |  | 基于使用情况的周期性保养管理，与EAP整合，接受对应参数值进行触发 (例如晶圆计数以及RFTM)。 |  |
+|  |  | 混合类型的(基于时间周期和基于使用情况)的保养管理。 |  |
+|  |  | 支持通过API供其他系统创建临时的维修保养单。 |  |
+|  |  | 计划性维护保养模板按照设备模板统一管控或者按照机台ID进行维护（版本控制）。 |  |
+|  |  | 计划性维护（按照设备，按照子设备进行配置）。 |  |
+|  |  | 选择所需的已经建立设备检查清单模板，并且可支持一次添加多个设备检查清单模板。 |  |
+|  |  | 支持设置触发设备维保所需要的参数（递增性以及替换性参数）。 |  |
+|  |  | 设置设备维保的提前预警，规定时间以及逾期时间，并且可以定义是否需要在逾期自动设置机台维保超期的状态。 |  |
+|  |  | 支持定义计划性维护保养所生成的设备维保任务命名规则。 |  |
+|  |  | 支持定义浮动性以及静态型类型的PM，即跟据PM完成时间或者固定的时间来重新规划下一次PM时间。 |  |
+|  |  | 添加PM过程中用户需要的共享附件（例如SOP文件）。 |  |
+|  |  | 定义PM需使用的部品详细信息（料号与描述信息）。 |  |
+|  |  | 增加、修改以及复制维修保养管理模板。 |  |
+|  |  | 设置PM保养管理所需要的原因代码。 |  |
+|  |  | 设置PM保养所需要的预估保养时间以及标题。 |  |
+|  |  | 提供系统默认签核逻辑（权限群组设定）管理维修保养管理模板。 |  |
+|  |  | 维保清单建立(PM设备检查清单) |  |
+|  |  | 支持设备检查清单模板配置功能（按设备模板或者按设备），支持系统默认的签核逻辑。 |  |
+|  |  | 支持添加、删除以及修改设备检查清单步骤。 |  |
+|  |  | 支持导出设备检查清单模板以及导入设备检查清单模板。 |  |
+|  |  | 参数类型（设置必填以及选填参数）。 |  |
+|  |  | 参数提示（未填写必输入参数，完成会进行报警提醒）。 |  |
+|  |  | 规格限制以及检查（是否需要OOS上下线卡控）。 |  |
+|  |  | 添加用户执行设备检查清单步骤时所需的共享附件（如执行PM所需要SOP文件或者图片）。 |  |
+|  |  | PM复机设备检查清单的检查执行步骤设置。 |  |
+|  |  | 增加、修改以及复制维修PM设备检查清单模板。 |  |
+|  |  | 支持非计划性宕机（UnScheduling Down）手动建立故障单作业请求，并手动添加所需设备检查清单 |  |
+|  |  | 预测维修保养的时间。 |  |
+|  |  | 周期性保养自动安排下一个维修保养管理。 |  |
+|  |  | 具备达到强制维修保养条件逾期时，强制切换设备/子设备可用性的功能。 |  |
+|  |  | 预约PM。 |  |
+|  |  | 通过用户定义的提前时间预先报警发送给预警系统。 |  |
+|  |  | 通过用户定义的设定时间报警发送给预警系统。 |  |
+|  |  | 通过用户定义的逾期时间报警发送给预警系统。 |  |
+|  |  | 维修保养任务需要支持开始、中止、取消、继续、完成、延迟等操作。 |  |
+|  |  | 支持非计划维修保养任务。 |  |
+|  |  | 关联的保养计划，可以合并执行，如周保养和月保养遇到时可以选择合并。 |  |
+|  |  | 可按照设备、拟定的设备群、默认时间范围来查询。 |  |
+|  |  | 查询维修保养管理计划。 |  |
+|  |  | 查询维修保养管理状态。 |  |
+|  |  | 查看维修保养清单列表。 |  |
+|  |  | 导出维修保养清单列表。 |  |
+|  |  | 定义PM计划时候定义一定要更换的关键配件清单（料号与描述信息）。 |  |
+|  |  | 完成PM的时候检查需更换关键配件的是否已完成更换，否则PM不可以结束，更换可设置是否强制，且需要填写备注。 |  |
+|  |  | 提供用户权限的管理机制，包括配置以及运行的权限管理。 |  |
+|  |  | 权限管理模块与MES进行整合，减少用户重复定义 |  |
+</TABLE>
+[3] 典设的技术架构：
+PlantU 平台为自研业务平台，采用 C# 桌面客户端、RavenCast 自有通信中间件、Java 后端服务和 Oracle 数据库组成整体技术架构。
+平台通过 RavenCast 实现前后端解耦通信，支持同步调用和异步消息；后端 Java 服务可部署多个节点，并通过 RavenCast 的多活和负载均衡能力实现服务级高可用。
+<TABLE>
+| 逻辑层 | 技术实现 | 主要职责 |
+| 表现层 | C# 桌面客户端 | 用户交互、业务操作、请求封装、结果展示 |
+| 通信层 | RavenCast | 前后端通信、同步调用、异步消息、路由转发、负载均衡 |
+| 服务层 | Java 服务 | 业务逻辑处理、流程控制、接口处理、数据访问 |
+| 数据层 | Oracle Database | 业务数据、配置数据的存储与持久化 |
+| 高可用层 | RavenCast 多活 + Java 多节点 | 服务多活、流量分发、横向扩展 |
+</TABLE>
+[3] 典设的部署架构：
+与MES共用
+[3] 操作系统、中间件、数据库的依赖清单
+第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | CentOS 7.9/8.10/8.8 | MES、RC、ADMIN 服务器 | MES 服务器 中间件 服务认证 |
+| 数据库 | Oracle 19C | MES DB Server | 保存MES执行数据 |
+| 消息中间件 | PLUS / Message Bus | MES AP | MES与前端或子系统通信 |
+| Web/代理 | Nginx或客户标准负载均衡 | MES Web入口 | 用于统一入口、反向代理和高可用切换，若客户已有负载均衡可复用 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| 前端 | C# |  |  |
+| 后端 | Java |  |  |
+|  |  |  |  |
+</TABLE>
+[2] RTD系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 三级功能 | 预算估计 |
+| RTD | 用户权限管理 | 用户管理 | 新建角色 |  |
+|  |  |  | 查看角色 |  |
+|  |  |  | 复制角色 |  |
+|  |  |  | 编辑角色 |  |
+|  |  |  | 删除角色 |  |
+|  |  | 权限管理 | 新建用户 |  |
+|  |  |  | 查询用户 |  |
+|  |  |  | 编辑用户 |  |
+|  |  |  | 重置密码 |  |
+|  |  |  | 删除用户 |  |
+|  | Report管理 | 分组管理 | 添加分组 |  |
+|  |  |  | 修改分组名称 |  |
+|  |  |  | 删除分组 |  |
+|  |  | Report编辑 | Report可视化编辑器 |  |
+|  |  |  | Report保存与升版 |  |
+|  |  |  | Report导出 |  |
+|  |  |  | 上线/重建DV |  |
+|  |  |  | 下线/删除DV |  |
+|  |  |  | Report导入 |  |
+|  |  |  | Report权限设置 |  |
+|  |  |  | Report切换分组 |  |
+|  |  |  | Report查询 |  |
+|  | Macro管理 | Macro编辑 | Macro可视化编辑器 |  |
+|  |  |  | Macro保存与升版 |  |
+|  |  |  | Macro导出 |  |
+|  |  |  | Macro导入 |  |
+|  |  | Macro发版 | Macro上线DV |  |
+|  |  |  | Macro下线DV |  |
+|  | 机台映射 | 机台映射 | 批量导入，导出 |  |
+|  |  |  | 机台映射编辑 |  |
+|  | 全局变量 | 全局变量 | 批量导入，导出 |  |
+|  |  |  | 全局变量编辑 |  |
+|  | 依赖关系查询 | 依赖关系查询 | 依赖关系查询 |  |
+|  | 历史记录 | 历史记录 | 查询用户操作记录 |  |
+|  | DV管理 | DV管理 | DV查询，删除 |  |
+|  |  |  | 参数表查询，删除，清空 |  |
+|  |  | DV异常管理 | DV异常管理 |  |
+</TABLE>
+[3] 典设的技术架构：
+图1.技术架构
+图2.分层架构
+[3] 典设的部署架构：
+图1.部署架构
+生产环境建议按四个工厂分区部署，每个工厂建议Repository服务器2台，AP服务器2台。
+<TABLE>
+| 服务器/设备 | 环境 | 形态 | OS | CPU Core | 内存GB | 系统盘 | 数据盘/存储 | 数量 | 用途/备注 |
+| RTD Product DB Server | PROD | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 32 | 64 | 600G | 1T | 2 | Repository,需要两个VIP |
+| RTD Product AP Server | PROD | 虚拟机 | Red Hat、CentOS 7.9及以上 | 16 | 32 | 600G | 按需 | 2 | AP服务，需要一个VIP |
+| EAP DEV/UAT Server | DEV/UAT | 虚拟机 | Red Hat、CentOS 7.9及以上 | 16 | 32 | 600G | 按需 | 2 |  |
+</TABLE>
+[3] 操作系统、中间件、数据库的依赖清单
+[a9] 第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | Red Hat、CentOS 7.9及以上 | 所有服务器 | 承载AP，Repository等； |
+| 数据库 | Oracle 19c，Mysql8.1或客户指定数据库 | RTD DB Server | 存储rule等基础信息 |
+| 消息中间件 | Kafka | RTD AP | 数据同步中转 |
+| 运行时 | Jdk1.8/Jdk17 | RTD AP | 支撑AP服务运行 |
+| Web/代理 | Nginx或客户标准负载均衡 | Web入口 | 用于统一入口、反向代理和高可用切换，若客户已有负载均衡可复用 |
+| 缓存 | Redis | RTD AP | 负责业务数据或模型数据的缓存 |
+| 配置管理 | Nacos | RTD AP | 负责配置管理，服务注册等 |
+| 高可用 | KeepAlived | RTD AP/Repository | 负责故障切换 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| 服务端 | Java | Jdk1.8/Jdk17 |  |
+| 客户端 | TypeScript | 5.3.3 |  |
+|  |  |  |  |
+|  |  |  |  |
+|  |  |  |  |
+|  |  |  |  |
+|  |  |  |  |
+</TABLE>
+RTD支持全部Linux服务器架构
+[2] AMA系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 三级功能 | 预算估计 |
+| WFA | 管理后台 | 业务建模 | 流程模型 |  |
+|  |  |  | 表单模型 |  |
+|  |  |  | 连接服务 |  |
+|  |  |  | 流程配置 |  |
+|  |  | 流程版本管理 | 版本发布与管理 |  |
+|  |  | 发起流程 | 手动/定时/事件触发 |  |
+|  |  | 查看流程 | 流程实例监控 |  |
+|  |  | 应用管理 | 应用创建与管理 |  |
+|  |  | 调度服务 | 流程定时触发 |  |
+|  |  |  | 常规任务 |  |
+|  |  | 连接服务 | 数据源、API、消息队列 |  |
+|  |  |  | 策略与模板 |  |
+|  |  | 通知服务 | 站内通知、邮箱、企业微信、短信 |  |
+|  |  | Action管理 | 节点编辑与配置 |  |
+|  |  | 业务对象 | 系统内置与自定义对象 |  |
+|  |  | 系统管理 | 组织架构与角色管理 |  |
+|  |  |  | 菜单与权限管理 |  |
+|  |  |  | 基础字典 |  |
+|  |  |  | 公告管理 |  |
+|  |  |  | 触发配置 |  |
+|  |  |  | RTD同步 |  |
+|  |  | 运行监控 | 流程实例 |  |
+|  |  |  | 全局锁管理 |  |
+|  |  |  | 服务监控 |  |
+|  |  |  | 在线用户 |  |
+|  |  |  | 系统日志 |  |
+|  | 前台服务 | 首页 | 功能导航与数据概览 |  |
+|  |  | 流程中心 | 待办任务 |  |
+|  |  |  | 我的草稿 |  |
+|  |  |  | 我发起的/我处理的/抄送我的 |  |
+|  |  |  | 代理设置 |  |
+|  |  |  | 发起流程 |  |
+|  |  | 应用中心 | 应用列表与详情 |  |
+</TABLE>
+[3] 典设的技术架构：
+总体架构：
+AMA 系统基于流程自动化平台建设，采用“前端静态资源 + Gateway 网关 + 后端 AP 应用服务 + 中间件 + 数据库 + 外部系统集成”的分层架构。用户通过浏览器访问 Nginx 代理的前端页面，接口请求统一进入 Gateway，再路由到 Process-Engine、调度服务、连接源服务、日志与监控等后端能力模块。
+逻辑层划分：
+系统逻辑上分为接入层、应用服务层、流程运行层、集成适配层和数据持久层。接入层负责 /wfa/ 静态资源代理、/engine/api/v1/ 接口入口和统一路由；应用服务层负责流程模型、Block/Action 配置、触发器、流程实例、任务、日志和权限管理；流程运行层负责 BPMN 解析、事件驱动执行、网关判断、变量上下文和异常处理；集成适配层负责数据库、HTTP、WebService、消息中间件、Redis、文件、远程命令和工业协议连接；数据持久层负责模型、实例、任务、日志、连接源和系统配置持久化。
+核心模块：
+AMA 依托系统内置流程平台、流程引擎、规则引擎、数据集成、调度服务、通知服务、运行日志和监控能力。流程平台提供模型设计、Block 编排、EventTrigger 触发和自定义页面能力；流程引擎负责实例启动、Action 调度、变量流转和流程状态推进；规则引擎负责网关条件、参数规则和分支决策；数据集成模块提供 DB、HTTP、Kafka、RocketMQ、Redis、MongoDB、SFTP/SSH、CORBA、TIBCO RV、MessageBus、RTD 等外部系统访问能力。
+执行机制：
+Process-Engine 启动流程实例后初始化运行上下文，发布 ExecuteActionEvent，由异步监听器基于 Java 21 虚拟线程执行节点任务。每个节点通过 IAction 策略模式按 java_class 反射加载具体 Action，执行结果写回流程变量，再由引擎根据 BPMN 连线或网关判断推进到下一节点。流程结束时触发锁释放、数据持久化、外部响应等 EndEvent 扩展。
+接口与协议：系统对前端和第三方系统提供 HTTP/REST JSON 接口，内部服务通过 Gateway、OpenFeign 和 Nacos 服务发现完成路由与调用。外部系统集成协议覆盖 JDBC、HTTP/HTTPS、SOAP、Redis RESP、Kafka、RocketMQ、SFTP/SSH、CORBA/IIOP、TIBCO RV、MongoDB Wire Protocol 等；流程变量支持 ${变量名} 形式的动态映射，用于接口参数、消息体、SQL 参数和文件路径。
+技术框架：后端基于 Java 21、Spring Boot 3.3.x、Spring Cloud 2023.x、Spring Cloud Alibaba、MyBatis-Plus、HikariCP、Redisson、Caffeine、Groovy、XXL-JOB、MapStruct、Fastjson2、SpringDoc OpenAPI 和 Actuator 构建。流程运行数据优先使用本地 Caffeine 缓存提升执行性能，流程结束后按配置持久化到系统数据库；Redis 主要用于 Spring Cache、分布式数据结构和锁相关能力。
+[3] 典设的部署架构：
+<TABLE>
+| 服务器/系统 | 用途/角色 | OS | 类型 | 数量 | 单台CPU(核) | 单台内存(GB) | 存储（GB） |
+| WFA | 中间件 | Redhat 8.8 | 虚拟机 | 3 | 16 | 32 | 500 |
+| WFA | AP-Server | Redhat 8.8 | 虚拟机 | 2 | 24 | 48 | 500 |
+| WFA | DB | Redhat 8.8 | 虚拟机 | 2 | 32 | 64 | 800（SSD） |
+</TABLE>
+总体部署：
+生产环境建议采用高可用分层部署，按 DB、AP 和中间件三类服务器进行资源隔离。DB 使用专用数据库服务器；AP 使用专用应用服务器集群，部署 Gateway、Process-Engine、XXL-JOB 等服务；中间件使用共享中间件服务器集群，部署 Nacos、Redis、Nginx 等基础组件。各层之间通过内网访问，并通过防火墙或安全组限制端口范围。
+DB 服务器：
+DB 专用服务器保存流程定义、流程实例、任务记录、运行日志、连接源配置、用户角色、触发器配置和业务扩展配置。默认推荐 MySQL 8.1，可根据项目要求适配 PostgreSQL 或 Oracle。生产环境建议配置主从或高可用、定期备份、慢 SQL 分析、容量告警和数据库审计。
+AP 应用服务器：
+AP 服务器部署 Gateway、Process-Engine、XXL-JOB Executor/Admin 等应用。Gateway 作为统一 API 入口承接 /engine/api/v1/** 请求；Process-Engine 负责流程执行和 Block/Action 调度；XXL-JOB 负责定时流程、周期任务和任务调度。AP 服务建议至少 2 台以上部署，通过 Nacos 注册发现和负载均衡策略实现横向扩展。
+中间件服务器：
+中间件服务器部署 Nacos 集群、Redis 集群和 Nginx。Nacos 提供配置中心与注册中心，建议 3 节点集群；Redis 建议部署 3 主 3 从集群，用于缓存、分布式数据结构和锁能力；Nginx 用于前端静态资源代理，访问路径为 /wfa/**，并可配合 Keepalived 或外部负载均衡实现入口高可用。
+网络与端口：
+典型端口包括 Nginx 80/443、Gateway 8080 或项目规划端口、Process-Engine 8083、Nacos 8848/9848/9849、Redis 6379/6380 及 Cluster Bus 16379/16380、MySQL 3306、XXL-JOB Admin 8080、Actuator/监控端口按安全策略开放。生产环境建议只开放必要端口，AP 到 DB 和中间件均使用内网访问。
+[3] 操作系统、中间件、数据库的依赖清单
+[a9] AMA 系统运行依赖如下，主要说明产品部署所需的操作系统、数据库、中间件及其用途
+<TABLE>
+| 依赖类别 | 组件 / 推荐版本 | 部署位置 | 作用说明 |
+| 操作系统 | Red Hat Enterprise Linux 8.8（Linux x86_64）；兼容主流企业级 Linux 发行版 | DB、AP、中间件服务器 | 承载数据库、应用服务和中间件运行环境；生产环境需统一时区、文件句柄、服务自启动、内核参数和安全策略。 |
+| Java 运行环境 | JDK 21 | AP 服务器；XXL-JOB 等 Java 进程 | 支撑 Gateway、Process-Engine、调度组件等 Java 服务运行；Process-Engine 使用 Java 21 和虚拟线程能力。 |
+| Web 入口 / 静态资源代理 | Nginx；Keepalived + VIP（高可用入口） | 中间件服务器，建议 2 节点 | 承载前端静态资源代理（/wfa/**），并作为前端请求入口和负载均衡组件，将接口请求转发到 Gateway。 |
+| 注册与配置中心 | Nacos Server 2.4.3（三节点集群） | 中间件服务器 3 节点 | 提供服务注册发现和配置中心能力；Gateway、Process-Engine、XXL-JOB 等服务通过 Nacos 获取配置并完成服务发现。 |
+| 缓存数据库 | Redis 7.4.9 Cluster（3 主 3 从） | 中间件服务器 3 节点 | 提供 Spring Cache、共享缓存、分布式数据结构和锁相关能力。流程运行变量主要在 AP 本地 Caffeine 缓存中，流程结束后按策略持久化到系统数据库。 |
+| 任务调度 | XXL-JOB 2.4.x | AP 服务器 2 节点 | 提供定时任务、周期任务、流程触发和后台作业调度能力；用于支撑自动化流程的计划执行场景。 |
+| 监控与可观测 | Spring Boot Actuator、Prometheus、Grafana | AP 与中间件服务器 | 提供健康检查、运行指标采集、服务状态监控和可视化看板；Grafana 用于集中展示系统运行状态。 |
+| 系统数据库 | MySQL 8.1（默认推荐）；支持 Oracle、PostgreSQL 等数据库适配 | DB 服务器双节点高可用 | 保存流程模型、流程实例、任务记录、运行日志、连接源、用户权限、触发器配置和系统参数等核心业务数据。 |
+| 可选集成组件 | Kafka、RocketMQ、MongoDB、SFTP/SSH、CORBA、TIBCO RV、MessageBus、RTD 等 | 按项目接口场景启用 | 用于对接 MES、EAP、设备服务、消息总线、文件服务器和其他第三方系统；非所有项目均强制依赖。 |
+| 应用内运行依赖 | Caffeine、Groovy、OpenFeign、MyBatis-Plus、HikariCP | 随 AP 应用服务部署 | Caffeine 用于流程运行态本地缓存；Groovy 用于脚本 Action；OpenFeign 用于内部服务调用；MyBatis-Plus 和 HikariCP 用于数据库访问。 |
+</TABLE>
+AMA支持全部Linux服务器架构
+[2] YMS系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| YMS | 系统 | 多语言支持：繁体中文/简体中文/英文 |  |
+| YMS | 系统 | 系统提供高可用性设计并包含系统异常处理及故障恢复功能 |  |
+| YMS | 系统 | 系统在User 端运行，OS需支持Windows 7/8/10皆正常运作 |  |
+| YMS | 系统 | 可定时执行分析流程，并将执行后的报告储存在指定路径 |  |
+| YMS | 系统 | 可储存分析流程并再次执行 |  |
+| YMS | 系统 | 可弹性调整分析平台内各功能的分类与功能的权限控管 |  |
+| YMS | 系统 | 可支持Workflow模式 |  |
+| YMS | 系统 | 可设定寄送报表收件邮箱 |  |
+| YMS | 系统 | 支持分析过程中使用截屏购物车(Image Cart)，且能一键生成PPT报表 |  |
+| YMS | 系统 | 喜好设定 (接口样式/图型颜色/字体/大小) |  |
+| YMS | 系统 | 提供流程Loop之运算功能 |  |
+| YMS | 数据查询 | 可支持多种数据库如Oracle, MS SQL, PostgreSQL, DB2, Greenplum |  |
+| YMS | 数据查询 | 查询功能提供透过 SQL 指令直接取得数据库内数据 |  |
+| YMS | 数据查询 | 查询接口开发工作, 需提供免编程工具，可根据管理者设定，使用拖拉方式轻易设定、调整后，自动生成重复使用之查询接口 |  |
+| YMS | 数据查询 | 使用者可自定义查询条件(包含产品、批号、制程站点、机台名称、日期时间等) |  |
+| YMS | 数据查询 | 查询结果可被储存再利用，随时可调整且接续着下一步的分析 |  |
+| YMS | 数据查询 | 用户可以过滤或给予一定的规则查询部分的结果 |  |
+| YMS | 数据查询 | 查询结果可以输出 |  |
+| YMS | 数据查询 | 可使用通配符当作查询条件 (%, *) |  |
+| YMS | 表格功能 | 能在操作画面上调整呈现的数据排序、字段顺序、字段名称 与 字型样式 |  |
+| YMS | 表格功能 | 数据导出 |  |
+| YMS | 表格功能 | 表格内数据筛选 |  |
+| YMS | 表格功能 | 表格数据格式设置 |  |
+| YMS | 数据处理 | 多文件批量导入，兼容Excel、CSV及Txt格式 |  |
+| YMS | 数据处理 | 多路径导入，可同时兼容系统内数据表与外部文件 |  |
+| YMS | 数据处理 | 多格式数据导出 |  |
+| YMS | 数据处理 | 支持表关联、合并与差异比对 |  |
+| YMS | 数据处理 | 支持动态添加数据列 |  |
+| YMS | 数据处理 | 数据排序 |  |
+| YMS | 数据处理 | 行转列 |  |
+| YMS | 数据处理 | 列转行 |  |
+| YMS | 数据处理 | 数据清理与补值 |  |
+| YMS | 数据处理 | 数据拆分 |  |
+| YMS | 数据处理 | 数据筛选 |  |
+| YMS | 数据处理 | 数据异常值过滤 |  |
+| YMS | 数据处理 | 数据采样 |  |
+| YMS | 数据处理 | 支持图片数据导入 |  |
+| YMS | 数据处理 | 系统内图片数据可与表格数据合并显示 |  |
+| YMS | 数据处理 | 支持图片导出至指定路径 |  |
+| YMS | 图表 | 趋势图（趋势线、点图、条形图、堆叠条形图、百分比堆叠条形图、面积图）,时间序列图，饼图，柏拉图，箱形图，区间图，Delta图，散点图，3D散点图，散点图矩阵，直方图，正态概率图，P-P图，Q-Q图，曲面图，等高线图，色阶网格图，箱形趋势图，颜色映射散点图 |  |
+| YMS | 图表 | 趋势图、条形图、箱形图、箱形趋势图支持X轴合并显示（分组标签） |  |
+| YMS | 图表 | 依自动分群条件一次绘制多张图表 |  |
+| YMS | 图表 | 支持从数据列生成规格线（含动态规格线功能） |  |
+| YMS | 图表 | 高亮显示OOC与OOS数据点 |  |
+| YMS | 图表 | 可于多图模式根据OOC、OOS高光出违反的Chart |  |
+| YMS | 图表 | 在图表上直接计算并显示Cpk值 |  |
+| YMS | 图表 | 根据设定条件绘制常数线，条件可参考其他表格或自行输入 |  |
+| YMS | 图表 | 趋势图支持自动侦测趋势转折点，并绘制分隔线(良率转折点、电测转折点) |  |
+| YMS | 图表 | 散点图支持定义器件四点规格（FF/SS/SF/FS/中心点） |  |
+| YMS | 基础分析 | 描述性统计 |  |
+| YMS | 基础分析 | 高级描述性统计 |  |
+| YMS | 基础分析 | 支持公式自定义 |  |
+| YMS | 基础分析 | 相关性分析（皮尔逊/斯皮尔曼） |  |
+| YMS | 基础分析 | 单因子方差分析 |  |
+| YMS | 基础分析 | 重复测量单因子方差分析 |  |
+| YMS | 基础分析 | Kruskal-Wallis分析 |  |
+| YMS | 基础分析 | Mann-Whitney U 检验 |  |
+| YMS | 基础分析 | Wilcoxon Signed-Rank 检验 |  |
+| YMS | 基础分析 | 过程能力分析 |  |
+| YMS | 基础分析 | 正态性检验 |  |
+| YMS | 基础分析 | 单样本T检验 |  |
+| YMS | 基础分析 | 双样本T检验 |  |
+| YMS | 基础分析 | 配对样本T检验 |  |
+| YMS | 基础分析 | 双样本Kolmogorov Smirnov检验 |  |
+| YMS | 基础分析 | F检验 |  |
+| YMS | 基础分析 | PCRB（F/T检验） |  |
+| YMS | 基础分析 | 样本量估算 |  |
+| YMS | 高级分析 | 数据透视分析 |  |
+| YMS | 高级分析 | 通用参数敏感性分析 |  |
+| YMS | 高级分析 | 共通性分析 |  |
+| YMS | 高级分析 | 线性回归分析 |  |
+| YMS | 高级分析 | 主成分分析 |  |
+| YMS | 高级分析 | 偏最小二乘回归分析 |  |
+| YMS | 高级分析 | 模型预测分析 |  |
+| YMS | 高级分析 | K均值聚类 |  |
+| YMS | 高级分析 | 决策树分析 |  |
+| YMS | 高级分析 | 田口方法设计与分析 |  |
+| YMS | 高级分析 | Offline SPC (Control Limit, Rule Test and Ca/Cp/Cpk... Calculation) 可批次模拟、呈现并提供报告，且支持Xbar-R, Xbar-S, X-MR, Xbar-Uniformity, EWMA, CuSum, P, nP, C, U Chart，提供国际标准SPC Rule |  |
+| YMS | Map图 | 提供数种绘制Wafer Map的方式，进而检视各种检测数值在Map上的结果 |  |
+| YMS | Map图 | 图库视图/单图视图 |  |
+| YMS | Map图 | 等高线图 |  |
+| YMS | Map图 | 3D等高线图 |  |
+| YMS | Map图 | 双数值向量图 |  |
+| YMS | Map图 | 参数分布图 |  |
+| YMS | Map图 | 气泡分布图 |  |
+| YMS | Map图 | MAP切面趋势分布图 |  |
+| YMS | Map图 | CP Map & 光罩版图 |  |
+| YMS | Map图 | 区域分析（提供自定义区域工具，支持分析规则复用） |  |
+| YMS | 插件 | 支持与Excel宏集成 |  |
+| YMS | 插件 | 支持与R语言集成 |  |
+| YMS | 插件 | 支持与Python集成 |  |
+| YMS | 报表 | 提供接口设定各种报表逻辑，方便操作 |  |
+| YMS | 报表 | 报告输出格式: HTML, Excel (2003, 2007), CSV, Power Point(2003,2007) |  |
+| YMS | 报表 | 自动报表定义方法支持两个表格合并数据显示于Excel报表 |  |
+| YMS | 报表 | 自动报表定义方法支持表格与图片(图表 /图片/Map )合并显示于Excel报表 |  |
+| YMS | 报表 | 能对多个表格与Chart, Map产出于Excel 报表中，产生Index Sheet, 并建立链接，方便浏览数据 |  |
+| YMS | 报表 | 支持自定义单页面报表布局(例：2*2, 3*2…) |  |
+| YMS | 报表 | 支持在操作界面动态调整数据顺序、字段名称及字体大小 |  |
+| YMS | 报表 | PPT自动报表可支持多章节格式，且每章节可自定义不同格式 |  |
+| YMS | 报表 | PPT自动报表可于单页PPT内定义X轴与Y轴，将多张图片依照定义合并显示于一页PPT |  |
+| YMS | 报表 | PPT自动报表可根据图片数量与排列逻辑自定义分页方式 |  |
+| YMS | 报表 | 可支持Email 寄送Report，并支持邮件内含HTML 报表内容 |  |
+| YMS | 运维 | 提供计划任务性能监控（执行开始时间/结束时间/处理笔数等关键指标） |  |
+| YMS | 运维 | 系统提供运行日志文件，支持故障排查与历史查询 |  |
+| YMS | 运维 | 功能使用监控日志与报告 |  |
+| YMS | 运维 | License管理接口与维护功能 |  |
+| YMS | 运维 | 支持权限控管 |  |
+| YMS | 运维 | 提供管理页面可查询系统检康状况与异常回报 |  |
+| YMS | 运维 | 多语言支持：繁体中文/简体中文/英文 |  |
+| YMS | 运维 | 系统提供高可用性设计并包含系统异常处理及故障恢复功能 |  |
+| YMS | 运维 | 系统在User 端运行，OS需支持Windows 7/8/10皆正常运作 |  |
+| YMS | 运维 | 可定时执行分析流程，并将执行后的报告储存在指定路径 |  |
+| YMS | 运维 | 可储存分析流程并再次执行 |  |
+| YMS | 运维 | 可弹性调整分析平台内各功能的分类与功能的权限控管 |  |
+| YMS | 运维 | 可支持Workflow模式 |  |
+| YMS | 运维 | 可设定寄送报表收件邮箱 |  |
+| YMS | 运维 | 支持分析过程中使用截屏购物车(Image Cart)，且能一键生成PPT报表 |  |
+| YMS | 运维 | 喜好设定 (接口样式/图型颜色/字体/大小) |  |
+| YMS | 运维 | 提供流程Loop之运算功能 |  |
+| YMS | 数据查询 | 可支持多种数据库如Oracle, MS SQL, PostgreSQL, DB2, Greenplum |  |
+| YMS | 数据查询 | 查询功能提供透过 SQL 指令直接取得数据库内数据 |  |
+| YMS | 数据查询 | 查询接口开发工作, 需提供免编程工具，可根据管理者设定，使用拖拉方式轻易设定、调整后，自动生成重复使用之查询接口 |  |
+| YMS | 数据查询 | 使用者可自定义查询条件(包含产品、批号、制程站点、机台名称、日期时间等) |  |
+| YMS | 数据查询 | 查询结果可被储存再利用，随时可调整且接续着下一步的分析 |  |
+| YMS | 数据查询 | 用户可以过滤或给予一定的规则查询部分的结果 |  |
+| YMS | 数据查询 | 查询结果可以输出 |  |
+| YMS | 数据查询 | 可使用通配符当作查询条件 (%, *) |  |
+| YMS | 数据处理 | 多文件批量导入，兼容Excel、CSV及Txt格式 |  |
+| YMS | 数据处理 | 多路径导入，可同时兼容系统内数据表与外部文件 |  |
+| YMS | 数据处理 | 多格式数据导出 |  |
+</TABLE>
+[3] 典设的技术架构：
+[3] 典设的部署架构：
+[3] 操作系统、中间件、数据库的依赖清单
+[3] 大数据和AI能力（非必填项）
+（请在此处填写相关内容，如有补充请用黄色底色标注）
+<TABLE>
+| 所属系统 | 计算方式和依赖关系 | 硬件配置与数量 |
+|  | （请在此处填写相关内容，如有补充请用黄色底色标注） | （请在此处填写相关内容，如有补充请用黄色底色标注） |
+</TABLE>
+[2] DMS系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| DMS | 缺陷数据查询模块 | 可按时间过滤筛选缺陷数据 |  |
+| DMS | 缺陷数据查询模块 | 数据过滤（支持产品、批次、晶圆、站点、配方等维度） |  |
+| DMS | 缺陷数据查询模块 | 可按数据进行缺陷数据的过滤筛选 |  |
+| DMS | 缺陷数据查询模块 | 可按照原始数据的条件进行缺陷数据的筛选过滤 |  |
+| DMS | 缺陷数据查询模块 | 可设置仅呈现最终检测结果 |  |
+| DMS | 缺陷数据查询模块 | 可筛选过滤有照片的检测记录 |  |
+| DMS | 缺陷数据查询模块 | 可直接读取Klarf档案 |  |
+| DMS | 缺陷数据查询模块 | 可选择多种显示模式 (列表、行列定义) |  |
+| DMS | 缺陷数据查询模块 | 可查询缺陷分类结果以及如DDC/DDP等指标 |  |
+| DMS | 数据查询 | 可查询原始数据 |  |
+| DMS | 数据查询 | 用户可自行定义图形显示条件 |  |
+| DMS | 数据查询 | 支持汇出成Excel、CSV |  |
+| DMS | 多图显示模块 | 可自由调整显示的行列数量 |  |
+| DMS | 多图显示模块 | 支持缺陷群聚分析 |  |
+| DMS | 多图显示模块 | 可自由调整缺陷类别的显示颜色 |  |
+| DMS | 多图显示模块 | 可显示检测资讯 |  |
+| DMS | 多图显示模块 | 支持抽样分析 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可显示检测资讯 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可调整缺陷晶圆图的显示细项条件 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可放大或缩小缺陷晶圆图 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可一键复制至剪贴板子 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 缺陷晶圆图中，缺陷显示的条件可自由调整 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 芯片资讯可选择是否显示 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 芯片边界可选择是否显示 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可输出Klarf档案 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可指定进行缺陷的检查拍照 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 自动缺陷抽样 (支持多种多重条件) |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 用户可在缺陷晶圆图中以任意形状选取缺陷 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 缺陷晶圆图可与缺陷数据互动显示 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 缺陷晶圆图可与统计图互动显示 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 统计图支持改变各种显示条件如X/Y轴条件、开关缺陷是否有分类或缺陷尺寸等 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 缺陷照片支持多种显示模式 (列表、行列定义、按条件排序等) |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 晶圆中支持按区域或Shot等进行缺陷的叠图 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 支持 CP测试结果与缺陷叠图 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 缺陷晶圆图的单图与叠图时支持区域划分与统计分析 |  |
+| DMS | 缺陷晶圆图的单图与叠图显示模块 | 可测量两个缺陷间的距离 |  |
+| DMS | 新增缺陷分析 | 分别呈现前测、后测、前后测共同、后测新增等缺陷晶圆图 |  |
+| DMS | 缺陷晶圆图的比较 | 可按后测增加、后测消失、前后测有差异等条件进行缺陷显示颜色的改变 |  |
+| DMS | 缺陷分类模块 | 界面上支持缺陷缺陷的重新人工分类 |  |
+| DMS | 绘图模块 | 支持各式趋势图、条形图、堆叠条形图、面积图、散点图、盒须图 |  |
+| DMS | 缺陷照片浏览模块 | 支持树状缺陷照片浏览 |  |
+| DMS | 缺陷照片浏览模块 | 可放大或缩小缺陷照片、可点击照片进行重新分类 |  |
+| DMS | 缺陷照片浏览模块 | 支持将同一颗缺陷之不同照片堆栈 |  |
+| DMS | 动态缺陷根源分析模块 | 用户可自行调整缺陷根源分析的缺陷位置误差范围 |  |
+| DMS | 动态缺陷根源分析模块 | 有缺陷根源分析的晶圆层级汇总 |  |
+| DMS | 动态缺陷根源分析模块 | 有缺陷根源分析的相关性汇总表 |  |
+| DMS | 动态缺陷根源分析模块 | 提供缺陷根源分析后的命中缺陷对照表 |  |
+</TABLE>
+[3] 典设的技术架构：
+[3] 典设的部署架构：
+[3] 操作系统、中间件、数据库的依赖清单
+[3] RPT系统需求及架构
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 预算估计 |
+| RPT | WIP | FAB Indices Report : 汇总每天的生产状况，包括EOH、出货、晶圆下线、Hold Lot、废料和良率等数据。 |  |
+| RPT | WIP | Coming Lot Report:按 Tech / 产品 / 区域 / 设备组统计当前站点及所选时间内即将到站的 Wafer 数量，并支持按 Lot 查看剩余工序。 |  |
+| RPT | WIP | WIP Profile Report:展示各个阶段(Stage|Step)的所有Lot的在制品（WIP）状态。 |  |
+| RPT | WIP | Bullet Hot Lot Report:跟踪优先级为1/2的Lot，显示Lot的生产状态、运行时长、等待时长、Hold时长等详细信息，并以甘特图呈现。 |  |
+| RPT | WIP | Move By Day Shift WIP Report:展示选定时间WIP段内每天的Track In & Track Out 的MOVE量，并可查看每个阶段及操作的具体数据。 |  |
+| RPT | WIP | Hold Lot Report:展示所有Hold状态的Lot，按产品、部门等条件查看其持有比率和持有时长。 |  |
+| RPT | WIP | View Lot History Report:按工艺流程顺序图表展示产品的历史数据，包括PRT、PQT、PHT以及累计生产时间。 |  |
+| RPT | WIP | Slow Lot Report:展示全产线长时间停滞的Lot，显示其停滞状态。 |  |
+| RPT | WIP | Scrap Terminate Report:列出状态为废料或终止的Lot，并显示每个Lot的晶圆数量。 |  |
+| RPT | WIP | Rework Lot Report:提供与返工Lot相关的信息。 |  |
+| RPT | WIP | Q Time Report:展示超出Q-Time且尚未结束的Lot的基本信息。 |  |
+| RPT | WIP | RRC Summary Report:按时间段汇总RRC数据。 |  |
+| RPT | WIP | SRC Summary Report:工程师可通过该报表审查SRC信息，了解哪些区域需要调整流程。 |  |
+| RPT | WIP | Target Report:用于维护各个报表的关键指标公式 |  |
+| RPT | WIP | Cycle Time Report:By Area & Tech 查询在制信息以及Remainstep 进行安排批次生产 |  |
+| RPT | WIP | Wafer Start Report:按照产品统计时间段内的投产情况 |  |
+| RPT | WIP | Ship Lot Report:统计每天的每个产品的ship数量及明细 |  |
+| RPT | WIP | Product Monthly Indices(盘点表):按月统计各个指标数据（投产，消耗，废碎片等） |  |
+| RPT | WIP | Operator Production BY Day Report(作业员产量表):按照站点查看对应日期每个班次下的进出站数量 |  |
+| RPT | WIP | CP Yidle Report:按天查询基于产品和Lot的良率及其他测试指标的均值。 |  |
+| RPT | EQP | EQP Index Report:按区域和时间区间跟踪Fab机台的生产表现。 |  |
+| RPT | EQP | OEE报表:查看机况综合情况和设备利用率，设备加工情况和加工效率等 |  |
+| RPT | EQP | EQP Status:设备历史事件报表，查看详细的设备历史记录以及设备甘特图 |  |
+| RPT | Other | Carrier Status  Report:汇总Carrier的各个状态，并显示超过清洗周期未清洗的Carrier。 |  |
+| RPT | Other | Reticle Report:By Tech & Prod 展示 Reticle的状态分布。 |  |
+| RPT | Other | OCAP Reprot:按时间查询所有OCAP的清单，并显示对应的处理履历和异常值数据。 |  |
+</TABLE>
+[3] 典设的技术架构：
+数据层：设计人员创建报表数据源。
+应用层：设计人员进行报表设计，管理人员配置用户和权限体系。
+展示层：普通用户在前端执行报表的查询、分析、打印、 导出、填报等操作，支持 PC、平板 、移动端、大屏等设备，兼容主流浏览器。
+FineReport 是纯 Java 软件，具有良好的跨平台兼容性，支持跟各类业务系统进行集成，支持各种操作系统，支持主流 Web 应用服务器。前台是纯 HTML 展现，无需安装任何插件。
+FineReport 报表系统，从数据全链路流程来看，包括了「部署」、「数据准备」、「报表制作」、「报表使用」、「报表管理/ 集成」五大核心部分，FineReport 支持通过多种连接方式连接不同数据源，所有的报表制作工作都在设计器中完成，并最终通过服务器解析展现给用户。
+FineReport 报表系统主要由「报表设计器」和「报表服务器」两部分构成：
+报表设计器：可以进行表格、图形、参数、控件、填报、打印、导出等报表中各种功能的设计， 是集「报表应用开发」、「调试」、「部署」的一体化平台。
+报表服务器：指用在 web 环境中解析报表的 Servlet 形式的服务器，用户通过浏览器和报表服务器进行应用交互。
+[3] （3）典设的部署架构：
+RPT硬件清单建议如下，实际采购可按虚拟化资源池等价折算：
+<TABLE>
+| 服务器/设备 | 环境 | 形态 | OS | CPU Core | 内存GB | 系统盘 | 数据盘/存储 | 数量 | 用途/备注 |
+| Report Server | PROD/DEV | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 16 | 64 | 500G | 500G | 1 | 帆软设计器部署(单机) |
+| Nginx Serve | PROD | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 16 | 32 | 500G | 500G | 1 | 监控Kettle集群 |
+| Kettle 调度器 | PROD/DEV | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 16 | 64 | 300G | 600G | 1 | Kettle Job 调度中心 |
+| Kettle 执行器 | PROD/DEV | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 8 | 128 | 300G | 600G | 2 | Kettle Job 执行器(集群) |
+| RPT DB | PROD | 虚拟机/物理机 | Red Hat、CentOS 7.9及以上 | 16 | 128 | 500G | 1T起 | 2 | RPT 数据落地、帆软外接数据库、KettleJob 运行库 |
+</TABLE>
+[3] （4）操作系统、中间件、数据库的依赖清单
+第三方软件、基础软件及运行依赖清单如下，最终版本以客户要求确认：
+第三方软件清单：
+<TABLE>
+| 类别 | 软件/版本建议 | 部署位置 | 用途说明 |
+| 操作系统 | Windows Server 2016及以上 / Red Hat、CentOS 7.9及以上 | RPT AP、测试服务器 | 帆软设计器 |
+| 数据库 | Oracle 19c或客户指定数据库 | RPT DB Server | 保存落地RPT 数据 |
+</TABLE>
+开发语言：
+<TABLE>
+| 类别 | 开发语言 | 版本 | 备注 |
+| 数据库端 |  |  |  |
+| 客户端 |  |  |  |
+|  |  |  |  |
+</TABLE>
+系统是否支持全Linux服务器，如果不支持，哪些服务器需要Windows
+回答:
+[2] FMB系统需求及架构（FMB）
+[3] 需求拆分：
+<TABLE>
+| 所属系统 | 一级功能 | 二级功能 | 功能描述 | 预算估计 |
+| FMB | 系统 | 看板设计 | 系统提供丰富的组件, 无需开发, 拖拉拽式设计界面 |  |
+| FMB | 系统 | 看板组件 | 提供chart, 表格, 图片, 数据源, 音频, 视频, 数据处理组件等90+组件 |  |
+| FMB | 系统 | 播放管理 | 多看板轮播, 可设定轮播时间或分屏播放, 单个播放 |  |
+| FMB | 系统 | 定时刷新 | 可设定刷新时间, 定时刷新看板数据, 最小单位1秒 |  |
+| FMB | 系统 | 3D仓库 | 3D方式设计仓库现场, 点击货架展示货架物料信息 |  |
+| FMB | 系统 | 表单功能 | Form表单功能, 结合可实现搜索功能 |  |
+| FMB | 系统 | 动态事件 | 结合组件之间的传值和不同事件, 可事件监控室等复杂应用场景 |  |
+| FMB | 系统 | 动画效果 | 提供多种动画效果, 丰富看板体验 |  |
+| FMB | 系统 | 数据源管理 | 简单配置方式连接业务系统数据库 |  |
+| FMB | 系统 | 多种数据源 | 同样网络环境内可配置多个不同关系型数据库 |  |
+| FMB | 系统 | 看板数据管理 | 管理员界面里配置SQL来获取数据, 不需额外连接其他开发工具 |  |
+| FMB | 系统 | 用户管理 | 用户有管理员和普通用户, 又分可设计用户和只能查看的用户. |  |
+| FMB | 系统 | 权限管理 | 按看板组的维度, 给不同用户开发可访问权限 |  |
+| FMB | 系统 | 字体管理 | 可自定义添加字体, 其他地方下载后可添加到系统, 设计看板时用到 |  |
+| FMB | 系统 | 附件管理 | 图片, 视频, 音频, Excel文件等多种附件上传下载管理 |  |
+| FMB | 系统 | 日志管理 | 错误日志管理, 用户登录管理 |  |
+| FMB | 客制化 | 设备状态监控 | 按照用户提供的厂区车间Layout,定制设备Layout, 按实际位子摆放设备, 用不同颜色展示设备不同的状态, 点击设备展示设备详细的信息. |  |
+| FMB | 客制化 | 其他看板 | 可定制开发设备, 品质, 生产, 物料, 计划等MES相关实时看板 |  |
+</TABLE>
+[3] 典设的技术架构：
+FMB（Factory Monitoring Board）工厂监控看板系统采用B/S架构，包含一个服务端和两个客户端（看板设计器与看板展示端），为用户提供从看板设计、数据绑定到实时展示的一站式解决方案。
+[3] 典设的部署架构：
+[3] 操作系统、中间件、数据库的依赖清单
+<TABLE>
+| 所属系统 | 操作系统 | 中间件 | 数据库 | 配置 | 数量 | 领域 |
+| FMB PRD Server | Linux（Centos 7.9/8.X） |  | Postgresql/Oracle | CPU 核数：16 Core　内存容量：64 GB　磁盘容量：600 GB/EA | 1 |  |
+| FMB DEV Server | Linux（Centos 7.9/8.X） |  | ostgresql/Oracle | CPU 核数：8 Core　内存容量：32 GB　磁盘容量：600 GB/EA | 1 |  |
+</TABLE>
+FMB数据库容量小, 可以安装在APP服务器, 安装免费版Postgresql如用户需要搭建双机热备的话需要用Oracle数据库, 可以和RPT DB服务器公用.
+[1] 项目交付物要求
+下表用于在项目中识别项目的交付品，并用于项目沟通，可自行补充。
+<TABLE>
+| 交付物分类 | 描述 |
+| 软件资产 | 软件授权许可 |
+| 硬件资产 | 配套建设的服务器、网络交换机、安全设备等 |
+| 文档资产 | 架构规划、详细设计、安装配置文档、运维操作手册、应急预案、培训、接口扩展开发指导手册、标准体系、管理规范、服务等级协议等 |
+| 人员资产 | 远程和现场专职售后服务人员 |
+</TABLE>
+[1] 项目约束和资源要求
+针对本期项目，受限于中心制度，可能存在集采硬件规格和厂商名单冲突情况，该约束将在本项目招标中通过单采进一步结局
+本期建设的项目物理位置为上海市
+厂商需指定专人负责方案建议书和编制管理工作，同时提供各技术领域负责答疑人员名单
+赛美特制定联系人：
+营业： 郭嘉  13910424865
+顾问： 韩林成  139
+[1] 响应要求
+[2] 联系人
+<TABLE>
+| 姓名 | 电话 | 邮箱 |
+| 黄偲初 | 18359156186 | huangsichu@shhxinyuan.cn |
+</TABLE>
+[2] 时间安排
+<TABLE>
+| 事件 | 日期 | 联系人 | 备注 |
+| RFP发布 | 2026/6/29 | 黄偲初 |  |
+| 响应RFP截止日期 | 2026/7/14 | 黄偲初 |  |
+</TABLE>
+请贵司在响应RFP截止日期前将电子文档反馈至联系人的邮箱！
+[2] 要求
+厂商要严格按照时间要求、业务需求响应；
+方案内容要包含但不限于本文档的全部内容；
+在方案建议阶段产生的所有成本由厂商自行承担；
+应答文件必须包括《CIM系统RFP响应-日期》；
+应答文件可选包括《方案建议书》和《财务报价单》：
+《方案建议书》必须包含但不限于以下内容：
+业务需求理解
+业务需求各个小节的应答
+未来CIM系统/各子系统原生演进/管理思路
+《财务报价单》必须包含但不限于以下内容：
+单价及单价衡量标准（软件单价、设备单价、工时标准、级别标准、培训标准等）
+项目总价及折扣（含计算方法）
+厂商的所有应答文件，需一律以邮件方式发送至联系人邮箱
+[1] 工具平台
+[1] 专业服务体系
+[2] 维保服务概要
+维护服务是对维护期结束的客户提供有偿服务，以提供给客户的产品，在其使用过程中遇到问题进行响应、对License（产品的基本核心功能）和赛美特项目实施过程中客制化部分的Bug修复、补丁/升级、预防性检查和培训为主，各项服务的具体范围则由维护服务的级别确定。
+<TABLE>
+| 提供费率制维护服务 | 单次合约及连续续约的区别 |
+| 赛美特是基于提供给客户的产品License金额，按一定费率计算维护费用并提供维护服务。 | (无偿维护期结束后)如在一段时间内未签订维护服务协议，但在某个时间节点需要签订时，相比连续续约,维护服务费用可能会有所差异。 |
+</TABLE>
+[2] 2维护服务级别
+<TABLE>
+| 分级 | 服务种类 | 服务内容 |
+| 基础服务License 费用总额的15% /年 | 在线支持服务 | 日常支援 | 按需 |
+|  |  | (紧急)障碍处理 | 按需 |
+|  |  | 远程咨询 | 按需 |
+| 金牌服务(包含基础服务)License 费用总额的15% /年，且不低于10万元 | 产品相关服务 | 产品修改及完善 | 按需 |
+|  | 定期巡检 | 预防/预测支援 | 2次/年 |
+| 白金服务(包含金牌服务) License 费用总额的22% /年，且不低于20万元 | 培训服务 | 运营人员培训 | 1次/年 |
+|  |  | 开发人员培训 |  |
+|  | 在线支持服务 | 专家资讯 | 按需 |
+</TABLE>
+进阶服务 ：
+购买任一维保服务的基础上，可另行协商定制服务内容及对应价格，包括但不仅限于：产品升级、定制化开发、用户大会VIP席位等。
+[2] 3维护服务内容
+维护服务的主要业务范围及定义如下：
+<TABLE>
+| 区分 | 性质/方法 | 服务种类 | 服务名称 | 服务定义 |
+| 支援性质 | 产品相关 | 产品相关服务 | 产品修改及完善 | 产品的Bug fix，包括产品核心和项目交付之客制化的部分 |
+|  |  |  | 产品升级 | 产品升级以增强现有产品的功能 |
+|  | 技术支援 | 定期巡检 | 预防/预测支援 | 为事先预防系统故障，通过现场巡检或On-Line定期检查的服务 |
+|  |  | 在线支持 | 日常支援 | 通过电话/E-Mail/On-Line的答疑 |
+|  |  |  | (紧急)障碍处理 | 用户因解决紧急问题请求支援时，用 On-Line 或到场解决问题的服务 |
+|  |  |  | 远程咨询 | 问题咨询及解决问题必要的修改 |
+|  |  |  | 专家资讯 | 专家在线解答疑难杂症 |
+|  | 培训 | 培训服务 | 运营人员培训 | 为产品运营人员的培训 |
+|  |  |  | 开发人员培训 | 为产品开发人员的培训 |
+</TABLE>
+[3] 3.1根据服务种类和服务名称的服务内容:
+产品相关服务 : 产品的修改、完善及功能强化
+<TABLE>
+| 服务类型 | 服务内容 | 备注 |
+| 产品修缮 | 产品自身问题的修正; 产品现有核心功能改善; | 提供补丁包,及相关指导文件 |
+| 产品升级 | 为提升产品新增功能进行的升级 | 提供升级包,及相关指导文件 |
+</TABLE>
+定期巡检
+<TABLE>
+| 服务类型 | 服务内容 |
+| 预防/预测支持 | 通过在线及拜访客户进行定期检查,以提前预防和管理系统故障为主。 通过解决方案工程师进行系统运行状况检查、服务器端健康检查、服务处理时间等性能分析,etc 通过DBA的Database health check, SQL语句tunning guide.etc. |
+</TABLE>
+在线支持服务
+<TABLE>
+| 服务类型 | 服务内容 |
+| 日常支持 | 针对常见的产品运营相关问题,提供电话、电子邮件、微信等答服务 |
+| (紧急)故障处理 | 如果客户遇到紧急问题需要处理，可通过在线和电话进行故障诊断，或者必要时担当工程师前往客户现场处理问题的服务。 |
+</TABLE>
+(紧急)故障处理方案
+<TABLE>
+| 优先度 | Critical | High | Medium | Low |
+|  | (严重等级1) | (严重等级2) | (严重等级3) | (严重等级4) |
+| 1次响应时间 | 1小时响应时间(通过电话)了解问题，并启动故障响应机制 | 2小时响应时间(通过电话)了解问题，并启动故障响应机制 | 4小时响应时间(通过电话)了解问题 | 8小时响应时间(通过电话)了解问题 |
+| 2次响应时间 | 加4小时查明原因及答复应对方案 | 加8小时查明原因及答复应对方案 | 下一个工作日查明原因及答复应对方案 | 两个工作日内查明原因及答复应对方案 |
+| 到场* | 需现场应对时立刻 | 需现场应对时立刻 | 下一个工作日到场 | 三个工作日内到场 |
+| 解决问题 | 加4小时,提供一个替代解决方案，或修复问题 | 下一个日历日提供解决方案或者修复 | 一周内提供解决方案或方案或者修复 | 七个工作日内提供解决方案或者修复 |
+</TABLE>
+*于2次响应后提供的方案仍无法解决问题时,综合合评估是否到场
+故障严重等级定义：
+“严重等级 1” : 意味着重大问题（整体系统停止）比如造成系统崩溃（用户返回到操作系统级），要求系统重新启动（持续和反复出现系统停机），或者由系统停止 造成系统运行上的缩减，由应用故障造成的用户数据被破坏了或者不可恢复，主要功能不可用并没有已知的解决方案（这里的解决方案是指解决或者绕过问题的方法）。
+“严重等级2” : 意味着高优先度问题，严重损害了系统的主要功能，但并不妨碍业务运行和关键工程。 这包括系统丢失冗余能力，存在重大的资源或容量处理能力的损失，或主要系统组件的完全丢失。解决方案（这里的解决方案是指解决或者绕过问题的方法）可能存在，但它的使用并不理想。
+“严重等级3” : 意味着一些造成程序不太重要部分错误的问题。比如监管功能（包括但不限于）丢失, 或者该错误对系统有很小的影响。 有一个比较合理满意的解决方案，但存在的问题可能会导致用户不满。
+“严重等级4” : 是指一个问题，对系统有很小影响或者非关键方面。这些包括但不限于一般的文档问题或界面显示问题。 有合理满意的解决方案存在，不对系统的使用造成实质性的损害。
+远程咨询
+问题咨询及解决问题必要的修改
+专家资讯
+由赛美特定期组织研发、交付的专家，在线解答用户的疑难杂症。
+在不断变化的业务场景下，提供专业的建议。
+培训服务
+由赛美特定期组织资深人员针对用户不同角色的群体，进行集中培训。
+包括并不仅限于新产品发布、老产品新版本新功能推介等。
+[3] 3.2根据支持方式的服务内容
+<TABLE>
+| 支持方式类型 | 服务内容 |
+| 电话支持服务 | 作为向客户提供产品使用方法相关答疑及问题处理的第一种支持方式，根据时间、日期、问题紧急程度、问题类型，提供不同程度的服务 |
+| 在线支持服务 | 通过网络远程连接客户运维的系统进行诊断，并以电子邮件、微信等方式沟通，担当工程师即使未访问客户，也能为客户提供技术支持服务。 |
+| 访问支持服务 | 担当工程师到访客户现场，支持电话、电子邮件或远程诊断无法解决的问题，如有必要，赛美特的工程师将驻留在客户现场，提供包括因制度和业务调整，需要变更产品环境等系统维护(System Maintenance)服务。 |
+</TABLE>
+[2] 4维护支援组织
+维护服务由Maintenance Department （以下简称MA）部门专属负责，协同集团各事业部的提供相关服务：
+交付中心/研发中心/技术中心系统构建维保相关技术支援障碍恢复支援技术转移客户签订合同维护请求MA各Solution 维护服务担当产品技术支援(培训)障碍恢复支援销售部签订合同及销售支援维护合同维护请求维护服务维护合同业务系统技术转移/构建系统/技术支援产品技术支援交付中心/研发中心/技术中心系统构建维保相关技术支援障碍恢复支援技术转移客户签订合同维护请求MA各Solution 维护服务担当产品技术支援(培训)障碍恢复支援销售部签订合同及销售支援维护合同维护请求维护服务维护合同业务系统技术转移/构建系统/技术支援产品技术支援
+Final Source Code,Documents项目 PM/PLMaintenance环境构建境构建MACS(PMO)Project OutputSource CodeDatabase (UAT)Documents[项目结束后技术转移]Final Source Code,Documents项目 PM/PLMaintenance环境构建境构建MACS(PMO)Project OutputSource CodeDatabase (UAT)Documents[项目结束后技术转移]
+提供原厂的专业服务体系
+提供渠道合伙伙伴的等级划分和上海本地的合伙伙伴名单及相应等级
+针对上海区域落地的客户案例，增补在客户的服务输出上，原厂和合伙伙伴的分工，具体服务的内容和服务的形式，格式参考如下：
+<TABLE>
+| 客户名称 | 厂商 服务内容 | 服务形式 | 合作伙伴 服务内容 | 服务形式 | 备注 |
+| 浙大创新 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 上海 |
+| 新昇 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 上海 |
+| ICRD | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 上海 |
+| 比亚迪 | 项目交付 | 交付:现场 | / | / | 成都 |
+| 奕能 | 项目交付 | 交付:现场 | / | / | 重庆 |
+| 奕斯伟 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 西安 |
+| 中国中车 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 株洲 |
+| 天岳 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 济南 |
+| 芯恩 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 青岛 |
+| 长飞先进 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 芜湖 |
+| 方正微 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 深圳 |
+| 中国中车 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 宜兴 |
+| 通富微 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 南通,苏州, 厦门,合肥,马来西亚 |
+| 长鑫存储 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 合肥 |
+| 奕成 | 项目交付，后期运维 | 交付:现场；  运维:7*24小时 | / | / | 成都 |
+| 正元 | 项目交付 | 交付:现场 | / | / | 长春 |
+| 奕源 | 项目交付 | 交付:现场 | / | / | 珠海 |
+</TABLE>
+[1] 成功案例   （载板厂案例&function list）
+<TABLE>
+| 领域 | 企业名称 | 细分领域 | 产线类型 | 使用产品 | 非赛美特产品 |
+| 硅片 | 新昇半导体 | Full Auto，成型，外延，拉晶 | 12吋 | MES，EAP，SPC，RMS，RTD，YMS，DMS，APC，FMB, MessageBus | 无 |
+|  | 晋科半导体 | Full Auto，成型，外延，拉晶 | 12吋 | MES，EAP，SPC，RMS，RTD，YMS，DMS，FMB |  |
+|  | 奕斯伟 | Full Auto，成型，外延，拉晶 | 12吋 | MES，EAP，SPC，RTD，WMS，FMB，Report |  |
+|  | 奕斯伟2厂 | Full Auto，成型，外延，拉晶 | 12吋 | MES，EAP，SPC，RMS，YMS，DMS，RTD，WMS，FMB，Report |  |
+|  | 苏州威微 | 成型，外延，拉晶 | 12吋 | MES，EAP，RMS，SPC，Report，YMS |  |
+|  | 晶丰芯驰 | 碳化硅，成型，外延 | 8吋 | MES，EAP，SPC，RMS，FDC |  |
+|  | 天岳先进 | 碳化硅，成型，外延，拉晶，长晶 | 4/6吋 | MES，EAP，SPC，Report，Monitoring | 无 |
+|  | 安徽晶隆 | 外延 | 4/6/8吋 | MES，EAP，SPC，RMS，FDC，WMS，Report |  |
+|  |
+| 材料 | 晶正电子 | 薄膜 | 材料 | MES，SPC，EAP，RMS，APC，Monitoring |  |
+|  | 欣晖材料 | 硅环、碳化硅环、硅电极 | 材料 | MES，EAP，SPC，WMS，Report |  |
+|  | 福瑞科技 | 光刻胶 | 材料 | iMES，SPC，SCADA，LIMIS |  |
+|  | 信义硅业 |  | 材料 | iMES |  |
+|  |
+| 前道 | ICRD | Full Auto，逻辑 | 12吋 | MES，EAP，RMS，AMS，APC，Monitoring | RTD,AMA,FDC,APC |
+|  | 比亚迪 | Full Auto，IGBT，IDM，车规 | 12吋 | MES，EAP，SPC，YMS，RTD，WFA，RMS，AMS，RCM，Monitoring，Report，DMS，INK，ADC，WATJS，CPJS，SSA，CP SPC，WAT SPC | 无 |
+|  | 芯恩 | Full Auto，IDM | 8/12吋/Mask shop | MES，EAP，SPC，RMS，YMS，Report，FMB，ERP(SAP) | RTD,AMA,FDC,APC |
+|  | 正圆 | Full Auto，CMOS | 12吋 | MES、EAP、RMS、AMS、FDC、WFA、RTD、Report |  |
+|  | 芯物科技 | 传感器 | 12吋 | MES，SPC，EAP | 无 |
+|  | 冠石半导体 | 光掩模 | Mask shop | MES，SPC，Report |  |
+|  | 合光科技 | 光掩模 | Mask shop | MES，SPC，Report |  |
+|  | 清溢微电子 | 光掩模 | Mask shop | MES，EAP，RMS，RCM，Report |  |
+|  | 浙大创芯 | 逻辑 | 12吋 | MES，EAP，SPC，RMS，ERP(博科) |  |
+|  | 长飞先进（武汉、芜湖） | Full Auto，化合物 | 6吋 | MES，EAP，SPC，RMS，Report，RTD，WFA，FDC，APC，RPA |  |
+|  | 方正微电子 | 化合物 | 6/8吋 | MES，EAP，SPC，RMS，APC，WMS，Report、RPA | FDC，YMS |
+|  | PJHT | 化合物 | 8吋 | MES，EAP，SPC，RMS，AMS，Monitoring，Report，YMS，DMS，FDC，INK |  |
+|  | 九峰山实验室 | 化合物 | 6吋 | MES，EAP，SPC，RMS，WMS，Monitoring，Report，APC |  |
+|  | 龙驰半导体 | 化合物 | 6吋 | MES，EAP，SPC，Report，RMS，APC，YMS，DMS，INK，RFID |  |
+|  | 桑德斯 | 化合物，硅基 | 6吋 | MES，EAP，SPC，Report，Monitoring，FDC |  |
+|  | 捷捷微电 | 功率器件 | 6/8吋 | MES，EAP，SPC，YMS，FDC，DMS，RMS，APC |  |
+|  | 新进芯微 | 功率器件 | 6/8吋 | MES，EAP，RMS，FDC，RPA |  |
+|  | 深爱半导体 | 功率器件 | 6吋 | MES，SPC，WMS，EAP，Report |  |
+|  | 积塔半导体 | IGBT，IDM | 6/8/12吋 | MES(试验线)，EAP，SPC，RMS，Report |  |
+|  | 中车时代 | Full Auto，IGBT，IDM | 8吋 | MES，EAP，RMS，AMS，WFA，RTD，Report | FDC，APC |
+|  | 中车时代 | Full Auto，IGBT，碳化硅 | 8吋 | MES，EAP，RMS，AMS，WFA，RTD，Report | FDC，APC |
+|  | 芯投微 | MEMS，滤波器 | 6吋 | MES，EAP，SPC，RMS，YMS，Report |  |
+|  |  |
+| 后道 | 通富微电 | 封测代工 | / | MES，EAP，RMS，Monitoring，MMS，OTA，FDC，APC，MCS，RCS | 无 |
+|  | 长鑫存储 | DDR，FT，DIMM模组，IDM | / | MES，SPC，EAP，RMS，YMS，Report，Monitoring |  |
+|  | 浙江禾芯 | WLP，Bumping，CP，封测代工 | / | MES，SPC，YMS |  |
+|  | 奕成科技 | 板级先进封装，PLP | / | MES，EAP，RMS、SPC，WMS，Report，Monitoring，RTD，WFA | FDC,APC,YMS |
+|  | 星辰科技 | 先进封装，COWOS | / | MES，EAP，SPC，YMS，DMS，RMS，FDC，AMS，APC，RPT，ERP(博科） | 无 |
+|  | 卓胜微 | 先进封装，RF，5G，Bumping，CP，FT，IDM | / | MES，EAP，SPC，RMS，AMS |  |
+|  | 大圭电子 | 中高阶封装，代工，车规 | / | MES，SPC，EAP，RMS，E-MAP，Report，ERP(博科） |  |
+|  | 安牧泉 | 中高阶封装，代工，车规 | / | MES，SPC，EAP，RMS，WMS，E-MAP，Report |  |
+|  | 长飞先进（武汉） | 单管，IPM，IGBT模组，封测代工 | / | MES，SPC，EAP，RMS，APC，FDC，WFA，RTD |  |
+|  | 长飞先进（芜湖） | 单管，IPM，IGBT模组，封测代工 | / | MES，EAP，SPC，RMS |  |
+|  | 重庆奕能 | IGBT |  | MES、 EAP、RMS、SPC、YMS、WMS、Report、DFS |  |
+|  | 思特威 | CP，FT，IDM，CIS | / | MES，EAP，SPC，RMS，INK，WMS，Report |  |
+|  | 锡圆电子 | CP，FT，ASSE，传统封装测试 | / | MES，SPC，Report，RMS，EAP |  |
+</TABLE>
+[1] 其他建议
+厂商可以给出其他有益建议，体现自己的实力，以增加自己的竞争优势。
+系统买几套，系统建设，团队建设的经验
+MES 系统分四套进行：
+<TABLE>
+| FACTORY | DESC |
+| FABA | 12吋先进封装厂 |
+| FABB | 8吋晶圆厂 |
+| FABC | 材料A外延厂 |
+| FABD | 载版厂 |
+</TABLE>
+系统建设：
+团队架构：

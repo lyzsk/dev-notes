@@ -1,0 +1,111 @@
+# PMS
+## 基础数据管理
+- 可支持自动同步MES的设备/设备Location，并建立FAB/区域/设备对应关系，设备可以分配到不同的区域用于不同模组的设备工程师管理。
+## PM Checklist建立
+- Checklist Step内容支持中文汉字
+- 支持添加、删除以及修改checklist step
+- 支持export checklist模板以及Load checklist模板
+- 参数类型（设置必填以及选填参数）
+- 参数提示（未填写必输入参数，Complete会进行报警提醒）
+- 规格限制以及check（是否需要填写超出规格的Comment）
+- PM复机Checklist List的检查执行步骤设置
+- 增加、修改以及复制维修PM Checklist模板
+- Checklist 的填写的值 要具备 report 功能查看这些值的趋势图
+- 支持UnScheduling Down手动建立故障单work request，并手动添加所需Checklist
+## 维修保养管理功能
+- 计划的维修保养管理
+- 非周期的维修管理
+- 基于时间的周期性保养管理
+- 基于使用情况的周期性保养管理，与EAP整合，接受对应参数值进行触发 (例如wafer count以及RFTM)
+## 维修保养管理建立
+- 计划性维护保养模板支持版本控制
+- 计划性维护（按照设备，按照 Chamber进行配置）
+- 选择所需的已经建立Checklist 模板
+- 支持设置PM trigger所需要的参数（递增性以及替换性参数）
+- 设置PM的Early Due，Due以及Overdue时间，并且可以定义是否需要在Overdue自动inhibit机台
+- 支持定义浮动性以及静态型类型的PM，即跟据PM完成时间或者固定的时间来重新规划下一次PM时间
+- 添加PM过程中user需要的共享附件（例如SOP文件）
+- 定义PM需使用的部品详细信息（料号与描述信息）
+- 增加、修改以及复制维修保养管理模板
+- 设置PM保养所需要的预估保养时间
+## 机台状态关联的设定
+- 提前设定PM不同Action(开始保养维修，暂停保养维修，取消保养维修，完成保养维修，延期保养维修)之间机台状态的关联
+## 保养计划规划
+- 预测维修保养的时间
+- 周期性保养自动安排下一个维修保养管理
+- 具备达到强制维修保养条件overdue时，强制切换设备/chamber 可用性的功能
+- 预约PM：根据用户UI设定，某设备到达预约PM时间，强制切换设备/Chamber可用性的功能
+## 维修保养信息通知
+- 与AMS系统进行整合，通过用户定义的early时间预先报警发送给Alarm系统
+- 与AMS系统进行整合，通过用户定义的Due时间报警发送给Alarm系统
+- 与AMS系统进行整合，通过用户定义的OverDue时间报警发送给Alarm系统
+## 维修保养执行
+- 开始维修保养管理
+- 重新计划维修保养管理
+- 中止维修保养管理
+- 取消维修保养管理
+- 继续维修保养管理
+- 执行维修保养工作
+- Adhoc维修保养管理
+- 完成维修保养管理
+- 激活维修保养管理
+- 延迟维修保养管理
+## 设备维保查询
+- 可按照设备、拟定的设备群、默认时间范围来查询
+- 查询维修保养管理计划
+- 查询维修保养管理状态
+- 查看维修保养清单列表
+- Export维修保养清单列表
+## 维修保养历史记录
+- 通过选择默认的不同时间段进行查询
+- 按照scheduled以及Unscheduled的分类进行查询
+- 根据work order,PM state,机台，Title，Module，PM开始结束时间进行查询
+- 查询PM执行的历史记录
+## 设备关键部品的更换
+- 定义PM计划时候定义要更换的Key Parts List（料号与数量）
+- 完成PM的时候检查需更换key Parts的是否已完成更换，否则PM不可以结束，更换可设置是否强制，且需要填写Comment
+## 权限管理
+- 提供用户权限的管理机制
+- 用户账户与MES整合，减少用户维护成本
+## 具备与MES深入整合
+- 机台Module与MES深入整合，用户只需要定义一次，不需要重复定义
+- 机台状态以及状态转换与MES深入整合，用户只需要定义一次，不需要重复定义
+# PTMS
+## Parts 领入
+- 支持填写Part基本信息进行领料，录入系统
+- 提供标准的接口从SAP进行领料，自动录入到系统
+## Parts组装
+- 将Parts Group里面Part组装到 EQP/chamber，将此时挂在 EQP/chamber 的Part进行卸载，并且选择处理的方法(Scrap,WaitRepair,WaitOE,Swapped,Clean)
+- Parts替换分为Non PM Job的替换以及PM Job的替换
+- 替换过程中显示当前Parts的使用情况
+## Parts使用和再循环控制
+- 系统提供设置Part的最大循环量
+- 支持对于Parts使用次数的统计，当用户将Parts从EQP/Chamber或者chamber拿下来时候，Parts对应的次数属性自动加1，并与Parts Recycle Spec进行比较
+## Parts跟踪和历史
+- 当Parts领入，会有一个唯一识别号，当Parts领入到在线仓以后，可以唯一性的进行跟踪记录
+- 显示Part的相关信息以及执行的时间
+## Parts 逾期报警
+- 与AMS系统进行整合，系统对于Part的lifetime会进行定时的监控，如果发现Parts逾期，会将相关信息发送给Alarm系统
+## Parts 替换卡控
+- 用户可以在PMS系统中配置维保需要更换的Parts list
+- 用户在PTMS系统更换对应的part,如果未更换必更换的Parts，PM Job 无法Complete
+## Part安全库存
+- 与AMS系统进行整合，提供用户配置对于某个料号的安全库存数量，如果一旦Part数量少于该库存，会将相关信息发送给Alarm系统
+## Part维护管理
+- 提供用户白名单的定义界面，用户可以维护需要领入到PTMS中的PartNo的list，标准领料接口会去查看白名单内容决定是否需要领入到系统
+- Parts属性需要具备图片上传功能，可以直观的看出具体是什么Parts
+## Part Group维护管理
+- 提供用户建立Part Group的界面，并且同时支持Loader可以进行统一的创建
+- 提供用户界面可以给机台添加Part Group，用户在进行Part上机的时候会从该Group中找到可用的part
+## Part属性修改
+- 修改Part的Vendor Series Number，Module，Cycle Count，Desciption，Warning Qty，Cycle Limit
+- 对于待维修的Part，高权限的用户可以进行维修的操作，一旦执行了维修，Part状态会自动转换成Repaired状态
+## Part报废
+- 对于待报废的Part，高权限的用户可以进行报废的操作，一旦执行了报废，Part状态会自动转换成Scrap状态
+## Part List查询
+- 提供用户可以根据PartNo,SeriesNo,VendorSeriesNo,Module,Status,Location进行查询对应Part的数量
+- 用户可以根据Query出来的Part list,用户可以根据Export功能把Part export出来
+## Part信息的查询
+- 提供给用户查看Part的具体信息，包括PartNo,SeriesNo,Module,Status,Quantity,CurrentLocation,LocationChangetime,VendorSN,UserID,RFTIMEWarningQty,LastJob,CycleLimit,CycleCount,Desciption
+## Return Part
+- 对于错误刚刚领入并未使用的New Part，高权限的用户可以进行退库

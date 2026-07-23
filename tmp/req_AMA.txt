@@ -1,0 +1,53 @@
+# 系统管理
+## 系统管理
+- 系统管理：提供角色管理、用户管理、权限管理、消息管理等系统基础管理功能。
+## POD Location
+- POD Location：支持Stocker、OHB、NTB、EQP、Exchanger等设备之间的全自动化流程；
+# 场景支持
+## What Next规则触发
+- a.   当load port ready to unload event报出时，Trigger Dispatching Rule；
+- b.   基于periodic watchdog，Trigger dispatching rules；
+- c.   基于设备状态其他用户自定义的客制化状态，Trigger dispatching rules；
+## Full Auto 场景：支持以下场景（包含但不局限于此）
+- a.   Basic Scenario;
+- b.   Fix/Internal Buffer automation scenario;
+- h.   Sorter Scenario （including Wafer Start，Package etc.）;
+- i.   PiLot run Scenario;
+- j.   Back Side Clean Scenario;
+- k.   Super-Hot Lot Scenario;
+- m.   Bonding/Debonding Scenario;
+- n.   Measurement Scenario;
+- o.   Foup Clean, Foup Inspection Scenario;
+- q.   Mixrun Scenario;
+- s.   Tool Balance Scenario;
+- t.   同一个 foup 的 multi Lot 只能被派到同一个机台，但是可以根据派工规则，决定其中 Lot 的派工顺序;
+- u.   工程师不能任意组合 multi Lot，只能 run 同机台，同 stage 或者同 step 的 Lot;
+- v.   支持 Critical Ratio,Move target, Qtime urgency, Cycle time, Shift target, Hot Lot, 交货时间, Wip Balance 等全局因素的派工规则设定和逻辑支持；
+- w.   多样 Qtime 管理，run path, qtime urgency，并能够根据 qtime 提供报警功能；
+- x.   提供有效的 Qtime loop 监控工具，监控 Qtime 模型的执行效率；
+- y.   设备派工优先调度，具有同 ppid 优先派货，同组内机台优先派货;
+## Where Next 功能
+- a.   提供进行 Lot 下货时间的提前预判，并能够与 MCS 系统联动进行 Lot 的准时搬送到下一个目标机台的功能；
+- b.   需要与 what next 功能联动，需要预判当前 where next 的 Lot 的上货顺序；
+- c.   根据 MCS 能力来决定是否支持 reroute 功能；
+# 系统集成和运维
+## 高效运作
+- a. Fully Auto要做到最佳搬运方案，设备到设备是被要求且首推的；
+- b. 可预约设备的 Port，当设备 Port 预约满后，支持 Queue 预约机制，将 WIP 预约到附近的NTB或OHB以避免无效搬运；
+## 系统集成
+- 支持与MES ,APC,PMS等其它周边系统（ERP，MCS，signoff，YMS）之间的直接交互，例如：MES支持派工系统对设备的某些操作，如Track in、Job Control 等；MES支持派工系统对更多事件操作（如Merge，Create Monitor Wafer，Auto hold/release等）； 支持与各系统信息的实时交互。
+## 支持对象锁定具备对象（Lot/port/POD 等）锁定功能，避免多个设备或 port 争抢同一个Lot，以便提高派工效率。
+- 支持对象锁定具备对象（Lot/port/POD 等）锁定功能，避免多个设备或 port 争抢同一个Lot，以便提高派工效率。
+## 支持对象锁定
+- a. 快速、可视化的开发工具，基于流程引擎开发 Rule，支持调试、模拟，可自定义组件开发等功能，有详细的 Log 以及相应的 Log 分析工具，有相应的系统异常报警机制。
+- b. 支持从外部系统导入的集成工具，例如flat文件，cvs格式文件或者其他数据库 c. 丰富的报表可以查看不派工的原因、系统性能、执行效率等并且能定期生成以 text/excel/html的格式保存到用户自定义的目录里。
+- d. 配套的界面包括基础资料的设置、启用功能、参数设置等，支持界面交互和数据集成展示，界面友好，操作便捷，要有相应的权限管理机制。
+## 功能修改与发布
+- a. 需要支持在线功能发布，并支持在下次运行时自动调用系统发布的最新版本规则； b. 数据同步需要提供除了全表同步外，需要能够进行选定列的数据同步；
+- c. 当需要在目标数据库中添加新的列的时候，需要能够不影响系统的运行；
+## 其它
+- d. 数据同步要具有不弱于 Oracle OGG 的实时性同步能力；
+- e. 系统需要具有自动 load balance 的能力，平均分配不同 rule 的执行；
+- f. 需要在能使用缓存数据库的情况下，优先使用缓存数据库；
+- g. 需要具备自动编译的功能；
+- i. 需要支持根据版本控制及回退功能； j. 支持事务及异常处理。

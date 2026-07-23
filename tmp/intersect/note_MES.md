@@ -1,0 +1,104 @@
+### MES
+
+#### 仅上扬独有的功能(未纳入交集)
+- Stocker 建模 (Stocker 类型, 存储形式与容量定义)
+- Process Specification Editor (类 Windows-Explorer 风格的工艺规格查看与运行时在线编辑)
+- Loop Control 循环控制 (流程循环数设置, Loop 自动跳出/返回, LotInfo Loop 显示)
+- Flip (Wafer 正反面属性设定与防呆卡控)
+- BankFlag (允许做 Bank 操作的站点定义)
+- 炉管多种 Batch 组合方式 (生产批次+RCLot+MonitorLot 等多种组合) 及 ARG 动态 Recipe 调整, A/B Batch
+- SorterJob 基本类型 (Exchange, Split, Merge, WaferFlip, ReadT7Code) 与 SorterJob 查询取消
+- Lot Type 机况状态转换规则 (不同 LotType 进出机台时切换到特定状态)
+- 操作员设备操作证书管理 (对接 OA 系统)
+- 菜单布局统一 (同权限组用户菜单布局完全一致)
+- 创建 Lot 时 By Wafer 选择不同物料, 创建卡控 (下线时间/物料不足), StartHold 可选开关
+- 快速过站 Process Lot
+- Change Hold Code (EditHold, ChangeHold 后 Release 权限相应变更)
+- 多批次协同进出站 (炉管 BatchLot/Bond 机台/WET 机台多批次一同进出站和 CancelTrackin)
+- Q-Time Wafer 级记录, 强制关闭 Q-Time, DummyStepForQtime 人工判定放行
+- LotSampling (普通 Sampling 跳站, SmartSampling 建模与动态执行, YE Sampling)
+- Reticle IRIS 检验管控
+- Reticle Printdown 超限卡控 (WAIT_PD/IN_PD 状态切换)
+- Reticle Group 光罩组
+- Reticle Return/Scrap/UnScrap/Bank In/Bank Out 操作
+- Reticle 与 Lot 进出站联动卡控及机台最大 TrackIn Reticle 数量卡控
+- Rework Subplan 级别计算方式 (不同工步返工次数绑定计算)
+- checkCust 条件公式自定义与 CheckSplit
+- Monitor: Risk Run, 一载具多 Item 监控 (CD+Overlay), SPC OFFLINE Chart 数据查询, Monitor Plan 唯一性与执行卡控
+- Season: CMP Zero-Idle 连续运行, Chamber 级 Idle 计时, Season Split 自动逻辑分批
+- NPW: By 机台/Chamber 的 Monitor 流程版本管理与导入导出, 量测作业细节 (单片重测, 手动上传, Multilot 测机, AM), 自定义公式计算测机结果
+- PRMS: 光阻-机台-光阻管路对应关系, ResistNo 与 Recipe Mapping, Vendor Barcode 解析, 光阻状态模型细节 (Defrosting/Ready/InUse/Empty/Finish)
+- 载具 PCD (Cassette/Pod/Door 组成与 RFID 索引, PCD 清洗过帐), Change Slot Map Info
+- ElogSheet (Chamber 级别的 Wafer 过帐记录)
+- ECS Doublecheck 生效机制
+- 工单完工结算 (物料耗用, 工时核算并回报 ERP), RunCard 流程卡打印
+- LotInfo UI 的 Q-Time/Rework/Loop 详细信息展示, FetchStep 上下游站点信息与 ECS 预检
+- Add Comment (站点备注)
+- Bond: 主副 Bond/Debond 站点特殊标记, 副 Prod 的 Loop 循环使用设定, Dispatch 前指定 Bonding 关系卡控
+- 测试线管理细节: AQL 标准, 测试尾数合并规则, HOLD/作业中拆批合批, 物料 MBB 湿敏管控, 载带拉力标准/送检/检验, 尾料处理
+- 封装线管理: 切割, 挑选芯片, 芯片贴装, 塑封, 激光打标站点管控
+- Wafer Map 人工编辑, 自动角度转换, 前后工序 Map 合并导出; Strip Map 版本管理与上传下载对比
+- 质量管理: 检验规范/检验模板, 不良 Code, 巡检与首检, 异常单, 站点良率卡控, 多类型对象 Hold
+- 包装和标签管理 (多层包装 REEL/Inner Box/Outer Box, 拆包装保留历史)
+- 材料外延管理 (COA/COC 模板与电子报告, IQC 来料检验, 技术规范管理)
+- 与 APC, FDC, YMS, DMS, WJS 系统集成
+
+#### 仅赛美特独有的功能(未纳入交集)
+- 多工厂建模 (8 英寸及先进封装, 微组装工厂, 工厂间批次产品流程隔离), 工厂日历, 生产排班 (班次信息记录)
+- Where-Used 查询 (各对象被谁使用)
+- 全模型对象自定义扩展属性
+- 生效前一致性校验 (变更时与当前实际情况比对)
+- 设置与查看权限分离, 采样计划免升版调整, MES 模型逻辑以用户需求为准
+- 各类主数据及历史数据删除与存档 (设备/产品/工艺流程/EDC Plan/Q-Time, 不影响报表与在制批次)
+- 设备状态实时自动触发切换 (批次入机台自动转运行), 运行时主/子机台状态检查
+- 产品 DPW, ERP 料号, 自定义产品编码规则, 源产品信息 (厂家/供应商原批次号)
+- 工艺流程升版: 失效识别 (增删站点导致 Q-Time/SRC/RRC/Pilot 起止站点失效), 非常规批次保护, 升版失败批次清单邮件通知
+- 统一维护工具 (全流程配置查看, 一键完整导入导出, 升版影响定位, 导入即可生产)
+- 数据校验 (类型/长度/特殊字符/值范围/依赖关系/唯一性等)
+- EDC 选片规则 (搜索方向策略, 搜索范围上下限, 量测片数, 多维度绑定, 特殊位置忽略)
+- Tool Constraint: 模拟器验证设定正确性, 未来站点预先验算, 优先级设定, 卡控提示 (被哪些条限制卡控及设定人), 批量导入导出
+- Q-Time: 预警时间与邮件组/收件人动作, 分支路径自动结束机制, SRC/RRC 中定义 Q-Time 及继承 (SRC/RRC 侧设定)
+- 条码配置 (各类形式打印条码)
+- Reserve 预约/取消预约 (预约检查, 指定机台预约, 载具数量上限, 预约列表排序)
+- 计划合批 (分批时设定计划合批站点, 可单独取消)
+- BankIn/BankOut 审批流 (暂存专用扣留代码, 制造部决定执行或拒绝), 暂存货架位置, 扣留列表显示隔离
+- 报废影响 SRC 单据的提前识别与撤回修改, 多批次载具统一报废/终止
+- 多形式入库 (晶圆/外延片/芯片), 两段式入库确认
+- 包装管理 (包装标准文件, 包装条码, 二次比对, 材料计算, 多层包装 ID)
+- 作业流程单管理 (按工单/按批打印, 工位显示, 打印印记)
+- 现场货架管理 (货架建模, 上下架记录)
+- WLP 先进封装管理 (键合 Bin/AOI 良率叠加分析, 手动 Ink, 重新分选, 测试数据解析)
+- SRC: 快速复制创建, 片数不符确认, 与机台限制反向设定校验, 签核未完成批次自动暂停
+- RRC: 分批合批执行回到配置完成节点 (晶圆分流细节已纳入交集)
+- Pi-Run: 试跑子腔指定 (一单多试跑子批), 单批单卡, 报废再确认, 全片限制, 采样优先级高于静态采样, 合批站点计划扣留
+- Monitor: 监控批使用后处理 (回母批/直接回收/废弃), 监控批来源多源批次多片, 量测通过自动重置机台间隔时间
+- Dummy: 膜厚累加控制
+- 机台: 光刻双光罩与 Track/Scanner 联机子机台配方, CMP 耗材期限校验与端口组合管控, 量测设备 EDC 计划下达 EAP, 激光打码机台建模, 炉管 Boat Position/缓冲批管理/最大预约 Batch 数
+- CP 测试: 结果文件解析计算合格管芯数, 叠加运算卡控 (片号不一致/标准颗粒数不一致), 合格 Die 二次报废, OCAP 分流正常片号继续流片, 已入库批次复测业务
+- FT 测试: 部分出站, 零头并批规则 (FIFO/少的先推荐), 自动拆批零头留仓, 良不良分流入不同仓, 载带耗材校验
+- WAT 站点与结果等待处置
+- 产品测试 Bin 管理: Bin 自动分级拆分与批次转换, 按 Bin 等级的入库/加工/合批使用限制, 按 Bin 等级降级报废对应产品编码
+- OQC: 质量等级指定按晶圆等级分批入库, OQA AVI 站 OOS 自动扣留
+- 污染管理: 跨污染类别制程强制载具交换 (如 FE/Cu), Sorter 污染对应表管控, SRC/RRC 单据污染检查
+- 载具: 超时自动更换载具并送洗, 生命周期唯一码标签, 载具/批次编码双向查询
+- Reticle: 光刻工程量测数据采集 (颗粒超标自动扣留光刻板), 装载端口管理与 EAP 对接
+- 光阻: 安全库存提前预警, 用尽警示与强制结束
+- 探针卡: SRC 时也计算探针卡寿命, 装载到机台的查询
+- 治具: 治具工程量测数据在 SPC 中管控
+- 机台保养 PM (保养类型与触发, 保养计划模板, 设备检查清单, 保养执行与查询, 关键配件卡控)
+- 备品备件管理 (配件录入, 装卸替换, 循环管控, 唯一跟踪, 逾期预警, 配件组管理)
+- 权限: 人员任职周期管理, 产品/工艺流程建模维护权限管控
+
+#### 与原文不一致处(⚠️ 标记说明)
+- 无 ⚠️ 标记条目: 交集 Function List 中所有 bullet 均从两方原文中原样引用, 未做合并或改写.
+- 表述差异说明 (均不影响纳入交集):
+  - Q-Time (2.8): 上扬按 TrackIn/TrackOut 四类触发点描述; 赛美特按最小/预警/最大时间及暂停/邮件/加急动作描述. 两方能力一致, 交集引用上扬触发点表述, 赛美特"预警时间与邮件组动作"作为其独有细节列出.
+  - 分批继承 Q-Time (2.8): 上扬仅述分批继承, 赛美特同时覆盖分批与合批继承 (子批中比母批短的 Q-Time 带回母批), 交集采用赛美特更完整的表述.
+  - 跨厂/委外加工 (6.14): 上扬描述委外 (Subcon) 多场景, 赛美特描述多工厂切换加工, 口径略有差异但同属跨厂加工能力, 两方原文均保留.
+  - 机台同设备约束 (3.3): 上扬 DedicationFlag 描述为"不同 Stage, Layer 卡控必须使用相同的机台或者机台组", 赛美特描述为"不同的层需要使用相同的设备", 语义一致, 采用赛美特表述.
+  - 先行批试跑 (9.1): 上扬称 Pi-Lot, 赛美特称 Pi-Run, 为同一能力, 标题并列两个名称.
+  - WET Batch (3.6): 上扬"单批或者 2 个批次 BatchRun"与赛美特"同时跑 2 个载具或 1 个载具"数值一致 (1 或 2), 无数值冲突.
+  - 未发现两方同一能力存在具体数值/指标冲突的情况.
+
+#### 原文来源选择说明
+- 两方原文被选用次数总体接近, 上扬略多. 上扬在 Lot 操作类功能 (进出站, Hold/Release, Future Hold, 分批合批, Reassign, Q-Time, Run Card, 光阻, 探针卡) 上粒度更细, 操作语义与卡控条件更具体, 故这些条目优先引用上扬原文. 赛美特在建模与主数据类功能 (厂区/机台/产品建模, 流程升版, Tool Constraint, 测试 Bin, 污染管理) 上覆盖更完整, 定义更结构化, 故这些条目优先引用赛美特原文. 同一能力两方表述均完整时, 优先选择信息量更大, 条件更明确的一条.
