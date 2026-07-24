@@ -2,7 +2,8 @@
 #
 # 用法:
 #   python md_to_excel.py [table] input.md [output.xlsx]   # 表格模式(默认, 可省略 table)
-#   python md_to_excel.py functionlist input.md [output.xlsx]  # 功能清单模式
+#   python md_to_excel.py functionlist input.md [output.xlsx]  # 功能清单方式一: 子项合并
+#   python md_to_excel.py functionlist_expand input.md [output.xlsx]  # 功能清单方式二: 子项展开成行
 #
 # 依赖:
 #   pip install pandas openpyxl      # 表格模式
@@ -21,10 +22,14 @@
 #   2) 表头: 一级功能 / 二级功能 / 功能描述
 #   3) 一级功能 = `#### N.M xxxx` 中的 xxxx
 #   4) 二级功能 = 条目 `- **yyyy**` 中的 yyyy, 功能描述 = `: zzzz` 中的 zzzz
-#   5) 加粗条目下缩进的普通 `- ` 子项, 追加到该条目的功能描述中
+#   5) 加粗条目下缩进的普通 `- ` 子项, 两种方式处理:
+#      - functionlist (方式一): 全部子项合并追加到该条目的功能描述中, 共一行
+#      - functionlist_expand (方式二): 每个子项独立成行, 重复一级/二级功能,
+#        功能描述各取一条子项; 父条目本身无描述时不再单独占一行
 #   6) 缩进的加粗子条目(如 `- **作业前**: ...`)作为独立行
 #   7) 无加粗的顶层条目(如 `- Fixed Buffer`), 二级功能留空, 文本进入功能描述
-#   8) 全文统一字体: 宋体, 10 号
+#   8) 样式: 内容区域全部边框; 首行底色 #153D63 + 白色宋体 10 号;
+#      其余行宋体 10 号黑色字体, 无底色
 # ============================================================
 import re
 import sys
@@ -213,8 +218,11 @@ FL_BOLD_ITEM_RE = re.compile(r"^\s*-\s+\*\*(.+?)\*\*\s*[:：]?\s*(.*?)\s*$")
 FL_PLAIN_ITEM_RE = re.compile(r"^\s*-\s+(.+?)\s*$")
 
 
-def parse_functionlist_md(text):
-    """返回 {sheet名: [(一级功能, 二级功能, 功能描述), ...]}"""
+def parse_functionlist_md(text, expand=False):
+    """返回 {sheet名: [(一级功能, 二级功能, 功能描述), ...]}
+    expand=False (方式一): 缩进子项合并追加到上一条的功能描述中
+    expand=True  (方式二): 每个缩进子项独立成行, 重复一级/二级功能,
+                           父条目无描述时去掉父行 (如示例共 6 行)"""
     sheets = {}
     sheet_name = None
     l1 = None
@@ -252,8 +260,17 @@ def parse_functionlist_md(text):
             item_text = m.group(1).strip()
             indented = line[:1] in (" ", "\t")
             if indented and last_row is not None:
-                # 缩进的子项内容并入上一条的功能描述
-                last_row[2] = (last_row[2] + "\n" + item_text) if last_row[2] else item_text
+                if expand:
+                    # 方式二: 子项独立成行, 沿用父条目的一级/二级功能
+                    parent_l1, parent_l2, parent_desc = last_row
+                    if not parent_desc and parent_l2:
+                        # 父条目本身无描述: 去掉父行, 由子项行取代
+                        sheets[sheet_name].remove(last_row)
+                    last_row = [parent_l1, parent_l2, item_text]
+                    sheets[sheet_name].append(last_row)
+                else:
+                    # 方式一: 子项内容并入上一条的功能描述
+                    last_row[2] = (last_row[2] + "\n" + item_text) if last_row[2] else item_text
             else:
                 # 顶层无加粗条目: 二级功能留空, 文本进入功能描述
                 last_row = [l1, "", item_text]
@@ -262,39 +279,56 @@ def parse_functionlist_md(text):
     return sheets
 
 
-def functionlist_to_excel(md_path, xlsx_path=None):
-    """功能清单模式: 功能清单范式 md -> Excel (宋体 10 号, 无其他样式)"""
+def functionlist_to_excel(md_path, xlsx_path=None, expand=False):
+    """功能清单模式: 功能清单范式 md -> Excel
+    样式: 内容区域全部边框; 首行底色 #153d63 + 白色宋体 10 号;
+    其余行宋体 10 号黑色字体, 无底色"""
     from openpyxl import Workbook
-    from openpyxl.styles import Font
+    from openpyxl.styles import Border, Font, PatternFill, Side
 
     md_path = Path(md_path)
     xlsx_path = xlsx_path or md_path.with_suffix(".xlsx")
-    sheets = parse_functionlist_md(md_path.read_text(encoding="utf-8"))
+    sheets = parse_functionlist_md(md_path.read_text(encoding="utf-8"), expand=expand)
     if not sheets:
         print("未找到任何 `## xxx Function List` 章节")
         return
 
     wb = Workbook()
     wb.remove(wb.active)
-    font = Font(name="宋体", size=10)
+    thin = Side(style="thin")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    header_font = Font(name="宋体", size=10, color="FFFFFF")
+    header_fill = PatternFill("solid", fgColor="153D63")
+    body_font = Font(name="宋体", size=10, color="000000")
 
     for name, rows in sheets.items():
         ws = wb.create_sheet(title=name[:31])
         ws.append(["一级功能", "二级功能", "功能描述"])
         for row in rows:
             ws.append(row)
-        for r in ws.iter_rows():
+        for r in ws.iter_rows(min_row=1, max_row=ws.max_row, max_col=3):
             for cell in r:
-                cell.font = font
+                cell.border = border
+                if cell.row == 1:
+                    cell.font = header_font
+                    cell.fill = header_fill
+                else:
+                    cell.font = body_font
         print(f"  [{name}] {len(rows)} 行")
 
     wb.save(xlsx_path)
     print(f"已生成 {xlsx_path}，共 {len(sheets)} 个 sheet")
 
 
+def functionlist_expand_to_excel(md_path, xlsx_path=None):
+    """方式二: 缩进子项展开为独立行, 重复一级/二级功能"""
+    functionlist_to_excel(md_path, xlsx_path, expand=True)
+
+
 MODES = {
     "table": md_to_excel,
     "functionlist": functionlist_to_excel,
+    "functionlist_expand": functionlist_expand_to_excel,
 }
 
 
@@ -305,7 +339,7 @@ def main(argv):
         mode = args.pop(0)
     if not args:
         print(__doc__ or "")
-        print("用法: python md_to_excel.py [table|functionlist] input.md [output.xlsx]")
+        print("用法: python md_to_excel.py [table|functionlist|functionlist_expand] input.md [output.xlsx]")
         sys.exit(1)
     MODES[mode](args[0], args[1] if len(args) > 1 else None)
 
