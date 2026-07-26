@@ -1,15 +1,15 @@
 # md_to_excel.py — Markdown 转 Excel 工具, 支持两种模式
 #
 # 用法:
-#   python md_to_excel.py [table] input.md [output.xlsx]       # 表格模式(默认, 可省略 table)
+#   python md_to_excel.py [sheet] input.md [output.xlsx]       # sheet 模式(默认, 可省略 sheet)
 #   python md_to_excel.py functionlist input.md [output.xlsx]  # 功能清单模式
 #
 # 依赖:
-#   pip install pandas openpyxl      # 表格模式
+#   pip install pandas openpyxl      # sheet 模式
 #   pip install openpyxl             # 功能清单模式仅需 openpyxl
 #
 # ============================================================
-# 模式一: table — 通用 Markdown 表格转 Excel
+# 模式一: sheet — 通用 Markdown 表格转 Excel
 #   1) 只有 `#` 标题(任意层级)和 `---` 分隔线才会开新 sheet
 #   2) 空行隔开的连续表格属于同一个 sheet: 第一个是主表, 其后两列的表格视为
 #      "列名 -> 说明" 对照表, 说明以批注形式挂到主表对应表头上
@@ -26,7 +26,7 @@
 #   5) `- **zzz**:` 下的缩进子项 `- yyyy` 每个独立成行, 二级功能重复 zzz,
 #      功能描述各取一条子项; 父条目本身无描述时不再单独占一行
 #   6) 既无描述又无子项的条目, 功能描述留空
-#   7) 样式: 无边框; 首行底色 #153D63 + 白色加粗宋体 10 号居中;
+#   7) 样式: 内容区域全部边框; 首行底色 #153D63 + 白色加粗宋体 10 号居中;
 #      其余行宋体 10 号, 自动换行, 列宽 30/36/100
 # ============================================================
 import re
@@ -147,7 +147,7 @@ def display_width(s):
 
 
 def md_to_excel(md_path, xlsx_path=None, max_row=1000):
-    """表格模式: 通用 Markdown 表格 -> Excel"""
+    """sheet 模式: 通用 Markdown 表格 -> Excel"""
     import pandas as pd
     md_path = Path(md_path)
     xlsx_path = xlsx_path or md_path.with_suffix(".xlsx")
@@ -308,10 +308,10 @@ def parse_functionlist_md(text):
 
 def functionlist_to_excel(md_path, xlsx_path=None):
     """功能清单模式: 功能清单范式 md -> Excel (子项展开成行, 支持 ### 回退)
-    样式: 无边框; 首行底色 #153d63 + 白色加粗宋体 10 号居中;
+    样式: 内容区域全部边框; 首行底色 #153d63 + 白色加粗宋体 10 号居中;
     其余行宋体 10 号自动换行, 列宽 30/36/100"""
     from openpyxl import Workbook
-    from openpyxl.styles import Alignment, Font, PatternFill
+    from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
     md_path = Path(md_path)
     xlsx_path = xlsx_path or md_path.with_suffix(".xlsx")
@@ -322,6 +322,8 @@ def functionlist_to_excel(md_path, xlsx_path=None):
 
     wb = Workbook()
     wb.remove(wb.active)
+    thin = Side(style="thin")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
     header_font = Font(name="宋体", size=10, bold=True, color="FFFFFFFF")
     header_fill = PatternFill("solid", fgColor="FF153D63")
     header_align = Alignment(vertical="center", horizontal="center")
@@ -337,6 +339,7 @@ def functionlist_to_excel(md_path, xlsx_path=None):
             ws.append(row)
         for r in ws.iter_rows(min_row=1, max_row=ws.max_row, max_col=3):
             for cell in r:
+                cell.border = border
                 if cell.row == 1:
                     cell.font = header_font
                     cell.fill = header_fill
@@ -351,19 +354,19 @@ def functionlist_to_excel(md_path, xlsx_path=None):
 
 
 MODES = {
-    "table": md_to_excel,
+    "sheet": md_to_excel,
     "functionlist": functionlist_to_excel,
 }
 
 
 def main(argv):
     args = list(argv)
-    mode = "table"
+    mode = "sheet"
     if args and args[0] in MODES:
         mode = args.pop(0)
     if not args:
         print(__doc__ or "")
-        print("用法: python md_to_excel.py [table|functionlist] input.md [output.xlsx]")
+        print("用法: python md_to_excel.py [sheet|functionlist] input.md [output.xlsx]")
         sys.exit(1)
     MODES[mode](args[0], args[1] if len(args) > 1 else None)
 
