@@ -309,7 +309,7 @@ def parse_functionlist_md(text):
 def functionlist_to_excel(md_path, xlsx_path=None):
     """功能清单模式: 功能清单范式 md -> Excel (子项展开成行, 支持 ### 回退)
     样式: 内容区域全部边框; 首行底色 #153d63 + 白色加粗宋体 10 号居中;
-    其余行宋体 10 号自动换行, 列宽 30/36/100"""
+    其余行宋体 10 号自动换行; 列宽按内容自适应 (A 12~40, B 12~50, C 30~100)"""
     from openpyxl import Workbook
     from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
@@ -333,8 +333,6 @@ def functionlist_to_excel(md_path, xlsx_path=None):
     for name, rows in sheets.items():
         ws = wb.create_sheet(title=name[:31])
         ws.append(["一级功能", "二级功能", "功能描述"])
-        for width, col in zip((30, 36, 100), "ABC"):
-            ws.column_dimensions[col].width = width
         for row in rows:
             ws.append(row)
         for r in ws.iter_rows(min_row=1, max_row=ws.max_row, max_col=3):
@@ -347,6 +345,12 @@ def functionlist_to_excel(md_path, xlsx_path=None):
                 else:
                     cell.font = body_font
                     cell.alignment = body_align
+        # 列宽按内容自适应: 中文按 2 字符宽, 多行取最长行; 各列设上下限, 超限靠换行
+        col_bounds = ((12, 40), (12, 50), (30, 100))     # A 一级 / B 二级 / C 描述
+        for (lo, hi), col_cells in zip(col_bounds, ws.iter_cols(max_col=3)):
+            w = max(display_width(seg)
+                    for c in col_cells for seg in str(c.value or "").split("\n"))
+            ws.column_dimensions[col_cells[0].column_letter].width = min(max(w + 2, lo), hi)
         print(f"  [{name}] {len(rows)} 行")
 
     wb.save(xlsx_path)
