@@ -2065,3 +2065,19 @@ localhost 连接 - 右键 - edit connection - Driver Properties - 找到 autoRec
 同时检查 Driver Properties: interactiveClient = true, socketTimeout = 0(不超时), tecpKeepA;ove = true
 
 在 initiaization 中取消勾选 close idle connection after (seconds)
+
+# SocketException: An attempt was made to access a socket in a way forbidden by its access permissions
+
+先停掉 winnat，手动登记一条覆盖 1080 的排除项，再启动 winnat。winnat 重新规划动态保留时会绕开你已登记的端口，1080 就能正常绑定了
+
+管理员身份:
+
+```bash
+net stop winnat
+netsh interface ipv4 add excludedportrange protocol=tcp startport=1080 numberofports=1
+net start winnat
+```
+
+win+r: `optionalfeatures`
+
+取消 Hyper-V, Virtual Machine Platform, Windows Subsystem for Linux
