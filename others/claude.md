@@ -128,3 +128,7 @@ https://platform.kimi.com/ 的 key:
 ```powershell
 Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
 ```
+
+# skills
+
+https://www.skills.sh/
