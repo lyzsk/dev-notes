@@ -129,6 +129,12 @@ https://platform.kimi.com/ 的 key:
 Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
 ```
 
+# 跳过方式
+
+`claude --dangerously-skip-permissions`: 跳过所有确认，全自动
+
+`--yes` / `-y`: 仅对首次启动时的免责声明 / 条款自动同意，运行中仍会询问敏感操作
+
 # skills
 
 https://www.skills.sh/
