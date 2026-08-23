@@ -203,3 +203,11 @@ New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (
 PC1 上 `ssh <username>@<中枢的100.x地址>`
 
 password 是 `username/.ssh` 下的 `*.pub` 文件内容, 先复制, 然后到 PC1 上 powershell(as administrator): `Add-Content -Path 'C:\ProgramData\ssh\administrators_authorized_keys' -Value 'ssh-key'`, 然后修改权限 `icacls C:\ProgramData\ssh\administrators_authorized_keys /inheritance:r /grant "Administrators:F" /grant "SYSTEM:F"`
+
+然后配置 PC1->PC2 免密:
+
+`Add-Content -Path 'C:\ProgramData\ssh\administrators_authorized_keys' -Value 'ssh-key'`
+
+`icacls C:\ProgramData\ssh\administrators_authorized_keys /inheritance:r /grant "Administrators:F" /grant "SYSTEM:F"`
+
+核心还是所有的 PC-n 都要在 PC1 上走免密,
