@@ -155,11 +155,17 @@ PowerShell:
 
 `hermes setup`, @see: https://www.kimi.com/code/docs/third-party-tools/hermes.html 最后一部分有 kimi 连接 Hermes Agent
 
-- Provider 选 Kimi / Moonshot
-- 粘贴你的 Kimi API key
-- 模型选套餐可用的 (k3)
+-   Provider 选 Kimi / Moonshot
+-   粘贴你的 Kimi API key
+-   模型选套餐可用的 (k3)
 
 验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
+
+# cmd 中文乱码解决
+
+已经是 65001(UTF-8) 依旧乱码
+
+Control Panel - Clock and Region - Region - Administrative - Change system local... - 勾选 Beta: Use Unicode UTF-8 for worldwide language support
 
 # Tailscale + OpenSSH Server
 
@@ -177,9 +183,12 @@ PowerShell - Run as Administrator
 
 ```bash
 Add-WindowsCapability -Online -Name OpenSSH.Server0.0.1.0
+Add-WindowsCapability -Online -Name 'OpenSSH.Server~~~~0.0.1.0'
+
+Get-WindowsCapability -Online -Name 'OpenSSH.Server*'
+Get-Service sshd
 
 Set-Service sshd -StartupType Automatic
-
 Start-Service sshd
 
 New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
@@ -188,3 +197,9 @@ New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (
 其他 PC:
 
 同理装 tailscale 后 `ping <中枢的100.x地址>`
+
+比如 PC1: `100.126.73.77`, PC2: `100.111.59.0`
+
+PC1 上 `ssh <username>@<中枢的100.x地址>`
+
+password 是 `username/.ssh` 下的 `*.pub` 文件内容, 先复制, 然后到 PC1 上 powershell(as administrator): `Add-Content -Path 'C:\ProgramData\ssh\administrators_authorized_keys' -Value 'ssh-key'`, 然后修改权限 `icacls C:\ProgramData\ssh\administrators_authorized_keys /inheritance:r /grant "Administrators:F" /grant "SYSTEM:F"`
