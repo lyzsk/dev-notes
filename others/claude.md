@@ -160,3 +160,31 @@ PowerShell:
 - 模型选套餐可用的 (k3)
 
 验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
+
+# Tailscale + OpenSSH Server
+
+中枢:
+
+`winget install Tailscale.Tailscale`
+
+Tailscale - Log in(Sign in with GitHub)
+
+`tailscale ip -4`
+
+会显示 100.x.x.x 地址, 这个就是中枢的 Tailscale IP
+
+PowerShell - Run as Administrator
+
+```bash
+Add-WindowsCapability -Online -Name OpenSSH.Server0.0.1.0
+
+Set-Service sshd -StartupType Automatic
+
+Start-Service sshd
+
+New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+```
+
+其他 PC:
+
+同理装 tailscale 后 `ping <中枢的100.x地址>`
