@@ -138,3 +138,25 @@ Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
 # skills
 
 https://www.skills.sh/
+
+# hermes-agent
+
+windows powershell:
+
+`iex (irm https://hermes-agent.nousresearch.com/install.ps1)`
+
+uv, Python 3.11, Node.js, ripgrep, ffmpeg, Git Bash——全部装在 `%LOCALAPPDATA%\hermes` 目录下，和系统隔离
+
+PowerShell:
+
+`hermes --version`
+
+配置 API KEY:
+
+`hermes setup`, @see: https://www.kimi.com/code/docs/third-party-tools/hermes.html 最后一部分有 kimi 连接 Hermes Agent
+
+- Provider 选 Kimi / Moonshot
+- 粘贴你的 Kimi API key
+- 模型选套餐可用的 (k3)
+
+验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
