@@ -211,3 +211,13 @@ password 是 `username/.ssh` 下的 `*.pub` 文件内容, 先复制, 然后到 P
 `icacls C:\ProgramData\ssh\administrators_authorized_keys /inheritance:r /grant "Administrators:F" /grant "SYSTEM:F"`
 
 核心还是所有的 PC-n 都要在 PC1 上走免密,
+
+# opencode
+
+`npm i -g opencode-ai`
+
+`opencode --version`
+
+`opencode` 打开 TUI 界面
+
+`/connect` -> OpenCode Go -> 粘贴 API Key
