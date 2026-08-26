@@ -212,7 +212,6 @@ password 是 `username/.ssh` 下的 `*.pub` 文件内容, 先复制, 然后到 P
 
 核心还是所有的 PC-n 都要在 PC1 上走免密,
 
-<<<<<<< HEAD
 跳板写法 (例如新增 PC 物理与中枢不在同一位置):
 
 ```bash
@@ -225,7 +224,7 @@ ssh Administrator@<跳板PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> po
 ```
 
 > 命令必须作为 ssh 参数传递，**不要用 `echo ... | ssh` 管道写法**
-=======
+
 # opencode
 
 `npm i -g opencode-ai`
@@ -235,4 +234,3 @@ ssh Administrator@<跳板PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> po
 `opencode` 打开 TUI 界面
 
 `/connect` -> OpenCode Go -> 粘贴 API Key
->>>>>>> 84ed1a9379ba6a16dc5db30fa4022bffd320a00d
