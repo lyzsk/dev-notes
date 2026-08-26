@@ -234,3 +234,26 @@ ssh Administrator@<跳板PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> po
 `opencode` 打开 TUI 界面
 
 `/connect` -> OpenCode Go -> 粘贴 API Key
+
+---
+
+`opencode --auto`
+
+```bash
+"%USERPROFILE%\.config\opencode\opencode.jsonc" echo { "$schema": "https://opencode.ai/config.json", "permission": "allow" }
+```
+
+```json
+{
+    "$schema": "https://opencode.ai/config.json",
+    "permission": "allow"
+}
+```
+
+```bash
+#验证是否{ "$schema": "https://opencode.ai/config.json", "permission": "allow" }
+type "%USERPROFILE%\.config\opencode\opencode.jsonc"
+
+#清理多余的空配置文件
+del "%USERPROFILE%\.config\opencode\opencode.json"
+```
