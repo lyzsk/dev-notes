@@ -275,6 +275,8 @@ Stock Keeping Unit
 
 # EAP
 
+EQP 预留网口一般 8 个
+
 EAP Server 1:1 tool, 1 Server 跑 30 进程, 原因是FAB-EQP影响最小化, 而不是最大化
 
 前道后道一般部分系统, 但是前道更关心wafer数量, 后道更关心辅材
@@ -3361,8 +3363,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持 FAB 级基础架构、多工厂多区域的层级建模.
 
-- **区域与设备对应**: 支持 FAB/ 区域 / 设备对应关系定义, 设备可分配到不同区域, 用于工艺工程师 / 设备工程师 / 制造等不同目的; 支持 Fab, Area, Bay, Bank 等定义, 及 DIFF, Litho 等工作区域定义. Work Area 支持用户根据需要自定义, 不限于固定的 Physical Location.
-- **多工厂建模**: 支持多工厂建模及生产 (8 英寸及先进封装工厂、微组装工厂), 各工厂独立且批次产品、流程、批次隔离, 支持后续新工厂模型扩展建立和生产流片运转; 支持产品在多工厂切换加工.
+- **区域与设备对应**: 支持 FAB/ 区域 / 设备对应关系定义, 设备可分配到不同区域, 用于工艺工程师 / 设备工程师 / 制造等不同目的; 支持 Fab, Area, Bay, Bank 等定义, 及 DIFF, Litho 等工作区域定义. Work Area 支持用户根据需要自定义, 不限于固定的 Physical Location. FAB 下的 department 和 section 需特殊定义 (如 Etch PE: FABA 定义为 F1ETCH-ETCHPE, PE Area 定义为 F1ETCH-ETCHPE, EE Area 定义为 F1ETCH-ETCHEE).
+- **多工厂建模**: 支持多工厂建模及生产 (8 英寸及先进封装工厂、微组装工厂), 各工厂独立且批次产品、流程、批次隔离, 支持后续新工厂模型扩展建立和生产流片运转; 支持产品在多工厂切换加工. 支持通过 FABSite 定义每个 FAB 的名称, 针对每个 FAB 设置不同的权限组, 通过权限组给用户赋权, 实现多 FAB 权限切换.
 - **工厂日历与排班**: 支持工厂日历; 支持生产排班, 批次加工历史正确记录班次信息.
 
 #### 1.2 产品建模
@@ -3370,9 +3372,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 支持产品定义、版本管控、关联关系及产品主数据维护.
 
 - **产品定义**: 支持定义工厂生产的成品 / 半成品等产品及其属性, 可定义产品的 Wafer 类型, 产品责任人; 支持定义产品类型、产品负责人、DPW (每片晶圆 Die 数)、ERP 料号、单位等属性; 源产品信息包含关键参数、厂家、供应商原批次号.
-- **产品架构模式**: 支持产品设置 (工艺-- 产品-- 生产流程-- 工序-- 工步-- 对应的 Recipe 与机台关系的 MES 架构模式), 包括产品工艺信息的定义; 支持量产、科研、监控片、挡片等不同产品类型.
+- **产品架构模式**: 支持产品设置 (工艺-- 产品-- 生产流程-- 工序-- 工步-- 对应的 Recipe 与机台关系的 MES 架构模式), 包括产品工艺信息的定义; 支持量产、科研、监控片、挡片等不同产品类型. 产品类型分 prod, monitor, season, dummy, 支持按 product type 控制产品下线.
 - **多流程指定**: 设置产品基本信息时, 可为产品指定一个或多个流程, 并指定缺省流程; 支持定义产品与工艺的多对一对应关系、产品与原单晶产品关系, 及产品、工艺流程、Recipe、机台对应关系.
-- **产品组与 Reticle 设置**: 支持定义产品组 (产品的 Type 定义), 不同工艺的产品类别, 以及 Reticle 的设置 (能定义不同产品的 Photo Layer 的光罩设置); 支持产品状态定义及转换.
+- **产品组与 Reticle 设置**: 支持定义产品组 (产品的 Type 定义), 不同工艺的产品类别, 以及 Reticle 的设置 (能定义不同产品的 Photo Layer 的光罩设置); 支持产品状态定义及转换. Flow 上 product 支持配置多个 Reticle Group, 功能相似的某一 Group 不能使用时自动切换到另一个 Reticle Group.
 - **编码规则**: 支持自定义产品编码规则.
 - **版本管控**: 支持产品版本管控, 升版时进行新旧版本差异比较以确认修改正确性.
 - **批量维护**: 支持产品创建、修改、复制生成及批量处理.
@@ -3394,8 +3396,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持 Stocker 类型与存储形式的定义.
 
-- **Stocker 类型**: 支持定义 Stocker 的类型, 如 Wafer STK, Reticle STK 等.
-- **存储形式与容量**: 支持定义 Stocker 的存储形式及 STK 的容量.
+- **Stocker 类型**: 支持定义 Stocker 的类型, 如 Wafer STK, Reticle STK 等. OHT 在 MES 端以 Stocker 的形式建模.
+- **存储形式与容量**: 支持定义 Stocker 的存储形式及 STK 的容量. 支持 Stocker 容量记录及查询, 容量通过 AMHS 上报.
 
 #### 1.5 代码定义 (Code Define)
 
@@ -3451,7 +3453,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **任职周期**: 人员任职周期管理.
 - **状态切换权限**: 提供界面维护设备状态权限, 即什么角色可将设备状态从什么状态切到什么状态.
 - **建模权限**: 提供产品 / 工艺流程建模维护权限管控.
-- **跨子系统统一权限平台 (UAC)**: MES 建模平台 (MUI)、生产作业操控平台 (OUI)、制造协同平台 (MCP)、SPC, MAP 及后续接入的 EAP 等子系统, 权限统一在 UAC 平台集中管控; 含平台级、菜单级 (菜单与操作按钮)、数据级 (指定机台 / Product 等) 三层权限.
+- **跨子系统统一权限平台 (UAC)** : MES 建模平台 (MUI)、生产作业操控平台 (OUI)、制造协同平台 (MCP)、SPC, MAP 及后续接入的 EAP 等子系统, 权限统一在 UAC 平台集中管控; 含平台级、菜单级 (菜单与操作按钮)、数据级 (指定机台 / Product 等) 三层权限.
 - **部门默认角色与个人额外角色叠加**: 用户归属部门, 可直接继承所属部门配置的默认角色, 无需逐人新建; 同时支持在部门默认权限之外为个人额外叠加角色; 支持按部门或按人两种灵活分配方式.
 - **登录日志与会话统计**: UAC 平台提供登录日志管理, 记录用户登录情况与在线 / 登录时长等会话信息.
 
@@ -3471,7 +3473,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **多层级模块化建模**: 支持工艺流程、工段、站点多层级, 支持模块化建模, 各级模型对象可复用和共享, 多个产品可共用相同工艺流程; 在流程和配方之间需要有一个多层模块化结构, 至少有一个额外的层 (模块或子计划), 以便于未来的维护; 模块可以在流程内部和流程之间重复使用, 若系统提供的流程结构相对简单, 则需提供高效准确的系统解决方案应对未来大量变化. 支持 Product -> Top Line -> Root -> Plan -> Step 四层工艺架构: Plan 层级挂载工序组合、污染 (Contamination) 与载具类型 (Carrier Type) 及连续性参数, Step 层级关联设备组 (Capability) 与 Recipe; 支持 Process、量测及 Batch 等多种类型. Process Step Type 定义包含 X-process measurement, S-sorter.
 - **流程对象类型**: 支持定义各级对象类型 (量产、工程、实验、返工、监控等), 支持对各级对象编号、状态、版本管控, 可由工艺流程 / 站点定义段 / 层.
 - **资源关联**: 支持基于产品、工艺流程、工序关联机台组、机台、Recipe, EDC, Q-Time、光刻板、探针卡.
-- **多路径结构 (Multipath Flow)**: 主工艺流程可由多个子路径组成, 含普通路径、分支路径 (Multi-Path)、返工路径 (Rework)、条件判断分支等; 允许手动或在预设条件下灵活跳转到正常产品流上的其他分支流程; 预设条件包含手动, byProd, ByEDC 等; byProd 针对不同 Prod 共用一个 Process 的场景, 可以按照不同 ProdID 自动选择走不同的分支; ByEDC 针对量测结果的不同区间, 自动选择该区间对应的分支.
+- **多路径结构 (Multipath Flow)** : 主工艺流程可由多个子路径组成, 含普通路径、分支路径 (Multi-Path)、返工路径 (Rework)、条件判断分支等; 允许手动或在预设条件下灵活跳转到正常产品流上的其他分支流程; 预设条件包含手动, byProd, ByEDC 等; byProd 针对不同 Prod 共用一个 Process 的场景, 可以按照不同 ProdID 自动选择走不同的分支; ByEDC 针对量测结果的不同区间, 自动选择该区间对应的分支.
 - **返工路径**: 支持主工艺路径工序绑定计划返工路径 (Rework), 可定义返工站点和指示, 返工制程可被多个主制程调用.
 - **量测站点对应**: 支持工艺站点 (Process Step) 与量测站点 (Metrology Step)、前量与后量的关系对应.
 - **虚拟站点**: 支持虚拟站点.
@@ -3480,7 +3482,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **循环数设置**: 提供流程内部循环数设置, 可在批量界面查看.
 - **流程模板**: 提供构建流程模板, 可以快速直观的构建流程并直接导入系统; 导入之前, 应在规则上预先检查流程.
 - **流程导出**: Active Flow 或者任何一个版本的 Flow 均支持导出.
-- **Flow Section (工艺分段定义)**: 支持在 Flow 内定义 Flow Section, 标识某一段区间的特殊工艺状态, 如先进封装的 Glass / 基板支撑段、Restart 段; 可对某一段站点区间单独配置 Flow Section, 段与段分别管理.
+- **Flow Section (工艺分段定义)** : 支持在 Flow 内定义 Flow Section, 标识某一段区间的特殊工艺状态, 如先进封装的 Glass / 基板支撑段、Restart 段; 可对某一段站点区间单独配置 Flow Section, 段与段分别管理.
 - **图形化拖拽建模**: 提供图形化拖拉拽方式构建 Sub Flow / Main Flow, 流程结构直观可见、模块可复用; 与 Excel Loader 批量导入方式并行提供, 两者底层数据结构与校验规则完全一致, 长流程或大批量建模时改用 Loader 提升效率.
 
 #### 2.3 版本升级与在制批次处理
@@ -3518,8 +3520,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Where-Used 查询**: 支持根据配方查询哪些产品在使用.
 - **智能 PPID 选择**: 多腔机台派工时考虑腔的状态选择 PPID; 炉管机台根据配方和生产晶圆片数选择对应 PPID.
 - **履历记录**: 生产批次履历记录设备加工所使用的 Recipe/PPID; 记录历史详情.
-- **Recipe Group / 混跑 (Mix Run)**: 通过 Recipe Group 管理 Mix Run 混跑场景, 定义不同 Recipe 组之间的切换条件 (如 Idle Time, Recipe Change 等) , 确保工艺执行连续性. Recipe Group 管理层级位于机台分组之上.
-
+- **Recipe Group / 混跑 (Mix Run)** : 通过 Recipe Group 管理 Mix Run 混跑场景, 定义不同 Recipe 组之间的切换条件 (如 Idle Time, Recipe Change 等) , 确保工艺执行连续性. Recipe Group 管理层级位于机台分组之上.
 - **Recipe 管理**: 在 Recipe 配置页面增加 Wafer Process Time 和 Lot Track Time (Track In -> Track Out) 卡控来辅助识别机台是否异常, 而非在 Step 设置.
 
 #### 2.6 Product (流程维度)
@@ -3573,7 +3574,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **上下文收集**: 支持数据采集时伴随收集上下文信息.
 - **批量维护**: 支持各对象创建、修改、复制生成及批量处理; 支持工艺制程信息变更签审后生效.
 - **数据清除与存档**: 提供 EDC Plan 主数据及历史数据删除与存档功能, 不影响报表数据库及现有批次流片与查询; 支持历史详情记录.
-- **SPC 联动**: EDC 参数支持传入 SPC, 支持接受 SPC 结果发起 Hold Lot, Hold Tool 等动作; EDC 规格违反导致 OOC 时可扣留批次、锁定机台. 定义 MES/EDC 向 SPC 推送量测数据及回传 Hold/Release 指令的接口契约, 保证收发一致.
+- **SPC 联动**: EDC 参数支持传入 SPC, 支持接受 SPC 结果发起 Hold Lot, Hold Tool 等动作; EDC 规格违反导致 OOC 时可扣留批次、锁定机台. 定义 MES/EDC 向 SPC 推送量测数据及回传 Hold/Release 指令的接口契约, 保证收发一致. 设备需支持 by unit 收值进 SPC chart: EAP 上报量测值时将最小 unit 一同上报给 MES, 由 MES 统一传给 SPC.
 - **SPC 管制计划集成**: 支持将 EDC Plan 内容送 SPC 定义管制计划收集数据的过滤条件 (按设备、子设备、配方、产品、流程), 接受 SPC OOC 触发的 OCAP 流程.
 - **关联查询与同步维护**: 支持 SPC 管制计划与 EDC Plan 规格按规则关联查询, 并支持批量 EDC Plan 规格与关联 SPC 管制计划同时新增和修改.
 - **炉管监控数据共享**: 炉管监控批次的量测数据可共享给生产批次.
@@ -3584,8 +3585,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **量测站点与工艺站点 Mapping**: 通过 Mapping 配置量测 EDC Item 对应的 Process 站点与 Department: 量测结果异常需扣留时, 扣留其对应的工艺 (Process) 站点而非量测站点本身, 符合晶圆厂常用做法, 避免误锁量测站点.
 - **SPC Channel 与 Spec 来源配置**: 每个 EDC Item 在 SPC 中建立对应 Channel; Channel 可设控制模式 (内部 / 外部)、Spec 范围取自 SPC 或取自 MES, 并可单独配置控制图、趋势图、平均值等多种管制规则.
 - **分层 Action 与 PPID 禁用**: 异常处置 Action 支持 Hold Lot, Hold 机台、Post a Hold, Disable Physical Recipe (禁用 PPID) 及触发 OCAP; SPC 与 EDC 两层均可配置 Action, 未接入 SPC 时以 EDC 层 Action 兜底, 已接入 SPC 时统一在 SPC 侧设置.
-
-- **Data Collection (DC)**: DC Item / DC Site 定义可以选择是否缺点与缺片.
+- **Data Collection (DC)** : DC Item / DC Site 定义可以选择是否缺点与缺片.
 - **EDC签审流程**: 修改 EDC 时按 MES 内嵌签审流程进行 EDC 的 Retarget, 无需升版; 但 EDC 增减 Item 时需升版.
 
 #### 2.13 选片规则
@@ -3804,20 +3804,20 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持载具全生命周期管理、清洗管控与双向查询.
 
-- **创建载具 (Create Carrier)**: 允许用户创建 Carrier, 用户可以根据 Carrier 类型类别和 Carrier 型号创建指定数量的 Carrier; 命名规则可自定义批量创建, 也可自行创建, 也可批量导入.
-- **分配载具 (Assign Carrier)**: 允许用户将 Carrier 分配给没有 Carrier 的批次, 指定的载体必须是 Free 的, 晶片的顺序可以在该功能中更改.
-- **交换载具 (Exchange Carrier)**: 允许用户交换载具, 原始 Carrier 和交换 Carrier 应为同一类型. 扩展换载具场景: 换 Boat、换 Magazine, Magazine + Boat 组合更换、M Boat 与 F Boat 互换、按 Input / Output Code 分别更换、末段转 Tray 出货 (Final Test); 是否需要换载具及换何种载具在站点上配置, 换载具动作在 Lot 上执行.
+- **创建载具 (Create Carrier)** : 允许用户创建 Carrier, 用户可以根据 Carrier 类型类别和 Carrier 型号创建指定数量的 Carrier; 命名规则可自定义批量创建, 也可自行创建, 也可批量导入.
+- **分配载具 (Assign Carrier)** : 允许用户将 Carrier 分配给没有 Carrier 的批次, 指定的载体必须是 Free 的, 晶片的顺序可以在该功能中更改.
+- **交换载具 (Exchange Carrier)** : 允许用户交换载具, 原始 Carrier 和交换 Carrier 应为同一类型. 扩展换载具场景: 换 Boat、换 Magazine, Magazine + Boat 组合更换、M Boat 与 F Boat 互换、按 Input / Output Code 分别更换、末段转 Tray 出货 (Final Test); 是否需要换载具及换何种载具在站点上配置, 换载具动作在 Lot 上执行.
 - **载具操作**: 支持创建、分配、释放、废弃 / 取消废弃、报废 / 取消报废、清洗、交换、调整载具.
 - **Hold/Release 载具**: 允许用户 Hold CST, CST 状态应更改为 HOLD; 允许用户放行 CST, 完成此功能后, CST 应处于 Hold 之前的状态.
-- **清洗管理 (Clean Carrier)**: 允许用户为任何 Carrier 进行清理操作, 设置完成后其状态应为 WaitClean, 完成清洗后状态应为 Free; 通过载具模型设置清洗次数或期限, 批次入 / 出机台时检查达到清洗条件时提示用户交换载具并清洗旧载具, 但不卡死本次加工; 快捷查询需清洗载具及当前存储位置; 批次长期扣留导致载具超清洗周期时, 系统自动更换载具并将过期载具送洗.
+- **清洗管理 (Clean Carrier)** : 允许用户为任何 Carrier 进行清理操作, 设置完成后其状态应为 WaitClean, 完成清洗后状态应为 Free; 通过载具模型设置清洗次数或期限, 批次入 / 出机台时检查达到清洗条件时提示用户交换载具并清洗旧载具, 但不卡死本次加工; 快捷查询需清洗载具及当前存储位置; 批次长期扣留导致载具超清洗周期时, 系统自动更换载具并将过期载具送洗.
 - **信息查询**: 允许用户查询 Carrier 的状态, 历史, 实时信息, 装载的 LotID 等, 可以根据用户选择的不同条件进行查询; 提供载具具体信息、历史、状态查询; 所有通过载具编码查询批次的功能都支持通过批次编码查询; 支持模糊查询 (文本框直接输入 \* 号等模糊字符查询); 查询结果具备分页显示.
 - **载具信息**: 含载具状态、模型、位置、最后位置、载具类型、清洗时间、载具种类、载具槽位信息等.
-- **槽位信息变更 (Change Slot Map Info)**: 允许用户更改同一 Carrier 中晶片和原始批次之间的关系.
-- **载具属性修改 (Modify Carrier Attribute)**: 允许用户修改 Carrier 的属性.
+- **槽位信息变更 (Change Slot Map Info)** : 允许用户更改同一 Carrier 中晶片和原始批次之间的关系.
+- **载具属性修改 (Modify Carrier Attribute)** : 允许用户修改 Carrier 的属性.
 - **载具类型卡控**: CST 跟 ProcessLocation 的 Mapping 关系需要可以配置, 实现流程管控中的 CST 类型防呆卡控; 支持批次类型与载具种类关联对应, 支持污染管控.
 - **载具类型**: 支持来料盒子、过程载具、送库房载具等各类载具管理.
 - **生命周期**: 对载具进行生命周期管理, 载具上有唯一码标签.
-- **PCD (载具组成)**: Carrier 需要由 Cassette/Pod/Door 作为属性组成, RFID 内写入的是 Carrier ID (RFID 安装在 Cassette 中), Cassette/Pod/Door 扫码输入, 系统以 Carrier ID 做索引; 支持清洗周期管理, 支持清洗机台的 PCD 过帐管理.
+- **PCD (载具组成)** : Carrier 需要由 Cassette/Pod/Door 作为属性组成, RFID 内写入的是 Carrier ID (RFID 安装在 Cassette 中), Cassette/Pod/Door 扫码输入, 系统以 Carrier ID 做索引; 支持清洗周期管理, 支持清洗机台的 PCD 过帐管理.
 - **载具充气 (Purge) 管理**: 支持充气 (不充气) FOUP 区分; Flow 建模中标记是否需要充气, 系统根据标记自动触发载具更换或充气动作; 载具支持清洗周期、充气状态 (Purge) 与载具更换逻辑, 清洗时间可由 EAP 自动上报更新.
 - **多重载具嵌套管理**: 支持封测领域的多重 (嵌套) 载具: Magazine 内可装载多个 Boat, Boat 内装载 Substrate; 支持按层级查看嵌套内容与逐层下钻, 并对各层载具分别做生命周期与污染度管理.
 - **Boat 槽位矩阵建模**: Boat 等载具支持 Slot Matrix 矩阵定义 (如 6 x 3 共 18 个 Substrate 槽位), 并可配置该载具类型适用的 Product 及对应 Map 坐标定义.
@@ -3826,9 +3826,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持光罩全生命周期、状态控管、检测周期及 EAP 集成.
 
-- **新增 Reticle (Add Reticle)**: 工程师可以通过特定的命名规则添加新的 Reticle ID, Pod, Film Type, Max Wafer Clean Count, Max Lot Clean Count 等等; 光罩命名方式可由用户定义, 按类型、等级管理; 属性可按业务需要定义 (类型、目录、设备类型、等级); 提供查询、新增、修改、履历维护界面.
+- **新增 Reticle (Add Reticle)** : 工程师可以通过特定的命名规则添加新的 Reticle ID, Pod, Film Type, Max Wafer Clean Count, Max Lot Clean Count 等等; 光罩命名方式可由用户定义, 按类型、等级管理; 属性可按业务需要定义 (类型、目录、设备类型、等级); 提供查询、新增、修改、履历维护界面.
 - **Hold/Release Reticle**: 工程师可以使用此功能来 Hold / Release Reticle, 用户需要输入 Hold Code / Release Code 和注释; 光罩扣留支持多重扣留, 可针对不同扣留分别释放.
-- **Return Reticle (光罩退回)**: 如果 Reticle 不再使用, 工程师可以将 Reticle ID 返回到 Reticle 版室.
+- **Return Reticle (光罩退回)** : 如果 Reticle 不再使用, 工程师可以将 Reticle ID 返回到 Reticle 版室.
 - **Scrap/UnScrap Reticle**: 工程师可以使用此功能来报废 Reticle, 用户需要输入 Scrap Code 和注释; 如果 Reticle 已经报废, 经过工程师的验证仍然可以使用, 工程师可以使用此功能来解开 Reticle.
 - **Bank In/Out Reticle**: 工程师可以使用此功能将需要的 Reticle 移动到 Mask 室; 如果经过工程师的验证 Reticle 仍然可以使用, 工程师可以使用此功能将 Reticle 从 Mask 室中取出.
 - **Modify Reticle**: 工程师可以修改 Reticle 的各种属性.
@@ -3837,7 +3837,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Reticle Pod**: 工程师可以为 Reticle 添加一个 Pod ID, Pod 信息包括 Pod ID, Pod 类型, Pod 容量, 清洁周期等; 支持与 EAP 集成的光罩盒位置管理, 支持手动移动; 光罩盒 (Reticle Pod) 清洗时间 / 清除时间管理.
 - **状态配置**: 可以通过配置方式实现各种状态和切换规则; 提供光罩状况变化、追踪及跳转控制.
 - **Reticle TrackIn/TrackOut**: 支持在特定 Litho 机台做 Reticle 的进出站过帐并记录对应历史; Lot 所需的 Reticle 进站后, Lot 才允许进站; Lot 使用的 Reticle 需要等待 Lot 出站后, 才允许出站; 支持机台最大 TrackIn 的 Reticle 数量卡控, 超出数量不允许 TrackIn.
-- **Printdown (PD 管控)**: 支持设置 PDFlag, 设置 PD 最大使用次数和有效期; Max Using Count 超限后, 卡控批次不能进站, 状态切为 WAIT_PD, Track In 后 Status 切为 IN_PD; 系统保留 Reticle 和 Reticle Pod 的状态变更历史记录.
+- **Printdown (PD 管控)** : 支持设置 PDFlag, 设置 PD 最大使用次数和有效期; Max Using Count 超限后, 卡控批次不能进站, 状态切为 WAIT_PD, Track In 后 Status 切为 IN_PD; 系统保留 Reticle 和 Reticle Pod 的状态变更历史记录.
 - **IRIS**: 支持设置 IRISFlag, 设置 IRIS 的管控 Spec, 设置 IRIS 最大曝光 Wafer 数量; 支持 IRIS 收值和判定.
 - **作业检查**: 作业时检查光罩的晶圆数量和检测时间; 检查光罩运行间隔控制 (不能连续超时使用).
 - **状态自动更新**: MES 自动更新光罩状态、位置、晶圆片计数; 支持通过所选光罩决定配方.
@@ -3862,8 +3862,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **数量与编码**: 创建 Lot 的 Qty 可以自定义; 创建 Lot ID 时可以根据 LotType 等信息自动进行编码.
 - **创建卡控**: 未到规定的下线时间不允许下线 Lot; 物料不足时, 不允许创建 Lot.
 - **StartHold**: 支持 StartHold 功能, 并且可选开启还是关闭.
-- **取消批次 (Cancel Lot Plan)**: 允许在批次未开工前取消已创建的批次; 创建的 Lot 还未下线之前, 可以取消创建 Lot, 并且 LotID 编码不会被占用.
-- **变更批次计划 (Change Lot Plan)**: 可以修改 Plan 好的 Lot 的 Lot 类型, 优先级, StartHold, Owner, CustomerID, Plan Start Day/Due Day; 所有修改需要具备历史记录.
+- **取消批次 (Cancel Lot Plan)** : 允许在批次未开工前取消已创建的批次; 创建的 Lot 还未下线之前, 可以取消创建 Lot, 并且 LotID 编码不会被占用.
+- **变更批次计划 (Change Lot Plan)** : 可以修改 Plan 好的 Lot 的 Lot 类型, 优先级, StartHold, Owner, CustomerID, Plan Start Day/Due Day; 所有修改需要具备历史记录.
 - **Lot Plan Portal 查询**: 工程师可以使用此功能查看 Lot 的详细信息, 可自定义结果排序, 可以根据用户选择的不同条件进行查询, Lot ID 条件支持同时输入逗号分隔的多个 LotID 模糊查询; 支持模糊查询与分页显示.
 - **Lot 状态管理**: Lot 还没 Process Start 的状况下可取消; 如已 Track In 状态, 取消时需有再确认提示.
 
@@ -3913,7 +3913,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **取消进站**: 允许的状况下可取消批次进站, 批次状态返回进站之前, 支持 EAP 端发起的取消批次进站.
 - **Chamber 选择**: 针对并行 Chamber 机台, MFG 可以手动选特定 Chamber 进站.
 - **出站停留配置**: 可配置批次出站后批次停留在当站或下一站.
-- **快速过站 (Process Lot)**: 支持快速过站功能, 指定 Lot 和 Lot 当前站的可用设备, 可对批次进行快速加工和过站.
+- **快速过站 (Process Lot)** : 支持快速过站功能, 指定 Lot 和 Lot 当前站的可用设备, 可对批次进行快速加工和过站.
 
 #### 6.7 预约 / 取消预约 (Reserve)
 
@@ -4041,7 +4041,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **By Lot Reassign**: 按多种条件查询和选择一个或多个 Lot, 指定目标产品 (使用产品当前激活的流程和版本), 工序和 Step 进行 Reassign, 可选择是否保留 Lot 的 Future Hold.
 - **By ProductChange Reassign**: 按 Product 查询和选择一个或多个 Lot, 指定目标产品 (使用产品当前激活的流程和版本) 进行 Reassign, 系统自动 Reassign 每个 Lot 到目标产品和流程上, 并定位到与 Lot 当前 Step Seq 相同的 Step; 如果目标产品流程上没有 Lot 对应的 Step, Reassign 失败并提示, 可选择是否保留 FutureHold.
 - **By FlowVersionUp Reassign**: 按 Product 查询和选择一个或多个 Lot 进行 Reassign, 系统自动 Reassign 每个 Lot 到目标产品和流程上, 并定位到与 Lot 当前 Step Seq 相同的 Step; 如果目标产品流程上没有 Lot 对应的 Step, Reassign 失败并提示, 可选择是否保留 FutureHold.
-- **自动 Reassign**: 支持 Lot 出站后自动执行 Reassign, 并且具备防呆卡控, 防止不具备升版条件的 Lot 错误的升版导致 MO.
+- **自动 Reassign**: 支持 Lot 出站后自动执行 Reassign, 并且具备防呆卡控, 防止不具备升版条件的 Lot 错误的升版导致 MO. Lot 跨 Plan run 时自动升版到最新的 flow 版本, 没有跨 plan 时需手动 ReAssign.
 - **当站调整**: 支持批次在当前站点进行产品、工艺流程的版本升级, 或改变产品、工艺流程.
 - **未来站点重绑定**: 支持对未来某个站点设置流程重新绑定, 进行产品、流程的版本升级或改变.
 - **NPW/PW 管理**: Change Product 时 NPW 与 PW 需分为两个功能模块, 人员权限等级不同; NPW 不需要走签核.
@@ -4263,10 +4263,10 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Recipe Mapping**: 支持 ResistNo 和 Recipe 的 Mapping, 支持 ResistNo 和 Recipe Mapping 设置的历史查询.
 - **统一查询**: 支持光阻的统一查询界面管理.
 - **状态模型**: 支持光阻的状态管理 (InUse, Empty, Defrosting, Ready, Hold); 光阻录入时的状态为 Defrosting; 光阻退冰时间到了自动变为 Ready; 光阻瓶被换到机台上 Status=InUse; 光阻报空并且没有被更换前 Status=Empty; 光阻更换后旧的光阻瓶 Status=Finish; 除 Finish 外, 其他的状态都可以切换到 Hold 状态; 光阻过期, 光阻状态自动切换为 Hold, 并备注原因是因为过期; 光阻 Release 后回到 Hold 之前的状态.
-- **退冰 (Defrost)**: 建账后自动开始退冰计时, 退冰时间到达后自动更改光阻状态并自动发送 / 显示预警; 默认优先使用退冰完成光阻, 也可手动选择; 退冰开始超过设定时间后自动扣留光阻.
+- **退冰 (Defrost)** : 建账后自动开始退冰计时, 退冰时间到达后自动更改光阻状态并自动发送 / 显示预警; 默认优先使用退冰完成光阻, 也可手动选择; 退冰开始超过设定时间后自动扣留光阻.
 - **报空处理**: 支持机台报警时自动切换为 Empty (系统集成), 支持机台报警时手动将光阻报空.
 - **新光阻录入**: 支持录入新的光阻; 支持推荐新光阻 BarcodeList (旧光阻同样 ResistNo 的 Status=Ready 的光阻瓶, 并且按照 ReceiveTime 从小到大排序).
-- **更换联动 (PR Change)**: 光阻更换后, 旧的光阻瓶 Status 变为 InUse, 并记录 EQPID 和光阻管路; 光阻过期, 需更改 MES 机台状态 (系统集成); 更换时校验新老光阻是否符合要求, 不符合则退回; 同型号按领入时间先进先出优先使用最先领入的光刻胶; 更换完成后自动更改两瓶光阻状态; 可更换单个管路光阻.
+- **更换联动 (PR Change)** : 光阻更换后, 旧的光阻瓶 Status 变为 InUse, 并记录 EQPID 和光阻管路; 光阻过期, 需更改 MES 机台状态 (系统集成); 更换时校验新老光阻是否符合要求, 不符合则退回; 同型号按领入时间先进先出优先使用最先领入的光刻胶; 更换完成后自动更改两瓶光阻状态; 可更换单个管路光阻.
 - **过期管控**: 光阻超过有效期后自动扣留.
 - **履历**: 光阻状态改变及用户操作均产生履历.
 - **用尽警示**: 机台上光阻使用完毕后警示; 使用过程可强制结束.
@@ -4413,7 +4413,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 支持 Bin 级与整批良率管控标准的定义.
 
 - **BinControlRule**: 支持 Hard Bin 与 Soft Bin 的 Limit 管控标准定义; 支持单 BIN 良率标准; 支持多 BIN 组合良率标准; 支持良率上限与下限; 支持 SBL 管控标准定义.
-- **TOTAL 良率配置 (SYL)**: 支持 SYL 管控标准定义; 支持单片良率标准; 支持整批良率标准; 支持良率上限与下限.
+- **TOTAL 良率配置 (SYL)** : 支持 SYL 管控标准定义; 支持单片良率标准; 支持整批良率标准; 支持良率上限与下限.
 - **缺陷率设置**: 缺陷率可以 By 缺陷项设置, 也可以 By 产品, 流程, 缺陷项设置.
 
 #### 17.3 测试资源与规则
@@ -4633,7 +4633,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **收料管理**: 支持在 MES 中直接创建收料单实现车间现场物料的接收; 支持收料信息直接导入线边仓; 支持收料信息直接导入辅材线边库; 通过与 ERP 系统对接, MES 自动接收 ERP 的工单发料信息, 产线物料管理人员通过扫描物料标签进行收料确认, 登记实际收料信息.
 - **发料上料**: 物料库存从线边仓发料至生产机台; 在机台, 可以利用机台上料的功能实现机台站点的物料上机; 开工单生产领料时将需要长时间回温等前期准备的物料情况考虑进去, 提前对应时长通知相关部门对物料进行回温操作; 根据生产排产要求, 产线物料管理人员通过扫描物料标签进行发料确认.
 - **退料管理**: 提供机台退料至线边仓的功能; 提供线边仓的物料退料至 ERP 大仓的功能; 根据实际生产类型包含各种形式的退库管理; 提供从机台下料的管理功能; 剩余料的退库管理.
-- **Wafer 管理 (Wafer Bank)**: 来料时, 可登记 Wafer 的客户, Lot, Cassette 等来料信息, 形成 Wafer 档案; 可记录每片 Wafer 的 Die 数; 生产投产时, 可以从 Wafer 库选择 Wafer 进行投产作业, 系统记录厂内 Wafer ID 与客户来料 Wafer ID 的关联匹配关系; 提供 Wafer 库存的实时查看, 查看厂内 Wafer 的状态; 针对 Wafer 启用 Wafer 库的管理, 实现 Wafer 的全面追溯管控.
+- **Wafer 管理 (Wafer Bank)** : 来料时, 可登记 Wafer 的客户, Lot, Cassette 等来料信息, 形成 Wafer 档案; 可记录每片 Wafer 的 Die 数; 生产投产时, 可以从 Wafer 库选择 Wafer 进行投产作业, 系统记录厂内 Wafer ID 与客户来料 Wafer ID 的关联匹配关系; 提供 Wafer 库存的实时查看, 查看厂内 Wafer 的状态; 针对 Wafer 启用 Wafer 库的管理, 实现 Wafer 的全面追溯管控.
 - **寿命时效**: 寿命模型包括物料的有效期, 可回温次数, 回温时长, 回温后可用时长等; 从物料领用或发料时, 根据物料的保管状态的变化, 记录物料的不同状态下的时长; 结合站点的 Track In 和 Track Out, 对物料的时效进行计算, 超限或超标时报错提醒并提示处理; 对存储时间敏感的物料进行存储时效管控, 时效异常时扣留物料批次并提醒; 针对关键物料提供寿命管理模型, 用于管控对于存储环境和存储时间敏感的物料, 例如粘片胶, 锡膏, 线材等.
 - **库存管控**: 支持打印物料批标签; 支持线边仓物料超期邮件提醒和线边仓库存超期颜色提醒; 支持安全库存管理; 支持线边仓盘点; 支持实时查看线边仓所有物料当前状态; 关键物料支持批次管理, 支持单件追踪; 支持线边仓库存管理.
 - **批次追溯**: 根据约定规则形成批次管理策略, 能根据批次实现物料追溯管理.
@@ -4800,10 +4800,10 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持多自动化等级定义、派工入口与物料搬送调度协同.
 
-- **自动化等级 (Auto Level: Manual/A1/A2/A3)**: 设备支持定义自动化等级 (Manual, A1, A2, A3) ; Auto Mode 基于 Port control mode, access mode 与 dispatch 状态综合计算; A3 级别支持自动派货与预约 (Reservation), 减少搬送失败率; A1/A2 与 A3 模式切换由 EAP 上报或 MES 发起并二次校验.
-- **派工入口与模式 (Dispatch)**: 支持基于 Lot 维度 (Dispatch) 与基于机台维度 (By Equipment) 两种派工入口; A3 模式下 MES 进行 Pre-check 预检查, 将可加工 Lot 列表推送给 RTD 排序; Check-in 时获取 EDC Plan, Move In 再次获取数据, Move Out 前上报, 校验 Wafer 点数一致性与 SPC 上下限并触发 Hold/OCAP. 设备侧记录晶圆数量与 MES / EAP 系统不一致时产生报警并 Hold Lot, 识别缺片 / 多片 / 错位时额外 Hold Foup.
-- **自动化模式 (Auto Mode: Manual/A1/A2/A3)**: 基于 Port control mode, access mode 与 dispatch 状态综合计算自动化等级; 支持 Manual, A1, A2, A3 模式, A3 涉及天车 (OHT) 搬送, 需在派工时指定 Port 口; 模式切换由 MES 发起或 EAP 上报, 系统二次校验确保账料一致. 支持通过网页对机台 Auto Mode 及机台状态进行批量更改.
-- **物料搬送与调度 (OHT/RTD/AMA)**: 支持天车 (OHT) 自动搬送与 RTD 排序; A3 模式下 AMA 自动 call 可加工 Lot 到 Port 口; 机台或 EAP 发起模式切换时需通知 EAP, 确保搬送与账料一致.
+- **自动化等级 (Auto Level: Manual/A1/A2/A3)** : 设备支持定义自动化等级 (Manual, A1, A2, A3) ; Auto Mode 基于 Port control mode, access mode 与 dispatch 状态综合计算; A3 级别支持自动派货与预约 (Reservation), 减少搬送失败率; A1/A2 与 A3 模式切换由 EAP 上报或 MES 发起并二次校验.
+- **派工入口与模式 (Dispatch)** : 支持基于 Lot 维度 (Dispatch) 与基于机台维度 (By Equipment) 两种派工入口; A3 模式下 MES 进行 Pre-check 预检查, 将可加工 Lot 列表推送给 RTD 排序; Check-in 时获取 EDC Plan, Move In 再次获取数据, Move Out 前上报, 校验 Wafer 点数一致性与 SPC 上下限并触发 Hold/OCAP. 设备侧记录晶圆数量与 MES / EAP 系统不一致时产生报警并 Hold Lot, 识别缺片 / 多片 / 错位时额外 Hold Foup.
+- **自动化模式 (Auto Mode: Manual/A1/A2/A3)** : 基于 Port control mode, access mode 与 dispatch 状态综合计算自动化等级; 支持 Manual, A1, A2, A3 模式, A3 涉及天车 (OHT) 搬送, 需在派工时指定 Port 口; 模式切换由 MES 发起或 EAP 上报, 系统二次校验确保账料一致. 支持通过网页对机台 Auto Mode 及机台状态进行批量更改.
+- **物料搬送与调度 (OHT/RTD/AMA)** : 支持天车 (OHT) 自动搬送与 RTD 排序; A3 模式下 AMA 自动 call 可加工 Lot 到 Port 口; 机台或 EAP 发起模式切换时需通知 EAP, 确保搬送与账料一致.
 - **多自动化等级混合产线适配**: 各产线自动化程度不一 (如 Package B 要求 Full Auto, 其余产线为 Manual / Auto1 / Auto2 / Auto3 及 EAP 形式); Auto3 需具备物流搬送与派工能力; 系统需按最高配置设计, 同时向下适配不具备该能力的产线.
 
 ### 34. 参数族管理 (Parameter Family)
@@ -4822,13 +4822,13 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持 MCP/MES/MAP 三层架构下的跨工艺段、跨厂区制造协同.
 
-- **3M 三层架构 (MCP/MES/MAP)**: 采用 MCP/MES/MAP 三层 (3M) 架构: MCP 负责客户工单拆解与跨厂区计划协同, MES 负责车间级制造工单执行与 Component 级追溯, MAP 负责 Wafer 到 Die 的映射与 Die 级追溯; 三层联动实现从客户工单到单颗 Die 的全串联一体化追溯与影响范围分析.
+- **3M 三层架构 (MCP/MES/MAP)** : 采用 MCP/MES/MAP 三层 (3M) 架构: MCP 负责客户工单拆解与跨厂区计划协同, MES 负责车间级制造工单执行与 Component 级追溯, MAP 负责 Wafer 到 Die 的映射与 Die 级追溯; 三层联动实现从客户工单到单颗 Die 的全串联一体化追溯与影响范围分析.
 - **客户工单 - 计划工单 - 制造工单多级拆解**: 承接 ERP / B2B 的客户工单, 转换为内部计划工单 (PC Work Order, Production Control), 计划工单来源可为客户订单或内部研发 / 工程 / 实验任务; 再基于大流程拆解为各工艺段的制造工单并驱动生产, 解决一般 MES 不覆盖的跨工艺段工单拆解.
 - **BOP (Bill of Process) 大流程建模**: 定义跨工艺段的大流程 (BOP, Bill of Process), 将各工艺段的 Flow 与树形原材料结构串接在一起, 作为制造工单拆解与段间衔接的依据; 区别于 MES 内部单一 Flow 概念, 颗粒度更高.
 - **跨工艺段与跨厂区协同衔接**: 支持前道 / 中道 / 后道跨工艺段、跨车间、跨厂区 (一期 / 二期) 的上下游协同与衔接; 支持同一订单在多个 Fab 间流转, 支持 Transfer Out / Transfer In 后返回原段继续加工; 由协同层解决车间级 MES 之间的协作问题.
 - **在途 / 在制 / 在库物料统筹管理**: 统筹管理在途 (客户已发货通知及预计到达时间)、在制 (车间在制品) 与在库 (原材料仓、线边仓、半成品仓、成品仓) 全部物料信息; 无在途 / 在库信息时不允许编排生产计划, 避免原材料缺料.
 - **跨工艺段物料下线与消耗模式**: 支持段间多种物料下线模式: (1) 标准原材料消耗下线; (2) 半成品直接流转不走消耗; (3) 半成品入库超时先预处理再下线; (4) 为成本核算进仓 / 换仓后重新下线; (5) 组合式下线 (多个前段半成品同时消耗, 节拍需对齐). 具体模式按客户成本核算要求配置.
-- **半成品库存超时预处理 (Re-mount)**: 半成品 / 原材料在库超过允许时间后需先做预处理才可再投产, 如先进封装的重新贴膜 (换膜) - 膜贴附时间过长会与 Die 粘连失效; 系统需支持超时判定、预处理作业登记与放行卡控.
+- **半成品库存超时预处理 (Re-mount)** : 半成品 / 原材料在库超过允许时间后需先做预处理才可再投产, 如先进封装的重新贴膜 (换膜) - 膜贴附时间过长会与 Die 粘连失效; 系统需支持超时判定、预处理作业登记与放行卡控.
 - **外部来料数据标准化治理**: 对客户 / 供应商来料数据 (尤其 Map 数据) 做标准化治理: 各客户数据格式与坐标原点不一致时, 统一转换为厂内唯一标准格式后再向下游各环节传递, 降低跨环节传递出错概率.
 - **外购来料 Map 与工程信息导入**: 支持外购 / 外协加工的芯片来料时导入随货的 Map 与工程信息 (含好 Die / 坏 Die 判定), 与客户生产指示一并纳入计划编排、生产执行与后续 Die 级追溯.
 - **APS 排产结果集成**: MCP 与 APS 排产系统集成: MCP 本身不执行排产运算, 但需承接并录入 APS 排产结果 (各段制造工单的下线时间点、完工时间点及段间 Buffer), 据此驱动各工艺段制造工单执行与进度跟踪.
@@ -4857,10 +4857,10 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持 MES 与设备自动化 (EAP) 之间的 SECS/GEM 标准通信与设备集成管理.
 
-- **通信协议 (HSMS/SECS-II)**: 支持基于 HSMS 的 SECS-II 通信与 GEM 标准接入, 支持多会话 / 多连接管理、心跳与链路状态监控, 作为 MES 与设备自动化 (EAP) 的通信基座.
+- **通信协议 (HSMS/SECS-II)** : 支持基于 HSMS 的 SECS-II 通信与 GEM 标准接入, 支持多会话 / 多连接管理、心跳与链路状态监控, 作为 MES 与设备自动化 (EAP) 的通信基座.
 - **事件与状态采集**: 实时采集设备 Collection Event, E10 设备状态与 Process State 并上报 MES, 支撑自动化派工、状态联锁与在场时间统计.
 - **远程指令**: 支持 Process Start/Stop/Abort/Pause/Resume 等远程命令经 EAP 下发至设备, 并接收执行结果回执.
-- **配方下发与校验 (PPID)**: 经 EAP 将 Logical/Physical Recipe 下发至设备并做 PPID 一致性校验, 防止错配方加工; 支持下载结果与版本记录.
+- **配方下发与校验 (PPID)** : 经 EAP 将 Logical/Physical Recipe 下发至设备并做 PPID 一致性校验, 防止错配方加工; 支持下载结果与版本记录.
 - **报警管理**: 采集设备 Alarm, 支持确认 (Acknowledge) 与履历查询; 报警可联动设备状态切换及批次 / 载具自动扣留.
 - **接口建模与适配**: 支持设备接口与 MES 对象 (站点 /Recipe/EDC) 的映射配置, 适配多供应商设备驱动, 新增机台类型可配置化接入.
 - **通信日志与重连**: 支持报文日志留存、通信中断自动重连与故障排查界面, 保证账料一致性.
@@ -4913,7 +4913,6 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **自定义报表**: 支持按批次 / 设备 / 产品 / 工序自定义报表模板与定时推送, 导出 Excel/PDF.
 - **KPI 看板**: WIP、周期时间、产出、良率、设备 OEE、交期达成等 KPI 可视化看板, 支持多维度筛选.
 - **历史数据钻取**: 支持跨对象历史数据查询、下钻与导出, 关联建模 / 作业 / 质量数据统一分析.
-
 - **图表生成**: 生成 Trend (Chart) By Machine 分类时需包含 Measure 和 Process 机台.
 
 ### 46. WIP 与周期时间管理
