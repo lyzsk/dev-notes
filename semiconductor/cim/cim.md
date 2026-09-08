@@ -1038,6 +1038,30 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **协同范围**: 支持与 MES, RMS, FDC, APC, AMS, PMS, AMHS, RCM 等CIM其他业务接口整合.
 - **接口方式**: 支持 REST/Web API, TCP/IP, DB/File 等接口方式, 具体以客户 CIM 接口规范为准.
 
+## EAP 标注
+
+### 标★
+
+★跑货流程控制:
+
+@see: ## EAP Function List → ### 1. 基本功能 → #### 1.1 跑货流程控制
+
+- EAP控制机台的通用的必有功能
+
+### 标▲
+
+▲EAP 模板管理:
+
+@see: ## EAP Function List → ### 1. 基本功能 → #### 1.2 EAP 模板管理
+
+- 内置模板越多越好, 复用性高, 覆盖更多的EAP自动化跑货场景
+
+EAP UI / 客户端 - ▲异常干预:
+
+@see: ## EAP Function List → ### 1. 基本功能 → #### 1.3 EAP UI / 客户端
+
+- EAP 单点发指令给机台，比如: 机台与EAP断连(Down机)
+
 ## EAP/FDC Phase
 
 > 按 T-n 阶段组织的 EAP/FDC 实施填写表, 聚焦 EAP 与 FDC 的机台接入实施, 供项目执行中分工填写.
@@ -2004,6 +2028,36 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 - **与泛微门户协同**: 需包含门户管理等模块协同.
 - **与帆软报表协同**: 需包含报表管理等模块协同 (预留, 优先经 MES 汇聚).
+
+## FDC 标注
+
+### 标★
+
+★参数计划配置:
+
+@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.6 参数计划配置
+
+- 涉及数据采集, by type/chamber 去采集数据属于 FDC 的核心功能, `支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理` 是用户直接需求的
+
+★图表联动与导出:
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.11 图表联动与导出
+
+- 图标联动、数据导出、数据查看，是 FDC 用户核心基础功能, 支持个性化查询 `Running Data 添加只导出列表 List 的选项, 做 Summary 的数据, 不导出全部数据.` 是用户直接需求的
+
+### 标▲
+
+▲UVA 模型管理:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.7 UVA 模型管理
+
+- 强调单模型的复用性, 可以在业务场景中复用, 省略同 type 机台重复配置
+
+▲数据采集计划复制与移转:
+
+@see: ## FDC Function List → ### 12. 数据收集 (Data Collection) → #### 12.2 数据采集计划复制与移转
+
+- 相关配置可以快速批量拷贝
 
 # RMS
 
@@ -5011,6 +5065,174 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 - **与帆软报表协同**: 需包含报表管理等模块协同.
 - **与文档档案系统协同**: 需包含文档管理、档案管理等模块协同.
 - **与电子签章平台协同**: 需包含电子签章 (CA) 等模块协同.
+
+## MES 标注
+
+### 标★
+
+★建模基础管控 (统一要求):
+
+@see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.8 建模基础管控 (统一要求)
+
+- FAB 内 MES 运行的基础
+
+★Run Card Type:
+
+@see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.1 Run Card Type
+
+- 属于制造业- 半导体领域特有的非标准处理流程，这个是 by type 的
+
+★SRC (批次科研调整 / 实验分片单):
+
+@see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.3 SRC (批次科研调整 / 实验分片单)
+
+- 属于制造业- 半导体领域特有的非标准处理流程, 这个是具体能够配置的内容
+
+★RRC (异常恢复单):
+
+@see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.4 RRC (异常恢复单)
+
+- 属于制造业- 半导体领域特有的非标准处理流程, 这个是具体能够配置的内容
+
+★NPW 定义:
+
+@see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.3 NPW 定义
+
+- FAB 内区分 PW 和 NPW 的管理, 此为针对 NPW 定义
+
+★Season (机台暖机):
+
+@see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.5 Season (机台暖机)
+
+- FAB 内, 一般先 season 暖机后, 再 monitor/run 货, 比如机台 PM 结束后必须先 season
+
+★派工与自动化模式:
+
+@see: ## MES Function List → ### 33. 派工与自动化模式
+
+- 支持 MES 切换自动化程度 (Auto1/2/3)
+
+★AGVC 模块:
+
+@see: ## MES Function List → ### 57. AGVC 模块
+
+- 用户需求 MES 中含有 AGVC 相关模块, 以适配自动化搬运场景
+
+★MCS 模块:
+
+@see: ## MES Function List → ### 58. MCS 模块
+
+- 用户需求 MES 中含有 AGVC 相关模块, 以适配自动化搬运场景
+
+### 标▲
+
+▲跨子系统统一权限平台 (UAC):
+
+@see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
+
+- 通过 SSO 单点登录，统一 UAC 管控
+
+▲多层级模块化建模:
+
+@see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.2 工艺流程建模
+
+- PTRO, product, top plan, route, oper
+
+▲多路径结构 (Multipath Flow):
+
+@see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.2 工艺流程建模
+
+- 同一条 flow, 创建不同分支, 根据工艺要求走不同的分支路径
+
+▲Recipe 与 PPID 对应:
+
+@see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
+
+- 特殊场景 Run card 中, recipe 与 PPID 可以人为指定
+
+▲ECS / 机台限制 (Tool Constraint):
+
+@see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.6 ECS / 机台限制 (Tool Constraint)
+
+- 支持多种的条件组合定义, 如产品 /Flow/LotID/LotType/StepID/Priority/StageID/Recipe/ 设备 / 腔室 /Reticle 等
+
+Reticle 管理 - ▲Reticle Group
+
+@see: ## MES Function List → ### 5. Reticle 管理
+
+- 当 reticle group 存在多 reticle 时, 默认使用第一个 reticle, 当第一个 reticle 不能使用时, 自动切换到第二个 reticle
+
+批次下线 (Wafer Start) - ▲首站 Non-Sorter 选项:
+
+@see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.3 批次下线 (Wafer Start)
+
+- 支持 MES 账上下线 (不连 EAP 情况下 / 或断连情况下), 保持帐料一致
+
+FutureHold (计划扣留) - ▲Future action:
+
+@see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.9 FutureHold (计划扣留)
+
+- Future Action 需包含 Future Change Product, Future Merge 场景下, 计划未来 lot 走向, small lot 也是一种 future split
+
+Reassign / 批次调整 - ▲By ProductChange Reassign:
+
+@see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.19 Reassign / 批次调整
+
+- 实际场景中涉及不同工艺线, 需要切换 flow, 不再重新下线 (不会上传 ERP)
+
+▲RC Q-Time:
+
+@see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.5 RC Q-Time
+
+- Run card 情境下存在用户需求计算 Q-Time
+
+Equipment Monitor (机台监控) - ▲源批管理:
+
+@see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.1 Equipment Monitor (机台监控)
+
+- 用户提出在 NPW 再使用过程中, 根据设定的次数, 自动更新使用次数、回收次数
+
+▲Pi-Lot 定义和执行:
+
+@see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.1 Pi-Lot 定义和执行
+
+- 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
+
+▲Pi-Run 试跑模式:
+
+@see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.2 Pi-Run 试跑模式
+
+- 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
+
+▲Pi-Run 试跑单设定:
+
+@see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.3 Pi-Run 试跑单设定
+
+- 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
+
+▲治具管理:
+
+@see: ## MES Function List → ### 19. 治具管理
+
+- 封装测试场景下, 对治具全生命周期管理, 比如 prober card
+
+▲特殊材料管控 (锡膏、光刻胶):
+
+@see: ## MES Function List → ### 20. 物料及 BOM 管理 → #### 20.4 特殊材料管控 (锡膏、光刻胶)
+
+- 耗材相关全生命周期管理
+
+▲Wafer Mapping 管理:
+
+@see: ## MES Function List → ### 25. Wafer Mapping 管理
+
+- 方便图形化追溯 wafer to die level 的 wafer 情况
+
+▲MAP 模块 (Die 级追溯):
+
+@see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
+
+- die level 的全生命周期
 
 ## MES Phase
 
