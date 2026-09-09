@@ -74,7 +74,8 @@ Computer Integrated Manufacturing(计算机集成制造)
 | 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
 | 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
 | 智能调度与物流   | RTD, AMA                | RTD 组   |
-| 工程与质量管理   | YMS, DMS, RPT, FMS      | YMS 组   |
+| 工程与质量管理   | YMS, DMS, RPT, FMS, QMS | YMS 组   |
+| 实验室管理       | LIMS                    | Others组 |
 
 ## 一个平台、四大能力、五层架构
 
