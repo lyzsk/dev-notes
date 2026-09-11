@@ -116,3 +116,22 @@
     color: #fcfbff;
     background-color: #c99df8;
 }
+/* 评审配色 */
+/* 深蓝经典 —— Lancet 组3 */
+.color {
+    color: #013978;
+    color: #045199;
+    color: #1b6baf; /* ← 表头配色 */
+    color: #4c8cc3;
+    color: #a1c3e2;
+    color: #ddebf6;
+}
+/* 医学红 —— NEJM 组4 */
+.color {
+    color: #ac311f;
+    color: #c3412b;
+    color: #d8694f;
+    color: #e5937a;
+    color: #ecb099;
+    color: #f7dabf;
+}
