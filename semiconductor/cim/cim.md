@@ -9490,3 +9490,13 @@ SWIR 器件 (Short-Wave Infrared 探测器 / 传感器)
 机台有 千兆 / 万兆, 机台都是网线不是光纤
 
 FAB DC 和 (Dev UAT PRD) 是 1:1
+
+#
+
+MES, EAP, FDC, PMS 根据 tool type 和数量, 一般基于 license 百分比 + tool
+
+MES license+tool+ 服务 一般是 1:1
+
+RMS 根据 recipe 格式复杂度
+
+APC 主要是 LITHO ETCH CMP 前道
