@@ -2101,7 +2101,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 支持 Recipe/Sequence 的全生命周期管控, 涵盖版本管理、比对校验、批量作业及历史追溯, 确保生产配方的准确性与一致性.
 
-- **管控列表与 ByPass**: 支持设定 Recipe/Sequence 管控列表 (Under Control 列表), 默认纳入管控;支持设定 ByPass Recipe, 此类 Recipe 不进行比对;支持设置 SubRecipe 是否进行卡控; 支持 Bypass, Cancel Bypass, Delete 所选中程序.
+- **管控列表与 ByPass**: 支持设定 Recipe/Sequence 管控列表 (Under Control 列表), 默认纳入管控;支持设定 ByPass Recipe, 此类 Recipe 不进行比对;支持设置 SubRecipe 是否进行卡控; 未纳入管控的程序可按 Lot Type 施加卡控; 支持配置 Recipe 运行完毕后是否自动从机台删除; 支持 Bypass, Cancel Bypass, Delete 所选中程序.
 - **设备程序类型**: 支持设备程序类型的统一分类设定 (如 Standard Recipe - Full Body), 为配方管理提供基础分类依据.
 - **程序列表获取**: 支持从设备端获取程序列表.
 - **多种比对方式**: 支持 Recipe FullBody, CheckSum, Recipe Parameter, Recipe 修改时间等多种形式的比较;支持字符串、整数、小数等多种数据类型;支持 Recipe Binary Body 的分析与解析; 支持 Recipe Parameter 的 Absolute, ByRange, ByTolerance, ByList 比较类型.
@@ -2114,7 +2114,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Recipe Key Param Spec**: 支持根据机型设置 Key Param 的 Spec 范围, Spec 设置方式有 ByRange, ByTolerance, 公式; 支持 Load Recipe 时自动套用 Key Param Spec.
 - **Strict Parameter**: 支持预设锁定严格检查参数, 设定的参数不允许 Uncheck.
 - **Uncheck Param List**: 支持根据设备机型设置 Uncheck 的参数; 支持 Load Recipe 的时候自动把不需要 Check 的参数 Uncheck.
-- **校验与异常处理**: 支持 Recipe/Sequence 校验, 以及校验失败邮件通知等相关的异常处理流程.
+- **校验与异常处理**: 支持 Recipe/Sequence 校验, 以及校验失败邮件通知等相关的异常处理流程; 校验或比对失败时向 AMS 发出告警, 并可对相关设备与 Recipe 施加 Hold.
 - **上传下载与备份**: 支持系统与设备之间下载与上传 Recipe/Sequence;支持设备 Recipe/Sequence Spec 批量备份到系统以及批量下载至设备;支持 Recipe 批量共享; 支持从设备上传程序并查看程序大小.
 - **Recipe Download**: 支持同型号设备中 Active 程序 Download 到指定设备, 支持批量 Download 本设备 Active 程序; 支持同型号设备中 Active 主程序及 Active 子程序 Download 到指定设备.
 - **批量加载**: 支持批量加载 Recipe, 可选择每次加载数目.
@@ -2122,6 +2122,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Batch Set Active**: 支持根据区域, 设备类型或设备查看所有能够 Set Active 版本的 Standard Recipe 和 Sequence Sub Recipe; 支持批量选中多个程序 Set Active, 如整合签核系统则产生一张签核审批单.
 - **Sequence Recipe 管理**: 支持从设备上传主程序, 设定子程序是否比较, 手动设定 Sequence Parameter 规范, 通过模板复制或 Excel 导入主程序参数规范; 支持从设备上传子程序, 手动设定子程序参数规范; 支持主程序与子程序的版本操作 (Set Frozen, Audit against EQP, Set Active, Approve, Deactivate).
 - **导入导出**: 支持 Recipe 导入导出功能, 并实施严格的权限管控.
+- **Pilot Run 验证**: 支持重要管控规则变更前在小范围设备与 Recipe 上先行验证 (Pilot Run), 验证期间不影响其余设备与 Recipe 的正常使用; 提供 Pilot 验证结果的确认与转正式生效路径.
 - **查询与排序**: 支持各项排序;支持不同条件下查询 Recipe/Sequence 的版本变更历史详情及校验历史; 支持根据区域, 设备类型或设备查看所有程序状态, 支持根据关键字模糊查询相关程序.
 
 #### 1.2 Golden Recipe
@@ -2182,15 +2183,11 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 #### 2.2 系统管理
 
-支持用户权限、安全策略、日志及高可用架构等系统级管理功能.
+支持比对方式配置、用户权限及高可用架构等系统级管理功能.
 
 - **比对方式配置**: 支持设置程序比较方式 (FullBody/CheckSum/Parameter 等).
 - **用户组与权限**: 支持设定不同级别的用户组, 管控用户对界面的操作权限及对设备的操作权限;支持设备关联用户 / 用户组;支持一个用户属于多个用户组.
-- **用户管理**: 支持对用户状态的修改;支持用户子管理员, 可创建不高于自身权限的用户;支持用户修改密码、管理员重置密码, 所有密码加密保存.
-- **会话管理**: 支持查询用户登入登出记录;支持用户无操作自动登出, 登出时间可配置.
-- **日志管理**: 支持配置所有日志保存时间.
 - **高可用架构**: 支持 RMS Server 之间的网络负载均衡 (NLB) 的 Failover 功能.
-- **数据库兼容**: 支持 Oracle, PostSql 等主流数据库.
 
 # RCM
 
