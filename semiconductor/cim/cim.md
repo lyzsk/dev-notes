@@ -39,7 +39,7 @@ Computer Integrated Manufacturing(计算机集成制造)
 | 7    | APC  | Advanced Process Control               | 先进过程控制     | 日常涉及前馈 / 反馈控制模型运行、工艺参数自动调优、Run-to-Run 控制、虚拟量测预测、控制效果验证等场景, 实现工艺质量的自适应闭环调控                               |
 | 8    | DMS  | Defect Management System               | 缺陷管理系统     | 日常涉及晶圆缺陷数据与图像采集、缺陷自动分类、缺陷图生成、缺陷分析、重复缺陷识别等数字化流程, 为良率分析提供结构化缺陷数据基础                                   |
 | 9    | YMS  | Yield Management System                | 良率管理系统     | 日常涉及良率数据整合、多维度良率分析、低良率批次追溯、良率与工艺关联挖掘、良率趋势监控、改善措施追踪等数字化流程, 支撑良率持续提升的大数据决策                   |
-| 10   | PMS  | Preventive Maintenance System          | 设备维修保养系统 | 日常涉及机台保养计划制定、Check List 派发与执行派发与执行、备件更换记录、保养结果确认、机台维保数据等全流程数字化管理                                            |
+| 10   | PMS  | Preventive Maintenance System          | 预防性维护系统   | 日常涉及机台保养计划制定、Check List 派发与执行派发与执行、备件更换记录、保养结果确认、机台维保数据等全流程数字化管理                                            |
 | 11   | AMS  | Alarm Management System                | 告警管理系统     | 日常涉及告警规则配置、多源告警聚合、分级通知推送、告警确认与处理、历史告警查询、告警趋势分析与处理、历史告警查询、告警趋势分析等场景, 实现异常事件的统一闭环管理 |
 | 12   | RPT  | Reporting System                       | 报表系统         | 日常涉及自定义报表设计、定时报表生成、多维度数据提取、报表订阅与分发、历史数据导出等流程数字化, 满足各子系统和各层级用户的数据查询与分析需求                     |
 | 13   | FMS  | Factory Monitoring Sytem               | 工厂监控系统     | 日常涉及产线实时状态可视化、关键 KPI 看板展示、设备监控、异常滚动播报等场景, 为各层级用户提供即时洞察和高效运营的能力                                            |
@@ -59,7 +59,7 @@ Computer Integrated Manufacturing(计算机集成制造)
 - MES(Manufacturing Execution System): 制造执行系统
 - SPC(Statistical Process Control): 统计过程控制
 - AMS(Alarm Management System): 告警管理系统
-- PMS(Preventive Maintenance System): 设备维修保养系统
+- PMS(Preventive Maintenance System): 预防性维护系统
 
 - RTD(Real-Time Dispatching): 实时派工系统
 - AMA(Activity Management of Full-Automation): 全自动化控制平台
@@ -3078,6 +3078,8 @@ BOM 结构形式: 通常是树状层级结构 (多级 BOM), 反映了产品的�
 | PRMS         | PhotoResist Management System     | 光刻管理系统         |
 | WIPM         | Wafer in Process Management       | 晶圆过程控制系统     |
 
+重工不合格 Die (拆批) 一般指拆批后 run 一个重工（返工）流程。(把不合格的拆出来重工或重测)
+
 ## MES interview
 
 ### 1.【概念】MES 在 CIM 中的位置?与 EAP, RMS, RTD 的分工?
@@ -5338,6 +5340,10 @@ MOXA 布点, 弱电, 拿到 Tool list 后就可以确认
         - 过程能力指数(Cp 和 Cpk)表示的是过程在稳定状态下能使其产出品达到可接受标准的程度的指标, 也可以理解为过程的"潜在"能力. 因为 Cp 和 Cpk 体现的是稳定状态下过程的潜在能力, 因此 Cp 和 Cpk 可以用来预测该过程将来在现有过程条件下的最好的情况.
 
         - 过程绩效指数(Pp 和 Ppk)则是过程在过去某个观察时段内的实际绩效, 即是该过程的已经产生的产出品实际达到可接受标准的情况. 由于 Pp 和 Ppk 是体现过程在过去的某个时段的绩效, 所以 Pp 和 Ppk 被称为"过程绩效指数". 也正因如此, Pp 和 Ppk 仅代表过程过去的情况, 并不能用来预测过程将来的状态.
+
+SYL 是 统计良率 limit
+
+SBL 是 统计 Bin 的 Limit
 
 ## SPC interview
 
