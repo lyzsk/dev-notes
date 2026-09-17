@@ -135,3 +135,31 @@
     color: #ecb099;
     color: #f7dabf;
 }
+/* 明亮橙 - Wong 组6 */
+.color {
+    color: #df8a03;
+    color: #e79307;
+    color: #e99708;
+    color: #f4c06b;
+    color: #fad8a3;
+    color: #fdebcf;
+}
+/* 突出差异 - Diverging 组8 */
+.color {
+    color: #750216;
+    color: #e2ada3;
+    color: #f8ebe9;
+    color: #ffffff;
+    color: #e4ebf4;
+    color: #9dbcdd;
+    color: #02488e;
+}
+/* 中性灰阶 - Medical 组9 */
+.color {
+    color: #626262;
+    color: #979797;
+    color: #b4b4b4;
+    color: #c4c4c4;
+    color: #dcdcdc;
+    color: #f2f2f2;
+}
