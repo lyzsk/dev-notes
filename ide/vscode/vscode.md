@@ -32,7 +32,7 @@ VSCode 配置:
 5. Vue Official
 6. Vite
 7. Markdown Preview Mermaid Support
-8. Fitten Code
+ <!-- 8. Fitten Code -->
 
 ---
 
