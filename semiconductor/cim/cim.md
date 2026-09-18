@@ -939,7 +939,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
     - 支持 Alarm Set/Clear 成对上报.
     - 支持 Remote Command START, STOP, PAUSE, RESUME, ABORT 等命令及 ACK 处理.
 - **配置化管理**:
-    - 机台事件动态配置, 系统信息配置管理, 均通过 ini 文件进行配置.
+    - 机台事件动态配置, 系统信息配置管理, 均通过配置文件进行配置.
     - 设备初始化以及工艺前校验模块的配置管理.
     - 可配置的 EAP Scenario, 实现逻辑与功能分离; 支持 EAP Scenario 的图形化配置, 显示和修改.
     - 支持异常流程, 动态事件配置, Port/Chamber/Recipe 路径配置, Inline 多设备配置.
