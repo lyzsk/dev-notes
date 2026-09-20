@@ -6772,7 +6772,37 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 ### 标★
 
+★使用情况保养:
+
+@see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.2 保养类型与触发机制
+
+- 中试线负载波动大, 按实际使用量 (Wafer Count / RFTM) 触发比固定日历更贴合磨损; 数据依赖 EAP 实时采集
+
 ### 标▲
+
+▲Trigger参数:
+
+@see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.3 维修保养管理建立 (PM 模板与计划配置)
+
+- PM Trigger 的递增性 / 替换性参数是大小 PM 撞期时自动 Reset 计数、只做一次大 PM 的配置基础
+
+▲趋势分析:
+
+@see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.4 PM Checklist 建立与管理
+
+- Checklist 采集值具备 Report 趋势图, 便于观察设备状态劣化趋势
+
+▲合并执行:
+
+@see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.7 维修保养执行
+
+- 周保养与月保养撞期时合并执行, 避免同一台设备一周内停机两次
+
+▲Parts 领入 (配件录入):
+
+@see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.1 Parts 领入 (配件录入)
+
+- 备件领入即生成唯一识别号, 是 Parts 全生命周期跟踪 (使用/循环/报废) 的起点
 
 # RTD
 
