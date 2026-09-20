@@ -5657,6 +5657,7 @@ SBL 是 统计 Bin 的 Limit
 - **目标 CPK 设定**: 支持按参数、Channel(数据采集维度)、CKC 维度设定目标 CPK.
 - **判异准则与 Action**: 支持按照图表设置判异准则和 Action(Email/Hold Lot/Down EQP/OCAP 等), 支持按优先级触发 OCAP, Action 支持客制化扩展.
 - **建模数据管理**: 支持复制其他参数的 Channel, CKC 信息、规则、控制限; 支持参数、Channel(数据采集维度)、Chart 三层建模数据的基本属性继承.
+- **签核协同**: 支持 Chart 参数、SPEC 等值的修改与签核业务接口整合.
 
 #### 1.3 管控维度 (Channel)
 
