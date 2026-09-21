@@ -2254,12 +2254,6 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ### 标▲
 
-▲:Recipe 管理 /Pilot Run 验证:
-
-@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
-
-- 支持 Pilot 转正式的策略
-
 ▲:Recipe 解析模板库:
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.4 Recipe 解析模板库
