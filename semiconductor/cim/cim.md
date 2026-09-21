@@ -2062,19 +2062,19 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ★PT 中间件:
 
-@see:
+@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.10 PT 中间件
 
 - EAP 和 FDC 数据分流基础，必备模块
 
 ★系统模块:
 
-@see:
+@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.11 系统模块
 
 - for FDC/EAP/MES 定制开发需求
 
 ★工厂信息维护:
 
-@see:
+@see: ## FDC Function List → ### 3. 设备管理 (Equipment Management) → #### 3.1 工厂信息维护
 
 - 支持多 fab/ 产线使用,且互不影响
 
@@ -2247,6 +2247,12 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - EC 设定须有复用性，支持导入导出
 
 ### 标▲
+
+▲:Recipe 管理 /Pilot Run 验证:
+
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
+
+- 支持 Pilot 转正式的策略
 
 ▲:Recipe 解析模板库:
 
@@ -5194,7 +5200,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 - **AI 优化与决策**: <mark> 卡控规则松紧调优:基于卡控触发履历与后续实际结果做规则自评估，反推 Tool Constraint 阈值过紧或过松，并借复制与模拟验证。数据：ECS / 机台限制的卡控触发记录、报废与异常履历.</mark>
 - **AI 优化与决策**: <mark> EDC 采样参数与点位智能生成: 由历史量测与工艺参数的相关性反推该站点有区分度的参数，并推荐测哪片、测几个点。数据：EDC Plan 的站点设定与 Wafer / Site 级采样与点位挑选、选片规则、量测站点与工艺站点 Mapping.</mark>
 - **AI 诊断与归因**: <mark> Rework 与 Loop 异常预警: 识别返工与循环次数异常偏高的批次、站点与产品，输出返工根因线索与超限预警.数据：Rework 流程维度、Loop Control 循环控制、RRC 异常恢复单与返工履历.</mark>
-- **vFAB 北向接口预留**: <mark> 包括但不限于 Hold/Release, OCAP 触发与关闭、RRC/SRC 单据流转、派工模式切换、WIP 在制查询等接口预留.</mark>
+- **vFAB 北向接口预留**: <mark> 事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Hold/Release, OCAP 触发与关闭、RRC/SRC 单据流转、派工模式切换、WIP 查询等).</mark>
 
 ## MES 标注
 
@@ -5934,7 +5940,7 @@ SBL 是 统计 Bin 的 Limit
 
 ▲非侵入式变更:
 
-@see:
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 -
 
@@ -5946,7 +5952,7 @@ SBL 是 统计 Bin 的 Limit
 
 ▲Context 过滤定义:
 
-@see:
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 -
 
@@ -6989,6 +6995,12 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.4 PM Checklist 建立与管理
 
 - Checklist 采集值具备 Report 趋势图, 便于观察设备状态劣化趋势
+
+▲时间预测:
+
+@see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.6 保养计划规划 (排程与预警通知)
+
+- 按参数收值速率预测保养时间, 提前排程减少非计划停机
 
 ▲合并执行:
 
