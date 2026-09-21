@@ -1607,6 +1607,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **差异化采样**: 不同 Sensor 或不同 Step 可以设置不同的采样频率.
 - **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集.
 - **追踪数据汇总计算**: 支持 20+ 种 Summary Type (Min/Max 等) 对 Trace Data 进行实时汇总 (Trace Summary 和 Trace Time Summary) 运算, 支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理.
+- **支持Inline Tool**: 支持 Track, Scanner Inline 设备收值.
 
 #### 4.7 通信协议
 
@@ -1898,6 +1899,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **多数据库支持**: 核心业务数据库需兼容主流关系型数据库 (如 Oracle, PostgreSQL, SQLServer), 不绑定单一数据库厂商.
 - **开放 Schema**: 开放 DB Schema.
 - **Rawdata 存储**: 支持 Rawdata 分表存储, 文件存储;支持数据存储分级 (如最近 2 天, 一个月内, 六个月内, 一年内) 与高效的数据清理及恢复机制, 保障系统性能不随时间推移而下降. Raw Data 与统计数据需分开管理.
+- **数据归档服务**: 提供数据库归档策略.
 
 #### 11.5 运行环境
 
@@ -2058,7 +2060,31 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - 图标联动、数据导出、数据查看，是 FDC 用户核心基础功能, 支持个性化查询 `Running Data 添加只导出列表 List 的选项, 做 Summary 的数据, 不导出全部数据.` 是用户直接需求的
 
+★PT 中间件:
+
+@see:
+
+- EAP 和 FDC 数据分流基础，必备模块
+
+★系统模块:
+
+@see:
+
+- for FDC/EAP/MES 定制开发需求
+
+★工厂信息维护:
+
+@see:
+
+- 支持多 fab/ 产线使用,且互不影响
+
 ### 标▲
+
+▲规格体系与自动限值:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.6 规格体系与自动限值
+
+- 防止配置变更导致数据丢失
 
 ▲UVA 模型管理:
 
@@ -2204,57 +2230,51 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ★:Recipe 管理 / 多种比对方式:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - RMS 比对通用功能，必须满足
 
 ★:Recipe 管理 /Spec 模板与批量设定
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 需要支持模板复用，SPEC 批量设定，设定需具有灵活性，减少人为工作量
 
 ★:Recipe 管理 / 校验与异常处理:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 必须支持 Recipe 校验不通过后的异常处置，联动其他系统作出对应的 Action
 
 ★:EC 管理 (Equipment Constant)/ 多设备共享:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.3 EC 管理 (Equipment Constant)
 
 - EC 设定须有复用性，支持导入导出
 
 ### 标▲
 
-▲:Recipe 管理 /Pilot Run 验证:
+▲:Recipe 解析模板库:
 
-@see:
-
-- 支持 Pilot 转正式的策略
-
-▲:Recipe 管理 / Recipe 解析模板库:
-
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.4 Recipe 解析模板库
 
 - 提供多种机型的解析模板库，方便新机型的快速适配
 
 ▲:签核业务接口整合:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.1 签核业务接口整合
 
 - 支持内部外部签核，批量签核，可视化签核
 
 ▲:系统管理 / 比对方式配置:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 支持默认比对方式可配置化
 
 ▲:系统管理 / 高可用架构:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 防止单点故障，需支持高可用架构（分发和双活）
 
@@ -5190,7 +5210,13 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.8 建模基础管控 (统一要求)
 
-- FAB 内 MES 运行的基础
+- FAB 内 MES 运行的基础，MES 与其他系统协同运行时需要有统一的基础数据建模
+
+批次与载具关联管理 - ★装载规则:
+
+@see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.4 批次与载具关联管理
+
+- 中试线多 Lot 在同一个载具的场景比较多，且载具数量有限，需要有此功能
 
 ★Run Card Type:
 
@@ -5242,7 +5268,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 ### 标▲
 
-▲跨子系统统一权限平台 (UAC):
+用户组与权限管理 - ▲统一权限认证:
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
 
@@ -5271,6 +5297,18 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.6 ECS / 机台限制 (Tool Constraint)
 
 - 支持多种的条件组合定义, 如产品 /Flow/LotID/LotType/StepID/Priority/StageID/Recipe/ 设备 / 腔室 /Reticle 等
+
+载具管理 - ▲交换载具 (Exchange Carrier):
+
+@see: ## MES Function List → ### 4. 载具管理
+
+- Lot 会在多平台业务之间流转，不重新下线时需要有更换载具的功能
+
+载具管理 - ▲多重载具嵌套管理:
+
+@see: ## MES Function List → ### 4. 载具管理
+
+- 支持 Magazine→Boat→Substrate 的多层嵌套载具，因为封测现场的物流、追溯和作业都以载具层级实际发生——只有 1:1 映射嵌套关系并分层管控载具寿命与污染度，才能保证批次追溯不断链、交叉污染可防可控、设备自动化与批量过站高效账实一致
 
 Reticle 管理 - ▲Reticle Group
 
@@ -5343,6 +5381,12 @@ Equipment Monitor (机台监控) - ▲源批管理:
 @see: ## MES Function List → ### 25. Wafer Mapping 管理
 
 - 方便图形化追溯 wafer to die level 的 wafer 情况
+
+▲制造协同 (MCP):
+
+@see: ## MES Function List → ### 36. 制造协同 (MCP)
+
+- 跨工艺段、跨车间、跨厂区的平台业务员，客户的订单要拆成各段工单、料要在多个产线之间流转、质量要能一路追到单颗 Die
 
 ▲MAP 模块 (Die 级追溯):
 
@@ -5861,95 +5905,95 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标★
 
-★数据采集:
+★多源数据监控:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域支持数据采集 (Inline), 设备日常点检数据 (Offline), Reticle, Carrier 及厂务数据属于必须具备的数据源
 
 ★采集方式:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域存在 EAP 数据上传，厂务环境数据需要手动上传，进行解析文件
 
 ★判异准则与 Action:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 数值异常需要触发对应的 action，反馈给 MES 进行相关的处理
 
 ★上下限判异:
 
-@see: 
+@see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 数值异常或超出上下限需要能触发对应的 action，反馈给 MES 进行相关的处理
 
 ★OCAP 联动:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - SPC 的异常数据能触发 OCAP action，生成 OCAP 信息
 
-
 ### 标▲
+
 ▲特殊点排除:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - SRC、加量、重量的点不能用于正常点位计算
 
 ▲违规告警邮件:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - chart 中数值违规，例如 OOS, OOC, OOW 需要支持邮件通知，能通知用户及时进行处理
 
 ▲PM 后特殊管控:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 机台 PM 后的管控 Spec 会跟平时的 Spec 不一样，需要针对 PM 后的点位有特殊的 Spec
 
-▲SPC 判异规则 - 二次开发:
+SPC 判异规则 - ▲二次开发:
 
-@see: 
+@see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 针对多个机台会存在不一样的判断条件，需要客制化开发 rule
 
 ▲设备状态叠加:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
-- 
+-
 
 ▲数据点详情:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将数据点的详情展示出来，供用户核对信息
 
 ▲统计指标显示:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将 chart 的信息进行计算，能有各种计算值，针对不同的信息可以查看对应的计算值
 
 ▲定期统计:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据会用于数据报表分析，可以 by 多种维度
 
 ▲数据过滤:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据支持不需要计算进去的点数据过滤，能将用户判定出来的异常点过滤
 
 ▲签核协同:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.3 ACL 计算
 
 - 数据需要支持签核业务协同
 
