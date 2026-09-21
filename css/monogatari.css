@@ -163,3 +163,8 @@
     color: #dcdcdc;
     color: #f2f2f2;
 }
+/* shhxinyuan标题配色 */
+/* PPT 页标题固定值 #1B6BAF(= Lancet 组3 表头色) 微软雅黑 28 bold —— 建设方案模板 master3 定稿, 所有 PPT 页标题统一此值 */
+.color {
+    color: #1b6baf; /* ← PPT 页标题 */
+}

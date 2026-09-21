@@ -2060,6 +2060,12 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ### 标▲
 
+▲规格体系与自动限值:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.6 规格体系与自动限值
+
+- 
+
 ▲UVA 模型管理:
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.7 UVA 模型管理
@@ -2204,25 +2210,25 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ★:Recipe 管理 / 多种比对方式:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - RMS 比对通用功能，必须满足
 
 ★:Recipe 管理 /Spec 模板与批量设定
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 需要支持模板复用，SPEC 批量设定，设定需具有灵活性，减少人为工作量
 
 ★:Recipe 管理 / 校验与异常处理:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 必须支持 Recipe 校验不通过后的异常处置，联动其他系统作出对应的 Action
 
 ★:EC 管理 (Equipment Constant)/ 多设备共享:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.3 EC 管理 (Equipment Constant)
 
 - EC 设定须有复用性，支持导入导出
 
@@ -2230,31 +2236,31 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ▲:Recipe 管理 /Pilot Run 验证:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 支持 Pilot 转正式的策略
 
-▲:Recipe 管理 / Recipe 解析模板库:
+▲:Recipe 解析模板库:
 
-@see:
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.4 Recipe 解析模板库
 
 - 提供多种机型的解析模板库，方便新机型的快速适配
 
 ▲:签核业务接口整合:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.1 签核业务接口整合
 
 - 支持内部外部签核，批量签核，可视化签核
 
 ▲:系统管理 / 比对方式配置:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 支持默认比对方式可配置化
 
 ▲:系统管理 / 高可用架构:
 
-@see:
+@see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 防止单点故障，需支持高可用架构（分发和双活）
 
@@ -5191,6 +5197,12 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 - FAB 内 MES 运行的基础
 
+批次与载具关联管理 - ★装载规则:
+
+@see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.4 批次与载具关联管理
+
+- 
+
 ★Run Card Type:
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.1 Run Card Type
@@ -5241,7 +5253,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 ### 标▲
 
-▲跨子系统统一权限平台 (UAC):
+用户组与权限管理 - ▲统一权限认证:
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
 
@@ -5270,6 +5282,18 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.6 ECS / 机台限制 (Tool Constraint)
 
 - 支持多种的条件组合定义, 如产品 /Flow/LotID/LotType/StepID/Priority/StageID/Recipe/ 设备 / 腔室 /Reticle 等
+
+载具管理 - ▲交换载具 (Exchange Carrier):
+
+@see: ## MES Function List → ### 4. 载具管理
+
+- 
+
+载具管理 - ▲多重载具嵌套管理:
+
+@see: ## MES Function List → ### 4. 载具管理
+
+- 
 
 Reticle 管理 - ▲Reticle Group
 
@@ -5343,11 +5367,23 @@ Equipment Monitor (机台监控) - ▲源批管理:
 
 - 方便图形化追溯 wafer to die level 的 wafer 情况
 
+▲制造协同 (MCP):
+
+@see: ## MES Function List → ### 36. 制造协同 (MCP)
+
+- 
+
 ▲MAP 模块 (Die 级追溯):
 
 @see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
 
 - die level 的全生命周期
+
+MAP 模块 (Die 级追溯) - ▲多载体 Map 类型支持:
+
+@see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
+
+- 
 
 ## MES Phase
 
@@ -5859,33 +5895,33 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标★
 
-★数据采集:
+★多源数据监控:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域支持数据采集 (Inline), 设备日常点检数据 (Offline), Reticle, Carrier 及厂务数据属于必须具备的数据源
 
 ★采集方式:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域存在 EAP 数据上传，厂务环境数据需要手动上传，进行解析文件
 
 ★判异准则与 Action:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 数值异常需要触发对应的 action，反馈给 MES 进行相关的处理
 
 ★上下限判异:
 
-@see: 
+@see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 数值异常或超出上下限需要能触发对应的 action，反馈给 MES 进行相关的处理
 
 ★OCAP 联动:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - SPC 的异常数据能触发 OCAP action，生成 OCAP 信息
 
@@ -5893,61 +5929,61 @@ SBL 是 统计 Bin 的 Limit
 ### 标▲
 ▲特殊点排除:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - SRC、加量、重量的点不能用于正常点位计算
 
 ▲违规告警邮件:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - chart 中数值违规，例如 OOS, OOC, OOW 需要支持邮件通知，能通知用户及时进行处理
 
 ▲PM 后特殊管控:
 
-@see: 
+@see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 机台 PM 后的管控 Spec 会跟平时的 Spec 不一样，需要针对 PM 后的点位有特殊的 Spec
 
-▲SPC 判异规则 - 二次开发:
+SPC 判异规则 - ▲二次开发:
 
-@see: 
+@see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 针对多个机台会存在不一样的判断条件，需要客制化开发 rule
 
 ▲设备状态叠加:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 
 
 ▲数据点详情:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将数据点的详情展示出来，供用户核对信息
 
 ▲统计指标显示:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将 chart 的信息进行计算，能有各种计算值，针对不同的信息可以查看对应的计算值
 
 ▲定期统计:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据会用于数据报表分析，可以 by 多种维度
 
 ▲数据过滤:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据支持不需要计算进去的点数据过滤，能将用户判定出来的异常点过滤
 
 ▲签核协同:
 
-@see: 
+@see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.3 ACL 计算
 
 - 数据需要支持签核业务协同
 
