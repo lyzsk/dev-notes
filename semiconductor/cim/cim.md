@@ -5820,7 +5820,7 @@ SBL 是 统计 Bin 的 Limit
 - **图表样式管理**: 支持按参数、Channel, Chart 等多个维度设置图表显示样式; 支持设置点的形状、大小、颜色等样式, 包含正常点、异常点、备注点等; 支持设置线的类型、粗细、颜色等样式, 包含 USL, LSL, UCL, LCL 等; 支持设置箱线图点位偏移量, 让重叠数据左右偏移.
 - **OCAP 联动**: 异常数据可根据 OCAP No 链接到 OCAP 系统;提供接口支持外部系统访问 SPC Chart 和数据点, 点击 OCAP 信息链接可进入 SPC 相关 OOC/OOS 点界面; 支持选择数据点手动触发 OCAP, 并支持从异常点跳转至 OCAP 处理页.
 - **批量查看与导图**: 支持批量查 Chart, 定时导图的功能.
-- **设备状态叠加**: Chart 上可勾选显示 Tool EQP Status 异常变化的时间点 (DOWN/PM 等).
+- **设备状态叠加**: Chart 上可勾选显示 Tool EQP Status 异常变化的时间点 (类似 DOWN/PM 后 Monitor 量测值).
 - **Sample History**: 支持 Sample History 功能, 支持跨 LDS 搜索.
 - **母子 Chart 联动**: 支持在母 Chart 上查看子 Chart 的违规信息.
 - **Control Limit 试算与推荐**: 支持手动计算 Control Limit, 计算出来的 Limit 可编辑, 可手动接收或拒绝;支持新 Limit 的模拟分析, 并用不同颜色显示模拟后的分析结果 (如模拟前后均无异常显示为蓝色); 支持基于当前 Chart 数据推荐控制限, 计算公式为 Avg±3Sigma.
