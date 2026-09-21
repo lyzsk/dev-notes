@@ -2133,7 +2133,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **比对场景与呈现**: 支持同类型设备不同 Recipe 之间、同一 Recipe 不同版本、系统中与设备中的 Recipe 进行比对, 可根据需要选择显示全部内容或仅显示差异.
 - **Offline Audit**: 支持模拟 EAP Validation 比较, 支持批量多个程序 Offline Audit.
 - **设备间比对**: 支持设备间程序差异比较, 支持相同程序批量比较多个设备之间的差异, 支持两个设备批量比较多个程序之间的差异.
-- **Spec 模板与批量设定**: 支持多设备共用模板, 便于设定 Recipe Parameter Spec;支持 Recipe 中不同 Step 的相同参数批量设定 Spec;支持设置关键参数并高亮显示; 支持通过模板复制参数规范及通过 Excel 导入参数规范, 参数规范可保存成模板.
+- **Spec 模板与批量设定**: 支持多设备共用模板, 便于设定 Recipe Parameter Spec;支持 Recipe 中不同 Step 的相同参数批量设定 Spec;支持设置关键参数并高亮显示; <mark> 支持通过模板复制参数规范及通过 Excel 导入参数规范, 参数规范可保存成模板.</mark>
 - **Recipe Template**: 支持根据设备类型查看所有模板; 支持模板规范设定, 支持公式编辑, 支持程序模板修改规范; 支持删除选中模板.
 - **Recipe Key Param Spec**: 支持根据机型设置 Key Param 的 Spec 范围, Spec 设置方式有 ByRange, ByTolerance, 公式; 支持 Load Recipe 时自动套用 Key Param Spec.
 - **Strict Parameter**: 支持预设锁定严格检查参数, 设定的参数不允许 Uncheck.
@@ -2233,12 +2233,6 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - RMS 比对通用功能，必须满足
-
-★:Recipe 管理 /Spec 模板与批量设定
-
-@see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
-
-- 需要支持模板复用，SPEC 批量设定，设定需具有灵活性，减少人为工作量
 
 ★:Recipe 管理 / 校验与异常处理:
 
@@ -5750,14 +5744,14 @@ SBL 是 统计 Bin 的 Limit
 - **数据导出**: 支持一个或多个 SPC Chart 的数据和原始数据导出功能.
 - **设备与站点关联**: 支持 SPC Chart 关联到一个或多个工艺设备或 Process 站点.
 - **违规告警邮件**: 支持违规告警邮件发送, 可根据违规类型 (OOS, OOC, OOW 等) 单独设置.
-- **自动 Sub Chart 管控**: 支持自动分 Sub Chart 管控, Sub Chart 可继承上层 Chart 的 Control Limit 及 SPC 规则, 也可单独配置;可根据 Context 值中包含的工艺设备, Chamber, 产品, Step, 炉管管控片位置 (如 Top/Center/Bottom) 等信息自动建立 Sub Chart.
+- **自动 Sub Chart 管控**: <mark> 支持自动分 Sub Chart 管控, Sub Chart 可继承上层 Chart 的 Control Limit 及 SPC 规则, 也可单独配置 </mark>;可根据 Context 值中包含的工艺设备, Chamber, 产品, Step, 炉管管控片位置 (如 Top/Center/Bottom) 等信息自动建立 Sub Chart.
 - **PM 后特殊管控**: 支持 PM 后的 Offline Monitor, Pilot Inline Measurement 及第一批 Lot 的单独 Control Limit 管控 (如两倍 Sigma).
 - **离散规格过滤**: 可以定义 Chart 的离散规格, 并过滤掉离散点.
 - **多类管控线**: 支持 Control/Spec/Warning Line, 并支持分别 Enable/Disable 上界线, 下界线和中心线; 支持内规、客规、控制限、Target, Center Line、警告限、屏控限等多种控制限.
 - **计量型图表 (Variables Charts)**: Xbar/X Chart, Range Chart, Sigma Chart (Standard Deviation), Raw Value Chart (Trend Chart), Moving Range Chart, Moving Sigma Chart, Moving Average Chart, EWMA_M, EWMA_S, EWMA_R Chart; 支持 X, Sigma, Range, Move Range, Move Sigma, Move Avg, XBAR, XBAR_S, XBAR_R 等多种图表类型.
 - **计数型图表 (Attributive Charts)**: C Chart (不符合项), NP Chart (不合格数量), P Chart (不合格率), U Chart (平均不合格数); 支持正态分布图显示.
 - **数值类型**: 支持整数、小数等数值类型, 可设置系统显示保留的小数位数及 Chart Y 轴小数位数.
-- **Chart 分类属性**: 支持 K/NK/NC 属性, 用于区分关键、非关键、不管控等 Chart 类型.
+- **Chart 分类属性**: 支持 Key Critical/Non-Key/No Control 属性, 用于区分关键、非关键、不管控等 Chart 类型.
 - **版本管控**: 支持参数版本管控.
 - **目标 CPK 设定**: 支持按参数、Channel(数据采集维度)、CKC 维度设定目标 CPK.
 - **判异准则与 Action**: 支持按照图表设置判异准则和 Action(Email/Hold Lot/Down EQP/OCAP 等), 支持按优先级触发 OCAP, Action 支持客制化扩展.
@@ -5773,6 +5767,7 @@ SBL 是 统计 Bin 的 Limit
 - **动态启停**: 支持动态启用或禁用特定 Channel.
 - **通配符模式**: 支持【_】、【XX_】模式, 数据采集时自动生成 CKC.
 - **过滤条件**: Channel 维度可设置过滤条件, 排除符合过滤条件的数据.
+- **自助创建channel**: 支持未匹配到 channel 的点，可使用自助创建并计算历史数据.
 
 ### 2. 规则设定与计算
 
@@ -5872,9 +5867,9 @@ SBL 是 统计 Bin 的 Limit
 
 支持按用户管理常用 Chart, 提升查找与批量操作效率.
 
-- **个人收藏夹**: 支持按用户创建收藏夹, 将用户关注的关键 Chart 存入收藏夹, 方便查找和查看.
-- **批量打开**: 支持按收藏夹批量打开 Chart.
-- **批量导出**: 支持按收藏夹批量导出 Chart.
+- **个人收藏夹**: <mark> 支持按用户创建收藏夹, 将用户关注的关键 Chart 存入收藏夹, 方便查找和查看. </mark>
+- **批量打开**: <mark> 支持按收藏夹批量打开 Chart. </mark>
+- **批量导出**: <mark> 支持按收藏夹批量导出 Chart. </mark>
 
 #### 3.6 其他需求
 
@@ -5937,11 +5932,23 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标▲
 
+▲非侵入式变更:
+
+@see:
+
+-
+
 ▲特殊点排除:
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - SRC、加量、重量的点不能用于正常点位计算
+
+▲Context 过滤定义:
+
+@see:
+
+-
 
 ▲违规告警邮件:
 
@@ -6788,7 +6795,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **附件与部品**: 支持添加 PM 过程中用户需要的共享附件 (例如 SOP 文件);支持定义 PM 需使用的部品详细信息 (料号与描述信息).
 - **预估时间与标题**: 支持设置 PM 保养所需的预估保养时间以及标题.
 - **原因代码**: 支持设置 PM 保养管理所需要的原因代码.
-- **签核逻辑**: 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.
+- **签核逻辑**: <mark> 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.</mark>
 
 #### 1.4 PM Checklist 建立与管理
 
@@ -6814,7 +6821,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持智能化的排程辅助、强制管控机制与多级预警通知.
 
-- **时间预测**: 支持预测维修保养的时间.
+- **时间预测**: 支持预测维修保养的时间; 支持根据参数的收值速率分析预测保养时间.
 - **自动排程**: 周期性保养完成后自动安排下一个维修保养计划.
 - **Overdue强制切换**: 达到强制维修保养条件 Overdue / 逾期时, 强制切换设备 /Chamber / 子设备可用性.
 - **PM预约**: 根据用户 UI 设定预约 PM, 设备到达预约 PM 时间时强制切换设备 /Chamber 可用性.
