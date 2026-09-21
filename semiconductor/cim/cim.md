@@ -5195,13 +5195,13 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.8 建模基础管控 (统一要求)
 
-- FAB 内 MES 运行的基础
+- FAB 内 MES 运行的基础，MES 与其他系统协同运行时需要有统一的基础数据建模
 
 批次与载具关联管理 - ★装载规则:
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.4 批次与载具关联管理
 
-- 
+- 中试线多 Lot 在同一个载具的场景比较多，且载具数量有限，需要有此功能
 
 ★Run Card Type:
 
@@ -5287,13 +5287,13 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 @see: ## MES Function List → ### 4. 载具管理
 
-- 
+- Lot 会在多平台业务之间流转，不重新下线时需要有更换载具的功能
 
 载具管理 - ▲多重载具嵌套管理:
 
 @see: ## MES Function List → ### 4. 载具管理
 
-- 
+- 支持 Magazine→Boat→Substrate 的多层嵌套载具，因为封测现场的物流、追溯和作业都以载具层级实际发生——只有 1:1 映射嵌套关系并分层管控载具寿命与污染度，才能保证批次追溯不断链、交叉污染可防可控、设备自动化与批量过站高效账实一致
 
 Reticle 管理 - ▲Reticle Group
 
@@ -5371,19 +5371,13 @@ Equipment Monitor (机台监控) - ▲源批管理:
 
 @see: ## MES Function List → ### 36. 制造协同 (MCP)
 
-- 
+- 跨工艺段、跨车间、跨厂区的平台业务员，客户的订单要拆成各段工单、料要在多个 Fab 之间流转、账要按各厂口径独立核算、质量要能一路追到单颗 Die
 
 ▲MAP 模块 (Die 级追溯):
 
 @see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
 
 - die level 的全生命周期
-
-MAP 模块 (Die 级追溯) - ▲多载体 Map 类型支持:
-
-@see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
-
-- 
 
 ## MES Phase
 
