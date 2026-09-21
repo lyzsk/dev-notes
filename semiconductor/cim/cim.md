@@ -1607,6 +1607,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **差异化采样**: 不同 Sensor 或不同 Step 可以设置不同的采样频率.
 - **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集.
 - **追踪数据汇总计算**: 支持 20+ 种 Summary Type (Min/Max 等) 对 Trace Data 进行实时汇总 (Trace Summary 和 Trace Time Summary) 运算, 支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理.
+- **支持Inline Tool**: 支持 Track, Scanner Inline 设备收值.
 
 #### 4.7 通信协议
 
@@ -1898,6 +1899,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **多数据库支持**: 核心业务数据库需兼容主流关系型数据库 (如 Oracle, PostgreSQL, SQLServer), 不绑定单一数据库厂商.
 - **开放 Schema**: 开放 DB Schema.
 - **Rawdata 存储**: 支持 Rawdata 分表存储, 文件存储;支持数据存储分级 (如最近 2 天, 一个月内, 六个月内, 一年内) 与高效的数据清理及恢复机制, 保障系统性能不随时间推移而下降. Raw Data 与统计数据需分开管理.
+- **数据归档服务**: 提供数据库归档策略.
 
 #### 11.5 运行环境
 
@@ -2058,13 +2060,31 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - 图标联动、数据导出、数据查看，是 FDC 用户核心基础功能, 支持个性化查询 `Running Data 添加只导出列表 List 的选项, 做 Summary 的数据, 不导出全部数据.` 是用户直接需求的
 
+★PT 中间件:
+
+@see:
+
+- EAP 和 FDC 数据分流基础，必备模块
+
+★系统模块:
+
+@see:
+
+- for FDC/EAP/MES 定制开发需求
+
+★工厂信息维护:
+
+@see:
+
+- 支持多 fab/ 产线使用,且互不影响
+
 ### 标▲
 
 ▲规格体系与自动限值:
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.6 规格体系与自动限值
 
-- 
+- 防止配置变更导致数据丢失
 
 ▲UVA 模型管理:
 
@@ -5919,8 +5939,8 @@ SBL 是 统计 Bin 的 Limit
 
 - SPC 的异常数据能触发 OCAP action，生成 OCAP 信息
 
-
 ### 标▲
+
 ▲特殊点排除:
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
@@ -5949,7 +5969,7 @@ SPC 判异规则 - ▲二次开发:
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
-- 
+-
 
 ▲数据点详情:
 
