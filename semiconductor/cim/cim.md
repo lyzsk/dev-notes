@@ -953,7 +953,6 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **特殊流程适配**:
     - <mark>支持 OpenCassette、无 Load Port、文件解析等涉及特殊流程的安全生产控制流程制定, 同时进行 UI 的相应客制化.</mark>
     - <mark>支持与特殊工艺设备, 如 MOCVD、Bond、Debond 适配的安全生产控制流程.</mark>
-    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp使用不同的MES-EQPID;</mark>
 - **并发与框架支持**:
     - 支持多线程锁.
     - 支持 Fixed Buffer、Metrology、Internal Buffer、Photo Inline、Sorter、FOUP Clean 几种各类型 EAP 框架.
@@ -977,9 +976,6 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **消息记录**: 支持消息记录查询, UI 界面可查询 300 条数据; 支持 UI 消息记录, 按照设备和时间生成日志文件; 支持消息格式与消息颜色设定; 支持消息记录及设备, 物料, 错误信息查询.
 - **异常干预**: 支持手动指令发送和异常处置.
 - **移动终端**: 支持 PDA (安卓) 移动终端 APP UI.
-- **多厂区支持**: 支持UI端跨厂区选择.
-- **远程操作**: 支持EQP/SMIF GoRemote/GoLocal功能；支持UI端不重启进行初始化.
-- **更新**: 支持远程更新UI.
 
 #### 1.4 EAP 日志
 
@@ -989,13 +985,6 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **日志文件管理**: 日志文件可以根据时间和大小为每台设备创建, 支持配置日志文件的路径, 支持定期文件自动压缩, 时间可配置; 支持 Log 分级, 按时间 / 大小切分, 定时备份和清理.
 - **问题定位**: 提供根据日志进行问题定位与解决的方案; 支持问题追踪与日志分析工具.
 - **日志回放测试**: 支持根据 SECSLog 模拟机台进行跑货测试, 便于设备测试开发与运维.
-- **全厂关键字查询**: 支持类ELK方式全厂日志查询.
-
-#### 1.5 EAP 运维
-
-- **热加载功能**: 支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.
-- **重启复位功能**: 支持EAP重启时保存resume文件.
-- **支持远程运维**: 支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.
 
 ### 2. 业务接口整合
 
@@ -1606,7 +1595,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 支持 Context 维度与配方信息的维护.
 
-- **Context 管理**: 支持用户添加 / 删除 / 修改 Context 信息;支持常用的 Context 信息, 如 Lot ID, Carrier ID, Slot ID, Wafer ID, Stage, Step, Recipe ID, Product ID 等，并支持后期拓展.
+- **Context 管理**: 支持用户添加 / 删除 / 修改 Context 信息;支持常用的 Context 信息, 如 Lot ID, Carrier ID, Slot ID, Wafer ID, Stage, Step, Recipe ID, Product ID 等.
 - **配方信息**: 支持用户导入配方信息以及配方的步骤信息.
 
 #### 4.6 参数计划配置
@@ -1616,7 +1605,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **采集计划**: 支持根据 Process Type 建立采集计划;支持灵活定义数据收集计划 (Data Collection Plan), 可根据事件、时间或数据点的条件设置数据收集的起始点和结束点.
 - **多源数据采集**: 支持收集 Trace Data, Event Data, Alarm Data;支持收集 Facility Data;支持与附属设备 (External Sensor) 连接并收集数据;支持采集以 List 或 Array 形式上报的参数.
 - **差异化采样**: 不同 Sensor 或不同 Step 可以设置不同的采样频率.
-- **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集,手动 Run Data 收集.
+- **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集.
 - **追踪数据汇总计算**: 支持 20+ 种 Summary Type (Min/Max 等) 对 Trace Data 进行实时汇总 (Trace Summary 和 Trace Time Summary) 运算, 支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理.
 - **支持Inline Tool**: 支持 Track, Scanner Inline 设备收值.
 
@@ -1728,14 +1717,13 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Data Quality 联锁**: Sensor 的 Data Quality 检查不合格时, 可跳过部分模型的监测.
 - **长制程实时检查**: 提供在长时间制程中及时检查规格的解决方案, 避免制程结束时才发现问题.
 - **工艺时间异常侦测**: 支持发现工艺时间异常, 例如 Wafer 工艺过程中未上报 End 事件时, 可经配置及时发现并通过 OCAP 报警.
-- **模型覆盖率查询**: <mark> 可 ByLine/Area/Model/EQP 查询模型覆盖度,并可查询已配置模型的 RunContext 和未配置模型的 RunContext.</mark>
 
 #### 6.6 规格体系与自动限值
 
 支持多层次, 多维度的规格定义与基于历史数据的自动限值生成.
 
 - **Spec 类型**: 支持 Fixed Spec; 支持 Delta Spec, 即在 Target 基础上加减运算生成 Spec; 支持 Target 以上百分比规格 (如仅卡 Target 以上 10% 的部分);监控限值模式支持基本上下限控制 (Normal band, 通过 USL/LSL/UCL/LCL 监控), 多限值模式 (Multi-band, 通过多个 SPEC Limits 监控), 工艺阶段内限值模式 (Intra-step, 针对单个工艺阶段设定多个 SPEC Limits), 非线性限值模式 (Pattern, 支持 Percentage/Sigma/Const 等方式).
-- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段做为规格设定条件 </mark>.
+- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step).
 - **分级报警体系**: 模型报警等级分为 Warning, Alarm, Outlier, 每个等级可设置不同的规格和对应的 OCAP;模型每种管控规格线支持设定独立的 OCAP, 如超出 LCL 触发 Alarm, 超出 LSL 触发 Hold Lot;异常发生时, 支持触发用户配置的多个 OCAP 动作.
 - **批量自动限值**: 支持批量使用历史数据对所有腔室生成规格; 生成规格时选择的 Run List 支持抽样;支持对规格开启自动计算机制 (Auto-Calculation), 包含周期和次数, 新规格失效阈值.
 - **Sigma 限值定制**: 自动计算规格时可个别指定 Warning Limit, Alarm Limit, Outlier Limit 上下限对应的 Sigma 倍数, Sigma 算法可选择和自定义; 内置 5 种 Sigma 算法: PSEUDO Sigma, Bounded Boxplot Sigma, SIMR2, SROBUST, SUMVU.
@@ -1814,7 +1802,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **违规详情**: 警报中包含详细的违规信息.
 - **重复警报过滤**: 经由接口对接发送外部系统时, 过滤 Run 中重复警报.
 - **Alarm 报表模块**: 机台 Alarm 信息单独呈现在 FDC Report 模块中; 支持按周, 月, 季度, 年汇总 FAB, Module 的警报数量; 支持分级汇总 Tool/Recipe 的警报数量.
-- **多维统计**: 支持 By FAB, By Module, By Tool, By Recipe, By Indicator, By OOC, By Lot,By SpecType 等维度统计.
+- **多维统计**: 支持 By FAB, By Module, By Tool, By Recipe, By Indicator, By OOC, By Lot 统计.
 - **报警查询**: 支持按照 Lot 查询警报; 支持按照警报动作查看警报; 支持查看 UChart 中报警点分布;支持按照区域, 设备组, 设备, 子设备, Lot, 时间范围等条件查询报警记录, 并支持 Drilldown 到参数 Chart.
 
 #### 7.7 设备状态
@@ -2060,12 +2048,6 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ### 标★
 
-★工厂信息维护:
-
-@see:
-
-- 支持多 fab/ 产线使用,且互不影响
-
 ★参数计划配置:
 
 @see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.6 参数计划配置
@@ -2090,13 +2072,13 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - for FDC/EAP/MES 定制开发需求
 
-### 标▲
-
-▲模型配置与实时侦测 / 跨片统计:
+★工厂信息维护:
 
 @see:
 
-- 方便整批 Lot 统一分析
+- 支持多 fab/ 产线使用,且互不影响
+
+### 标▲
 
 ▲规格体系与自动限值:
 
@@ -2151,7 +2133,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **比对场景与呈现**: 支持同类型设备不同 Recipe 之间、同一 Recipe 不同版本、系统中与设备中的 Recipe 进行比对, 可根据需要选择显示全部内容或仅显示差异.
 - **Offline Audit**: 支持模拟 EAP Validation 比较, 支持批量多个程序 Offline Audit.
 - **设备间比对**: 支持设备间程序差异比较, 支持相同程序批量比较多个设备之间的差异, 支持两个设备批量比较多个程序之间的差异.
-- **Spec 模板与批量设定**: 支持多设备共用模板, 便于设定 Recipe Parameter Spec;支持 Recipe 中不同 Step 的相同参数批量设定 Spec;支持设置关键参数并高亮显示; 支持通过模板复制参数规范及通过 Excel 导入参数规范, 参数规范可保存成模板.
+- **Spec 模板与批量设定**: 支持多设备共用模板, 便于设定 Recipe Parameter Spec;支持 Recipe 中不同 Step 的相同参数批量设定 Spec;支持设置关键参数并高亮显示; <mark> 支持通过模板复制参数规范及通过 Excel 导入参数规范, 参数规范可保存成模板.</mark>
 - **Recipe Template**: 支持根据设备类型查看所有模板; 支持模板规范设定, 支持公式编辑, 支持程序模板修改规范; 支持删除选中模板.
 - **Recipe Key Param Spec**: 支持根据机型设置 Key Param 的 Spec 范围, Spec 设置方式有 ByRange, ByTolerance 等; 支持 Load Recipe 时自动套用 Key Param Spec.
 - **Strict Parameter**: 支持预设锁定严格检查参数, 设定的参数不允许 Uncheck.
@@ -2162,11 +2144,10 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **批量加载**: 支持批量加载 Recipe, 可选择每次加载数目.
 - **Batch Load From EQP**: 支持批量从设备中上传多个程序, 支持批量 Active 多个程序; 支持批量从设备中上传主 / 子程序 (Sequence Recipe).
 - **Batch Set Active**: 支持根据区域, 设备类型或设备查看所有能够 Set Active 版本的 Standard Recipe 和 Sequence Sub Recipe; 支持批量选中多个程序 Set Active, 如整合签核系统则产生一张签核审批单.
-- **Sequence Recipe 管理**: 支持从设备上传主程序, 设定子程序是否比较, 手动设定 Sequence Parameter 规范, 通过模板复制或 Excel 导入主程序参数规范; 支持从设备上传子程序, 手动设定子程序参数规范; 支持主程序与子程序的版本操作 (Set Frozen, Audit against EQP, Set Active, Approve, Deactivate).
-- **导入导出**: 支持 Recipe 导入导出功能, 并实施严格的权限管控.
+- **Sequence Recipe 管理**: <mark> 支持展示主程序与子程序的关联关系，支持不限层级的关联关系图展示; 支持从设备上传主程序, 设定子程序是否比较, 手动设定 Sequence Parameter 规范, 通过模板复制或 Excel 导入主程序参数规范; </mark> 支持从设备上传子程序, 手动设定子程序参数规范; 支持主程序与子程序的版本操作 (Set Frozen, Audit against EQP, Set Active, Approve, Deactivate).
+- **导入导出**: <mark> 支持 Recipe 导入导出功能, 并实施严格的权限管控. </mark>
 - **Pilot Run 验证**: <mark> 支持重要管控规则变更前在小范围设备与 Recipe 上先行验证 (Pilot Run), 验证期间不影响其余设备与 Recipe 的正常使用; 提供 Pilot 验证结果的确认与转正式生效路径.</mark>
 - **查询与排序**: 支持各项排序;支持不同条件下查询 Recipe/Sequence 的版本变更历史详情及校验历史; 支持根据区域, 设备类型或设备查看所有程序状态, 支持根据关键字模糊查询相关程序.
-- **MES强卡控**: <mark> 支持获取 MES Context 特定字段进行 RMS 强制卡控,比如 By MES 批次卡控.</mark>
 
 #### 1.2 Golden Recipe
 
@@ -5213,6 +5194,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 - **AI 优化与决策**: <mark> 卡控规则松紧调优:基于卡控触发履历与后续实际结果做规则自评估，反推 Tool Constraint 阈值过紧或过松，并借复制与模拟验证。数据：ECS / 机台限制的卡控触发记录、报废与异常履历.</mark>
 - **AI 优化与决策**: <mark> EDC 采样参数与点位智能生成: 由历史量测与工艺参数的相关性反推该站点有区分度的参数，并推荐测哪片、测几个点。数据：EDC Plan 的站点设定与 Wafer / Site 级采样与点位挑选、选片规则、量测站点与工艺站点 Mapping.</mark>
 - **AI 诊断与归因**: <mark> Rework 与 Loop 异常预警: 识别返工与循环次数异常偏高的批次、站点与产品，输出返工根因线索与超限预警.数据：Rework 流程维度、Loop Control 循环控制、RRC 异常恢复单与返工履历.</mark>
+- **vFAB 北向接口预留**: <mark> 包括但不限于 Hold/Release, OCAP 触发与关闭、RRC/SRC 单据流转、派工模式切换、WIP 在制查询等接口预留.</mark>
 
 ## MES 标注
 
@@ -5762,14 +5744,14 @@ SBL 是 统计 Bin 的 Limit
 - **数据导出**: 支持一个或多个 SPC Chart 的数据和原始数据导出功能.
 - **设备与站点关联**: 支持 SPC Chart 关联到一个或多个工艺设备或 Process 站点.
 - **违规告警邮件**: 支持违规告警邮件发送, 可根据违规类型 (OOS, OOC, OOW 等) 单独设置.
-- **自动 Sub Chart 管控**: 支持自动分 Sub Chart 管控, Sub Chart 可继承上层 Chart 的 Control Limit 及 SPC 规则, 也可单独配置;可根据 Context 值中包含的工艺设备, Chamber, 产品, Step, 炉管管控片位置 (如 Top/Center/Bottom) 等信息自动建立 Sub Chart.
+- **自动 Sub Chart 管控**: <mark> 支持自动分 Sub Chart 管控, Sub Chart 可继承上层 Chart 的 Control Limit 及 SPC 规则, 也可单独配置 </mark>;可根据 Context 值中包含的工艺设备, Chamber, 产品, Step, 炉管管控片位置 (如 Top/Center/Bottom) 等信息自动建立 Sub Chart.
 - **PM 后特殊管控**: 支持 PM 后的 Offline Monitor, Pilot Inline Measurement 及第一批 Lot 的单独 Control Limit 管控 (如两倍 Sigma).
 - **离散规格过滤**: 可以定义 Chart 的离散规格, 并过滤掉离散点.
 - **多类管控线**: 支持 Control/Spec/Warning Line, 并支持分别 Enable/Disable 上界线, 下界线和中心线; 支持内规、客规、控制限、Target, Center Line、警告限、屏控限等多种控制限.
 - **计量型图表 (Variables Charts)**: Xbar/X Chart, Range Chart, Sigma Chart (Standard Deviation), Raw Value Chart (Trend Chart), Moving Range Chart, Moving Sigma Chart, Moving Average Chart, EWMA_M, EWMA_S, EWMA_R Chart; 支持 X, Sigma, Range, Move Range, Move Sigma, Move Avg, XBAR, XBAR_S, XBAR_R 等多种图表类型.
 - **计数型图表 (Attributive Charts)**: C Chart (不符合项), NP Chart (不合格数量), P Chart (不合格率), U Chart (平均不合格数); 支持正态分布图显示.
 - **数值类型**: 支持整数、小数等数值类型, 可设置系统显示保留的小数位数及 Chart Y 轴小数位数.
-- **Chart 分类属性**: 支持 K/NK/NC 属性, 用于区分关键、非关键、不管控等 Chart 类型.
+- **Chart 分类属性**: 支持 Key Critical/Non-Key/No Control 属性, 用于区分关键、非关键、不管控等 Chart 类型.
 - **版本管控**: 支持参数版本管控.
 - **目标 CPK 设定**: 支持按参数、Channel(数据采集维度)、CKC 维度设定目标 CPK.
 - **判异准则与 Action**: 支持按照图表设置判异准则和 Action(Email/Hold Lot/Down EQP/OCAP 等), 支持按优先级触发 OCAP, Action 支持客制化扩展.
@@ -5785,6 +5767,7 @@ SBL 是 统计 Bin 的 Limit
 - **动态启停**: 支持动态启用或禁用特定 Channel.
 - **通配符模式**: 支持【_】、【XX_】模式, 数据采集时自动生成 CKC.
 - **过滤条件**: Channel 维度可设置过滤条件, 排除符合过滤条件的数据.
+- **自助创建channel**: 支持未匹配到 channel 的点，可使用自助创建并计算历史数据.
 
 ### 2. 规则设定与计算
 
@@ -5832,7 +5815,7 @@ SBL 是 统计 Bin 的 Limit
 - **图表样式管理**: 支持按参数、Channel, Chart 等多个维度设置图表显示样式; 支持设置点的形状、大小、颜色等样式, 包含正常点、异常点、备注点等; 支持设置线的类型、粗细、颜色等样式, 包含 USL, LSL, UCL, LCL 等; 支持设置箱线图点位偏移量, 让重叠数据左右偏移.
 - **OCAP 联动**: 异常数据可根据 OCAP No 链接到 OCAP 系统;提供接口支持外部系统访问 SPC Chart 和数据点, 点击 OCAP 信息链接可进入 SPC 相关 OOC/OOS 点界面; 支持选择数据点手动触发 OCAP, 并支持从异常点跳转至 OCAP 处理页.
 - **批量查看与导图**: 支持批量查 Chart, 定时导图的功能.
-- **设备状态叠加**: Chart 上可勾选显示 Tool EQP Status 异常变化的时间点 (DOWN/PM 等).
+- **设备状态叠加**: Chart 上可勾选显示 Tool EQP Status 异常变化的时间点 (类似 DOWN/PM 后 Monitor 量测值).
 - **Sample History**: 支持 Sample History 功能, 支持跨 LDS 搜索.
 - **母子 Chart 联动**: 支持在母 Chart 上查看子 Chart 的违规信息.
 - **Control Limit 试算与推荐**: 支持手动计算 Control Limit, 计算出来的 Limit 可编辑, 可手动接收或拒绝;支持新 Limit 的模拟分析, 并用不同颜色显示模拟后的分析结果 (如模拟前后均无异常显示为蓝色); 支持基于当前 Chart 数据推荐控制限, 计算公式为 Avg±3Sigma.
@@ -5884,9 +5867,9 @@ SBL 是 统计 Bin 的 Limit
 
 支持按用户管理常用 Chart, 提升查找与批量操作效率.
 
-- **个人收藏夹**: 支持按用户创建收藏夹, 将用户关注的关键 Chart 存入收藏夹, 方便查找和查看.
-- **批量打开**: 支持按收藏夹批量打开 Chart.
-- **批量导出**: 支持按收藏夹批量导出 Chart.
+- **个人收藏夹**: <mark> 支持按用户创建收藏夹, 将用户关注的关键 Chart 存入收藏夹, 方便查找和查看. </mark>
+- **批量打开**: <mark> 支持按收藏夹批量打开 Chart. </mark>
+- **批量导出**: <mark> 支持按收藏夹批量导出 Chart. </mark>
 
 #### 3.6 其他需求
 
@@ -5911,6 +5894,7 @@ SBL 是 统计 Bin 的 Limit
 
 - **根因智能分析**: <mark> 异常发生后自动关联设备状态、工艺参数与历史案例，通过关联分析与知识库推荐可能根因，辅助工程师快速定位.</mark>
 - **过程能力预测预警**: <mark> 基于历史数据趋势预测 Cpk 与过程能力变化，提前预警潜在失控风险，支持在失控前主动干预.</mark>
+- **vFAB 北向接口预留**: <mark> 包括但不限于判异触发、OCAP 联动发起、PM 后特殊管控生效、Cpk 过程能力趋势、Chart Spec 更改等接口.</mark>
 
 ## SPC 标注
 
@@ -5948,11 +5932,23 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标▲
 
+▲非侵入式变更:
+
+@see:
+
+-
+
 ▲特殊点排除:
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - SRC、加量、重量的点不能用于正常点位计算
+
+▲Context 过滤定义:
+
+@see:
+
+-
 
 ▲违规告警邮件:
 
@@ -6799,7 +6795,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **附件与部品**: 支持添加 PM 过程中用户需要的共享附件 (例如 SOP 文件);支持定义 PM 需使用的部品详细信息 (料号与描述信息).
 - **预估时间与标题**: 支持设置 PM 保养所需的预估保养时间以及标题.
 - **原因代码**: 支持设置 PM 保养管理所需要的原因代码.
-- **签核逻辑**: 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.
+- **签核逻辑**: <mark> 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.</mark>
 
 #### 1.4 PM Checklist 建立与管理
 
@@ -6825,7 +6821,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持智能化的排程辅助、强制管控机制与多级预警通知.
 
-- **时间预测**: 支持预测维修保养的时间.
+- **时间预测**: 支持预测维修保养的时间; 支持根据参数的收值速率分析预测保养时间.
 - **自动排程**: 周期性保养完成后自动安排下一个维修保养计划.
 - **Overdue强制切换**: 达到强制维修保养条件 Overdue / 逾期时, 强制切换设备 /Chamber / 子设备可用性.
 - **PM预约**: 根据用户 UI 设定预约 PM, 设备到达预约 PM 时间时强制切换设备 /Chamber 可用性.
@@ -6968,6 +6964,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **设备健康度评估**: <mark> 综合设备运行参数、历史维保记录与实时传感器数据，输出设备健康度评分与劣化趋势，支持按设备 /Part 维度实时查看健康状态.</mark>
 - **故障趋势预警**: <mark> 对关键工艺参数进行趋势分析与异常模式识别，提前识别设备劣化特征，在故障发生前推送预警并联动生成维保任务.</mark>
 - **维护策略优化建议**: <mark> 基于剩余寿命预测结果与备件库存、产能计划，推荐最优维护时机与维护窗口，平衡设备可用率与维护成本.</mark>
+- **vFAB 北向接口预留**: <mark> 包括但不限于保养触发、预警推送、保养工单状态变更、Part RUL 预测值与健康度评分、调整保养工单等接口预留.</mark>
 
 ## PMS 标注
 
