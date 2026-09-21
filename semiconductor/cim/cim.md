@@ -2135,7 +2135,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **设备间比对**: 支持设备间程序差异比较, 支持相同程序批量比较多个设备之间的差异, 支持两个设备批量比较多个程序之间的差异.
 - **Spec 模板与批量设定**: 支持多设备共用模板, 便于设定 Recipe Parameter Spec;支持 Recipe 中不同 Step 的相同参数批量设定 Spec;支持设置关键参数并高亮显示; <mark> 支持通过模板复制参数规范及通过 Excel 导入参数规范, 参数规范可保存成模板.</mark>
 - **Recipe Template**: 支持根据设备类型查看所有模板; 支持模板规范设定, 支持公式编辑, 支持程序模板修改规范; 支持删除选中模板.
-- **Recipe Key Param Spec**: 支持根据机型设置 Key Param 的 Spec 范围, Spec 设置方式有 ByRange, ByTolerance, 公式; 支持 Load Recipe 时自动套用 Key Param Spec.
+- **Recipe Key Param Spec**: 支持根据机型设置 Key Param 的 Spec 范围, Spec 设置方式有 ByRange, ByTolerance 等; 支持 Load Recipe 时自动套用 Key Param Spec.
 - **Strict Parameter**: 支持预设锁定严格检查参数, 设定的参数不允许 Uncheck.
 - **Uncheck Param List**: 支持根据设备机型设置 Uncheck 的参数; 支持 Load Recipe 的时候自动把不需要 Check 的参数 Uncheck.
 - **校验与异常处理**: 支持 Recipe/Sequence 校验, 以及校验失败邮件通知等相关的异常处理流程; 校验或比对失败时向 AMS 发出告警, 并可对相关设备与 Recipe 施加 Hold.
@@ -2144,8 +2144,8 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **批量加载**: 支持批量加载 Recipe, 可选择每次加载数目.
 - **Batch Load From EQP**: 支持批量从设备中上传多个程序, 支持批量 Active 多个程序; 支持批量从设备中上传主 / 子程序 (Sequence Recipe).
 - **Batch Set Active**: 支持根据区域, 设备类型或设备查看所有能够 Set Active 版本的 Standard Recipe 和 Sequence Sub Recipe; 支持批量选中多个程序 Set Active, 如整合签核系统则产生一张签核审批单.
-- **Sequence Recipe 管理**: 支持从设备上传主程序, 设定子程序是否比较, 手动设定 Sequence Parameter 规范, 通过模板复制或 Excel 导入主程序参数规范; 支持从设备上传子程序, 手动设定子程序参数规范; 支持主程序与子程序的版本操作 (Set Frozen, Audit against EQP, Set Active, Approve, Deactivate).
-- **导入导出**: 支持 Recipe 导入导出功能, 并实施严格的权限管控.
+- **Sequence Recipe 管理**: <mark> 支持展示主程序与子程序的关联关系，支持不限层级的关联关系图展示; 支持从设备上传主程序, 设定子程序是否比较, 手动设定 Sequence Parameter 规范, 通过模板复制或 Excel 导入主程序参数规范; </mark> 支持从设备上传子程序, 手动设定子程序参数规范; 支持主程序与子程序的版本操作 (Set Frozen, Audit against EQP, Set Active, Approve, Deactivate).
+- **导入导出**: <mark> 支持 Recipe 导入导出功能, 并实施严格的权限管控. </mark>
 - **Pilot Run 验证**: <mark> 支持重要管控规则变更前在小范围设备与 Recipe 上先行验证 (Pilot Run), 验证期间不影响其余设备与 Recipe 的正常使用; 提供 Pilot 验证结果的确认与转正式生效路径.</mark>
 - **查询与排序**: 支持各项排序;支持不同条件下查询 Recipe/Sequence 的版本变更历史详情及校验历史; 支持根据区域, 设备类型或设备查看所有程序状态, 支持根据关键字模糊查询相关程序.
 
