@@ -953,6 +953,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **特殊流程适配**:
     - <mark>支持 OpenCassette、无 Load Port、文件解析等涉及特殊流程的安全生产控制流程制定, 同时进行 UI 的相应客制化.</mark>
     - <mark>支持与特殊工艺设备, 如 MOCVD、Bond、Debond 适配的安全生产控制流程.</mark>
+    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp使用不同的MES-EQPID;</mark>
 - **并发与框架支持**:
     - 支持多线程锁.
     - 支持 Fixed Buffer、Metrology、Internal Buffer、Photo Inline、Sorter、FOUP Clean 几种各类型 EAP 框架.
@@ -976,6 +977,9 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **消息记录**: 支持消息记录查询, UI 界面可查询 300 条数据; 支持 UI 消息记录, 按照设备和时间生成日志文件; 支持消息格式与消息颜色设定; 支持消息记录及设备, 物料, 错误信息查询.
 - **异常干预**: 支持手动指令发送和异常处置.
 - **移动终端**: 支持 PDA (安卓) 移动终端 APP UI.
+- **多厂区支持**: 支持UI端跨厂区选择.
+- **远程操作**: 支持EQP/SMIF GoRemote/GoLocal功能；支持UI端不重启进行初始化.
+- **更新**: 支持远程更新UI.
 
 #### 1.4 EAP 日志
 
@@ -985,6 +989,13 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **日志文件管理**: 日志文件可以根据时间和大小为每台设备创建, 支持配置日志文件的路径, 支持定期文件自动压缩, 时间可配置; 支持 Log 分级, 按时间 / 大小切分, 定时备份和清理.
 - **问题定位**: 提供根据日志进行问题定位与解决的方案; 支持问题追踪与日志分析工具.
 - **日志回放测试**: 支持根据 SECSLog 模拟机台进行跑货测试, 便于设备测试开发与运维.
+- **全厂关键字查询**: 支持类ELK方式全厂日志查询.
+
+#### 1.5 EAP 运维
+
+- **热加载功能**: 支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.
+- **重启复位功能**: 支持EAP重启时保存resume文件.
+- **支持远程运维**: 支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.
 
 ### 2. 业务接口整合
 
@@ -1595,7 +1606,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 支持 Context 维度与配方信息的维护.
 
-- **Context 管理**: 支持用户添加 / 删除 / 修改 Context 信息;支持常用的 Context 信息, 如 Lot ID, Carrier ID, Slot ID, Wafer ID, Stage, Step, Recipe ID, Product ID 等.
+- **Context 管理**: 支持用户添加 / 删除 / 修改 Context 信息;支持常用的 Context 信息, 如 Lot ID, Carrier ID, Slot ID, Wafer ID, Stage, Step, Recipe ID, Product ID 等，并支持后期拓展.
 - **配方信息**: 支持用户导入配方信息以及配方的步骤信息.
 
 #### 4.6 参数计划配置
@@ -1605,7 +1616,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **采集计划**: 支持根据 Process Type 建立采集计划;支持灵活定义数据收集计划 (Data Collection Plan), 可根据事件、时间或数据点的条件设置数据收集的起始点和结束点.
 - **多源数据采集**: 支持收集 Trace Data, Event Data, Alarm Data;支持收集 Facility Data;支持与附属设备 (External Sensor) 连接并收集数据;支持采集以 List 或 Array 形式上报的参数.
 - **差异化采样**: 不同 Sensor 或不同 Step 可以设置不同的采样频率.
-- **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集.
+- **特殊数据收集**: 支持 Non-Wafer Data, Non-Process Data 收集,手动 Run Data 收集.
 - **追踪数据汇总计算**: 支持 20+ 种 Summary Type (Min/Max 等) 对 Trace Data 进行实时汇总 (Trace Summary 和 Trace Time Summary) 运算, 支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理.
 - **支持Inline Tool**: 支持 Track, Scanner Inline 设备收值.
 
@@ -1717,13 +1728,14 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Data Quality 联锁**: Sensor 的 Data Quality 检查不合格时, 可跳过部分模型的监测.
 - **长制程实时检查**: 提供在长时间制程中及时检查规格的解决方案, 避免制程结束时才发现问题.
 - **工艺时间异常侦测**: 支持发现工艺时间异常, 例如 Wafer 工艺过程中未上报 End 事件时, 可经配置及时发现并通过 OCAP 报警.
+- **模型覆盖率查询**: <mark> 可 ByLine/Area/Model/EQP 查询模型覆盖度,并可查询已配置模型的 RunContext 和未配置模型的 RunContext.</mark>
 
 #### 6.6 规格体系与自动限值
 
 支持多层次, 多维度的规格定义与基于历史数据的自动限值生成.
 
 - **Spec 类型**: 支持 Fixed Spec; 支持 Delta Spec, 即在 Target 基础上加减运算生成 Spec; 支持 Target 以上百分比规格 (如仅卡 Target 以上 10% 的部分);监控限值模式支持基本上下限控制 (Normal band, 通过 USL/LSL/UCL/LCL 监控), 多限值模式 (Multi-band, 通过多个 SPEC Limits 监控), 工艺阶段内限值模式 (Intra-step, 针对单个工艺阶段设定多个 SPEC Limits), 非线性限值模式 (Pattern, 支持 Percentage/Sigma/Const 等方式).
-- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step).
+- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段做为规格设定条件 </mark>.
 - **分级报警体系**: 模型报警等级分为 Warning, Alarm, Outlier, 每个等级可设置不同的规格和对应的 OCAP;模型每种管控规格线支持设定独立的 OCAP, 如超出 LCL 触发 Alarm, 超出 LSL 触发 Hold Lot;异常发生时, 支持触发用户配置的多个 OCAP 动作.
 - **批量自动限值**: 支持批量使用历史数据对所有腔室生成规格; 生成规格时选择的 Run List 支持抽样;支持对规格开启自动计算机制 (Auto-Calculation), 包含周期和次数, 新规格失效阈值.
 - **Sigma 限值定制**: 自动计算规格时可个别指定 Warning Limit, Alarm Limit, Outlier Limit 上下限对应的 Sigma 倍数, Sigma 算法可选择和自定义; 内置 5 种 Sigma 算法: PSEUDO Sigma, Bounded Boxplot Sigma, SIMR2, SROBUST, SUMVU.
@@ -1802,7 +1814,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **违规详情**: 警报中包含详细的违规信息.
 - **重复警报过滤**: 经由接口对接发送外部系统时, 过滤 Run 中重复警报.
 - **Alarm 报表模块**: 机台 Alarm 信息单独呈现在 FDC Report 模块中; 支持按周, 月, 季度, 年汇总 FAB, Module 的警报数量; 支持分级汇总 Tool/Recipe 的警报数量.
-- **多维统计**: 支持 By FAB, By Module, By Tool, By Recipe, By Indicator, By OOC, By Lot 统计.
+- **多维统计**: 支持 By FAB, By Module, By Tool, By Recipe, By Indicator, By OOC, By Lot,By SpecType 等维度统计.
 - **报警查询**: 支持按照 Lot 查询警报; 支持按照警报动作查看警报; 支持查看 UChart 中报警点分布;支持按照区域, 设备组, 设备, 子设备, Lot, 时间范围等条件查询报警记录, 并支持 Drilldown 到参数 Chart.
 
 #### 7.7 设备状态
@@ -2048,6 +2060,12 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ### 标★
 
+★工厂信息维护:
+
+@see:
+
+- 支持多 fab/ 产线使用,且互不影响
+
 ★参数计划配置:
 
 @see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.6 参数计划配置
@@ -2079,6 +2097,14 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - 支持多 fab/ 产线使用,且互不影响
 
 ### 标▲
+
+### 标▲
+
+▲模型配置与实时侦测 / 跨片统计:
+
+@see:
+
+- 方便整批 Lot 统一分析
 
 ▲规格体系与自动限值:
 
