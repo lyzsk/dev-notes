@@ -1,7 +1,7 @@
 # CIM3 业务架构（cim-bo）
 
 > 结构约定：`##` = L1 价值流 / 平台层；`###` = L2 价值流；`####` = L3 价值流；`- **L4 名称**: 描述 ｜主责系统： X｜业务域： Y` = L4 业务需求。`**强调符**` = 生成 drawio/pptx/excel 时的强调色标记（CIM 核心 L2 与 L4 名称）。
-> 业务域映射（17 系统 → 5 域）：EAP/FDC/RMS/RCM/APC → 设备自动化与控制；MES/PMS/AMS/SPC → 生产执行与追踪；RTD/AMA → 智能调度与物流；FMS/RPT/YMS/DMS/QMS → 工程与质量管理；LIMS → 实验室管理。
+> 业务域映射（17 系统 → 5 域）：RMS/RCM/APC/EAP/FDC → 设备自动化与控制；MES/PMS/AMS/SPC → 生产执行与追踪；RTD/AMA → 智能调度与物流；YMS/DMS/RPT → 工程与质量管理；LIMS/QMS/FMS → 实验室管理。
 > 拆解链：L1 → L2 → L3 → L4 → 主责系统 → 所属业务域；L5 = PR SPEC（见 cim.md 各系统 Function List，按 V 模型逐条回溯，不在本文件展开）。
 
 ## L1 价值创造流程
