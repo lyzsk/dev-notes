@@ -2081,3 +2081,13 @@ net start winnat
 win+r: `optionalfeatures`
 
 取消 Hyper-V, Virtual Machine Platform, Windows Subsystem for Linux
+
+# DBeaver 报错: Socket is closed.
+
+```
+SQL Error [08S01]: The last packet successfully received from the server was 100,423,125 milliseconds ago. The last packet sent successfully to the server was 100,423,126 milliseconds ago. is longer than the server configured value of 'interactive_timeout'. You should consider either expiring and/or testing connection validity before use in your application, increasing the server configured values for client timeouts, or using the Connector/J connection property 'autoReconnect=true' to avoid this problem.
+```
+
+手动解决: 右键连接 - Disconnect 再 Connect
+
+长期解决: Edit Connection - Connection settings - initialization - Keep-Alive(seconds): 3600(原来是 0)
