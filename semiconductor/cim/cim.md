@@ -2188,7 +2188,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - **管控范围设定**: 支持按照设备或按照 Recipe 设定 EC/SV 参数的管控范围;支持字符串、整数、小数等多种数据类型.
 - **常量定义**: 支持新建设备常量参数, 并编辑参数规范, 支持设备常量的 Absolute, ByRange, ByTolerance, ByList 比较类型.
-- **多设备共享**: 支持多设备之间共享 EC/SV 设定; 支持同类型设备之间的设备常量设定 Copy, 支持设定 Excel 导入.
+- **多设备共享**: <mark> 支持多设备之间共享 EC/SV 设定 </mark>; 支持同类型设备之间的设备常量设定 Copy, 支持设定 Excel 导入.
 - **常量比对**: 支持设定设备常量与设备中常量数值比较, 支持同类型设备之间的设备常量比较差异.
 - **历史追溯**: 支持查询设备 EC/SV 变更历史及校验历史.
 
@@ -2249,7 +2249,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - **Spec 取值辅助**: <mark> 新建或修订参数规范时，AI 参考同型号设备的历史参数分布、既有 Spec 的命中情况与工艺变更记录，给出区间与比较方式的候选取值及其依据，供用户定稿；建议内容不直接写入模板.</mark>
 - **vFAB 北向接口预留**: <mark> 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Recipe/EC 版本变更、签核通过 / 驳回、CheckSum 比对异常、Golden Recipe 当前版本与签核状态、设备与 Recipe 对应关系、变更影响清单、签核流程提交 / 确认回调、解析模板确认结果回写等).</mark>
 
-## RMS 标注（3★5▲）
+## RMS 标注（2★6▲）
 
 ### 标★
 
@@ -2265,12 +2265,6 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 - 必须支持 Recipe 校验不通过后的异常处置，联动其他系统作出对应的 Action
 
-★:EC 管理 (Equipment Constant)/ 多设备共享:
-
-@see: ## RMS Function List → ### 1. 基本功能 → #### 1.3 EC 管理 (Equipment Constant)
-
-- EC 设定须有复用性，支持导入导出
-
 ### 标▲
 
 ▲:Recipe 管理 /Pilot Run 验证:
@@ -2284,6 +2278,12 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.4 Recipe 解析模板库
 
 - 提供多种机型的解析模板库，方便新机型的快速适配
+
+▲:EC 管理 (Equipment Constant)/ 多设备共享:
+
+@see: ## RMS Function List → ### 1. 基本功能 → #### 1.3 EC 管理 (Equipment Constant)
+
+- EC 设定须有复用性，支持导入导出
 
 ▲:签核业务接口整合:
 
@@ -5758,7 +5758,7 @@ SBL 是 统计 Bin 的 Limit
 支持多类型、多方式、多源生产数据的实时采集与可靠存储, 保障数据收集的稳定性与性能.
 
 - **多源数据监控**: 支持工艺设备数据采集 (Inline), 设备日常点检数据 (Offline), Reticle, Carrier 及厂务数据等多种数据源; 支持产品、设备关键参数、厂务低频率定时汇总、原材料、出货等多种数据类型的采集.
-- **采集方式**: 支持手动录入、EAP 上传、文件解析、FTP、邮件解析等多种采集方式.
+- **采集方式**: <mark> 支持手动录入、EAP 上传、文件解析、FTP、邮件解析等多种采集方式.</mark>
 - **数据存储与清理**: 具备实时环境保存一年以上数据的存储能力, 并提供过期数据处理脚本.
 - **采集性能**: Inline, Offline 数据采集系统响应时间控制在 3 秒之内.
 - **非侵入式变更**: 修改 Chart 的内容对数据收集无影响.
@@ -5768,9 +5768,9 @@ SBL 是 统计 Bin 的 Limit
 
 支持灵活的 Chart 组织, 建立与管控配置, 覆盖批量操作与 Sub Chart 自动拆分.
 
-- **树状分组管理**: 支持以树的方式按不同数据源管理 Chart, 每个数据源下可嵌套任意深度的文件夹分类组织 Chart, 并支持 Chart 在 Folder 之间移动.
+- **树状分组管理**: 支持以树的方式按不同数据源管理 Chart, <mark> 每个数据源下可嵌套任意深度的文件夹分类组织 Chart, 并支持 Chart 在 Folder 之间移动.</mark>
 - **Context 过滤定义**: SPC Chart 可根据 Context Key 自定义过滤条件, 如 [产品]+[工艺路线]+[加工 Step]+[加工设备]+[Chamber]+[EDC Plan ID] 等;母 Chart (Group Chart), 子 Chart (Subgroup Chart) 的进点过滤条件使用 Context Key 表达式定义, 支持正向和反向 (排除名单) 过滤.
-- **批量建立与修改**: 支持与 MES 端 Loader 接口对接批量建 Chart;支持基于 Excel 批量新建, 修改 Chart, 并支持 by Pastable Attributes 方式快速修改 Chart 内容; 支持 Excel 模板导入 / 导出建模数据.
+- **批量建立与修改**: <mark> 支持与 MES 端 Loader 接口对接批量建 Chart;</mark> 支持基于 Excel 批量新建, 修改 Chart, 并支持 by Pastable Attributes 方式快速修改 Chart 内容; 支持 Excel 模板导入 / 导出建模数据.
 - **手动建立**: 提供友好快捷的操作界面方便用户手动建立 Chart.
 - **数据导出**: 支持一个或多个 SPC Chart 的数据和原始数据导出功能.
 - **设备与站点关联**: 支持 SPC Chart 关联到一个或多个工艺设备或 Process 站点.
@@ -5822,7 +5822,7 @@ SBL 是 统计 Bin 的 Limit
 - **内置公式**: 支持常用内置公式, 如 Trigger-Reference[#mean], Trigger\*Reference[#mean], Trigger+Reference[#mean], Reference-Trigger[#mean] 等.
 - **计算函数**: 支持丰富的计算函数 (如选片选点函数, Round, Cos, Sin, Tan, Log 等), 可基于这些函数自定义公式, 支持多个参数的复杂运算; 支持多种计算函数, 以及加减乘除和常数运算.
 - **因子取值**: 支持因子 Raw Data 计算, 可按照 Index 取部分原始值参与计算.
-- **结果追溯**: 计算结果可 Link 参与计算的 Sample, 方便 Check 数据的正确性.
+- **结果追溯**: <mark> 计算结果可 Link 参与计算的 Sample, 方便 Check 数据的正确性.</mark>
 - **二次开发**: 提供计算函数的二次开发, 方便扩展.
 
 ### 3. 分析和报表统计
@@ -5834,20 +5834,20 @@ SBL 是 统计 Bin 的 Limit
 - **多类型绘图**: 支持 Control Chart, Histogram, NormalProb, Boxplot 等多种数据绘图能力;Chart 图表类型的显示及显示顺序支持可配置.
 - **Chart 查看与过滤**: 支持按 Channel/CKC 查看 Chart;支持按参数名、Chart 名、样本 ID 等多条件过滤 Chart, 并可保存常用筛选条件.
 - **多 Chart 同屏**: 支持单屏显示一张或多张 Chart, 并显示 Chart 上所选数据点的相关信息 (如 Context Key, 违规信息等).
-- **多 Chart 对比分析**: 支持垂直分析, 水平分析, 叠图分析;垂直分析时支持上下 Sample 的对齐分析, 对齐 Key 可配置;支持用 Context 定义 Matching 条件用于叠图分析.
+- **多 Chart 对比分析**: 支持垂直分析, 水平分析, 叠图分析;<mark> 垂直分析时支持上下 Sample 的对齐分析, 对齐 Key 可配置;支持用 Context 定义 Matching 条件用于叠图分析.</mark>
 - **Chamber 自选分析**: By Chamber 分析可自选 Chamber 组合 (如一片 Wafer 经过 A/B/C/D 四个 Chamber, 可自选 A/B 或 B/C/D) Show 值并分析, 减少无关组合.
 - **数据点过滤与排除**: 支持手动过滤数据点 (需要注释);排除数据点后支持重新显示 Chart 或重新计算;支持批量 Disable 数据点并批量隐藏; 支持数据点临时 / 永久隐藏, 以及临时 / 永久取消隐藏; 隐藏点或过滤数据点后, 按照过滤后数据重新计算 Cpk, Avg 等相关统计数据; 支持按点数、时间周期过滤, 以及按重量、离散点、屏控限等条件批量过滤 Chart 数据.
-- **Sample Tag**: 支持手动, 自动给 Sample 打 Tag, Tag 支持自定义.
+- **Sample Tag**: <mark> 支持手动, 自动给 Sample 打 Tag, Tag 支持自定义.</mark>
 - **备注说明**: 支持对单个或多个数据点进行备注说明; 支持对数据点添加备注, 并查看该点过往所有备注记录.
 - **Chart 检索配置**: 支持根据 Context Key 配置 Chart 检索条件.
 - **界限显示**: 支持显示历史或当前 Chart 上配置的规格, 控制界限, 显示方式可配置; Chart 控制线支持使用历史数据进行展示.
-- **移动图重置**: 支持重置移动图表开始计算时间.
+- **移动图重置**: <mark> 支持重置移动图表开始计算时间.</mark>
 - **坐标轴配置**: X 轴的显示 Label 支持可配置; 支持 Y 轴根据管控限或自定义范围调整, 支持科学计数法、对数显示; X 轴可显示时间、UNIT_ID, LOT_ID, T7 Code, 可组合显示;支持 Process Time, Measure Time, System Time 等多时间维度排序; 支持设置 X 轴 Label 默认显示信息 (时间、UNIT_ID, LOT_ID 等), 以及默认显示数量、倾斜角度等.
 - **图表样式管理**: 支持按参数、Channel, Chart 等多个维度设置图表显示样式; 支持设置点的形状、大小、颜色等样式, 包含正常点、异常点、备注点等; 支持设置线的类型、粗细、颜色等样式, 包含 USL, LSL, UCL, LCL 等; 支持设置箱线图点位偏移量, 让重叠数据左右偏移.
 - **OCAP 联动**: 异常数据可根据 OCAP No 链接到 OCAP 系统;提供接口支持外部系统访问 SPC Chart 和数据点, 点击 OCAP 信息链接可进入 SPC 相关 OOC/OOS 点界面; 支持选择数据点手动触发 OCAP, 并支持从异常点跳转至 OCAP 处理页.
-- **批量查看与导图**: 支持批量查 Chart, 定时导图的功能.
+- **批量查看与导图**: 支持批量查 Chart, <mark> 定时导图的功能.</mark>
 - **设备状态叠加**: Chart 上可勾选显示 Tool EQP Status 异常变化的时间点 (类似 DOWN/PM 后 Monitor 量测值).
-- **Sample History**: 支持 Sample History 功能, 支持跨 LDS 搜索.
+- **Sample History**: 支持 Sample History 功能, <mark> 支持跨 LDS 搜索.</mark>
 - **母子 Chart 联动**: 支持在母 Chart 上查看子 Chart 的违规信息.
 - **Control Limit 试算与推荐**: 支持手动计算 Control Limit, 计算出来的 Limit 可编辑, 可手动接收或拒绝;支持新 Limit 的模拟分析, 并用不同颜色显示模拟后的分析结果 (如模拟前后均无异常显示为蓝色); 支持基于当前 Chart 数据推荐控制限, 计算公式为 Avg±3Sigma.
 - **颜色管理**: 支持自定义不同控制线的颜色及数据点在不同状态下的颜色 (如 OOC 点的颜色).
@@ -5869,7 +5869,7 @@ SBL 是 统计 Bin 的 Limit
 - **趋势分析**: 支持 Cpk/Ppk/ 违规数据的趋势变化分析;支持 Ppk/Cpk 达标率统计及趋势分析, 目标值可配置.
 - **CPK 总览表**: 支持 Cpk 总览表统计分析, 分为时间周期, 部门, Chart 详情三个维度.
 - **违规统计**: 支持违反 Alarm Rule 的 Count 及 Ratio 统计.
-- **报表调度**: 支持报表 Schedule 及执行 Log 详情查看.
+- **报表调度**: <mark> 支持报表 Schedule 及执行 Log 详情查看.</mark>
 - **格式导出**: 支持常用文件格式的导出 (如 Excel/CSV 等).
 - **常用报表**: 提供 Cpk 统计报表; 提供报警率统计报表; 提供管控限统计报表.
 - **自动计算**: 支持设置计算公式及数据过滤条件; 支持自动 / 手动计算, 自动计算周期支持月度 / 季度; 计算结果以报表形式展示.
@@ -5889,10 +5889,10 @@ SBL 是 统计 Bin 的 Limit
 
 支持 Fab 生产概况的实时统计与个性化仪表板.
 
-- **小时级统计**: 每隔一小时统计活跃 Chart 的 Violation, Cpk, Collection Interval, Exclude Sample 四个维度 Good/Warn/Bad 的百分比, 真实展现 Fab 最近 1 小时的生产概况.
-- **自定义分组**: 支持自定义 Chart 分组, 包括 Department, SPC Folder, Name, Job Name, Key Chart, Control Item, Context Key 等.
-- **多种 View Type**: 支持 Chart Summary, Chart Detail, Violation Summary, Violation Detail, Violation Compare, Cpk Compare, Violation Pareto, OCAP Summary, OCAP Detail, OCAP Compare 等多种查看方式.
-- **个性化 Dashboard**: 支持基于宫格的个性化 Dashboard 设置, 可将常用的 Dashboard 放到一起查看.
+- **小时级统计**: <mark> 每隔一小时统计活跃 Chart 的 Violation, Cpk, Collection Interval, Exclude Sample 四个维度 Good/Warn/Bad 的百分比, 真实展现 Fab 最近 1 小时的生产概况. </mark>
+- **自定义分组**: <mark> 支持自定义 Chart 分组, 包括 Department, SPC Folder, Name, Job Name, Key Chart, Control Item, Context Key 等. </mark>
+- **多种 View Type**: <mark> 支持 Chart Summary, Chart Detail, Violation Summary, Violation Detail, Violation Compare, Cpk Compare, Violation Pareto, OCAP Summary, OCAP Detail, OCAP Compare 等多种查看方式. </mark>
+- **个性化 Dashboard**: <mark> 支持基于宫格的个性化 Dashboard 设置, 可将常用的 Dashboard 放到一起查看. </mark>
 
 #### 3.5 收藏夹管理
 
@@ -5906,9 +5906,9 @@ SBL 是 统计 Bin 的 Limit
 
 支持权限管控, 操作追溯及多样化的查询与显示增强功能.
 
-- **查询权限**: 可依据产品, 设备等不同内容定义 Chart 的查询权限, 只有得到授权的人员才可查询对应的 SPC Chart 或内容.
+- **查询权限**: <mark> 可依据产品, 设备等不同内容定义 Chart 的查询权限, 只有得到授权的人员才可查询对应的 SPC Chart 或内容. </mark>
 - **操作历史追踪**: 提供详细 Log 追踪 Rule Change/Limit Change/Point Change 等各操作历史;Chart 的 Control Limit 修改时要有相关 Item 的修改记录.
-- **自定义 Tag**: 支持自定义 Tag.
+- **自定义 Tag**: <mark> 支持自定义 Tag. </mark>
 - **Chart 搜索**: 支持使用 Chart 的属性搜索 Chart, 如 ChartName, ParameterName, Context 值, SPC Rule.
 - **数据点搜索**: 支持按数据点属性搜索, 如 Context 值, OOC/OOS, Comment, 数据收集时间点, 并可选择以数据点列表模式或 Chart 列表模式显示.
 - **书签功能**: 可以把常用的 Chart 和搜索条件存为书签.
@@ -5927,7 +5927,7 @@ SBL 是 统计 Bin 的 Limit
 - **过程能力预测预警**: <mark> 基于历史数据趋势预测 Cpk 与过程能力变化，提前预警潜在失控风险，支持在失控前主动干预.</mark>
 - **vFAB 北向接口预留**: <mark> 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于判异触发、OCAP 联动发起、PM 后特殊管控生效、Cpk 过程能力趋势、Chart Spec 更改等).</mark>
 
-## SPC 标注（5★12▲）
+## SPC 标注（4★12▲）
 
 ### 标★
 
@@ -5936,12 +5936,6 @@ SBL 是 统计 Bin 的 Limit
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域支持数据采集 (Inline), 设备日常点检数据 (Offline), Reticle, Carrier 及厂务数据属于必须具备的数据源
-
-★采集方式:
-
-@see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
-
-- 属于制造业- 半导体领域存在 EAP 数据上传，厂务环境数据需要手动上传，进行解析文件
 
 ★判异准则与 Action:
 
