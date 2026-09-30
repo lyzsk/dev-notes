@@ -225,6 +225,18 @@ ssh Administrator@<跳板PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> po
 
 > 命令必须作为 ssh 参数传递，**不要用 `echo ... | ssh` 管道写法**
 
+# ccusage
+
+比如查看 9 月用量:
+
+`npx ccusage@latest daily --since 20260901`
+
+```cmd
+npm i -g ccusage
+
+ccusage monthly
+```
+
 # opencode
 
 `npm i -g opencode-ai`
