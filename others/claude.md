@@ -257,3 +257,21 @@ type "%USERPROFILE%\.config\opencode\opencode.jsonc"
 #清理多余的空配置文件
 del "%USERPROFILE%\.config\opencode\opencode.json"
 ```
+
+卸载:
+
+`npm uninstall -g opencode-ai`
+
+```powershell
+Remove-Item -Recurse -Force "$env:APPDATA\opencode" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\opencode" -ErrorAction SilentlyContinue
+
+# 清理 npm 自身缓存（可选）
+npm cache clean --force
+```
+
+```cmd
+# 验证是否卸载成功
+opencode --version
+npm list -g --depth=0 | grep opencode
+```
