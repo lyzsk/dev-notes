@@ -213,3 +213,20 @@ https://git-lfs.com/
 `Esc`
 
 `:wq`
+
+# filter-branch(批量重写 Git 提交历史)
+
+```cmd
+git add -A
+git commit -m "[msg]"
+
+git filter-branch --force --index-filter "git rm -rf --cached --ignore-unmatch [文件名]/" --prune-empty --tag-name-filter cat -- --all
+
+git log --oneline -- [文件名]/ | head
+
+rm -rf .git/refs/original/
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+
+git push --force origin master
+```
