@@ -2091,3 +2091,66 @@ SQL Error [08S01]: The last packet successfully received from the server was 100
 手动解决: 右键连接 - Disconnect 再 Connect
 
 长期解决: Edit Connection - Connection settings - initialization - Keep-Alive(seconds): 3600(原来是 0)
+
+# Quartz job 同秒双开, process 双进程把 63G 内存打爆, 全机卡死
+
+Bug: job1 (cron `0 30 15-23 * * ?`) 和 job2 (cron `0 0/30 7-22 * * ?`) 每到整半点 **同时触发**, 两个 handler 都调 `processPendingVideos`, 而队列是全局的 `selectByStep("DOWNLOADED")`, 没有 UP 过滤也没有锁 —— 同一个视频被各 spawn 一个 process_video.py (16.6G + 8.3G, 各扛一套 whisper + Qwen2.5-VL), 再叠加 ollama 32B 的 llama-server (14.3G), 63G 内存直接打满, 全机卡死, 微信桥都饿断了
+
+sys_job_log :
+
+```
+17:02:18  bilibiliVideoHandler  执行成功, 耗时 1937955ms (32.3 分钟)
+17:02:22  bilibiliVideoHandler  执行成功, 耗时 1942276ms (32.4 分钟)
+```
+
+最逗的是代码注释里写着 "长任务靠 quartz @DisallowConcurrentExecution 防重叠" —— 它只防 同一个 job 自重叠, 防不了 两个不同 job 抢同一个队列!!! cron 都踩 :30, 撞车是必然的
+
+解决: `BilibiliVideoServiceImpl` 三件套
+
+1. 原子认领 claim: `UPDATE ... SET step='PROCESSING' WHERE id=? AND step='DOWNLOADED'` —— 判断和占用是 同一条 SQL, affected=0 就是别人抢走了直接跳过, 没有 "都以为是自己" 的时间窗
+2. 租约回收 reclaimStale: 进程被杀 / 宕机, 行卡在中间态, 30min(下载)/90min(处理) 后自动退回 NEW/DOWNLOADED, 不会永久卡死
+3. 显存闸 freeVramBytes: spawn 视觉进程前查 `nvidia-smi --query-gpu=memory.free`, 空闲 <17G (模型 15G+ 余量) 本轮止, 16G×2 双开物理不可能
+
+# 还是这个全局队列, job1 捞 job2 的视频去下载, 被归属闸拒绝, 10 稿烧了三轮 retry 全灭
+
+Bug: `downloadPendingVideos` 也是全局队列, job1 的 10 条历史稿被 job2 的 handler 捞走, fetch_bilibili.mjs 里有防误下闸:
+
+```
+FATAL: bvid BV1hpeH6iE2N 归属 mid 550494308 != 目标 625315686, 拒绝下载(防误下他人视频)
+```
+
+闸是对的!!! 但每次拒绝都 markFail 烧一次 retry, 三轮全灭沉底, 下载全部失败
+
+解决: handler 从自己的 job param 解析 mid (`--mid 550494308`), 队列扫描后先过滤 `authorMid`, job1 handler 根本看不见 job2 的行, 错误配对从根上不存在
+
+总结: 全局队列 + 无锁 + 无归属过滤, 三个条件凑齐就是今天的连环事故. 排队干活的前提是先分清 "这活是谁的" 和 "有没有人已经在干"
+
+# handler 写死的脚本路径没跟上目录重构, B 站视频发现静默全败了五天
+
+Bug: `BilibiliVideoHandler` 里写死 `scripts/fetch_bilibili.mjs`, 目录重构之后脚本实际在 `scripts/bilibili/fetch_bilibili.mjs`
+
+解决: 改成 `Paths.get(rootDir, "scripts", "bilibili", "fetch_bilibili.mjs")`
+
+总结: 重构挪文件一定要 grep 引用面, Java 里的字符串路径编译器不会帮检查
+
+# 微信 ClawBot 显示 "无法连接", 其实是 PC1 的 hermes gateway 挂了
+
+Bug: 微信里 ClawBot 下面一行小字 "暂时无法连接", 手机上怎么操作都没用, PC1 重登微信也没用 —— 因为挂的不是微信, 是本机 hermes gateway 进程
+
+排查: tail `C:\Users\admin\AppData\Local\hermes\logs\gateway.log`,
+
+```
+2026-10-07 16:41:17 CRITICAL gateway.shutdown_watchdog: Gateway event loop missed 3 consecutive liveness probes; dumping all thread stacks and exiting with code 75 so the service supervisor can restart it.
+```
+
+看门狗发现事件循环卡死 (这次是全机内存打满连带饿死), 自杀退出 code 75, 注释里还指望 "service supervisor" 把它拉起来 —— 但根本没有 supervisor!!! 死了就死了, 一直死到我手动发现
+
+解决: 复刻原始 argv 手动起 gateway:
+
+```powershell
+start "" "C:\Users\admin\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe" "C:\Users\admin\AppData\Local\hermes\hermes-agent\hermes_cli\main.py" gateway run
+```
+
+gateway.log 出现 "Gateway housekeeping started" + weixin inbound 恢复即通
+
+总结: 症状在微信端 (手机), 病根在 PC1 的 gateway. 排查第一步永远是 tail gateway.log, 别去动微信. 治本 = 给 gateway 配 supervisor/ 计划任务自动重启 (待办)
