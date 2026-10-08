@@ -5166,7 +5166,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Die 唯一 ID 赋予**: Wafer 上的 Die 出厂时无编号, 物料进入系统的第一时间即为每一颗 Die 赋予系统唯一 ID (相当于身份证), 作为后续贴装、追溯与影响范围分析的主键.
 - **Pick and Place 组合关系记录**: 每次 Pick and Place / 贴装作业时, 除更新 Map 外另以独立记录表记录组合关系 (哪几颗 Die 的序列号贴装到哪个基板的哪个位置), 避免仅靠 Map 数据量过大导致查询困难与效率低下. 覆盖 SiP 多芯片异构集成场景, 结合 MAP 实现多芯片组合关系与正向 / 反向追溯.
 - **Die 级正向与反向全链路追溯**: 反向: 扫描成品基板 ID 即可查出其上每一颗 Die 的 ID、来源 Wafer 与来源产品 (基板上可含多种不同芯片), 形成树形结构完整追溯; 正向: 由一片 Wafer 查询其上 Die 流向哪些成品基板与出货批, 用于异常影响范围分析. 异常批次 / 设备时结合 MAP/MCP 做正向 (流向) / 反向 (来源) 影响范围分析, 辅助召回与隔离.
-- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI 1142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
+- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI E142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
 - **多载体 Map 类型支持**: 支持 Wafer Map, Substrate Map, Package Map, Tray Map, Boat Map 等多种载体的映射管理, 适配封测各段载体不断变化 (Wafer - Frame - Interposer - Substrate - Boat - Tray) 的场景.
 - **Component / Sub-Component 层级抽象**: 将 Wafer, Frame, Tray, Boat 等不同形态的加工对象统一抽象为 Component (加工组件), 单颗 Die 为 Sub-Component; MES 管理制造工单到 Component, MAP 管理 Component 到 Sub-Component, 实现形态转换过程中的层级追溯.
 
