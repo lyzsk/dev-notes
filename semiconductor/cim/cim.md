@@ -1742,7 +1742,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持多层次, 多维度的规格定义与基于历史数据的自动限值生成.
 
 - **Spec 类型**: 支持 Fixed Spec; 支持 Delta Spec, 即在 Target 基础上加减运算生成 Spec; 支持 Target 以上百分比规格 (如仅卡 Target 以上 10% 的部分);监控限值模式支持基本上下限控制 (Normal band, 通过 USL/LSL/UCL/LCL 监控), 多限值模式 (Multi-band, 通过多个 SPEC Limits 监控), 工艺阶段内限值模式 (Intra-step, 针对单个工艺阶段设定多个 SPEC Limits), 非线性限值模式 (Pattern, 支持 Percentage/Sigma/Const 等方式).
-- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段做为规格设定条件 </mark>.
+- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段作为规格设定条件 </mark>.
 - **分级报警体系**: 模型报警等级分为 Warning, Alarm, Outlier, 每个等级可设置不同的规格和对应的 OCAP;模型每种管控规格线支持设定独立的 OCAP, 如超出 LCL 触发 Alarm, 超出 LSL 触发 Hold Lot;异常发生时, 支持触发用户配置的多个 OCAP 动作.
 - **批量自动限值**: 支持批量使用历史数据对所有腔室生成规格; 生成规格时选择的 Run List 支持抽样;支持对规格开启自动计算机制 (Auto-Calculation), 包含周期和次数, 新规格失效阈值.
 - **Sigma 限值定制**: 自动计算规格时可个别指定 Warning Limit, Alarm Limit, Outlier Limit 上下限对应的 Sigma 倍数, Sigma 算法可选择和自定义; 内置 5 种 Sigma 算法: PSEUDO Sigma, Bounded Boxplot Sigma, SIMR2, SROBUST, SUMVU.
@@ -3762,7 +3762,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **功能与数据权限**: 支持由用户 / 用户组控制的功能权限, 由用户部门控制的设备权限和持有 / 释放 (Hold/Release) 权限.
 - **菜单与按钮级权限**: 菜单和操作按钮都要可以控制权限, 系统默认要对按钮具备权限管控, 不能只是对菜单权限管控; 支持用户组的角色配置, 为角色分配权限, 可以在菜单, 按钮级别明确权限.
 - **设备/区域权限**: 支持设备 / 区域和权限设置, 操作者只能使用属于指定设备的设备; 按设备或设备组、按用户或用户组双向增减操作权限; 用户对设备进行设置或动作 (Track-In, Track-Out、切换设备状态 / 模式等) 时按权限校验.
-- **菜单布局统一**: 系统的菜单布局和顺序应该默认统一; 相同权限组或用户组的用户登陆系统后看到的菜单布局完全一致, 不同权限组的用户登陆后菜单需按默认统一顺序展示具备权限的菜单, 而不能无序展示.
+- **菜单布局统一**: 系统的菜单布局和顺序应该默认统一; 相同权限组或用户组的用户登录系统后看到的菜单布局完全一致, 不同权限组的用户登录后菜单需按默认统一顺序展示具备权限的菜单, 而不能无序展示.
 - **操作证书管理**: <mark> 支持操作员设备操作证书管理, 只有持有证书的操作员才能使用设备, 支持对接 OA 系统.</mark>
 - **任职周期**: <mark> 人员任职周期管理.</mark>
 - **状态切换权限**: 提供界面维护设备状态权限, 即什么角色可将设备状态从什么状态切到什么状态.
@@ -4378,7 +4378,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持跨厂委外加工的多种模式.
 
-- **委外模式**: <mark> 支持前半部分在其它 Fab Run, 后半部分在本厂 Run; 后半部分在其它 Fab Run, 前半部分在本厂 Run; 一部分在本厂 Run, 然后外包给其它 Fab Run, 再又回到本厂 Run 等多种委外场景.</mark>
+- **委外模式**: <mark> 支持前半部分在其它 Fab Run, 后半部分在本厂 Run; 后半部分在其它 Fab Run, 前半部分在本厂 Run; 一部分在本厂 Run, 然后外包给其他 Fab Run, 再又回到本厂 Run 等多种委外场景.</mark>
 
 #### 6.22 Add Comment (添加备注)
 
