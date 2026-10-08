@@ -2139,18 +2139,4 @@ Bug: 微信里 ClawBot 下面一行小字 "暂时无法连接", 手机上怎么�
 
 排查: tail `C:\Users\admin\AppData\Local\hermes\logs\gateway.log`,
 
-```
-2026-10-07 16:41:17 CRITICAL gateway.shutdown_watchdog: Gateway event loop missed 3 consecutive liveness probes; dumping all thread stacks and exiting with code 75 so the service supervisor can restart it.
-```
-
-看门狗发现事件循环卡死 (这次是全机内存打满连带饿死), 自杀退出 code 75, 注释里还指望 "service supervisor" 把它拉起来 —— 但根本没有 supervisor!!! 死了就死了, 一直死到我手动发现
-
-解决: 复刻原始 argv 手动起 gateway:
-
-```powershell
-start "" "C:\Users\admin\AppData\Local\hermes\hermes-agent\venv\Scripts\python.exe" "C:\Users\admin\AppData\Local\hermes\hermes-agent\hermes_cli\main.py" gateway run
-```
-
-gateway.log 出现 "Gateway housekeeping started" + weixin inbound 恢复即通
-
-总结: 症状在微信端 (手机), 病根在 PC1 的 gateway. 排查第一步永远是 tail gateway.log, 别去动微信. 治本 = 给 gateway 配 supervisor/ 计划任务自动重启 (待办)
+实际只要 cmd: `hermes gateway start` 就行了
