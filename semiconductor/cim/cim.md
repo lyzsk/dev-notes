@@ -5931,7 +5931,6 @@ SBL 是 统计 Bin 的 Limit
 
 支持灵活的 Chart 组织, 建立与管控配置, 覆盖批量操作与 Sub Chart 自动拆分.
 
-- **树状分组管理**: 支持以树的方式按不同数据源管理 Chart, <mark> 每个数据源下可嵌套任意深度的文件夹分类组织 Chart, 并支持 Chart 在 Folder 之间移动.</mark>
 - **Context 过滤定义**: SPC Chart 可根据 Context Key 自定义过滤条件, 如 [产品]+[工艺路线]+[加工 Step]+[加工设备]+[Chamber]+[EDC Plan ID] 等;母 Chart (Group Chart), 子 Chart (Subgroup Chart) 的进点过滤条件使用 Context Key 表达式定义, 支持正向和反向 (排除名单) 过滤.
 - **批量建立与修改**: <mark> 支持与 MES 端 Loader 接口对接批量建 Chart;</mark> 支持基于 Excel 批量新建, 修改 Chart, 并支持 by Pastable Attributes 方式快速修改 Chart 内容; 支持 Excel 模板导入 / 导出建模数据.
 - **手动建立**: 提供友好快捷的操作界面方便用户手动建立 Chart.
