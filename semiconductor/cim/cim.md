@@ -959,7 +959,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **特殊流程适配**:
     - <mark>支持 OpenCassette、无 Load Port、文件解析等涉及特殊流程的安全生产控制流程制定, 同时进行 UI 的相应客制化.</mark>
     - <mark>支持与特殊工艺设备, 如 MOCVD、Bond、Debond 适配的安全生产控制流程.</mark>
-    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp使用不同的MES-EQPID;</mark>
+    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp&ByChamber使用不同的MES-EQPID.</mark>
 - **并发与框架支持**:
     - 支持多线程锁.
     - 支持 Fixed Buffer、Metrology、Internal Buffer、Photo Inline、Sorter、FOUP Clean 几种各类型 EAP 框架.
@@ -1005,7 +1005,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 
 ### 2. 业务接口整合
 
-#### 2.1 EAP 与 MES 整合
+#### 2.1 设备状态及作业信息同步
 
 支持与 MES 的深度整合, 覆盖账户验证、信息交互、作业执行与设备状态同步等核心业务.
 
@@ -1029,7 +1029,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
     - 支持异常时请求 MES 切换设备状态.
     - 支持 MES 侧状态查询和切换控制 (远程控制).
 
-#### 2.2 EAP 与 RMS 整合
+#### 2.2 配方获取与解析
 
 支持与 RMS 系统的接口整合, 实现 Recipe 的双向传输与可配置的校验机制.
 
@@ -1877,7 +1877,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 - **内置算法库**: 默认提供 50+ 以上默认统计算法.
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
-- **脚本式算法**: <mark> 支持脚本式算法, 厂商需具备基本客制及升级脚本语法的能力.</mark>
+- **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
 
 ### 10. 图形化工作流 (Graphical Workflow)
