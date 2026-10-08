@@ -2563,6 +2563,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - **网络规格**: 建议核心交换机通讯速率不低于 4320 Mpps/36000 Mpps.
 - **异常报警**: 当硬件通讯异常时, RCM 界面有相关报警, 如 KVM 设备断开时系统弹窗报警.
 - **客制化能力**: RCM 系统支持客制化;为客制化开发预留接口.
+- **部署形态**: 支持工程师集中远程办公 (战情中心远程监控大屏集中管控), 以及经防火墙开放互联网 / VPN 的居家远程办公, 实现异地远程控制. (来源: SEMITECH RCM&RPA V2.8 PPT)
 
 ### 2. 核心功能
 
@@ -2738,6 +2739,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 支持多种访问协议与网络接入形态, 并满足时钟与设备信息获取要求.
 
 - **访问协议**: RCM 产品硬件要求支持多种访问协议, 支持 HTML, Microsoft .NET 等多种主流协议, 以最大程度减少未来软件技术升级的成本和难度.
+- **主接入方式**: RCM 支持以 IP-KVM, VNC, RDP 三类主要方式接入并远程操控设备;IP-KVM 通过硬件直接连接键盘/视频/鼠标端口并数字化, 经 IP 网络访问与控制计算机;VNC 为跨平台开源屏幕共享;RDP 为 Windows 远程桌面协议. (来源: SEMITECH RCM&RPA V2.8 PPT)
 - **设备信息获取**: 设备的型号, FW 版本, IP 地址, 序列号或 MAC 地址等信息需支持被 HOST 端获取.
 - **时钟同步**: 设备需要支持 NTP 时钟同步.
 - **网络接口**: 单个 RCM 只需要一个 RJ45 网口并仅需要一个 IP.
@@ -2760,6 +2762,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - **设备类型**: RCM 类型为 1V1 (一个 RCM 仅控制一个机台 PC).
 - **故障隔离**: 单个 RCM 损坏或异常时, 仅影响所对应的单个机台 PC 不能操作, 不影响所对应的机台正常 Run 货及数据传送.
 - **零侵入安装**: 采用硬件连线的方式获得机台端的荧幕信号, 键盘信号与鼠标信号;不得在机台端的计算机上加装任何软件, 不得影响机台近端正常运作 (例如安装 RCM 设备后导致机台荧幕显示不正常等).
+- **安全隔离**: KVM 控制网络不与机台直接联机, 仅经硬件采集键鼠屏信号, 避免机台端因控制链路暴露而中毒;远程控制链路经独立网络 / 防火墙隔离. (来源: SEMITECH RCM&RPA V2.8 PPT)
 - **自动恢复**: 断电复电及断网后恢复网络后, RCM 能自动恢复工作, 且复电后调教参数不需要重新设置, 自动恢复工作所需时间小于 1 分钟.
 - **现场调试**: 设备调试方便, 可直接接笔记本或其它移动设备进行参数设置或调教.
 - **安装不停机**: RCM 设备的安装不需要机台端关机或重启;若部分特殊机型不满足该要求, 则需要供应商作出相应的说明.
@@ -5183,7 +5186,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Die 唯一 ID 赋予**: Wafer 上的 Die 出厂时无编号, 物料进入系统的第一时间即为每一颗 Die 赋予系统唯一 ID (相当于身份证), 作为后续贴装、追溯与影响范围分析的主键.
 - **Pick and Place 组合关系记录**: 每次 Pick and Place / 贴装作业时, 除更新 Map 外另以独立记录表记录组合关系 (哪几颗 Die 的序列号贴装到哪个基板的哪个位置), 避免仅靠 Map 数据量过大导致查询困难与效率低下. 覆盖 SiP 多芯片异构集成场景, 结合 MAP 实现多芯片组合关系与正向 / 反向追溯.
 - **Die 级正向与反向全链路追溯**: 反向: 扫描成品基板 ID 即可查出其上每一颗 Die 的 ID、来源 Wafer 与来源产品 (基板上可含多种不同芯片), 形成树形结构完整追溯; 正向: 由一片 Wafer 查询其上 Die 流向哪些成品基板与出货批, 用于异常影响范围分析. 异常批次 / 设备时结合 MAP/MCP 做正向 (流向) / 反向 (来源) 影响范围分析, 辅助召回与隔离.
-- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI 1142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
+- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI E142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
 - **多载体 Map 类型支持**: 支持 Wafer Map, Substrate Map, Package Map, Tray Map, Boat Map 等多种载体的映射管理, 适配封测各段载体不断变化 (Wafer - Frame - Interposer - Substrate - Boat - Tray) 的场景.
 - **Component / Sub-Component 层级抽象**: 将 Wafer, Frame, Tray, Boat 等不同形态的加工对象统一抽象为 Component (加工组件), 单颗 Die 为 Sub-Component; MES 管理制造工单到 Component, MAP 管理 Component 到 Sub-Component, 实现形态转换过程中的层级追溯.
 
@@ -5948,7 +5951,6 @@ SBL 是 统计 Bin 的 Limit
 
 支持灵活的 Chart 组织, 建立与管控配置, 覆盖批量操作与 Sub Chart 自动拆分.
 
-- **树状分组管理**: 支持以树的方式按不同数据源管理 Chart, <mark> 每个数据源下可嵌套任意深度的文件夹分类组织 Chart, 并支持 Chart 在 Folder 之间移动.</mark>
 - **Context 过滤定义**: SPC Chart 可根据 Context Key 自定义过滤条件, 如 [产品]+[工艺路线]+[加工 Step]+[加工设备]+[Chamber]+[EDC Plan ID] 等;母 Chart (Group Chart), 子 Chart (Subgroup Chart) 的进点过滤条件使用 Context Key 表达式定义, 支持正向和反向 (排除名单) 过滤.
 - **批量建立与修改**: <mark> 支持与 MES 端 Loader 接口对接批量建 Chart;</mark> 支持基于 Excel 批量新建, 修改 Chart, 并支持 by Pastable Attributes 方式快速修改 Chart 内容; 支持 Excel 模板导入 / 导出建模数据.
 - **手动建立**: 提供友好快捷的操作界面方便用户手动建立 Chart.
