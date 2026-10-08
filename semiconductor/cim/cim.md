@@ -959,7 +959,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **特殊流程适配**:
     - <mark>支持 OpenCassette、无 Load Port、文件解析等涉及特殊流程的安全生产控制流程制定, 同时进行 UI 的相应客制化.</mark>
     - <mark>支持与特殊工艺设备, 如 MOCVD、Bond、Debond 适配的安全生产控制流程.</mark>
-    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp使用不同的MES-EQPID;</mark>
+    - <mark>支持Inline Tool:支持2台主机建制为同一EAP；支持1台主机byLp&ByChamber使用不同的MES-EQPID.</mark>
 - **并发与框架支持**:
     - 支持多线程锁.
     - 支持 Fixed Buffer、Metrology、Internal Buffer、Photo Inline、Sorter、FOUP Clean 几种各类型 EAP 框架.
@@ -995,17 +995,17 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **日志文件管理**: 日志文件可以根据时间和大小为每台设备创建, 支持配置日志文件的路径, 支持定期文件自动压缩, 时间可配置; 支持 Log 分级, 按时间 / 大小切分, 定时备份和清理.
 - **问题定位**: 提供根据日志进行问题定位与解决的方案; 支持问题追踪与日志分析工具.
 - **日志回放测试**: 支持根据 SECSLog 模拟机台进行跑货测试, 便于设备测试开发与运维.
-- **全厂关键字查询**: 支持类ELK方式全厂日志查询.
+- **全厂关键字查询**: <mark>支持类ELK方式全厂日志/EAP配置文件查询.</mark>
 
 #### 1.5 EAP 运维
 
-- **热加载功能**: 支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.
-- **重启复位功能**: 支持EAP重启时保存resume文件.
-- **支持远程运维**: 支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.
+- **热加载功能**: <mark>支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.</mark>
+- **重启复位功能**: <mark>支持EAP重启时保存resume文件.</mark>
+- **支持远程运维**: <mark>支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.</mark>
 
 ### 2. 业务接口整合
 
-#### 2.1 EAP 与 MES 整合
+#### 2.1 设备状态及作业信息同步
 
 支持与 MES 的深度整合, 覆盖账户验证、信息交互、作业执行与设备状态同步等核心业务.
 
@@ -1029,7 +1029,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
     - 支持异常时请求 MES 切换设备状态.
     - 支持 MES 侧状态查询和切换控制 (远程控制).
 
-#### 2.2 EAP 与 RMS 整合
+#### 2.2 配方获取与解析
 
 支持与 RMS 系统的接口整合, 实现 Recipe 的双向传输与可配置的校验机制.
 
@@ -1742,7 +1742,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持多层次, 多维度的规格定义与基于历史数据的自动限值生成.
 
 - **Spec 类型**: 支持 Fixed Spec; 支持 Delta Spec, 即在 Target 基础上加减运算生成 Spec; 支持 Target 以上百分比规格 (如仅卡 Target 以上 10% 的部分);监控限值模式支持基本上下限控制 (Normal band, 通过 USL/LSL/UCL/LCL 监控), 多限值模式 (Multi-band, 通过多个 SPEC Limits 监控), 工艺阶段内限值模式 (Intra-step, 针对单个工艺阶段设定多个 SPEC Limits), 非线性限值模式 (Pattern, 支持 Percentage/Sigma/Const 等方式).
-- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段做为规格设定条件 </mark>.
+- **多维规格设定**: 可根据设备 (Tool), 腔室 (Chamber), 配方 (Recipe), Recipe Step 或其他 Context 信息 (Product, Stage) 设定规格;支持将规格 (SPEC) 广泛应用至所有的生产配方 (Recipe) 和生产步骤 (Recipe Step),<mark> 支持后期新增 Context 字段作为规格设定条件 </mark>.
 - **分级报警体系**: 模型报警等级分为 Warning, Alarm, Outlier, 每个等级可设置不同的规格和对应的 OCAP;模型每种管控规格线支持设定独立的 OCAP, 如超出 LCL 触发 Alarm, 超出 LSL 触发 Hold Lot;异常发生时, 支持触发用户配置的多个 OCAP 动作.
 - **批量自动限值**: 支持批量使用历史数据对所有腔室生成规格; 生成规格时选择的 Run List 支持抽样;支持对规格开启自动计算机制 (Auto-Calculation), 包含周期和次数, 新规格失效阈值.
 - **Sigma 限值定制**: 自动计算规格时可个别指定 Warning Limit, Alarm Limit, Outlier Limit 上下限对应的 Sigma 倍数, Sigma 算法可选择和自定义; 内置 5 种 Sigma 算法: PSEUDO Sigma, Bounded Boxplot Sigma, SIMR2, SROBUST, SUMVU.
@@ -1877,7 +1877,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 - **内置算法库**: 默认提供 50+ 以上默认统计算法.
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
-- **脚本式算法**: <mark> 支持脚本式算法, 厂商需具备基本客制及升级脚本语法的能力.</mark>
+- **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
 
 ### 10. 图形化工作流 (Graphical Workflow)
@@ -3765,7 +3765,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **功能与数据权限**: 支持由用户 / 用户组控制的功能权限, 由用户部门控制的设备权限和持有 / 释放 (Hold/Release) 权限.
 - **菜单与按钮级权限**: 菜单和操作按钮都要可以控制权限, 系统默认要对按钮具备权限管控, 不能只是对菜单权限管控; 支持用户组的角色配置, 为角色分配权限, 可以在菜单, 按钮级别明确权限.
 - **设备/区域权限**: 支持设备 / 区域和权限设置, 操作者只能使用属于指定设备的设备; 按设备或设备组、按用户或用户组双向增减操作权限; 用户对设备进行设置或动作 (Track-In, Track-Out、切换设备状态 / 模式等) 时按权限校验.
-- **菜单布局统一**: 系统的菜单布局和顺序应该默认统一; 相同权限组或用户组的用户登陆系统后看到的菜单布局完全一致, 不同权限组的用户登陆后菜单需按默认统一顺序展示具备权限的菜单, 而不能无序展示.
+- **菜单布局统一**: 系统的菜单布局和顺序应该默认统一; 相同权限组或用户组的用户登录系统后看到的菜单布局完全一致, 不同权限组的用户登录后菜单需按默认统一顺序展示具备权限的菜单, 而不能无序展示.
 - **操作证书管理**: <mark> 支持操作员设备操作证书管理, 只有持有证书的操作员才能使用设备, 支持对接 OA 系统.</mark>
 - **任职周期**: <mark> 人员任职周期管理.</mark>
 - **状态切换权限**: 提供界面维护设备状态权限, 即什么角色可将设备状态从什么状态切到什么状态.
@@ -4381,7 +4381,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 支持跨厂委外加工的多种模式.
 
-- **委外模式**: <mark> 支持前半部分在其它 Fab Run, 后半部分在本厂 Run; 后半部分在其它 Fab Run, 前半部分在本厂 Run; 一部分在本厂 Run, 然后外包给其它 Fab Run, 再又回到本厂 Run 等多种委外场景.</mark>
+- **委外模式**: <mark> 支持前半部分在其它 Fab Run, 后半部分在本厂 Run; 后半部分在其它 Fab Run, 前半部分在本厂 Run; 一部分在本厂 Run, 然后外包给其他 Fab Run, 再又回到本厂 Run 等多种委外场景.</mark>
 
 #### 6.22 Add Comment (添加备注)
 
@@ -5169,7 +5169,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Die 唯一 ID 赋予**: Wafer 上的 Die 出厂时无编号, 物料进入系统的第一时间即为每一颗 Die 赋予系统唯一 ID (相当于身份证), 作为后续贴装、追溯与影响范围分析的主键.
 - **Pick and Place 组合关系记录**: 每次 Pick and Place / 贴装作业时, 除更新 Map 外另以独立记录表记录组合关系 (哪几颗 Die 的序列号贴装到哪个基板的哪个位置), 避免仅靠 Map 数据量过大导致查询困难与效率低下. 覆盖 SiP 多芯片异构集成场景, 结合 MAP 实现多芯片组合关系与正向 / 反向追溯.
 - **Die 级正向与反向全链路追溯**: 反向: 扫描成品基板 ID 即可查出其上每一颗 Die 的 ID、来源 Wafer 与来源产品 (基板上可含多种不同芯片), 形成树形结构完整追溯; 正向: 由一片 Wafer 查询其上 Die 流向哪些成品基板与出货批, 用于异常影响范围分析. 异常批次 / 设备时结合 MAP/MCP 做正向 (流向) / 反向 (来源) 影响范围分析, 辅助召回与隔离.
-- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI 1142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
+- **SEMI 标准 Map 定义遵循**: 参照半导体行业标准 (SEMI E142) 定义 Substrate Map, 含 Bin Map (好 / 坏 Die 判定)、Device ID (出货标签编号) 及 Pick and Place / Transfer 等标准作业定义, 保证与上下游系统的数据互通.
 - **多载体 Map 类型支持**: 支持 Wafer Map, Substrate Map, Package Map, Tray Map, Boat Map 等多种载体的映射管理, 适配封测各段载体不断变化 (Wafer - Frame - Interposer - Substrate - Boat - Tray) 的场景.
 - **Component / Sub-Component 层级抽象**: 将 Wafer, Frame, Tray, Boat 等不同形态的加工对象统一抽象为 Component (加工组件), 单颗 Die 为 Sub-Component; MES 管理制造工单到 Component, MAP 管理 Component 到 Sub-Component, 实现形态转换过程中的层级追溯.
 
@@ -5208,7 +5208,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **停机管理**: 支持停机原因代码 (Downtime Reason Code)、计划 / 非计划停机记录, 统计 MTBF/MTTR 并形成设备可用率基线.
 - **OEE 计算与看板**: 支持设备可用率、性能、良率及综合 OEE 实时计算与趋势看板, 按设备 / 机群 / 工艺段下钻.
 - **效率分析**: 支持瓶颈分析、利用率、空闲率、待料 / 待批次 (starved/blocked) 分析, 指导产能改善.
-- **PM权限设置**: <mark>PM 查看权限数需多于可编辑权限数; 通过 Link 签核系统下发编辑权限.</mark>
+- **PM权限设置**: <mark>PM 查看权限数需多于可编辑权限数; 可通过签核赋予编辑权限.</mark>
 - **Parts 使用时间管理**: 换 Part 时需显示该 Part 已使用的时间时数及还能使用的时间时数.
 
 ### 42. SPC 统计过程控制
@@ -5388,7 +5388,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 - **AI 治理与自评估**: <mark> 建模配置一致性与冲突审查: 按相似产品的既有建模推荐 Flow, Recipe 与 EDC Plan 模板，降低新产品建模工作量.数据：工艺流程建模的流程模板与流程导出、Recipe 建模管理、EDC Plan 批量维护.</mark>
 - **AI 治理与自评估**: <mark> Hold 与扣留规则自评估: 基于 Hold 履历评估自动扣留规则的精确率与召回率，量化并压减无必要扣留.数据：Hold 与 Release, FutureHold, checkCust 控制规则、放行后结果.</mark>
 - **AI 生成与交互**: <mark> 报表与日报自动归因: 报表不只给数，自动写出为什么变了的归因段落并定时推送.数据：KPI 看板与图表生成、停机与变更等事件履历、Hold 与异常记录.</mark>
-- **AI 优化与决策**: <mark> 卡控规则松紧调优:基于卡控触发履历与后续实际结果做规则自评估，反推 Tool Constraint 阈值过紧或过松，并借复制与模拟验证。数据：ECS / 机台限制的卡控触发记录、报废与异常履历.</mark>
+- **AI 优化与决策**: <mark> 卡控规则调整: 基于卡控触发履历与后续实际结果做规则自评估，反推 Tool Constraint 设置的是否合理，并根据历史数据进行模拟验证。数据：ECS / 机台限制的卡控触发记录、报废与异常履历.</mark>
 - **AI 优化与决策**: <mark> EDC 采样参数与点位智能生成: 由历史量测与工艺参数的相关性反推该站点有区分度的参数，并推荐测哪片、测几个点。数据：EDC Plan 的站点设定与 Wafer / Site 级采样与点位挑选、选片规则、量测站点与工艺站点 Mapping.</mark>
 - **AI 诊断与归因**: <mark> Rework 与 Loop 异常预警: 识别返工与循环次数异常偏高的批次、站点与产品，输出返工根因线索与超限预警.数据：Rework 流程维度、Loop Control 循环控制、RRC 异常恢复单与返工履历.</mark>
 - **vFAB 北向接口预留**: <mark> 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Hold/Release, OCAP 触发与关闭、RRC/SRC 单据流转、派工模式切换、WIP 查询等).</mark>
@@ -5934,7 +5934,6 @@ SBL 是 统计 Bin 的 Limit
 
 支持灵活的 Chart 组织, 建立与管控配置, 覆盖批量操作与 Sub Chart 自动拆分.
 
-- **树状分组管理**: 支持以树的方式按不同数据源管理 Chart, <mark> 每个数据源下可嵌套任意深度的文件夹分类组织 Chart, 并支持 Chart 在 Folder 之间移动.</mark>
 - **Context 过滤定义**: SPC Chart 可根据 Context Key 自定义过滤条件, 如 [产品]+[工艺路线]+[加工 Step]+[加工设备]+[Chamber]+[EDC Plan ID] 等;母 Chart (Group Chart), 子 Chart (Subgroup Chart) 的进点过滤条件使用 Context Key 表达式定义, 支持正向和反向 (排除名单) 过滤.
 - **批量建立与修改**: <mark> 支持与 MES 端 Loader 接口对接批量建 Chart;</mark> 支持基于 Excel 批量新建, 修改 Chart, 并支持 by Pastable Attributes 方式快速修改 Chart 内容; 支持 Excel 模板导入 / 导出建模数据.
 - **手动建立**: 提供友好快捷的操作界面方便用户手动建立 Chart.
