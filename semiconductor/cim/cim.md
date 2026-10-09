@@ -1879,13 +1879,13 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持个性化的报表订阅与推送.
 
 - **收藏夹与订阅**: 支持用户根据自己的喜好设置报表收藏夹功能;支持设定报表产生的条件, 按照自定义的时间点推送 FDC 相关报表; 支持收藏当前页面查询条件, 在收藏夹列表中点击收藏标题后进入首页查看收藏内容;收藏的查询条件可设定为私人可见或共享, 一键适用, 无需重复选择条件.
-- **机台 Recipe 覆盖率统计报表**: 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数)
+- **机台 Recipe 覆盖率统计报表**: <mark> 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数) </mark>
 - **机台 Run 覆盖率统计报表**: 统计机台的 Run 覆盖率
 - **UVA Data Box plot 报表(多机台比较、Day/Week/Month to Day 比较)**: 对 UVA Data 提供 Box plot 报表, 可提供多机台比较分析; 对同一机台亦可以比较 Day to Day, Week to Week, Month to Month 等不同时间的分析
-- **新设备上线与基准设备比较并汇总超 Spec 数据**: 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据
+- **新设备上线与基准设备比较并汇总超 Spec 数据**: <mark> 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据 </mark>
 - **PMQA 报表(PM 后自动与基准设备比较并汇总超 Spec 数据)**: PMQA 报表 (当设备做完 PM 后, 自动和基准设备比较, 汇总超过 Spec 的数据)
 - **设备反应室群组匹配报告(检查 Baseline 是否 Shift)**: 设备反应室群组匹配报告 (可用来检查设备反应室 Base line 是否有 Shift)
-- **查询数据转换为 Report(PDF / PPT)**: 查询得到的数据能转换为 Report (PDF/PPT)
+- **查询数据转换为 Report(PDF / PPT)**: <mark> 查询得到的数据能转换为 Report (PDF/PPT) </mark>
 
 ### 8. 可视化看板 (Dashboard)
 
