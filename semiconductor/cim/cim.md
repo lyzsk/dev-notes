@@ -1752,7 +1752,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **以逻辑表达式基于 Summary Data 生成新的监控模型**: <mark> 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警 </mark>
 - **按 PM / Idle / 跑片数等条件自动启停检测**: 经过配置可以在指定条件下设置关闭或开启检测 (例如 PM 后、Idle n 小时后、run 过 n 片后等)
 - **支持设置 EWMA Spec**: 支持设置 EWMA Spec
-- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**: Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警
+- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**:  <mark> Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警 </mark>
 - **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: <mark>  Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发 </mark>
 
 #### 6.6 规格体系与自动限值
