@@ -14,7 +14,7 @@
 
 https://www.kimi.com/code 的 key:
 
-```json
+<!-- ```json
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
@@ -30,19 +30,19 @@ https://www.kimi.com/code 的 key:
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
 }
-```
+``` -->
 
 ```json
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
         "ANTHROPIC_AUTH_TOKEN": "sk-kimi-你的真实key",
-        "ANTHROPIC_MODEL": "k3",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "k3",
-        "ANTHROPIC_DEFAULT_SONNET_MODEL": "k3",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "k3",
-        "ANTHROPIC_DEFAULT_FABLE_MODEL": "k3",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "k3",
+        "ANTHROPIC_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k3[1m]",
         "ENABLE_TOOL_SEARCH": "false",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
@@ -65,7 +65,25 @@ https://platform.kimi.com/ 的 key:
         "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k3[1m]",
         "ENABLE_TOOL_SEARCH": "false",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
-        "CLAUDE_CODE_EFFORT_LEVEL": "max"
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
+    }
+}
+```
+
+## maas.gravitex.ai
+
+```json
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+        "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
+        "ANTHROPIC_MODEL": "claude-fable-5",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "gpt-5.6-sol",
+        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
 }
 ```
@@ -175,9 +193,9 @@ PowerShell:
 
 `hermes setup`, @see: https://www.kimi.com/code/docs/third-party-tools/hermes.html 最后一部分有 kimi 连接 Hermes Agent
 
--   Provider 选 Kimi / Moonshot
--   粘贴你的 Kimi API key
--   模型选套餐可用的 (k3)
+- Provider 选 Kimi / Moonshot
+- 粘贴你的 Kimi API key
+- 模型选套餐可用的 (k3)
 
 验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
 
@@ -236,11 +254,11 @@ password 是 `username/.ssh` 下的 `*.pub` 文件内容, 先复制, 然后到 P
 
 ```bash
 # 1. 脚本（Add-Content+icacls）先 scp 到 PC2
-scp ak_pc1.ps1 Administrator@<跳板PC100.x>:C:/Temp/
+scp ak_pc1.ps1 Administrator@<跳板 PC100.x>:C:/Temp/
 # 2. 经 PC2 把脚本送进 PC1
-ssh Administrator@<跳板PC100.x> "scp -o BatchMode=yes C:\Temp\ak_pc1.ps1 admin@<中枢PC100.x>:C:/Users/admin/Downloads/"
+ssh Administrator@<跳板 PC100.x> "scp -o BatchMode=yes C:\Temp\ak_pc1.ps1 admin@<中枢PC100.x>:C:/Users/admin/Downloads/"
 # 3. 经 PC2 在 PC1 上执行（有完整权限）
-ssh Administrator@<跳板PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\admin\Downloads\ak_pc1.ps1"
+ssh Administrator@<跳板 PC100.x> "ssh -o BatchMode=yes admin@<中枢PC100.x> powershell -NoProfile -ExecutionPolicy Bypass -File C:\Users\admin\Downloads\ak_pc1.ps1"
 ```
 
 > 命令必须作为 ssh 参数传递，**不要用 `echo ... | ssh` 管道写法**
