@@ -1904,7 +1904,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
 - **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
-- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算
+- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: <mark> 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算 </mark>
 
 ### 10. 图形化工作流 (Graphical Workflow)
 
@@ -2080,7 +2080,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **与泛微门户协同**: <mark> 需包含门户管理等模块协同.</mark>
 - **与帆软报表协同**: <mark> 需包含报表管理等模块协同 (预留, 优先经 MES 汇聚).</mark>
 - **集成客户账号管理系统, 无需在 FDC 内另行建账号**: 支持集成客户账号管理系统, 不需在 FDC 系统里额外创建账号
-- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)
+- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: <mark> 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)</mark>
 - **提供 Performance Counter 对接第三方监控软件(如 Zabbix)**: 支持提供 Performance Counter 给第三方监控软件来实现系统监控, 支持主流监控系统如 Zabbix
 
 ### 18. 智能化需求
