@@ -1748,12 +1748,12 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **长制程实时检查**: 提供在长时间制程中及时检查规格的解决方案, 避免制程结束时才发现问题.
 - **工艺时间异常侦测**: 支持发现工艺时间异常, 例如 Wafer 工艺过程中未上报 End 事件时, 可经配置及时发现并通过 OCAP 报警.
 - **模型覆盖率查询**: <mark> 可 ByLine/Area/Model/EQP 查询模型覆盖度,并可查询已配置模型的 RunContext 和未配置模型的 RunContext.</mark>
-- **模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出**: 模型的所有设置均支持以 Excel 形式导入导出, 包括规格 (Spec) 设定、群组 (Group) 设定、数据窗口 (Window) 设定、客制化公式 (Custom Equation) 设定、数据转换 (Data Transformation) 设定等
-- **以逻辑表达式基于 Summary Data 生成新的监控模型**: 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警
+- **模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出**: <mark>  模型的所有设置均支持以 Excel 形式导入导出, 包括规格 (Spec) 设定、群组 (Group) 设定、数据窗口 (Window) 设定、客制化公式 (Custom Equation) 设定、数据转换 (Data Transformation) 设定等 </mark>
+- **以逻辑表达式基于 Summary Data 生成新的监控模型**: <mark> 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警 </mark>
 - **按 PM / Idle / 跑片数等条件自动启停检测**: 经过配置可以在指定条件下设置关闭或开启检测 (例如 PM 后、Idle n 小时后、run 过 n 片后等)
 - **支持设置 EWMA Spec**: 支持设置 EWMA Spec
 - **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**: Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警
-- **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发
+- **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: <mark>  Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发 </mark>
 
 #### 6.6 规格体系与自动限值
 
@@ -2024,7 +2024,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **追踪数据分析**: 支持在报表界面对 run list 增加 Tag，如 good run, bad run 或自定义的名称. 支持根据这些 Tag 进行叠图、分颜色、显示图例.
 - **追踪数据分析**: 支持呈现 Raw Trace 参数之间的相关关系.
 - **追踪数据分析**: 支持以特定参数作为 X 轴，其他参数作为 Y 轴绘制 Trend Chart.
-- **Sensor 偏差值比较打分排序, 快速定位 Key Sensor**: 支持在报表界面对 good run, bad run 进行标记, 可以对所有 Sensor 的偏差值进行比较打分并按照分数排序, 从而能快速定位到 Key Sensor
+- **Sensor 偏差值比较打分排序, 快速定位 Key Sensor**: <mark> 支持在报表界面对 good run, bad run 进行标记, 可以对所有 Sensor 的偏差值进行比较打分并按照分数排序, 从而能快速定位到 Key Sensor </mark>
 
 #### 14.3 长期追踪数据分析
 
