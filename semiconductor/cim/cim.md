@@ -1006,7 +1006,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **热加载功能**: <mark>支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.</mark>
 - **重启复位功能**: <mark>支持EAP重启时保存resume文件.</mark>
 - **支持远程运维**: <mark>支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.</mark>
-- **EAP 程序/进程监控、崩溃挂起自动重启与报警通知**: EAP 监控: 实时监控 EAP 程序是否有异常, 如果 EAP 程序崩溃或挂起, 立即重启 EAP 程序, 通过 Alarm 系统发送报警通知(邮件、短信等); 监控 EAP 与机台的连接是否有异常, 如果通信连接断开或报错, 通过 Alarm 系统发送报警通知; <mark>为某个机台的 EAP 做测试时, 支持有特定权限的人员临时避开对 EAP 程序的监控;</mark> 实时监控 EAP 上 Batch 的运行状态, 当 EAP 升级之后第一个 Batch 开始运行时, 通过邮件或 Alarm 系统发送通知; 监控 EAP 运行版本, 当发现 EAP 启动或运行版本与部署版本不一致时, 通过邮件或 Alarm 系统发送报警通知; <mark>有 Dcol 定义功能, 针对 EAP 传输出来的 raw process para, measurement para, 对这些数据定义整理成需要管理的 key para.;</mark> RECIPE 设置中 PPID 前 TITLE 可增加 MAIN ROUTE/TEST ROUTE 区分, 可在 MR/TR 项目中 RECIPE 名字后打 X, 使其不能进行. ; 实时监控 EAP 程序进程, 如果进程消失, 立即重新启动, 并发送报警 Email
+- **EAP 程序/进程监控、崩溃挂起自动重启与报警通知**: EAP 监控: 实时监控 EAP 程序是否有异常, 如果 EAP 程序崩溃或挂起, 立即重启 EAP 程序, 通过 Alarm 系统发送报警通知(邮件、短信等); 监控 EAP 与机台的连接是否有异常, 如果通信连接断开或报错, 通过 Alarm 系统发送报警通知; <mark>为某个机台的 EAP 做测试时, 支持有特定权限的人员临时避开对 EAP 程序的监控;</mark> 实时监控 EAP 上 Batch 的运行状态, 当 EAP 升级之后第一个 Batch 开始运行时, 通过邮件或 Alarm 系统发送通知; 监控 EAP 运行版本, 当发现 EAP 启动或运行版本与部署版本不一致时, 通过邮件或 Alarm 系统发送报警通知; <mark>支持数据采集定义(Data Collection)功能, 对 EAP 输出的原始工艺参数(raw process)与量测数据(measurement parameter)进行定义和归集, 形成需纳入管理的关键参数(key para),并可导出为可管理的文件;</mark> RECIPE 设置中 PPID 前 TITLE 可增加 MAIN ROUTE/TEST ROUTE 区分, 可在 MR/TR 项目中 RECIPE 名字后打 X, 使其不能进行. ; 实时监控 EAP 程序进程, 如果进程消失, 立即重新启动, 并发送报警 Email
 - **EAP 程序部署、远程/在线升级与自动升级通知**: EAP 程序部署升级: 支持对同类型机台的 EAP 做拷贝部署, 并提供比较功能可以显示同类型机台的不同配置项目; 支持远程部署; 支持在线升级, 不涉及与机台通讯的部分升级时, 可以支持在线升级, 软件版本变更后提醒; <mark>当机台空闲时如有新版本需要更新, EAP 自动执行升级任务, 发送提示通知(邮件, 短信等). (注: "空闲(Idle)"表示没有载体(Carrier), 没有晶圆(Wafer), 没有 Job 在机台中); 可支持预约自定义时间段内检测升级. ; EAP 自动升级完成后, 当开始第一个 FOUP 时, 可以发送提示通知(邮件, 短信等). ;</mark> EAP的核心版本升级需要停机更新, 非产品(非核心版本)部分不需要.
 - **EAP 版本管控、版本保存切换与文件差异比较**: EAP 版本管控: 显示 EAP 当前版本, 所有者, 核心版本; 显示 EAP 版本发布历史信息: 发布负责人, 发布日期, 版本号, 版本说明等; 显示正在空闲的机台目录, 显示自动升级新版本的 EAP 列表. (注: "空闲 (Idle)" 表示没有载体 (Carrier), 没有晶圆 (Wafer), 没有 Job 在机台中); 可以保存不同的版本, 自由切换不同版本; 支持比较同类型机台在线版本的文件差异; 从不同层次管控 EAP 所有核心文件
 - **空闲 EAP 批量及预约迁移至其他 Server**: EAP 迁移: 批量迁移空闲的 EAP 到另一台 Server; <mark>预约批量迁移空闲的 EAP 到另一台 Server</mark>
@@ -1748,12 +1748,12 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **长制程实时检查**: 提供在长时间制程中及时检查规格的解决方案, 避免制程结束时才发现问题.
 - **工艺时间异常侦测**: 支持发现工艺时间异常, 例如 Wafer 工艺过程中未上报 End 事件时, 可经配置及时发现并通过 OCAP 报警.
 - **模型覆盖率查询**: <mark> 可 ByLine/Area/Model/EQP 查询模型覆盖度,并可查询已配置模型的 RunContext 和未配置模型的 RunContext.</mark>
-- **模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出**: 模型的所有设置均支持以 Excel 形式导入导出, 包括规格 (Spec) 设定、群组 (Group) 设定、数据窗口 (Window) 设定、客制化公式 (Custom Equation) 设定、数据转换 (Data Transformation) 设定等
-- **以逻辑表达式基于 Summary Data 生成新的监控模型**: 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警
+- **模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出**: <mark>  模型的所有设置均支持以 Excel 形式导入导出, 包括规格 (Spec) 设定、群组 (Group) 设定、数据窗口 (Window) 设定、客制化公式 (Custom Equation) 设定、数据转换 (Data Transformation) 设定等 </mark>
+- **以逻辑表达式基于 Summary Data 生成新的监控模型**: <mark> 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警 </mark>
 - **按 PM / Idle / 跑片数等条件自动启停检测**: 经过配置可以在指定条件下设置关闭或开启检测 (例如 PM 后、Idle n 小时后、run 过 n 片后等)
 - **支持设置 EWMA Spec**: 支持设置 EWMA Spec
-- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**: Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警
-- **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发
+- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**:  <mark> Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警 </mark>
+- **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: <mark>  Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发 </mark>
 
 #### 6.6 规格体系与自动限值
 
@@ -1879,13 +1879,13 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持个性化的报表订阅与推送.
 
 - **收藏夹与订阅**: 支持用户根据自己的喜好设置报表收藏夹功能;支持设定报表产生的条件, 按照自定义的时间点推送 FDC 相关报表; 支持收藏当前页面查询条件, 在收藏夹列表中点击收藏标题后进入首页查看收藏内容;收藏的查询条件可设定为私人可见或共享, 一键适用, 无需重复选择条件.
-- **机台 Recipe 覆盖率统计报表**: 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数)
+- **机台 Recipe 覆盖率统计报表**: <mark> 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数) </mark>
 - **机台 Run 覆盖率统计报表**: 统计机台的 Run 覆盖率
 - **UVA Data Box plot 报表(多机台比较、Day/Week/Month to Day 比较)**: 对 UVA Data 提供 Box plot 报表, 可提供多机台比较分析; 对同一机台亦可以比较 Day to Day, Week to Week, Month to Month 等不同时间的分析
-- **新设备上线与基准设备比较并汇总超 Spec 数据**: 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据
+- **新设备上线与基准设备比较并汇总超 Spec 数据**: <mark> 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据 </mark>
 - **PMQA 报表(PM 后自动与基准设备比较并汇总超 Spec 数据)**: PMQA 报表 (当设备做完 PM 后, 自动和基准设备比较, 汇总超过 Spec 的数据)
 - **设备反应室群组匹配报告(检查 Baseline 是否 Shift)**: 设备反应室群组匹配报告 (可用来检查设备反应室 Base line 是否有 Shift)
-- **查询数据转换为 Report(PDF / PPT)**: 查询得到的数据能转换为 Report (PDF/PPT)
+- **查询数据转换为 Report(PDF / PPT)**: <mark> 查询得到的数据能转换为 Report (PDF/PPT) </mark>
 
 ### 8. 可视化看板 (Dashboard)
 
@@ -1904,7 +1904,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
 - **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
-- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算
+- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: <mark> 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算 </mark>
 
 ### 10. 图形化工作流 (Graphical Workflow)
 
@@ -2024,7 +2024,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **追踪数据分析**: 支持在报表界面对 run list 增加 Tag，如 good run, bad run 或自定义的名称. 支持根据这些 Tag 进行叠图、分颜色、显示图例.
 - **追踪数据分析**: 支持呈现 Raw Trace 参数之间的相关关系.
 - **追踪数据分析**: 支持以特定参数作为 X 轴，其他参数作为 Y 轴绘制 Trend Chart.
-- **Sensor 偏差值比较打分排序, 快速定位 Key Sensor**: 支持在报表界面对 good run, bad run 进行标记, 可以对所有 Sensor 的偏差值进行比较打分并按照分数排序, 从而能快速定位到 Key Sensor
+- **Sensor 偏差值比较打分排序, 快速定位 Key Sensor**: <mark> 支持在报表界面对 good run, bad run 进行标记, 可以对所有 Sensor 的偏差值进行比较打分并按照分数排序, 从而能快速定位到 Key Sensor </mark>
 
 #### 14.3 长期追踪数据分析
 
@@ -2080,7 +2080,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **与泛微门户协同**: <mark> 需包含门户管理等模块协同.</mark>
 - **与帆软报表协同**: <mark> 需包含报表管理等模块协同 (预留, 优先经 MES 汇聚).</mark>
 - **集成客户账号管理系统, 无需在 FDC 内另行建账号**: 支持集成客户账号管理系统, 不需在 FDC 系统里额外创建账号
-- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)
+- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: <mark> 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)</mark>
 - **提供 Performance Counter 对接第三方监控软件(如 Zabbix)**: 支持提供 Performance Counter 给第三方监控软件来实现系统监控, 支持主流监控系统如 Zabbix
 
 ### 18. 智能化需求
