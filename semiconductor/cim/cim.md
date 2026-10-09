@@ -965,6 +965,9 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
     - 支持 Fixed Buffer、Metrology、Internal Buffer、Photo Inline、Sorter、FOUP Clean 几种各类型 EAP 框架.
 - **业务接口整合**: 支持与 MES, RMS, APC, FDC 等系统的整合.
 - **警报管理**: 支持实时设备警报收集、警报过滤、分级管理, 实现邮件通知、Hold Lot 等功能.
+- **限制 Load Port 可接受的 FOUP 类型并拒绝非指定类型**: 能够管理并限制 Load Port 接受的 FOUP 类型(如 FOSB, FE FOUP, BE FOUP, Co FOUP 和 Cu FOUP), 指定类型以外的类型会被识别为错误, 并拒绝物料传输
+- **配合 MES/PRMS 进行光阻液管控**: 可配合 MES/PRMS 等系统进行光阻液管控.
+- **配合 MES/PMS 进行靶材管控**: 可配合 MES/PMS 进行靶材管控.
 
 #### 1.2 EAP 模板管理
 
@@ -972,6 +975,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 
 - **内置模板**: 支持 FixedBuffer, Inline, Furnace, Wet, InternalBuffer, Sorter, CarrierExchange, Bonding, FoupClean, FoupInspection, ReticleStocker, ReticleInspection, N2Purge, 开盒器等设备模板.
 - **模板复用**: NewType 设备优先按模板沉淀复用.
+- **补充设备模板(EtchDummy / CMP / Bare Wafer Stocker / Left-In-Right-Out 等)**: 需要提供以下模板, 支持 Full Auto Scenario: Fixed Buffer; Inline(例如: 涂胶显影一体机 + Scanner 连接在一起, 做一个 EAP); Furnace; Internal Buffer; Sorter; Left In Right Out(例如: Process 机台由一个 FOUP Track In, Track Out 到另一个 FOUP); Bonding; EtchDummy; CMP; Foup Clean/Inspection; Bare Wafer Stocker; Reticle Stocker(POD Stocker and Bare Reticle Stocker); Reticle Inspection; N2 Purge
 
 #### 1.3 EAP UI / 客户端
 
@@ -1002,6 +1006,13 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 - **热加载功能**: <mark>支持EES FLAG在线更改;支持VID在线修改;支持在线EVENT REDEFINE；DataCollectionRule UPDATE.</mark>
 - **重启复位功能**: <mark>支持EAP重启时保存resume文件.</mark>
 - **支持远程运维**: <mark>支持值班机器人运维，可通过手机应用端（例如钉钉等）实现远程重启/远程状态侦测功能.</mark>
+- **EAP 程序/进程监控、崩溃挂起自动重启与报警通知**: EAP 监控: 实时监控 EAP 程序是否有异常, 如果 EAP 程序崩溃或挂起, 立即重启 EAP 程序, 通过 Alarm 系统发送报警通知(邮件、短信等); 监控 EAP 与机台的连接是否有异常, 如果通信连接断开或报错, 通过 Alarm 系统发送报警通知; 为某个机台的 EAP 做测试时, 支持有特定权限的人员临时避开对 EAP 程序的监控; 实时监控 EAP 上 Batch 的运行状态, 当 EAP 升级之后第一个 Batch 开始运行时, 通过邮件或 Alarm 系统发送通知; 监控 EAP 运行版本, 当发现 EAP 启动或运行版本与部署版本不一致时, 通过邮件或 Alarm 系统发送报警通知; 有 Dcol 定义功能, 针对 EAP 传输出来的 raw process para, measurement para, 对这些数据定义整理成需要管理的 key para. ; RECIPE 设置中 PPID 前 TITLE 可增加 MAIN ROUTE/TEST ROUTE 区分, 可在 MR/TR 项目中 RECIPE 名字后打 X, 使其不能进行. ; 实时监控 EAP 程序进程, 如果进程消失, 立即重新启动, 并发送报警 Email
+- **EAP 程序部署、远程/在线升级与自动升级通知**: EAP 程序部署升级: 支持对同类型机台的 EAP 做拷贝部署, 并提供比较功能可以显示同类型机台的不同配置项目; 支持远程部署; 支持在线升级, 不涉及与机台通讯的部分升级时, 可以支持在线升级, 软件版本变更后提醒; 当机台空闲时如有新版本需要更新, EAP 自动执行升级任务, 发送提示通知(邮件, 短信等). (注: "空闲(Idle)"表示没有载体(Carrier), 没有晶圆(Wafer), 没有 Job 在机台中); 可支持预约自定义时间段内检测升级. ; EAP 自动升级完成后, 当开始第一个 FOUP 时, 可以发送提示通知(邮件, 短信等). ; EAP的核心版本升级需要停机更新, 非产品(非核心版本)部分不需要.
+- **EAP 版本管控、版本保存切换与文件差异比较**: EAP 版本管控: 显示 EAP 当前版本, 所有者, 核心版本; 显示 EAP 版本发布历史信息: 发布负责人, 发布尔日期, 版本号, 版本说明等; 显示正在空闲的机台目录, 显示自动升级新版本的 EAP 列表. (注: "空闲 (Idle)" 表示没有载体 (Carrier), 没有晶圆 (Wafer), 没有 Job 在机台中); 可以保存不同的版本, 自由切换不同版本; 支持比较同类型机台在线版本的文件差异; 从不同层次管控 EAP 所有核心文件
+- **空闲 EAP 批量及预约迁移至其他 Server**: EAP 迁移: 批量迁移空闲的 EAP 到另一台 Server; 预约批量迁移空闲的 EAP 到另一台 Server
+- **上位系统模拟器: 模拟 MES 收发消息、同时模拟多个上位系统**: 支持模拟 MES 系统发送接收消息, 实现 EAP 程序与模拟器可以完全复现日志里的内容, 便于接口开发测试与运维; 支持同时模拟多个上位系统, 如 MES, RMS, FDC…
+- **模拟 EAP 向机台发送 SECS message 进行测机**: 支持模拟 EAP 进行 SECS 测试, 即支持模拟 EAP 给机台发送 SECS message, 用于测机, 并能保存测试的 SECS Log
+- **系统 Pilot 机制: 模块变更先在个别设备 Pilot 验证**: 提供系统 Pilot 机制, 当 EAP 任何模块更改时, 必须要能够支持在个别设备上先 Pilot 验证, 并不影响到未 Pilot 的设备
 
 ### 2. 业务接口整合
 
@@ -1028,6 +1039,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
     - 支持 MES 控制设备 Offline/Online 状态, EAP 需同步更新设备状态至 MES.
     - 支持异常时请求 MES 切换设备状态.
     - 支持 MES 侧状态查询和切换控制 (远程控制).
+- **设备内组件(Parts、靶材等)建模与组件状态变化采集同步**: 支持: ① 建模定义设备内组件的具体信息(Parts、靶材等); ② 收集设备内组件状态信息变化; ③ 主动同步上位系统与 EAP 之间的状态, 以保证上位系统对设备和组件的状态转换和追踪.
 
 #### 2.2 配方获取与解析
 
@@ -1736,6 +1748,12 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **长制程实时检查**: 提供在长时间制程中及时检查规格的解决方案, 避免制程结束时才发现问题.
 - **工艺时间异常侦测**: 支持发现工艺时间异常, 例如 Wafer 工艺过程中未上报 End 事件时, 可经配置及时发现并通过 OCAP 报警.
 - **模型覆盖率查询**: <mark> 可 ByLine/Area/Model/EQP 查询模型覆盖度,并可查询已配置模型的 RunContext 和未配置模型的 RunContext.</mark>
+- **模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出**: 模型的所有设置均支持以 Excel 形式导入导出, 包括规格 (Spec) 设定、群组 (Group) 设定、数据窗口 (Window) 设定、客制化公式 (Custom Equation) 设定、数据转换 (Data Transformation) 设定等
+- **以逻辑表达式基于 Summary Data 生成新的监控模型**: 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警
+- **按 PM / Idle / 跑片数等条件自动启停检测**: 经过配置可以在指定条件下设置关闭或开启检测 (例如 PM 后、Idle n 小时后、run 过 n 片后等)
+- **支持设置 EWMA Spec**: 支持设置 EWMA Spec
+- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**: Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警
+- **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发
 
 #### 6.6 规格体系与自动限值
 
@@ -1861,6 +1879,13 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持个性化的报表订阅与推送.
 
 - **收藏夹与订阅**: 支持用户根据自己的喜好设置报表收藏夹功能;支持设定报表产生的条件, 按照自定义的时间点推送 FDC 相关报表; 支持收藏当前页面查询条件, 在收藏夹列表中点击收藏标题后进入首页查看收藏内容;收藏的查询条件可设定为私人可见或共享, 一键适用, 无需重复选择条件.
+- **机台 Recipe 覆盖率统计报表**: 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数)
+- **机台 Run 覆盖率统计报表**: 统计机台的 Run 覆盖率
+- **UVA Data Box plot 报表(多机台比较、Day/Week/Month to Day 比较)**: 对 UVA Data 提供 Box plot 报表, 可提供多机台比较分析; 对同一机台亦可以比较 Day to Day, Week to Week, Month to Month 等不同时间的分析
+- **新设备上线与基准设备比较并汇总超 Spec 数据**: 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据
+- **PMQA 报表(PM 后自动与基准设备比较并汇总超 Spec 数据)**: PMQA 报表 (当设备做完 PM 后, 自动和基准设备比较, 汇总超过 Spec 的数据)
+- **设备反应室群组匹配报告(检查 Baseline 是否 Shift)**: 设备反应室群组匹配报告 (可用来检查设备反应室 Base line 是否有 Shift)
+- **查询数据转换为 Report(PDF / PPT)**: 查询得到的数据能转换为 Report (PDF/PPT)
 
 ### 8. 可视化看板 (Dashboard)
 
@@ -1879,6 +1904,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
 - **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
+- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算
 
 ### 10. 图形化工作流 (Graphical Workflow)
 
@@ -1998,6 +2024,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **追踪数据分析**: 支持在报表界面对 run list 增加 Tag，如 good run, bad run 或自定义的名称. 支持根据这些 Tag 进行叠图、分颜色、显示图例.
 - **追踪数据分析**: 支持呈现 Raw Trace 参数之间的相关关系.
 - **追踪数据分析**: 支持以特定参数作为 X 轴，其他参数作为 Y 轴绘制 Trend Chart.
+- **Sensor 偏差值比较打分排序, 快速定位 Key Sensor**: 支持在报表界面对 good run, bad run 进行标记, 可以对所有 Sensor 的偏差值进行比较打分并按照分数排序, 从而能快速定位到 Key Sensor
 
 #### 14.3 长期追踪数据分析
 
@@ -2052,6 +2079,9 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 
 - **与泛微门户协同**: <mark> 需包含门户管理等模块协同.</mark>
 - **与帆软报表协同**: <mark> 需包含报表管理等模块协同 (预留, 优先经 MES 汇聚).</mark>
+- **集成客户账号管理系统, 无需在 FDC 内另行建账号**: 支持集成客户账号管理系统, 不需在 FDC 系统里额外创建账号
+- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)
+- **提供 Performance Counter 对接第三方监控软件(如 Zabbix)**: 支持提供 Performance Counter 给第三方监控软件来实现系统监控, 支持主流监控系统如 Zabbix
 
 ### 18. 智能化需求
 
@@ -2174,6 +2204,8 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **导入导出**: <mark> 支持 Recipe 导入导出功能, 并实施严格的权限管控. </mark>
 - **Pilot Run 验证**: <mark> 支持重要管控规则变更前在小范围设备与 Recipe 上先行验证 (Pilot Run), 验证期间不影响其余设备与 Recipe 的正常使用; 提供 Pilot 验证结果的确认与转正式生效路径.</mark>
 - **查询与排序**: 支持各项排序;支持不同条件下查询 Recipe/Sequence 的版本变更历史详情及校验历史; 支持根据区域, 设备类型或设备查看所有程序状态, 支持根据关键字模糊查询相关程序.
+- **复制 Recipe, 提供"另存为"功能**: 复制 Recipe, 提供 "另存为" 的功能
+- **设备开关时严格校验 Recipe 参数数量, 可检测多余参数**: 支持设备开关时, 是否严格校验 recipe 参数数量, 如果设备上 recipe 参数数量多则可以检测出来
 
 #### 1.2 Golden Recipe
 
@@ -2238,6 +2270,9 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 - **比对方式配置**: 支持设置程序比较方式 (FullBody/CheckSum/Parameter 等).
 - **用户组与权限**: 支持设定不同级别的用户组, 管控用户对界面的操作权限及对设备的操作权限;支持设备关联用户 / 用户组;支持一个用户属于多个用户组.
 - **高可用架构**: 支持 RMS Server 之间的网络负载均衡 (NLB) 的 Failover 功能.
+- **软件升级与新功能发布不停机**: 软件升级和新功能发布不影响系统使用 (不停机)
+- **新设备类型或新设备上线不停机**: 新的设备类型或新的设备上线, 不影响系统使用 (不停机)
+- **产能/设备增加时动态扩容服务器不停机**: 工厂产能、设备增加, 可以动态增加服务器, 不影响系统使用 (不停机)
 
 ### 3. 智能化需求
 
@@ -2739,7 +2774,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 支持多种访问协议与网络接入形态, 并满足时钟与设备信息获取要求.
 
 - **访问协议**: RCM 产品硬件要求支持多种访问协议, 支持 HTML, Microsoft .NET 等多种主流协议, 以最大程度减少未来软件技术升级的成本和难度.
-- **主接入方式**: RCM 支持以 IP-KVM, VNC, RDP 三类主要方式接入并远程操控设备;IP-KVM 通过硬件直接连接键盘/视频/鼠标端口并数字化, 经 IP 网络访问与控制计算机;VNC 为跨平台开源屏幕共享;RDP 为 Windows 远程桌面协议. (来源: SEMITECH RCM&RPA V2.8 PPT)
+- **主接入方式**: RCM 支持以 IP-KVM, VNC, RDP 三类主要方式接入并远程操控设备;IP-KVM 通过硬件直接连接键盘 / 视频 / 鼠标端口并数字化, 经 IP 网络访问与控制计算机;VNC 为跨平台开源屏幕共享;RDP 为 Windows 远程桌面协议. (来源: SEMITECH RCM&RPA V2.8 PPT)
 - **设备信息获取**: 设备的型号, FW 版本, IP 地址, 序列号或 MAC 地址等信息需支持被 HOST 端获取.
 - **时钟同步**: 设备需要支持 NTP 时钟同步.
 - **网络接口**: 单个 RCM 只需要一个 RJ45 网口并仅需要一个 IP.
@@ -3725,6 +3760,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **批量数量定义**: 支持设备批量数量的定义, 例如最大和最小 Wafer 数, 最大和最小载体数量的定义.
 - **Scenario Type 驱动的设备建模**: 以 Scenario Type / Process Type (按 EAP 实际操作方式定义) 为基准串联设备相关属性配置, 类型涵盖 Normal, LiSo / ViSo, Cluster (封测串机设备)、Bond 及 Inline (多台设备串联视作一个逻辑设备) 等.
 - **机台级 Ad-hoc / LongLoad 搜值**: 机台建模时可配置 Ad-hoc / LongLoad EQP 搜值所使用的 EDC Plan, 即在机台维度 (而非仅站点维度) 指定临时数据采集计划.
+- **N2-Purge/CDA 设备建模与安装位置分类, Purge 后实时更新 FOUP/Lot Q-Time**: 系统应该定义 N2-Purge/CDA 的相关设备, 并依据不同的安装位置识别和区别对待, 如: 整合至暂存区 (如 OHB 等); 整合至工艺设备的 Load Port 上; 整合进 Stocker; 独立的 N2-Purge 机台; N2-Purge 后, MES 应该实时更新 FOUP/Lot 的相关信息, 如 N2 Purge Q-Time 时间
+- **NTB / Exchanger 的 Port 与 Buffer Size 管理与维护**: 支持 NTB(Near Tool Buffer), Exchanger 的 Port 与 Buffer Size 的管理与维护; 支持把 NTB 和 Exchanger 当成机台的 Internal Buffer; 把 NTB / Exchanger 的 Load Port 设定为机台的 Port, 其中位于设备上端的 Port 需设定为 On Top Load Port, 仅支持 Auto 2 和 Auto 3(不可人工); FOUP Load 和 UnLoad 时, 根据 Buffer 与 Port 的 Mapping 自动将 FOUP 转移到指定的 Port 或 Buffer 上, EAP 整合与设备共同集成 (需要与 EAP 和 MCS 集成)
 
 #### 1.4 Stocker Modeling
 
@@ -3732,6 +3769,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **Stocker 类型**: 支持定义 Stocker 的类型, 如 Wafer STK, Reticle STK 等. OHT 在 MES 端以 Stocker 的形式建模.
 - **存储形式与容量**: 支持定义 Stocker 的存储形式及 STK 的容量. 支持 Stocker 容量记录及查询, 容量通过 AMHS 上报.
+- **设备默认 OHB 及默认 Stocker 管理**: 设备默认的 OHB 及默认 Stocker 管理
 
 #### 1.5 代码定义 (Code Define)
 
@@ -3790,6 +3828,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **统一权限认证**: <mark> 单点登录 SSO，基于域账号统一身份管理，实现 MES, SPC, RPT, FDC 等 CIM 子系统一键统一登录，一次认证、多系统免密访问.</mark>
 - **部门默认角色与个人额外角色叠加**: 用户归属部门, 可直接继承所属部门配置的默认角色, 无需逐人新建; 同时支持在部门默认权限之外为个人额外叠加角色; 支持按部门或按人两种灵活分配方式.
 - **登录日志与会话统计**: 提供类似 UAC 平台提供登录日志管理, 记录用户登录情况与在线 / 登录时长等会话信息.
+- **登录账号时效限制, 到期后不可登录使用**: 登入账号要有时效限制, 时间到后不可以登入使用
 
 ### 2. 流程建模和管理
 
@@ -3799,6 +3838,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **层次结构查看**: Process Specification Editor 是一个类似于 Windows-Explorer 风格的查看器, 提供带有 Process Planning 信息的层次结构.
 - **运行时修改**: 用户可以更改其值并在运行时应用; 小批量修改直接在编辑器里进行, 大批量修改通过批量导入完成.
+- **特定站点禁止指定 Action(Flow Spec 设定 Not Allow Future Action, 如 FutureHold、Bank)**: 支持在一些特定站点, 禁止某些 Action, 如: 设置 FutureHold, Bank 等; 在一些特定站点, 禁止用户某些 Action. 如, 设置 Future Hold(Flow Spec 上设定 Not Allow Future Action)、Bank 等
 
 #### 2.2 工艺流程建模
 
@@ -3818,6 +3858,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **流程导出**: Active Flow 或者任何一个版本的 Flow 均支持导出.
 - **Flow Section (工艺分段定义)**: 支持在 Flow 内定义 Flow Section, 标识某一段区间的特殊工艺状态, 如先进封装的 Glass / 基板支撑段、Restart 段; 可对某一段站点区间单独配置 Flow Section, 段与段分别管理.
 - **图形化拖拽建模**: 提供图形化拖拉拽方式构建 Sub Flow / Main Flow, 流程结构直观可见、模块可复用; 与 Excel Loader 批量导入方式并行提供, 两者底层数据结构与校验规则完全一致, 长流程或大批量建模时改用 Loader 提升效率.
+- **工序上定义不同动作并调整动作顺序(预留准备、入机台、EDC、出机台、打标码、更新 Bin、Die 报废、Hold、Multi-path 等)**: 支持工序上定义不同动作并调整动作顺序, 例如预留准备、入机台、EDC、出机台、打标码、更新 Bin 值、晶圆 Die 报废、Hold, Multi-path 等
+- **Golden Flow 设定: 主要站点的 Sub-Flow 设为 Golden Flow 供多产品共用**: 支持 Golden Flow, 在主要站点可以建立 Sub-Flow 设置为 Golden Flow, 多个产品可以共用该 Sub-Flow
 
 #### 2.3 版本升级与在制批次处理
 
@@ -3857,6 +3899,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **履历记录**: 生产批次履历记录设备加工所使用的 Recipe/PPID; 记录历史详情.
 - **Recipe Group / 混跑 (Mix Run)**: 通过 Recipe Group 管理 Mix Run 混跑场景, 定义不同 Recipe 组之间的切换条件 (如 Idle Time, Recipe Change 等) , 确保工艺执行连续性. Recipe Group 管理层级位于机台分组之上.
 - **Recipe 管理**: 在 Recipe 配置页面增加 Wafer Process Time 和 Lot Track Time (Track In -> Track Out) 卡控来辅助识别机台是否异常, 而非在 Step 设置.
+- **Recipe 增加能量设置字段, 供光罩 Life Time 计算**: Recipe 设定需有能量设置字段, 以供光罩计算 life time 使用
+- **Recipe 增加 Reticle Field 设定字段(可吃一张光罩上的多个 Field)**: Recipe 设定需有 Reticle Field 设定字段 (可吃一张光罩上的多个 Field)
+- **CMP Recipe 按 Pad No 与 Pad Life Time 区间设置 PPID, 派工时按 Pad Life Time 选择 PPID**: CMP 机台的 Recipe 可以根据 Pad No 跟 Pad Life Time 的区间来设置的 PPID; CMP 机台在派工时, 可以考虑 Pad Life Time 来选择对应的 PPID
 
 #### 2.6 Product (流程维度)
 
@@ -3922,6 +3967,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **分层 Action 与 PPID 禁用**: 异常处置 Action 支持 Hold Lot, Hold 机台、Post a Hold, Disable Physical Recipe (禁用 PPID) 及触发 OCAP; SPC 与 EDC 两层均可配置 Action, 未接入 SPC 时以 EDC 层 Action 兜底, 已接入 SPC 时统一在 SPC 侧设置.
 - **Data Collection (DC)**: DC Item / DC Site 定义可以选择是否缺点与缺片.
 - **EDC签审流程**: 修改 EDC 时按 MES 内嵌签审流程进行 EDC 的 Retarget, 无需升版; 但 EDC 增减 Item 时需升版.
+- **数据收集支持手动/自动两种模式, 并支持界面人工输入采集数据与人工选片**: 数据收集须提供手动及自动两种模式; 在非机台自动情况下, 工程师可以通过界面人工输入采集数据 / 人工选片
 
 #### 2.13 选片规则
 
@@ -3933,6 +3979,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **搜索范围**: 可设置搜索插槽位置的上限 / 下限.
 - **量测片数**: 提供设置规则需挑选的量测片数.
 - **多维度绑定**: 支持按批次片数、产品、参数等多种维度绑定规则.
+- **选片规则支持选择与前量一致的 Wafer**: 选择跟前量一致的 Wafer
 
 #### 2.14 站点污染等级 (流程维度)
 
@@ -3959,6 +4006,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **SRC/RRC 继承**: 支持在 SRC 与 RRC 中定义 Q-Time 及继承原工艺流程上的 Q-Time.
 - **批量维护**: 支持 Q-Time 创建、修改、复制生成及批量处理.
 - **数据清除与存档**: 提供 Q-Time 主数据及历史数据删除与存档功能, 不影响报表数据库及现有批次流片与查询.
+- **提供 Remaining Q-Time(RQT)机制供 RTD 派工使用**: 能够与 RTD 集成, 需要提供 Remaining Q-Time(RQT) 机制, 以便派工系统使用
 
 #### 2.16 BankFlag
 
@@ -4027,6 +4075,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **独立切换**: Chamber 状态可以跟父设备联动, 也可以单独切换.
 - **机台状态管理**: 系统上子设备状态与机台端子设备状态不一致时, Reserve / Track In Lot 如 Recipe 涉及该子 Chamber 要报错.
 - **Chamber 状态**: 也要能对 Chamber 进行 Hold 或者生成 Constraint.
+- **Chamber / EQP 状态优先级决定最终状态(含 Chamber Group)**: 可以设置优先级来决定 Chamber State 最终状态. 举例: 同时跑 NPW 和 Product 时, 设备状态被优先设置成 Running; 支持根据 Chamber 或 Chamber Group 状态配置主 EQP 状态, 并按优先级决定最终状态. 例如: Chamber A = RUN, Chamber B = ENG, 且优先级 RUN > ENG, 则系统将主 EQP 状态设为 RUN; EQP 状态转换可以设置优先级来决定最终状态变化
 
 #### 3.6 ECS / 机台限制 (Tool Constraint)
 
@@ -4049,6 +4098,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Constraint 管理**: <mark>Constraint 中需要有关联 Parts Lifetime 的条件.</mark>
 - **Constraint 管理**: 每条 Constraint 有状态, Owner, 生效时间, 过期时间, 更新时间及内容等信息.
 - **Constraint 管理**: 主机台和子机台均可配置正向与负向 Constraint.
+- **按 EQP / Recipe / PPID 配置 Boat Thickness Spec 并验证生产条件**: 支持通过 EQP, Recipe 和 PPID 配置 Boat Thickness Spec, 验证设备是否满足生产条件; (实际 Boat Thickness 由 EAP 上报)
+- **Recipe Prohibition: 分类生产禁止/工艺禁止并显示禁止原因与可 Release 原因**: 增加 Recipe Prohibiton 功能, 能够分类生产禁止 / 工艺禁止, 并且显示禁止原因和可 Release 原因
+- **新设备试生产(STR/MSTR)时间段、Wafer 数量限制与白名单管控**: 支持对设备在限定的期间内, 进行限制 Wafer 数量的生产, 以降低生产风险: ) 可按设备设置试生产 (STR, MSTR) 的时间段; ) 可按设备设置试生产时间段内, 每天可以生产的 Wafer 数量, 与期间内允许总生产的 Wafer 数量; ) 支持新设备 Move In 后, 可以默认禁止使用, 需要配置可生产的白名单, 才可以按照配置使用
 
 #### 3.7 EQP 查询和 History 查询
 
@@ -4095,6 +4147,10 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **查询与取消**: 支持 SorterJob 的查询和取消.
 - **Port 管理**: 当所有的 Port 都不能使用时, 设备不可以预约 Lot, 但要能排货, 预定哪个 Lot 先上.
 - **Port 管理**: Port 已 Reserve Lot 后即会从 Ready To Load 切换到 Reserved 状态, 且该状态不允许再 Reserve Lot.
+- **Port 上 FOUP 进出的 In / Out / InOut 三种模式, 可自由切换**: 类型: Port 上进出 FOUP 时有 (In, Out, InOut) 三种模式, 使用者可自由切换
+- **Port 状态管理: 自定义状态图及相关事件, 支持事件自动变更与界面手动切换**: Port 状态管理 (可自定义状态图及相关事件, 类似于设备状态管理); Port 状态变更可以是事件触发的自动变更也可以是从界面手动切换
+- **FOUP Unload 完成后即可离开 Load Port(Lot 未 JobOut 时由 EAP Hold Lot)**: 支持 FOUP Unload 完后即可离开 Load Port, 无须待在 Load Port, 即使 Lot 还没有 JobOut, 但是 EAP 会 Hold Lot
+- **Port 传输模式管理(Ready To Load / Load Complete / Ready To Unload / Unload Complete / Port Down)**: Port 的传输模式管理 (Ready To Load/Load Complete/Ready To Unload /Unload Complete/Port down)
 
 #### 3.11 光刻机台 (Photo)
 
@@ -4102,6 +4158,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **双光罩**: 光刻 (Photo) 机台支持双光罩使用.
 - **联机子机台**: 支持一个主机台同步控管两个子机台 (Track/Scanner), 并可分别设置两个子机台的配方 (Track Recipe/Scanner Recipe).
+- **当前层选定与上一层相同的 Chuck(28nm 以下高精度场景)**: 支持在当前层选定和上一层相同的 Chuck(28nm 以下, 对精度要求较高的场景); 对于 Litho 机台, 可以集成 APC, 达到每片 Wafer 要和前层 Litho 使用同样的 Chuck(28nm 以下)
+- **Litho 设备 FOUP Exchanger 作为运输自动化的缓冲区**: 支持 Litho 设备的 FOUP Exchanger 作为运输自动化的缓冲区
 
 #### 3.12 多腔体设备 (Multi-Chamber)
 
@@ -4223,6 +4281,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **T7 Code**: 下线时记录晶圆背刻码 (T7 Code), 背刻码伴随批次全生命周期.
 - **首站 Non-Sorter 选项**: Lot 下线 (Web Start) 时支持勾选 Non Sorter, 跳过首站物理传片动作仅做账务过账 (不建议使用以避免账务混乱) ; 默认首站配置为 Inline Sorter, 需进行 Slot Map 比对.
 - **Lot 下线**: 部分 Lot 二次下线会发生多次 Start, 需提供两个栏位分别标注.
+- **Zero Layer Wafers 作为 Wafer Start 原材料**: Zero Layer Wafers
 
 #### 6.4 批次与载具关联管理
 
@@ -4263,6 +4322,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **取消预约**: 支持取消预约.
 - **预约列表**: 人工预约支持预约列表, 支持排序.
 - **批次异常处理**: Reserved 和未 Track In 的 Lot 取消流程时更新 Lot 状态, 但不 Hold Lot; Running Lot 不取消流程、不更新状态, 只 Hold Lot.
+- **机台 Reserve Queue: 前一 Lot Track-Out 后自动 Reserve 队首 Lot**: 系统可以提供机台的 Reserve Queue 的功能, 可以提前把 Lot 手动派送到 Queue 里面, 在上一个 Lot Track-Out 之后, 就自动在 Queue 里面找第一个 Lot 进行 Reserve
+- **Port 预约满后的 Queue 预约机制, 将 WIP 预约到附近 NTB / OHB**: 可预约设备的 Port, 当设备 Port 预约满后, 支持 Queue 预约机制, 将 WIP 预约到附近的 NTB 或 OHB 以避免无效搬运
 
 #### 6.8 Hold/Release (扣留及释放)
 
@@ -4304,6 +4365,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **合批规则**: 同家族且相同产品、相同工艺流程、相同站点的子批可互相合批; 原始 (祖宗) 批次不能被合并到子孙批中; 有计划合批动作的批次不允许被合批, 除非计划合批已到达合批当站或提前取消.
 - **合批防呆**: 合批时需要具备防呆卡控, 确保 Lot 核心属性一致, 不得产生 MO 风险, 例如 Lot Flow 版本, 站点, 污染等级, 优先级等等.
 - **Sorter 自动化**: 支持倒片机 EAP 自动化分、合批.
+- **不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13)**: 对部分特殊工艺, 不支持满片过站的工艺, 要支持用小批 Lot 过站, 即入机台前必须自动 Split, 出机台后自动 Merge, Split 规则可以根据工艺灵活设置, 如 8/8/9 或 12/13 等
 
 #### 6.11 Bank In/Out
 
@@ -4525,6 +4587,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **历史与计算**: 支持挡控片测机历史查询, 能查询采集参数, 可根据自定义公式计算测机结果.
 - **NPW Downgrade**: 用户可自定义非生产片降级规则; 提供界面进行非生产片降级到其他非生产批类型.
 - **NPW 管理**: NPW 需有 Inuse Start 站点 (此站选择走 Inuse 里的任意一条平行 Flow, 比如 Inuse01 或者 Inuse02) 与 Recycle End 站点 (此站选择去 Downgrade 还是 Preparation).
+- **不同类型 NPW 库存水位设置、统一查询界面及自动库存管理机制**: 对于不同类型 NPW 的使用 (比如: Season / Dummy / Auto Monitor Wafers 等), 可设置库存水位, 系统提供统一查询的界面; 对于不同类型 NPW 的使用 (比如: season/dummy/furnace Monitor/Auto Monitor wafers 等), 系统应提供一种自动管理库存的机制
 
 #### 9.4 炉管 Monitor
 
@@ -4612,6 +4675,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **用尽警示**: 机台上光阻使用完毕后警示; 使用过程可强制结束.
 - **安全库存**: 光阻安全库存提前预警.
 - **光阻整批试跑放行**: 支持光阻按批 (一批光阻瓶) 管理: 整批进厂后先挑选其中一瓶试跑, 试跑结果 OK 后该整批光阻方可放行投入生产使用; 同时支持单瓶维度的产线追溯.
+- **光阻存放柜与放置位置建模, 并建立光阻料号与位置的关联**: 提供创建光阻存放柜和放置的位置; 提供建立光阻料号和光阻位置的关联
 
 ### 12. OCAP (超规动作计划)
 
@@ -4796,6 +4860,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **叠加运算**: 支持 CP 测试结果文件按规则叠加运算, 并进行批次扣留、异常片号自动分批扣留、报废等功能.
 - **卡控规则**: 支持片号不一致、晶圆标准颗粒数不一致等卡控.
 - **OCAP 分流**: <mark> 异常 OCAP 触发后, 正常片号分子批出站继续流片.</mark>
+- **系统界面多语言支持(简体中文 / 英文)**: 多语言支持: 简体中文 / 英文
 
 #### 17.8 合格 Die 二次报废
 
@@ -5148,6 +5213,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **自动化模式 (Auto Mode: Manual/A1/A2/A3)**: 基于 Port control mode, access mode 与 dispatch 状态综合计算自动化等级; 支持 Manual, A1, A2, A3 模式, A3 涉及天车 (OHT) 搬送, 需在派工时指定 Port 口; 模式切换由 MES 发起或 EAP 上报, 系统二次校验确保账料一致. 支持通过网页对机台 Auto Mode 及机台状态进行批量更改.
 - **物料搬送与调度 (OHT/RTD/AMA)**: 支持天车 (OHT) 自动搬送与 RTD 排序; A3 模式下 AMA 自动 call 可加工 Lot 到 Port 口; 机台或 EAP 发起模式切换时需通知 EAP, 确保搬送与账料一致. MES 向 MCS 发出搬送请求并提供稳定任务标识、Carrier ID、来源、目的地及项目约定优先级等信息, 将 Carrier 从源设备搬运至目标设备.
 - **多自动化等级混合产线适配**: 各产线自动化程度不一 (如 Package B 要求 Full Auto, 其余产线为 Manual / Auto1 / Auto2 / Auto3 及 EAP 形式); Auto3 需具备物流搬送与派工能力; 系统需按最高配置设计, 同时向下适配不具备该能力的产线.
+- **Swap: Unload FOUP 时触发 What Next 派送下一个 FOUP 到 Load Port**: 支持 Swap, 即 Unload FOUP 时, 就触发 What Next 派送下一个 FOUP 到 Load Port
 
 ### 34. 参数族管理 (Parameter Family)
 
@@ -5242,6 +5308,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **R2R 控制**: 支持基于量测反馈的 Run-to-Run 配方参数调整 (反馈 / 前馈), 控制模型可配置, 修正量受版本与签核管控.
 - **配方推荐**: 根据历史与目标自动推荐 Recipe 修正量, 经签审核准后由 EAP 下发, 全程留痕.
+- **支持 APC Pi-Lot(Auto Trigger)与 On Demand Pi-Lot(Manual Trigger)两大类**: MES 需要支持两大类 Pi-Lot Run: APC Pi-Lot(Auto Trigger), On Demand Pi-Lot (Manual Trigger)
+- **APC Pi-Lot 触发处理逻辑: APC 条件 → RTD → 触发 Pi-Lot → 结果回传**: 需要 Pi-Lot 的条件设在 APC(R2R), 包含 Litho, CMP, Etch; 当条件符合时, APC(R2R) 会将对应数据 (机台, Recipe 等) 送到 RTD; 当对应机台的 What Next 送到 RTD 时, RTD 会决定依 APC 给的数据触发 Pi-Lot 功能; 当触发 Pi-Lot 功能时, 可以手动 / 自动需要挑选 Pi-Lot; 启动 Pi-Lot 功能后, 通知 APC 对应 Run 货数据; APC 依照 MES 的 Run 货资料来决定 Pi-Lot 的成功与否, 并将结果通知 RTD 来作下一 Cycle 的判断
+- **Pi-Lot 失败后的异常处置: Remeasurement / Re-Pilot / Rework**: 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework; 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework
 
 ### 44. FDC 故障检测与分类
 
@@ -5994,6 +6063,8 @@ SBL 是 统计 Bin 的 Limit
     - 支持 OOS/OOC/<mark>OOR/OOT/OOW</mark> 等上下限判异.
 - **自定义规则配置**: <mark> 支持自定义方式配置 Rule, 如连续 n 点上升的 n 可配置; 支持连续 N 点异常等客制化规则, 以及组合基本规则的客制化规则.</mark>
 - **二次开发**: 提供开发包, 支持 Rule 二次开发, 方便扩展.
+- **Rule 按 RuleID / RuleID+ChartType / RuleID+ChartType+Spec 分层多级管理与版本管理**: Rule 的多级管理和版本管理, 如: 按照 Rule ID 进行大范围的维护变更, 按照 Rule ID + Chart Type 进行中范围的维护变更; 按照 Rule ID + Chart Type + Spec 进行小范围的维护变更
+- **违反规则 Notify 支持客户端消息、SMS、邮件、TTS 语音多通道**: Notify 方式, 至少支持客户端程序内消息提示、SMS 提示、邮件提示、TTS 语音提示等
 
 #### 2.2 Calc Parameter / 计算型参数
 
@@ -6006,6 +6077,9 @@ SBL 是 统计 Bin 的 Limit
 - **因子取值**: 支持因子 Raw Data 计算, 可按照 Index 取部分原始值参与计算.
 - **结果追溯**: <mark> 计算结果可 Link 参与计算的 Sample, 方便 Check 数据的正确性.</mark>
 - **二次开发**: 提供计算函数的二次开发, 方便扩展.
+- **公式支持引用其他 Plan(Flow)的公式作为计算因子**: 公式中可引用外部其他 Plan(Flow) 的公式作为公式中因子
+- **公式因子 Spec 的 Product 变更应对处理**: SPC 系统应支持 Formula 计算时, Derived spec 公式中 product 变更不会影响公式
+- **因子前后对应 Wafer 被替换时按匹配关系完成计算**: SPC 系统应支持 Formula 计算时, Derived spec 公式中 wafer 替换不会影响公式
 
 ### 3. 分析和报表统计
 
@@ -6987,6 +7061,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **混合类型保养**: 支持基于时间周期和基于使用情况相结合的混合类型保养管理.
 - **API 创建维修单**: <mark> 支持通过 API 供其他系统创建临时的维修保养单.</mark>
 - **非计划宕机**: 支持非计划性宕机 (UnScheduling Down) 手动建立故障单作业请求 (Work Request), 并手动添加所需设备检查清单.
+- **参数达大 PM Range 时小 PM 参数自动 Reset 并清除小 PM**: 同参数的多个 PM 类型, 如果参数到达大 PM Range 内, 小 PM 参数被自动 reset, 小参数对应的 PM 也会被清除掉
 
 #### 1.3 维修保养管理建立 (PM 模板与计划配置)
 
@@ -7003,13 +7078,14 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **预估时间与标题**: 支持设置 PM 保养所需的预估保养时间以及标题.
 - **原因代码**: 支持设置 PM 保养管理所需要的原因代码.
 - **签核逻辑**: <mark> 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.</mark>
+- **PM 执行时配置正在 Run 货的 Lot 是否立即中断**: 可以设置 PM 的 Early Due, Due 以及 Overdue 时间, 并且可以定义是否需要在 Overdue 自动切换机台 /Chamber 在 MES 上的状态. 执行时, 可以配置当前正在 run 货的 lot 是否立即终端 run 货
 
 #### 1.4 PM Checklist 建立与管理
 
 支持结构化的检查步骤定义、参数卡控与模板复用的全生命周期维护.
 
 - **步骤与模板管理**: 支持添加、删除、修改 Checklist Step / 设备检查清单步骤, 以及增加、修改、复制维修 PM Checklist 模板; 支持设备检查清单模板配置功能 (按设备模板或者按设备), 支持系统默认的签核逻辑.
-- **内容本地化**: Checklist Step 内容支持中文汉字.
+- **内容本地化**: Checklist Step 内容支持中文汉字. 需支持不同字体颜色的显示.
 - **导入导出**: 支持 Export 及 Load / 导入导出设备检查清单模板.
 - **参数类型与提示**: 支持设置必填及选填参数;未填写必输入参数时, Complete / 完成会进行报警提醒.
 - **规格卡控**: 支持规格限制及 Check, 可定义超出规格时是否需要填写 Comment; 支持是否需要 OOS 上下限卡控.
@@ -7017,6 +7093,13 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **复机检查**: 支持设置 PM 复机 Checklist / 设备检查清单的检查执行步骤.
 - **趋势分析**: <mark>Checklist 填写的值具备 Report 功能, 可查看这些值的趋势图.</mark>
 - **故障单关联**: 支持 UnScheduling Down / 非计划性宕机时手动建立故障单 Work Request / 作业请求, 并手动添加所需 Checklist / 设备检查清单.
+- **Checklist 步骤顺序验证、步骤可选/必选及版本控制**: 检查 Checklist(验证步骤顺序, 步骤分为可选和必选, 版本控制); 检查维护列表 (步骤分为可选和必选, 版本控制)
+- **提供 PMS 产品默认的 Mobile Checklist**: 支持 PMS 产品默认的 Mobile Checklist
+- **设定每步 Checklist Step 的预计完成时间**: 设定每一步 Checklist Step 预计完成时间
+- **提供 Word 格式 Checklist 模板供用户 Load**: 提供 Word 格式 checklist 模板供用户去 load
+- **Word 模板中可嵌套 Excel, 定义复杂表格与公式 Spec 卡控**: 用户可以在 Word 格式的 checklist 模板中添加嵌套的 Excel, 并且在 Excel 中定义 PM 过程中需收取的复杂表格以及使用对应的系统默认公式对 Spec 进行卡控
+- **定义 Checklist Title、Detail Title 及警示语句**: 定义 Checklist Title, Checklist Detail Title, Checklist 警示语句
+- **Checklist Step 支持设定 Double Confirm 步骤**: Checklist Step 支持设定 Double Confirm 的步骤
 
 #### 1.5 机台状态关联的设定
 
@@ -7033,6 +7116,12 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **Overdue强制切换**: 达到强制维修保养条件 Overdue / 逾期时, 强制切换设备 /Chamber / 子设备可用性.
 - **PM预约**: 根据用户 UI 设定预约 PM, 设备到达预约 PM 时间时强制切换设备 /Chamber 可用性.
 - **AMS报警整合**: 与 AMS 系统整合, 在用户定义的 Early (提前), Due (设定), OverDue (逾期) 时间点将报警发送给 Alarm / 预警系统.
+- **通过邮件、短信等方式通知维保负责人**: 可通过邮件、短信等方式通知维修保养作业的负责人
+- **按 Reason Code、Module、机台、PM 重要级别过滤通知**: 通过 Reason Code, module, 机台以及 PM 的重要级别进行过滤
+- **Early 预警列出所需 Parts, 勾选后自动生成领料单并与 ERP 交互**: Early 预警时可以列出该次 PM 所需 parts, 经工程师确认勾选 parts 后自动生成领料单, 与 ERP 系统交互完成. 领料失败, 影响的是 PM 过程中最后的更换 Parts 动作, 如果并未打开开关不会阻塞, 如果打开开关, 工单没有办法完成, 需要进行 Bypass 权限, 且可以在 mes 上出现提醒
+- **PM 完成超过预估时间时报警给 Alarm 系统**: 与 AMS 系统进行整合, 当用户完成 PM 的时间超过了预设的预估时间报警发送给 Alarm 系统
+- **PM 完成后通过 Alarm 系统通知用户**: 与 AMS 系统进行整合, 做完 PM 以后通过 Alarm 系统通知用户
+- **周期性保养 Schedule 被手动修改时报警**: 与 AMS 系统进行整合, 当周期性保养的 schedule 手动发生修改的时候将报警发送给 Alarm 系统
 
 #### 1.7 维修保养执行
 
@@ -7042,6 +7131,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **合并执行**: 关联的保养计划可以合并执行, 如周保养和月保养遇到时可以选择合并.
 - **Key Parts定义**: 定义 PM 计划时可定义需更换的 Key Parts List (料号与数量) / 关键配件清单 (料号与描述).
 - **更换卡控**: 完成 PM 时检查需更换的 Key Parts / 关键配件是否已完成更换, 否则 PM 不可以结束;更换可设置是否强制, 且需要填写 Comment / 备注.
+- **Checklist Step 完成后系统自动跳转下一步**: Checklist Step 完成后系统自动跳转到下一个 step
+- **系统默认的交接登记功能**: 系统默认的交接登记功能
 
 #### 1.8 设备维保查询
 
@@ -7050,6 +7141,9 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **灵活查询**: 可按照设备、拟定的设备群、默认时间范围进行查询.
 - **计划与状态**: 支持查询维修保养管理计划及维修保养管理状态.
 - **清单查看与导出**: 支持查看维修保养清单列表, 并支持 Export 导出.
+- **图例化(Gantt)显示 PM 计划**: 图例化 (Gantt) 显示 PM 计划
+- **提供 DB Schema 支持客户端报表系统**: 系统提供 DB schema 去支持客户端报表系统
+- **报表含 PM List、参数值历史、单参数 Chart、执行记录等**: 报表内含: > 当前 scheduled 以及 unscheduled PM List; PM schedule 的具体信息包括 due date, due meter value, module, equipmentID; 机台参数值历史记录; 机台保养记录中单个参数可以生成 chart; 机台 PM 执行的记录; 机台 PM 记录和参数值记录同部门所有员工均可查看
 
 #### 1.9 维修保养历史记录
 
@@ -7068,6 +7162,28 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **MES账户整合**: 用户账户与 MES 整合, 减少用户维护成本; 权限管理模块与 MES 进行整合, 减少用户重复定义.
 - **Module整合**: 机台 Module 与 MES 深入整合, 用户只需要定义一次, 不需要重复定义.
 - **状态整合**: 机台状态以及状态转换与 MES 深入整合, 用户只需要定义一次, 不需要重复定义.
+- **原因代码 Module 与 MES 深入整合, 只需定义一次**: 原因代码 module 与 MES 深入整合, 用户只需要定义一次, 不需要重复定义
+- **机台 Template 与 MES 深入整合, 只需定义一次**: 机台 Template 与 MES 深入整合, 用户只需要定义一次, 不需要重复定义
+- **提供机台数据、状态、权限组、Template、原因代码、Checklist 等录入工具**: 提供产品默认的机台数据的录入工具; 提供产品默认的机台状态转换的录入工具; 提供产品默认的用户权限组的录入工具; 提供产品默认的机台 template 的录入工具; 提供产品默认的原因代码的录入工具; 提供产品默认的原因代码分组的录入工具; 提供产品默认的 Mobile Checklist 的录入工具; 提供产品默认的标准 Checklist 的录入工具
+
+#### 1.11 PM 延期标准化接口
+
+PM 延期与对外标准化接口, 覆盖延期申请传签、签核系统调用、R2R 联动与异常单创建.
+
+- **提供标准化延期接口供客户签核系统调用**: 提供产品标准化的延期接口, 方便客户签核系统调用, 但是客户系统需要适用该接口
+- **与 R2R 沟通的标准化接口, PM Complete 时发送结束信息**: 提供产品标准化的接口与 R2R 沟通, 在 PM complete 时候, 将用户配置的特定机台类型 PM 结束信息发送给 R2R
+- **提供标准化 Checklist 签核接口**: 提供产品标准化的 Checklist 签核接口, 方便客户签核系统调用, 但是客户系统需要适用该接口
+- **支持 PM / Non PM Job-Parts 固定清单 Parts 延期及传签记录查询**: 支持 PM job-parts, Non PM jobparts 固定清单里的某项 Parts 延期功能及传签、记录、查询
+- **支持 PM 延期功能及传签、记录、查询**: 支持 PM 延期功能及传签、记录、查询
+- **提供标准化创建异常单 Work Request 接口**: 提供产品标准化的创建异常单 work request 接口, 方便客户签核系统调用, 但是客户系统需要适用该接口
+
+#### 1.12 移动应用支持
+
+PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识库.
+
+- **支持移动设备(平板电脑和手机)**: 支持移动设备, 包括平板电脑和手机等
+- **移动设备拍照并上传到规定系统或路径**: 支持移动设备拍照并上传到规定的系统或者路径
+- **移动设备支持知识库**: 移动设备支持知识库
 
 ### 2. PTMS 备件管理 (备品备件管理)
 
@@ -7077,6 +7193,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 - **手工领料**: 支持填写 Part 基本信息进行领料, 录入系统; 支持填写配件基本信息领料录入系统, 支持导入; 提供产品默认的配件录入工具.
 - **领料协同**: 提供标准的接口从 ERP 进行领料, 自动录入到系统.
+- **白名单增加 Key/Non-Key, 领料后自动带入系统**: 白名单中要增加 Key/Non-Key, 领料后, 物料对应白名单的 Key/Non-Key 状态, 自动带入到系统中
+- **提供领料/退料/领料上限控制/状态切换/Part 延期标准接口**: 提供标准接口供客户使用, 领料接口, 退料接口, Part 领料上限控制接口, Part 状态切换接口, Part 延期接口
 
 #### 2.2 Parts 组装 (装卸管理)
 
@@ -7085,6 +7203,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **组装与卸载**: 支持将 Parts Group 里面的 Part 组装到 EQP/Chamber / 设备 / 子设备, 并将此时挂在 EQP/Chamber 的 Part 进行卸载, 选择处理方法 (Scrap, WaitRepair, WaitOE, Swapped, Clean / 废弃、等待维修、待装机、已拆换、清洗).
 - **替换分类**: Parts 替换分为 Non PM Job 的替换以及 PM Job 的替换.
 - **使用情况显示**: 替换过程中显示当前 Parts 的使用情况.
+- **提供产品标准 Part EQP Release 功能(Loader 初始化已挂 Part)**: 提供产品标准的 Part EQP Release 功能, 方便用户用 Loader 一次性初始化机台上已挂有的 Part
+- **支持定义某些 Parts 更换后自动切换机台 Recipe Constraint**: 支持定义某些 parts 更换后自动切换机台 recipe constraint
 
 #### 2.3 Parts 使用和再循环控制 (循环管控)
 
@@ -7099,12 +7219,18 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 - **唯一识别**: Parts 领入时生成唯一识别号, 领入到在线仓以后可以唯一性地进行跟踪记录.
 - **信息展示**: 显示 Part 的相关信息以及执行的时间.
+- **按 PartNo/SeriesNo/Equipment/VendorSeriesNo/UserID/Activity/ReadingType 及时间范围查询 Part History**: 用户可以根据 PartNo, SeriesNo, Equipment, VendorSeriesNo, UserID, Activity, ReadingType 以及时间范围进行查询相关的 history
+- **支持 Export Part History 进行分析研究**: 用户可以根据需要 Export 出来对应的 Part History 进行分析研究
+- **History 查询时 Activity / Reading Type 支持一键全选**: 查看 History 时, ACTIVITY 和 READING TYPE 选择项, 可以一键全选
+- **支持按 PART NO / SN NO / EQID 等类型分别 Export**: 设置可以按照 PART NO, SN NO, EQID 等类型, 分别 Export 进行研究
 
 #### 2.5 Parts 逾期报警
 
 支持备件寿命的定时监控与报警.
 
 - **Lifetime监控**: <mark> 与 AMS 系统整合, 系统对 Part 的 Lifetime 进行定时监控, 发现 Parts 逾期时将相关信息发送给 Alarm / 预警系统.</mark>
+- **Machine 设置 Parts Life Time Interlock, 超限不可上货并提示原因**: 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因. ; 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因
+- **WET Chemical Life Time 按 By Wafer Counts / By Life Time 优先卡控**: 对于 WET 的 Chemical Life Time 以 By wafer counts 和 By Life Time 哪个优先到以哪个为卡控标准.
 
 #### 2.6 Parts 替换卡控 (维保配件卡控)
 
@@ -7112,6 +7238,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 - **必换清单配置**: 用户可以在 PMS 系统中配置维保需要更换的 Parts List / 配件清单.
 - **Complete卡控**: 用户在 PTMS 系统更换对应的 Part, 如果未更换必更换的 Parts, PM Job 无法 Complete / 维保任务无法完成.
+- **Replace Part 中以颜色显示过期及低于水位线的 Part**: 用户可以在 Replace Part 中颜色显示过期的 Part, 低于水位线的 Part
+- **限制 Part 只可上到同一 Equipment Group 设备以防污染**: 为了防止 Part 上错进行污染, 限制用户 Part 只可以上到同一个 Equipment Group 的设备
 
 #### 2.7 Part 安全库存
 
@@ -7125,6 +7253,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 - **白名单机制**: 提供用户白名单的定义界面, 维护需要领入到 PTMS 中的 PartNo List, 标准领料接口会查看白名单内容决定是否需要领入到系统.
 - **图片上传**: Parts 属性具备图片上传功能, 可以直观地看出具体是什么 Parts.
+- **提供默认 Part 状态定义(FREE/INUSE/SCRAP 等 12 种)**: 提供默认的 Part 状态: FREE, INUSE, SCRAP, ; SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, Cleaning, WaitClean
+- **对 Wait OE 的 Part 处理并切换为 Repaired 或 Scrap**: 对于需要 OE 部门对于有问题的 Part 进行处理的时候, 提供用户对于 Wait OE 的 Part 进行处理, 切换到 Repaired 或者 Scrap
 
 #### 2.9 Part Group 维护管理 (配件组管理)
 
@@ -7145,6 +7275,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 支持备件报废的权限化管控.
 
 - **报废操作**: 对于待报废的 Part, 高权限的用户可以进行报废操作, 执行报废后 Part 状态自动转换成 Scrap 状态.
+- **三种方式切换 Part 状态(Unscrap / Modify / To Free)**: 提供三种方式对于 Part 状态进行切换, 一种是 Unscrap 重新切换到 WaitScrap; 一种是 Modify 按照产品的状态转换进行切换; 一种是 To Free 强制将 Part 状态切换成 Free
 
 #### 2.12 Part List 查询 (查询导出)
 
@@ -7158,6 +7289,8 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 支持备件详细属性的全面展示.
 
 - **详细信息**: 提供用户查看 Part 的具体信息, 包括 PartNo, SeriesNo, Module, Status, Quantity, Current Location, Location Change Time, VendorSN, UserID, RFTIME, Warning Qty, Last Job, Cycle Limit, Cycle Count, Description.
+- **支持 KeyIn/Barcode 录入及数据合法性验证、替代件信息**: 支持 KeyIn/barcode 等录入 parts 信息方式, 具备输入数据合法性验证, 不可出现物料重记, 零部件的唯一识别编码号, 零部件名称, 设备与零部件的从属关系, 零部件的作用描述, 替代件相关的信息 (Part Group 可维护零部件与设备的从属关系)
+- **提供 GUI 查看和维护 Parts 信息(Query/Add/Modify/Delete/History/Change Status/Scrap/OE Complete/Repair/Load/Unload/Unscrap)**: 需要提供 GUI 查看和维护 Parts 信息 (Query, Add, Modify, Delete, History, change Status, Scrap, OE complete, Repair, Load, Unload, Unscrap)
 
 #### 2.14 Return Part
 
