@@ -3760,8 +3760,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **批量数量定义**: 支持设备批量数量的定义, 例如最大和最小 Wafer 数, 最大和最小载体数量的定义.
 - **Scenario Type 驱动的设备建模**: 以 Scenario Type / Process Type (按 EAP 实际操作方式定义) 为基准串联设备相关属性配置, 类型涵盖 Normal, LiSo / ViSo, Cluster (封测串机设备)、Bond 及 Inline (多台设备串联视作一个逻辑设备) 等.
 - **机台级 Ad-hoc / LongLoad 搜值**: 机台建模时可配置 Ad-hoc / LongLoad EQP 搜值所使用的 EDC Plan, 即在机台维度 (而非仅站点维度) 指定临时数据采集计划.
-- **N2-Purge/CDA 设备建模与安装位置分类, Purge 后实时更新 FOUP/Lot Q-Time**: 系统应该定义 N2-Purge/CDA 的相关设备, 并依据不同的安装位置识别和区别对待, 如: 整合至暂存区 (如 OHB 等); 整合至工艺设备的 Load Port 上; 整合进 Stocker; 独立的 N2-Purge 机台; N2-Purge 后, MES 应该实时更新 FOUP/Lot 的相关信息, 如 N2 Purge Q-Time 时间
-- **NTB / Exchanger 的 Port 与 Buffer Size 管理与维护**: 支持 NTB(Near Tool Buffer), Exchanger 的 Port 与 Buffer Size 的管理与维护; 支持把 NTB 和 Exchanger 当成机台的 Internal Buffer; 把 NTB / Exchanger 的 Load Port 设定为机台的 Port, 其中位于设备上端的 Port 需设定为 On Top Load Port, 仅支持 Auto 2 和 Auto 3(不可人工); FOUP Load 和 UnLoad 时, 根据 Buffer 与 Port 的 Mapping 自动将 FOUP 转移到指定的 Port 或 Buffer 上, EAP 整合与设备共同集成 (需要与 EAP 和 MCS 集成)
+- **N2-Purge/CDA 设备建模与安装位置分类, Purge 后实时更新 FOUP/Lot Q-Time**: <mark> 系统应该定义 N2-Purge/CDA 的相关设备, 并依据不同的安装位置识别和区别对待, 如: 整合至暂存区 (如 OHB 等); 整合至工艺设备的 Load Port 上; 整合进 Stocker; 独立的 N2-Purge 机台; N2-Purge 后, MES 应该实时更新 FOUP/Lot 的相关信息, 如 N2 Purge Q-Time 时间.</mark>
+- **NTB / Exchanger 的 Port 与 Buffer Size 管理与维护**: <mark> 支持 NTB(Near Tool Buffer), Exchanger 的 Port 与 Buffer Size 的管理与维护; 支持把 NTB 和 Exchanger 当成机台的 Internal Buffer; 把 NTB / Exchanger 的 Load Port 设定为机台的 Port, 其中位于设备上端的 Port 需设定为 On Top Load Port, 仅支持 Auto 2 和 Auto 3(不可人工); FOUP Load 和 UnLoad 时, 根据 Buffer 与 Port 的 Mapping 自动将 FOUP 转移到指定的 Port 或 Buffer 上, EAP 整合与设备共同集成 (需要与 EAP 和 MCS 集成).</mark>
 
 #### 1.4 Stocker Modeling
 
@@ -3899,8 +3899,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **履历记录**: 生产批次履历记录设备加工所使用的 Recipe/PPID; 记录历史详情.
 - **Recipe Group / 混跑 (Mix Run)**: 通过 Recipe Group 管理 Mix Run 混跑场景, 定义不同 Recipe 组之间的切换条件 (如 Idle Time, Recipe Change 等) , 确保工艺执行连续性. Recipe Group 管理层级位于机台分组之上.
 - **Recipe 管理**: 在 Recipe 配置页面增加 Wafer Process Time 和 Lot Track Time (Track In -> Track Out) 卡控来辅助识别机台是否异常, 而非在 Step 设置.
-- **Recipe 增加能量设置字段, 供光罩 Life Time 计算**: Recipe 设定需有能量设置字段, 以供光罩计算 life time 使用
-- **Recipe 增加 Reticle Field 设定字段(可吃一张光罩上的多个 Field)**: Recipe 设定需有 Reticle Field 设定字段 (可吃一张光罩上的多个 Field)
+- **Recipe 增加能量设置字段, 供光罩 Life Time 计算**: <mark>Recipe 设定需有能量设置字段, 以供光罩计算 life time 使用.</mark>
+- **Recipe 增加 Reticle Field 设定字段(可吃一张光罩上的多个 Field)**: <mark>Recipe 设定需有 Reticle Field 设定字段 (可吃一张光罩上的多个 Field).</mark>
 - **CMP Recipe 按 Pad No 与 Pad Life Time 区间设置 PPID, 派工时按 Pad Life Time 选择 PPID**: CMP 机台的 Recipe 可以根据 Pad No 跟 Pad Life Time 的区间来设置的 PPID; CMP 机台在派工时, 可以考虑 Pad Life Time 来选择对应的 PPID
 
 #### 2.6 Product (流程维度)
@@ -4075,7 +4075,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **独立切换**: Chamber 状态可以跟父设备联动, 也可以单独切换.
 - **机台状态管理**: 系统上子设备状态与机台端子设备状态不一致时, Reserve / Track In Lot 如 Recipe 涉及该子 Chamber 要报错.
 - **Chamber 状态**: 也要能对 Chamber 进行 Hold 或者生成 Constraint.
-- **Chamber / EQP 状态优先级决定最终状态(含 Chamber Group)**: 可以设置优先级来决定 Chamber State 最终状态. 举例: 同时跑 NPW 和 Product 时, 设备状态被优先设置成 Running; 支持根据 Chamber 或 Chamber Group 状态配置主 EQP 状态, 并按优先级决定最终状态. 例如: Chamber A = RUN, Chamber B = ENG, 且优先级 RUN > ENG, 则系统将主 EQP 状态设为 RUN; EQP 状态转换可以设置优先级来决定最终状态变化
+- **Chamber / EQP 状态优先级决定最终状态(含 Chamber Group)**: <mark> 可以设置优先级来决定 Chamber State 最终状态. 举例: 同时跑 NPW 和 Product 时, 设备状态被优先设置成 Running; 支持根据 Chamber 或 Chamber Group 状态配置主 EQP 状态, 并按优先级决定最终状态. 例如: Chamber A = RUN, Chamber B = ENG, 且优先级 RUN > ENG, 则系统将主 EQP 状态设为 RUN; EQP 状态转换可以设置优先级来决定最终状态变化.</mark>
 
 #### 3.6 ECS / 机台限制 (Tool Constraint)
 
@@ -4099,8 +4099,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Constraint 管理**: 每条 Constraint 有状态, Owner, 生效时间, 过期时间, 更新时间及内容等信息.
 - **Constraint 管理**: 主机台和子机台均可配置正向与负向 Constraint.
 - **按 EQP / Recipe / PPID 配置 Boat Thickness Spec 并验证生产条件**: 支持通过 EQP, Recipe 和 PPID 配置 Boat Thickness Spec, 验证设备是否满足生产条件; (实际 Boat Thickness 由 EAP 上报)
-- **Recipe Prohibition: 分类生产禁止/工艺禁止并显示禁止原因与可 Release 原因**: 增加 Recipe Prohibiton 功能, 能够分类生产禁止 / 工艺禁止, 并且显示禁止原因和可 Release 原因
-- **新设备试生产(STR/MSTR)时间段、Wafer 数量限制与白名单管控**: 支持对设备在限定的期间内, 进行限制 Wafer 数量的生产, 以降低生产风险: ) 可按设备设置试生产 (STR, MSTR) 的时间段; ) 可按设备设置试生产时间段内, 每天可以生产的 Wafer 数量, 与期间内允许总生产的 Wafer 数量; ) 支持新设备 Move In 后, 可以默认禁止使用, 需要配置可生产的白名单, 才可以按照配置使用
+- **Recipe Prohibition: 分类生产禁止/工艺禁止并显示禁止原因与可 Release 原因**: 增加 Recipe Prohibiton 功能, 能够分类生产禁止 / 工艺禁止, 并且显示禁止原因和可 Release 原因.
+- **新设备试生产(STR/MSTR)时间段、Wafer 数量限制与白名单管控**: <mark> 支持对设备在限定的期间内, 进行限制 Wafer 数量的生产, 以降低生产风险: ) 可按设备设置试生产 (STR, MSTR) 的时间段; ) 可按设备设置试生产时间段内, 每天可以生产的 Wafer 数量, 与期间内允许总生产的 Wafer 数量; ) 支持新设备 Move In 后, 可以默认禁止使用, 需要配置可生产的白名单, 才可以按照配置使用.</mark>
 
 #### 3.7 EQP 查询和 History 查询
 
@@ -4158,8 +4158,8 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **双光罩**: 光刻 (Photo) 机台支持双光罩使用.
 - **联机子机台**: 支持一个主机台同步控管两个子机台 (Track/Scanner), 并可分别设置两个子机台的配方 (Track Recipe/Scanner Recipe).
-- **当前层选定与上一层相同的 Chuck(28nm 以下高精度场景)**: 支持在当前层选定和上一层相同的 Chuck(28nm 以下, 对精度要求较高的场景); 对于 Litho 机台, 可以集成 APC, 达到每片 Wafer 要和前层 Litho 使用同样的 Chuck(28nm 以下)
-- **Litho 设备 FOUP Exchanger 作为运输自动化的缓冲区**: 支持 Litho 设备的 FOUP Exchanger 作为运输自动化的缓冲区
+- **当前层选定与上一层相同的 Chuck(28nm 以下高精度场景)**: <mark> 支持在当前层选定和上一层相同的 Chuck(28nm 以下, 对精度要求较高的场景); 对于 Litho 机台, 可以集成 APC, 达到每片 Wafer 要和前层 Litho 使用同样的 Chuck(28nm 以下).</mark>
+- **Litho 设备 FOUP Exchanger 作为运输自动化的缓冲区**: <mark> 支持 Litho 设备的 FOUP Exchanger 作为运输自动化的缓冲区.</mark>
 
 #### 3.12 多腔体设备 (Multi-Chamber)
 
@@ -4281,7 +4281,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **T7 Code**: 下线时记录晶圆背刻码 (T7 Code), 背刻码伴随批次全生命周期.
 - **首站 Non-Sorter 选项**: Lot 下线 (Web Start) 时支持勾选 Non Sorter, 跳过首站物理传片动作仅做账务过账 (不建议使用以避免账务混乱) ; 默认首站配置为 Inline Sorter, 需进行 Slot Map 比对.
 - **Lot 下线**: 部分 Lot 二次下线会发生多次 Start, 需提供两个栏位分别标注.
-- **Zero Layer Wafers 作为 Wafer Start 原材料**: Zero Layer Wafers
+- **Zero Layer Wafers 作为 Wafer Start 原材料**: <mark>Zero Layer Wafers.</mark>
 
 #### 6.4 批次与载具关联管理
 
@@ -4365,7 +4365,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **合批规则**: 同家族且相同产品、相同工艺流程、相同站点的子批可互相合批; 原始 (祖宗) 批次不能被合并到子孙批中; 有计划合批动作的批次不允许被合批, 除非计划合批已到达合批当站或提前取消.
 - **合批防呆**: 合批时需要具备防呆卡控, 确保 Lot 核心属性一致, 不得产生 MO 风险, 例如 Lot Flow 版本, 站点, 污染等级, 优先级等等.
 - **Sorter 自动化**: 支持倒片机 EAP 自动化分、合批.
-- **不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13)**: 对部分特殊工艺, 不支持满片过站的工艺, 要支持用小批 Lot 过站, 即入机台前必须自动 Split, 出机台后自动 Merge, Split 规则可以根据工艺灵活设置, 如 8/8/9 或 12/13 等
+- **不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13)**: <mark> 对部分特殊工艺, 不支持满片过站的工艺, 要支持用小批 Lot 过站, 即入机台前必须自动 Split, 出机台后自动 Merge, Split 规则可以根据工艺灵活设置, 如 8/8/9 或 12/13 等.</mark>
 
 #### 6.11 Bank In/Out
 
@@ -5308,9 +5308,9 @@ Litho 区特殊性 (前道最复杂的管控场景):
 
 - **R2R 控制**: 支持基于量测反馈的 Run-to-Run 配方参数调整 (反馈 / 前馈), 控制模型可配置, 修正量受版本与签核管控.
 - **配方推荐**: 根据历史与目标自动推荐 Recipe 修正量, 经签审核准后由 EAP 下发, 全程留痕.
-- **支持 APC Pi-Lot(Auto Trigger)与 On Demand Pi-Lot(Manual Trigger)两大类**: MES 需要支持两大类 Pi-Lot Run: APC Pi-Lot(Auto Trigger), On Demand Pi-Lot (Manual Trigger)
-- **APC Pi-Lot 触发处理逻辑: APC 条件 → RTD → 触发 Pi-Lot → 结果回传**: 需要 Pi-Lot 的条件设在 APC(R2R), 包含 Litho, CMP, Etch; 当条件符合时, APC(R2R) 会将对应数据 (机台, Recipe 等) 送到 RTD; 当对应机台的 What Next 送到 RTD 时, RTD 会决定依 APC 给的数据触发 Pi-Lot 功能; 当触发 Pi-Lot 功能时, 可以手动 / 自动需要挑选 Pi-Lot; 启动 Pi-Lot 功能后, 通知 APC 对应 Run 货数据; APC 依照 MES 的 Run 货资料来决定 Pi-Lot 的成功与否, 并将结果通知 RTD 来作下一 Cycle 的判断
-- **Pi-Lot 失败后的异常处置: Remeasurement / Re-Pilot / Rework**: 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework; 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework
+- **支持 APC Pi-Lot(Auto Trigger)与 On Demand Pi-Lot(Manual Trigger)两大类**: <mark>MES 需要支持两大类 Pi-Lot Run: APC Pi-Lot(Auto Trigger), On Demand Pi-Lot (Manual Trigger).</mark>
+- **APC Pi-Lot 触发处理逻辑: APC 条件 → RTD → 触发 Pi-Lot → 结果回传**: <mark> 需要 Pi-Lot 的条件设在 APC(R2R), 包含 Litho, CMP, Etch; 当条件符合时, APC(R2R) 会将对应数据 (机台, Recipe 等) 送到 RTD; 当对应机台的 What Next 送到 RTD 时, RTD 会决定依 APC 给的数据触发 Pi-Lot 功能; 当触发 Pi-Lot 功能时, 可以手动 / 自动需要挑选 Pi-Lot; 启动 Pi-Lot 功能后, 通知 APC 对应 Run 货数据; APC 依照 MES 的 Run 货资料来决定 Pi-Lot 的成功与否, 并将结果通知 RTD 来作下一 Cycle 的判断.</mark>
+- **Pi-Lot 失败后的异常处置: Remeasurement / Re-Pilot / Rework**: <mark> 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework; 当 Pi-Lot 失败后, 可以启动 3 种 exception handle: Remeasurement, Re-Pilot, Rework.</mark>
 
 ### 44. FDC 故障检测与分类
 
@@ -7061,7 +7061,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **混合类型保养**: 支持基于时间周期和基于使用情况相结合的混合类型保养管理.
 - **API 创建维修单**: <mark> 支持通过 API 供其他系统创建临时的维修保养单.</mark>
 - **非计划宕机**: 支持非计划性宕机 (UnScheduling Down) 手动建立故障单作业请求 (Work Request), 并手动添加所需设备检查清单.
-- **参数达大 PM Range 时小 PM 参数自动 Reset 并清除小 PM**: 同参数的多个 PM 类型, 如果参数到达大 PM Range 内, 小 PM 参数被自动 reset, 小参数对应的 PM 也会被清除掉
+- **参数达大 PM Range 时小 PM 参数自动 Reset 并清除小 PM**: <mark> 同参数的多个 PM 类型, 如果参数到达大 PM Range 内, 小 PM 参数被自动 reset, 小参数对应的 PM 也会被清除掉.</mark>
 
 #### 1.3 维修保养管理建立 (PM 模板与计划配置)
 
@@ -7085,7 +7085,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 支持结构化的检查步骤定义、参数卡控与模板复用的全生命周期维护.
 
 - **步骤与模板管理**: 支持添加、删除、修改 Checklist Step / 设备检查清单步骤, 以及增加、修改、复制维修 PM Checklist 模板; 支持设备检查清单模板配置功能 (按设备模板或者按设备), 支持系统默认的签核逻辑.
-- **内容本地化**: Checklist Step 内容支持中文汉字. 需支持不同字体颜色的显示.
+- **内容本地化**: <mark>Checklist Step 内容支持中文汉字. 需支持不同字体颜色的显示.</mark>
 - **导入导出**: 支持 Export 及 Load / 导入导出设备检查清单模板.
 - **参数类型与提示**: 支持设置必填及选填参数;未填写必输入参数时, Complete / 完成会进行报警提醒.
 - **规格卡控**: 支持规格限制及 Check, 可定义超出规格时是否需要填写 Comment; 支持是否需要 OOS 上下限卡控.
@@ -7093,13 +7093,13 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **复机检查**: 支持设置 PM 复机 Checklist / 设备检查清单的检查执行步骤.
 - **趋势分析**: <mark>Checklist 填写的值具备 Report 功能, 可查看这些值的趋势图.</mark>
 - **故障单关联**: 支持 UnScheduling Down / 非计划性宕机时手动建立故障单 Work Request / 作业请求, 并手动添加所需 Checklist / 设备检查清单.
-- **Checklist 步骤顺序验证、步骤可选/必选及版本控制**: 检查 Checklist(验证步骤顺序, 步骤分为可选和必选, 版本控制); 检查维护列表 (步骤分为可选和必选, 版本控制)
-- **提供 PMS 产品默认的 Mobile Checklist**: 支持 PMS 产品默认的 Mobile Checklist
-- **设定每步 Checklist Step 的预计完成时间**: 设定每一步 Checklist Step 预计完成时间
-- **提供 Word 格式 Checklist 模板供用户 Load**: 提供 Word 格式 checklist 模板供用户去 load
-- **Word 模板中可嵌套 Excel, 定义复杂表格与公式 Spec 卡控**: 用户可以在 Word 格式的 checklist 模板中添加嵌套的 Excel, 并且在 Excel 中定义 PM 过程中需收取的复杂表格以及使用对应的系统默认公式对 Spec 进行卡控
-- **定义 Checklist Title、Detail Title 及警示语句**: 定义 Checklist Title, Checklist Detail Title, Checklist 警示语句
-- **Checklist Step 支持设定 Double Confirm 步骤**: Checklist Step 支持设定 Double Confirm 的步骤
+- **Checklist 步骤顺序验证、步骤可选/必选及版本控制**: <mark> 检查 Checklist(验证步骤顺序, 步骤分为可选和必选, 版本控制); 检查维护列表 (步骤分为可选和必选, 版本控制).</mark>
+- **提供 PMS 产品默认的 Mobile Checklist**: <mark> 支持 PMS 产品默认的 Mobile Checklist.</mark>
+- **设定每步 Checklist Step 的预计完成时间**: <mark> 设定每一步 Checklist Step 预计完成时间.</mark>
+- **提供 Word 格式 Checklist 模板供用户 Load**: <mark> 提供 Word 格式 checklist 模板供用户去 load.</mark>
+- **Word 模板中可嵌套 Excel, 定义复杂表格与公式 Spec 卡控**: <mark> 用户可以在 Word 格式的 checklist 模板中添加嵌套的 Excel, 并且在 Excel 中定义 PM 过程中需收取的复杂表格以及使用对应的系统默认公式对 Spec 进行卡控.</mark>
+- **定义 Checklist Title、Detail Title 及警示语句**: <mark> 定义 Checklist Title, Checklist Detail Title, Checklist 警示语句.</mark>
+- **Checklist Step 支持设定 Double Confirm 步骤**: <mark>Checklist Step 支持设定 Double Confirm 的步骤.</mark>
 
 #### 1.5 机台状态关联的设定
 
@@ -7116,12 +7116,12 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **Overdue强制切换**: 达到强制维修保养条件 Overdue / 逾期时, 强制切换设备 /Chamber / 子设备可用性.
 - **PM预约**: 根据用户 UI 设定预约 PM, 设备到达预约 PM 时间时强制切换设备 /Chamber 可用性.
 - **AMS报警整合**: 与 AMS 系统整合, 在用户定义的 Early (提前), Due (设定), OverDue (逾期) 时间点将报警发送给 Alarm / 预警系统.
-- **通过邮件、短信等方式通知维保负责人**: 可通过邮件、短信等方式通知维修保养作业的负责人
-- **按 Reason Code、Module、机台、PM 重要级别过滤通知**: 通过 Reason Code, module, 机台以及 PM 的重要级别进行过滤
-- **Early 预警列出所需 Parts, 勾选后自动生成领料单并与 ERP 交互**: Early 预警时可以列出该次 PM 所需 parts, 经工程师确认勾选 parts 后自动生成领料单, 与 ERP 系统交互完成. 领料失败, 影响的是 PM 过程中最后的更换 Parts 动作, 如果并未打开开关不会阻塞, 如果打开开关, 工单没有办法完成, 需要进行 Bypass 权限, 且可以在 mes 上出现提醒
-- **PM 完成超过预估时间时报警给 Alarm 系统**: 与 AMS 系统进行整合, 当用户完成 PM 的时间超过了预设的预估时间报警发送给 Alarm 系统
-- **PM 完成后通过 Alarm 系统通知用户**: 与 AMS 系统进行整合, 做完 PM 以后通过 Alarm 系统通知用户
-- **周期性保养 Schedule 被手动修改时报警**: 与 AMS 系统进行整合, 当周期性保养的 schedule 手动发生修改的时候将报警发送给 Alarm 系统
+- **通过邮件、短信等方式通知维保负责人**: <mark> 可通过邮件、短信等方式通知维修保养作业的负责人.</mark>
+- **按 Reason Code、Module、机台、PM 重要级别过滤通知**: <mark> 通过 Reason Code, module, 机台以及 PM 的重要级别进行过滤.</mark>
+- **Early 预警列出所需 Parts, 勾选后自动生成领料单并与 ERP 交互**: <mark>Early 预警时可以列出该次 PM 所需 parts, 经工程师确认勾选 parts 后自动生成领料单, 与 ERP 系统交互完成. 领料失败, 影响的是 PM 过程中最后的更换 Parts 动作, 如果并未打开开关不会阻塞, 如果打开开关, 工单没有办法完成, 需要进行 Bypass 权限, 且可以在 mes 上出现提醒.</mark>
+- **PM 完成超过预估时间时报警给 Alarm 系统**: <mark> 与 AMS 系统进行整合, 当用户完成 PM 的时间超过了预设的预估时间报警发送给 Alarm 系统.</mark>
+- **PM 完成后通过 Alarm 系统通知用户**: <mark> 与 AMS 系统进行整合, 做完 PM 以后通过 Alarm 系统通知用户.</mark>
+- **周期性保养 Schedule 被手动修改时报警**: <mark> 与 AMS 系统进行整合, 当周期性保养的 schedule 手动发生修改的时候将报警发送给 Alarm 系统.</mark>
 
 #### 1.7 维修保养执行
 
@@ -7131,7 +7131,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **合并执行**: 关联的保养计划可以合并执行, 如周保养和月保养遇到时可以选择合并.
 - **Key Parts定义**: 定义 PM 计划时可定义需更换的 Key Parts List (料号与数量) / 关键配件清单 (料号与描述).
 - **更换卡控**: 完成 PM 时检查需更换的 Key Parts / 关键配件是否已完成更换, 否则 PM 不可以结束;更换可设置是否强制, 且需要填写 Comment / 备注.
-- **Checklist Step 完成后系统自动跳转下一步**: Checklist Step 完成后系统自动跳转到下一个 step
+- **Checklist Step 完成后系统自动跳转下一步**: <mark>Checklist Step 完成后系统自动跳转到下一个 step.</mark>
 - **系统默认的交接登记功能**: 系统默认的交接登记功能
 
 #### 1.8 设备维保查询
@@ -7141,7 +7141,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **灵活查询**: 可按照设备、拟定的设备群、默认时间范围进行查询.
 - **计划与状态**: 支持查询维修保养管理计划及维修保养管理状态.
 - **清单查看与导出**: 支持查看维修保养清单列表, 并支持 Export 导出.
-- **图例化(Gantt)显示 PM 计划**: 图例化 (Gantt) 显示 PM 计划
+- **图例化(Gantt)显示 PM 计划**: <mark> 图例化 (Gantt) 显示 PM 计划.</mark>
 - **提供 DB Schema 支持客户端报表系统**: 系统提供 DB schema 去支持客户端报表系统
 - **报表含 PM List、参数值历史、单参数 Chart、执行记录等**: 报表内含: > 当前 scheduled 以及 unscheduled PM List; PM schedule 的具体信息包括 due date, due meter value, module, equipmentID; 机台参数值历史记录; 机台保养记录中单个参数可以生成 chart; 机台 PM 执行的记录; 机台 PM 记录和参数值记录同部门所有员工均可查看
 
@@ -7164,14 +7164,14 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **状态整合**: 机台状态以及状态转换与 MES 深入整合, 用户只需要定义一次, 不需要重复定义.
 - **原因代码 Module 与 MES 深入整合, 只需定义一次**: 原因代码 module 与 MES 深入整合, 用户只需要定义一次, 不需要重复定义
 - **机台 Template 与 MES 深入整合, 只需定义一次**: 机台 Template 与 MES 深入整合, 用户只需要定义一次, 不需要重复定义
-- **提供机台数据、状态、权限组、Template、原因代码、Checklist 等录入工具**: 提供产品默认的机台数据的录入工具; 提供产品默认的机台状态转换的录入工具; 提供产品默认的用户权限组的录入工具; 提供产品默认的机台 template 的录入工具; 提供产品默认的原因代码的录入工具; 提供产品默认的原因代码分组的录入工具; 提供产品默认的 Mobile Checklist 的录入工具; 提供产品默认的标准 Checklist 的录入工具
+- **提供机台数据、状态、权限组、Template、原因代码、Checklist 等录入工具**: <mark> 提供产品默认的机台数据的录入工具; 提供产品默认的机台状态转换的录入工具; 提供产品默认的用户权限组的录入工具; 提供产品默认的机台 template 的录入工具; 提供产品默认的原因代码的录入工具; 提供产品默认的原因代码分组的录入工具; 提供产品默认的 Mobile Checklist 的录入工具; 提供产品默认的标准 Checklist 的录入工具.</mark>
 
 #### 1.11 PM 延期标准化接口
 
 PM 延期与对外标准化接口, 覆盖延期申请传签、签核系统调用、R2R 联动与异常单创建.
 
 - **提供标准化延期接口供客户签核系统调用**: 提供产品标准化的延期接口, 方便客户签核系统调用, 但是客户系统需要适用该接口
-- **与 R2R 沟通的标准化接口, PM Complete 时发送结束信息**: 提供产品标准化的接口与 R2R 沟通, 在 PM complete 时候, 将用户配置的特定机台类型 PM 结束信息发送给 R2R
+- **与 R2R 沟通的标准化接口, PM Complete 时发送结束信息**: <mark> 提供产品标准化的接口与 R2R 沟通, 在 PM complete 时候, 将用户配置的特定机台类型 PM 结束信息发送给 R2R.</mark>
 - **提供标准化 Checklist 签核接口**: 提供产品标准化的 Checklist 签核接口, 方便客户签核系统调用, 但是客户系统需要适用该接口
 - **支持 PM / Non PM Job-Parts 固定清单 Parts 延期及传签记录查询**: 支持 PM job-parts, Non PM jobparts 固定清单里的某项 Parts 延期功能及传签、记录、查询
 - **支持 PM 延期功能及传签、记录、查询**: 支持 PM 延期功能及传签、记录、查询
@@ -7181,9 +7181,9 @@ PM 延期与对外标准化接口, 覆盖延期申请传签、签核系统调用
 
 PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识库.
 
-- **支持移动设备(平板电脑和手机)**: 支持移动设备, 包括平板电脑和手机等
-- **移动设备拍照并上传到规定系统或路径**: 支持移动设备拍照并上传到规定的系统或者路径
-- **移动设备支持知识库**: 移动设备支持知识库
+- **支持移动设备(平板电脑和手机)**: <mark> 支持移动设备, 包括平板电脑和手机等.</mark>
+- **移动设备拍照并上传到规定系统或路径**: <mark> 支持移动设备拍照并上传到规定的系统或者路径.</mark>
+- **移动设备支持知识库**: <mark> 移动设备支持知识库.</mark>
 
 ### 2. PTMS 备件管理 (备品备件管理)
 
@@ -7193,8 +7193,8 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 - **手工领料**: 支持填写 Part 基本信息进行领料, 录入系统; 支持填写配件基本信息领料录入系统, 支持导入; 提供产品默认的配件录入工具.
 - **领料协同**: 提供标准的接口从 ERP 进行领料, 自动录入到系统.
-- **白名单增加 Key/Non-Key, 领料后自动带入系统**: 白名单中要增加 Key/Non-Key, 领料后, 物料对应白名单的 Key/Non-Key 状态, 自动带入到系统中
-- **提供领料/退料/领料上限控制/状态切换/Part 延期标准接口**: 提供标准接口供客户使用, 领料接口, 退料接口, Part 领料上限控制接口, Part 状态切换接口, Part 延期接口
+- **白名单增加 Key/Non-Key, 领料后自动带入系统**: <mark> 白名单中要增加 Key/Non-Key, 领料后, 物料对应白名单的 Key/Non-Key 状态, 自动带入到系统中.</mark>
+- **提供领料/退料/领料上限控制/状态切换/Part 延期标准接口**: <mark> 提供标准接口供客户使用, 领料接口, 退料接口, Part 领料上限控制接口, Part 状态切换接口, Part 延期接口.</mark>
 
 #### 2.2 Parts 组装 (装卸管理)
 
@@ -7203,8 +7203,8 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 - **组装与卸载**: 支持将 Parts Group 里面的 Part 组装到 EQP/Chamber / 设备 / 子设备, 并将此时挂在 EQP/Chamber 的 Part 进行卸载, 选择处理方法 (Scrap, WaitRepair, WaitOE, Swapped, Clean / 废弃、等待维修、待装机、已拆换、清洗).
 - **替换分类**: Parts 替换分为 Non PM Job 的替换以及 PM Job 的替换.
 - **使用情况显示**: 替换过程中显示当前 Parts 的使用情况.
-- **提供产品标准 Part EQP Release 功能(Loader 初始化已挂 Part)**: 提供产品标准的 Part EQP Release 功能, 方便用户用 Loader 一次性初始化机台上已挂有的 Part
-- **支持定义某些 Parts 更换后自动切换机台 Recipe Constraint**: 支持定义某些 parts 更换后自动切换机台 recipe constraint
+- **提供产品标准 Part EQP Release 功能(Loader 初始化已挂 Part)**: <mark> 提供产品标准的 Part EQP Release 功能, 方便用户用 Loader 一次性初始化机台上已挂有的 Part.</mark>
+- **支持定义某些 Parts 更换后自动切换机台 Recipe Constraint**: <mark> 支持定义某些 parts 更换后自动切换机台 recipe constraint.</mark>
 
 #### 2.3 Parts 使用和再循环控制 (循环管控)
 
@@ -7229,8 +7229,8 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 支持备件寿命的定时监控与报警.
 
 - **Lifetime监控**: <mark> 与 AMS 系统整合, 系统对 Part 的 Lifetime 进行定时监控, 发现 Parts 逾期时将相关信息发送给 Alarm / 预警系统.</mark>
-- **Machine 设置 Parts Life Time Interlock, 超限不可上货并提示原因**: 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因. ; 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因
-- **WET Chemical Life Time 按 By Wafer Counts / By Life Time 优先卡控**: 对于 WET 的 Chemical Life Time 以 By wafer counts 和 By Life Time 哪个优先到以哪个为卡控标准.
+- **Machine 设置 Parts Life Time Interlock, 超限不可上货并提示原因**: <mark> 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因. ; 针对 Machine 可以设置 Parts Life Time Interlock, 超过 Interlock 不可上货并提示原因.</mark>
+- **WET Chemical Life Time 按 By Wafer Counts / By Life Time 优先卡控**: <mark> 对于 WET 的 Chemical Life Time 以 By wafer counts 和 By Life Time 哪个优先到以哪个为卡控标准.</mark>
 
 #### 2.6 Parts 替换卡控 (维保配件卡控)
 
@@ -7238,8 +7238,8 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 - **必换清单配置**: 用户可以在 PMS 系统中配置维保需要更换的 Parts List / 配件清单.
 - **Complete卡控**: 用户在 PTMS 系统更换对应的 Part, 如果未更换必更换的 Parts, PM Job 无法 Complete / 维保任务无法完成.
-- **Replace Part 中以颜色显示过期及低于水位线的 Part**: 用户可以在 Replace Part 中颜色显示过期的 Part, 低于水位线的 Part
-- **限制 Part 只可上到同一 Equipment Group 设备以防污染**: 为了防止 Part 上错进行污染, 限制用户 Part 只可以上到同一个 Equipment Group 的设备
+- **Replace Part 中以颜色显示过期及低于水位线的 Part**: <mark> 用户可以在 Replace Part 中颜色显示过期的 Part, 低于水位线的 Part.</mark>
+- **限制 Part 只可上到同一 Equipment Group 设备以防污染**: <mark> 为了防止 Part 上错进行污染, 限制用户 Part 只可以上到同一个 Equipment Group 的设备.</mark>
 
 #### 2.7 Part 安全库存
 
@@ -7253,8 +7253,8 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 - **白名单机制**: 提供用户白名单的定义界面, 维护需要领入到 PTMS 中的 PartNo List, 标准领料接口会查看白名单内容决定是否需要领入到系统.
 - **图片上传**: Parts 属性具备图片上传功能, 可以直观地看出具体是什么 Parts.
-- **提供默认 Part 状态定义(FREE/INUSE/SCRAP 等 12 种)**: 提供默认的 Part 状态: FREE, INUSE, SCRAP, ; SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, Cleaning, WaitClean
-- **对 Wait OE 的 Part 处理并切换为 Repaired 或 Scrap**: 对于需要 OE 部门对于有问题的 Part 进行处理的时候, 提供用户对于 Wait OE 的 Part 进行处理, 切换到 Repaired 或者 Scrap
+- **提供默认 Part 状态定义(FREE/INUSE/SCRAP 等 12 种)**: <mark> 提供默认的 Part 状态: FREE, INUSE, SCRAP, ; SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, Cleaning, WaitClean.</mark>
+- **对 Wait OE 的 Part 处理并切换为 Repaired 或 Scrap**: <mark> 对于需要 OE 部门对于有问题的 Part 进行处理的时候, 提供用户对于 Wait OE 的 Part 进行处理, 切换到 Repaired 或者 Scrap.</mark>
 
 #### 2.9 Part Group 维护管理 (配件组管理)
 
@@ -7275,7 +7275,7 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 支持备件报废的权限化管控.
 
 - **报废操作**: 对于待报废的 Part, 高权限的用户可以进行报废操作, 执行报废后 Part 状态自动转换成 Scrap 状态.
-- **三种方式切换 Part 状态(Unscrap / Modify / To Free)**: 提供三种方式对于 Part 状态进行切换, 一种是 Unscrap 重新切换到 WaitScrap; 一种是 Modify 按照产品的状态转换进行切换; 一种是 To Free 强制将 Part 状态切换成 Free
+- **三种方式切换 Part 状态(Unscrap / Modify / To Free)**: <mark> 提供三种方式对于 Part 状态进行切换, 一种是 Unscrap 重新切换到 WaitScrap; 一种是 Modify 按照产品的状态转换进行切换; 一种是 To Free 强制将 Part 状态切换成 Free.</mark>
 
 #### 2.12 Part List 查询 (查询导出)
 
