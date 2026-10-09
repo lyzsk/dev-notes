@@ -1752,7 +1752,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **以逻辑表达式基于 Summary Data 生成新的监控模型**: <mark> 支持把 Summary Data 用逻辑表达式的形式生成新的监控模型, 例如当两个模型同时报警的时候, 再触发报警 </mark>
 - **按 PM / Idle / 跑片数等条件自动启停检测**: 经过配置可以在指定条件下设置关闭或开启检测 (例如 PM 后、Idle n 小时后、run 过 n 片后等)
 - **支持设置 EWMA Spec**: 支持设置 EWMA Spec
-- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**: Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警
+- **Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格)**:  <mark> Golden Tool 功能: Golden Tool 和偏离值 Std 计算, 通过计算得到 Golden Tool、常规设备与 Golden Tool 之间的偏离值 Std; 具备验机功能 (PM/ 新设备), 不同 Chamber, 不同设备间的参数 (Sensor) 比对, 例如, 生成不同设备 Pressure 值的 Run List 叠图; 其他同型设备 Tool / Chamber 可以设置自动使用 Golden Tool 的规格; 参数 (Sensor) 可以设置 Baseline(以 Golden Tool 作为基准延用其 Spec), Process Data 可以和 Baseline 进行比较, 如果出现异常可以报警 </mark>
 - **Auto Retarget(Offset 变更、事件触发、其他系统触发)**: <mark>  Auto retarget 功能, 可以是 offset change、事件 (event)、或者其他系统触发 </mark>
 
 #### 6.6 规格体系与自动限值
@@ -1879,13 +1879,13 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 支持个性化的报表订阅与推送.
 
 - **收藏夹与订阅**: 支持用户根据自己的喜好设置报表收藏夹功能;支持设定报表产生的条件, 按照自定义的时间点推送 FDC 相关报表; 支持收藏当前页面查询条件, 在收藏夹列表中点击收藏标题后进入首页查看收藏内容;收藏的查询条件可设定为私人可见或共享, 一键适用, 无需重复选择条件.
-- **机台 Recipe 覆盖率统计报表**: 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数)
+- **机台 Recipe 覆盖率统计报表**: <mark> 统计机台的 Recipe 覆盖率 (加入 FDC 监控模型的 Recipe/ 机台跑过 Recipe 总数) </mark>
 - **机台 Run 覆盖率统计报表**: 统计机台的 Run 覆盖率
 - **UVA Data Box plot 报表(多机台比较、Day/Week/Month to Day 比较)**: 对 UVA Data 提供 Box plot 报表, 可提供多机台比较分析; 对同一机台亦可以比较 Day to Day, Week to Week, Month to Month 等不同时间的分析
-- **新设备上线与基准设备比较并汇总超 Spec 数据**: 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据
+- **新设备上线与基准设备比较并汇总超 Spec 数据**: <mark> 当新设备上线后, 和基准设备比较, 汇总超过 Spec 的数据 </mark>
 - **PMQA 报表(PM 后自动与基准设备比较并汇总超 Spec 数据)**: PMQA 报表 (当设备做完 PM 后, 自动和基准设备比较, 汇总超过 Spec 的数据)
 - **设备反应室群组匹配报告(检查 Baseline 是否 Shift)**: 设备反应室群组匹配报告 (可用来检查设备反应室 Base line 是否有 Shift)
-- **查询数据转换为 Report(PDF / PPT)**: 查询得到的数据能转换为 Report (PDF/PPT)
+- **查询数据转换为 Report(PDF / PPT)**: <mark> 查询得到的数据能转换为 Report (PDF/PPT) </mark>
 
 ### 8. 可视化看板 (Dashboard)
 
@@ -1904,7 +1904,7 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **Java API 扩展**: 支持以 Java Method 扩展新的算法 API 及其他 API; 支持通过上传 Jar 或 Class 实时支持扩展 API; 支持实时不停机扩展 API.
 - **脚本式算法**: <mark> 支持脚本式算法, 需具备脚本化语言扩展客制化算法和导入的能力.</mark>
 - **可视化模板编辑**: 建立监控时支持可视化调整模板, 提供脚本编辑界面.
-- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算
+- **提供 Python / IronPython 模块供用户调用脚本进行进阶分析与 AI/ML 计算**: <mark> 提供 Python 及 Iron Python 模块让用户调用 Python 脚本进行进阶分析与 AI/ML 复杂计算 </mark>
 
 ### 10. 图形化工作流 (Graphical Workflow)
 
@@ -2080,7 +2080,8 @@ Auto-Limits 基于历史数据自动计算 Spec(内置 8 种 Sigma 算法:PSEUDO
 - **与泛微门户协同**: <mark> 需包含门户管理等模块协同.</mark>
 - **与帆软报表协同**: <mark> 需包含报表管理等模块协同 (预留, 优先经 MES 汇聚).</mark>
 - **集成客户账号管理系统, 无需在 FDC 内另行建账号**: 支持集成客户账号管理系统, 不需在 FDC 系统里额外创建账号
-- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)
+- **签核系统紧急生效(特殊情况下直接修改 Spec / OCAP 并立即生效)**: <mark> 通过签核系统提供紧急生效功能 (特殊情况可以直接修改 Spec, OCAP 等, 并立即生效)</mark>
+- **提供 Performance Counter 对接第三方监控软件(如 Zabbix)**: 支持提供 Performance Counter 给第三方监控软件来实现系统监控, 支持主流监控系统如 Zabbix
 
 ### 18. 智能化需求
 
@@ -7077,7 +7078,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 - **预估时间与标题**: 支持设置 PM 保养所需的预估保养时间以及标题.
 - **原因代码**: 支持设置 PM 保养管理所需要的原因代码.
 - **签核逻辑**: <mark> 提供系统默认签核逻辑 (权限群组设定) 管理维修保养管理模板.</mark>
-- **PM 执行时配置正在 Run 货的 Lot 是否立即中断**: 可以设置 PM 的 Early Due, Due 以及 Overdue 时间, 并且可以定义是否需要在 Overdue 自动切换机台 /Chamber 在 MES 上的状态. 执行时, 可以配置当前正在 run 货的 lot 是否立即终端 run 货
+- **PM 执行时配置正在 Run 货的 Lot 是否立即中断**: 可以设置 PM 的 Early Due, Due 以及 Overdue 时间, 并且可以定义是否需要在 Overdue 自动切换机台 /Chamber 在 MES 上的状态. 执行时, 可以配置当前正在 run 货的 lot 是否立即中断 run 货
 
 #### 1.4 PM Checklist 建立与管理
 
