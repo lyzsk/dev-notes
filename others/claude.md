@@ -36,14 +36,13 @@ https://www.kimi.com/code 的 key:
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
-        "ANTHROPIC_AUTH_TOKEN": "sk-kimi-你的真实key",
+        "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
         "ANTHROPIC_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
         "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k3[1m]",
-        "ENABLE_TOOL_SEARCH": "false",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
@@ -56,7 +55,7 @@ https://platform.kimi.com/ 的 key:
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.moonshot.cn/anthropic",
-        "ANTHROPIC_AUTH_TOKEN": "sk-你的key",
+        "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
         "ANTHROPIC_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
@@ -77,11 +76,11 @@ https://platform.kimi.com/ 的 key:
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "claude-fable-5",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_MODEL": "claude-opus-5-5",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gpt-5.6-sol",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "gpt-5.6-sol",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
         "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
@@ -95,14 +94,14 @@ https://platform.kimi.com/ 的 key:
     "env": {
         "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
+        "ANTHROPIC_MODEL": "glm-5.3[1m]",
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.3-flash[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.3[1m]",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.3[1m]",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
         "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
         "API_TIMEOUT_MS": "3000000"
-    },
-    "skipDangerousModePermissionPrompt": true
+    }
 }
 ```
 
