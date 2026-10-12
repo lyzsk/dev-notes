@@ -198,6 +198,32 @@ PowerShell:
 
 验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
 
+更精准的方法: poershell: `hermes config edit`
+
+```yml
+model:
+    default: kimi-k3
+    provider: kimi-coding
+    base_url: https://api.kimi.com/coding
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    default: glm-5.3
+    provider: zai
+    base_url: https://open.bigmodel.cn/api/coding/paas/v4
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    provider: custom
+    model: claude-opus-5-5
+    base_url: https://api.gravitex.ai/v1
+    api_key: YOUR_API_KEY
+```
+
 # cmd 中文乱码解决
 
 已经是 65001(UTF-8) 依旧乱码
