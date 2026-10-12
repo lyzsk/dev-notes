@@ -7713,6 +7713,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **Code 高可用**: RTD 逻辑模块可以在不同地方重复调用, 而不是复制代码块.
 - **高并发性**: 多个 Event 并发时, RTD 能做到快速处理, 互不影响速度.
 - **管理便捷**: RTD 支持多选 / 全选设备进行启动、停止等操作.
+- **界面参数配置**: 配套的界面包括启用功能, 顺序调整, 参数设置等, 支持界面交互和数据集成展示, 界面友好, 操作便捷.
 
 #### 2.4 Scheduling
 
@@ -7824,6 +7825,8 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
     - 机台台账: 机台信息查询.
 - **支持从 Flat File、CSV、外部 DB 导入数据**: 支持通过文件或者 DB 直接读取 scheduling, planning, reporting 等生产系统的信息, 作为派工参考; 支持从外部系统导入数据, 例如 flat 文件, csv 格式文件或者其他数据库.
 - **与 MES、APC、PMS 等系统直接交互**: 支持与 MES, APC, PMS 等其它周边系统之间的直接交互.
+- **Flow 数据**: RTD 需提供完整和定时更新的 Product Flow, 包括 Normal, Adhoc (SRC, RRC, Sorter, Rework 等) 等情形.
+- **CT/PT 数据**: RTD 需计算 MES Lot CT 和 PT 信息 (Product, Recipe, Step 等维度), 并提供手动维护数据接口.
 
 #### 10.2 功能修改与发布
 
@@ -7837,7 +7840,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持高性能数据同步与系统级保障能力.
 
-- **实时数据同步**: 数据同步具有不弱于 Oracle OGG 的实时性同步能力. Repository 的数据以 oracle trigger 的方式实时从 MES 或者其他第三方系统更新, dispatch rule 不直接运行在 MES 或其他系统的数据库上, 由此在运行 RTD dispatch rule 时对 MES 或其他系统数据库的负载影响很小. RTD 数据库同步 MES 数据库的数据, 数据延迟需要在秒级 (1 秒内).
+- **实时数据同步**: 数据同步具有不弱于 Oracle OGG 的实时性同步能力. Repository 的数据以 oracle trigger 的方式实时从 MES 或者其他第三方系统更新, dispatch rule 不直接运行在 MES 或其他系统的数据库上, 由此在运行 RTD dispatch rule 时对 MES 或其他系统数据库的负载影响很小. RTD 数据库同步 MES 数据库的数据, 数据延迟需要在秒级 (1 秒内). MES 基础数据必须同步, 如 Lot/EQP/Prod/Flow/History 等 RTD 计算所需数据.
 - **负载均衡**: 系统具有自动 Load Balance 的能力. 支持多台服务器运行时能做到负载均衡, 避免所有的 rule 都在同一台 server 运行.
 - **缓存优先**: 在能使用缓存数据库的情况下, 优先使用缓存数据库.
 - **自动编译**: 具备自动编译的功能.
@@ -7884,6 +7887,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **考虑 Reticle 搬送 Cost, 减少搬送**: Litho 机台派工需考虑 reticle 搬送 cost, 减少 reticle 搬送.
 - **检查 Reticle Starlight/Printdown Inspection 上限**: Litho 机台派工需考虑 reticle starlight, printdown inspection, 如果 reticle 的 wafer count 或者 use time 到达上限, 则不使用此 reticle, 也不能派相应的 lot.
 - **Domapath 失败时 Hold Lot 等待处理**: 系统在设置 Domapath 如果失败的话, 需要将 Lot Hold 住并等待工程师处理.
+- **检查 Litho APC R2R**: Litho 机台派工时, 可以检查 Litho APC R2R 状况.
 
 #### 12.4 Measurement
 
@@ -7939,6 +7943,19 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **支持 Manual Form Batch, 用户结果优先**: 支持用户 manual form batch, RTD 根据用户提供的结果, 优先考虑用户 form batch 的结果.
 - **Preform Batch 按 Layout Recipe 选最多片数组 Batch**: furnace preform batch 支持按照 MES 设定的 layout recipe, 在可能的范围内尽量选最多的片数去组 batch.
 - **Furnace 支持 GOI Lot 自动派工及 FML 测机**: furnace 机器派工时, 支持 GOI lot 的自动派工, 支持 furnace 单跑 fml 做测机.
+
+
+### 13. 智能化需求
+
+支持基于历史数据与 AI 的派工规则调优, 瓶颈分析, Qtime 风险预测, 组批推荐, 仿真预演与异常诊断, 并预留 vFAB 北向接口.
+
+- **派工规则智能调优**: 基于历史派工记录、Lot 实际等待时间与机台利用情况, 由 AI 评估各 Dispatch Rule (如 Qtime Urgency、Critical Ratio、FIFO、Bullet Lot 等) 的实际执行效果, 就 Rule 优先级排序与参数阈值的调整给出建议, 并说明每条建议所依据的数据范围与样本量; 建议经模拟验证与派工工程师确认后方可启用, 不自动写入规则库.
+- **Line Balance 智能分析**: 由 AI 分析各站点 WIP 分布、机台产能与在制流动趋势, 识别瓶颈站点与产能闲置区域, 输出 Line Balance 调整方向与预期效果说明, 供派工策略制定与复核参考.
+- **Qtime 超限风险预测**: 依据在制 Lot 的 Remaining Qtime、当前站点排队状况与机台可用状态, 由 AI 预测 Qtime 超限风险并提前推送预警, 同时给出可执行的派工调整建议 (如提前派工、更换机台、提升优先级), 供派工人员决策参考.
+- **Batch 组批智能推荐**: 针对 Furnace 等 Batch 类机台, 由 AI 依据在制 Lot 的到站预测、Qtime 余量与 Recipe 组合关系推荐组批方案与等待阈值, 平衡 Batch 满载率与 Qtime 超限风险, 供自动分批/并批规则调整参考.
+- **派工结果仿真预演**: 新 Rule 上线或参数调整前, 由 AI 基于历史 WIP 快照回放派工过程, 对比新旧规则下的 Lot 等待时间、机台利用率与 Qtime 命中情况, 输出差异报告供评估, 降低规则变更带来的生产风险.
+- **派工异常智能诊断**: 针对 Lot 长时间未派工、频繁插单/替换、机台 IDLE 时间偏高等异常, 由 AI 关联分析 Constraint 检查记录、Rule 命中日志与 MES 交互记录, 给出可能原因的判断次序与排查路径; 同类异常按站点与机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
+- **vFAB 北向接口预留**: 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Rule 命中与派工执行事件发布、Lot 派工状态与站点排队情况查询、Rule 启用/停用与参数调整受控下发、Qtime 预警与调优建议采纳结果回写等).
 
 # AMA
 
@@ -8219,6 +8236,7 @@ AMA 方案:
 - **基础字典**: 支持系统基础字典数据的维护.
 - **触发配置**: 支持流程触发规则的统一配置.
 - **RTD同步**: 支持与 RTD 的数据同步, 保证派工规则与基础数据一致.
+- **机台配置**: AMA 系统需要支持 By 机台配置是否启用的功能.
 
 #### 1.2 POD Location
 
@@ -8243,7 +8261,7 @@ AMA 方案:
 - **通知服务**: 支持站内通知、邮箱、企业微信、短信等多种通知方式.
 - **Action 管理**: 支持流程 Action 节点的创建、编辑与运行参数配置.
 - **业务对象**: 支持系统内置业务对象及用户自定义对象的创建与维护.
-- **运行监控**: 支持全局流程实例的运行状态监控; 支持全局资源锁的查看与管理, 避免并发冲突; 支持系统各服务运行状态的实时监控; 支持在线用户的查看与管理; 支持系统运行日志的查询与追溯.
+- **运行监控**: 支持全局流程实例的运行状态监控; 支持全局资源锁的查看与管理, 避免并发冲突; 支持系统各服务运行状态的实时监控; 支持在线用户的查看与管理; 支持系统运行日志的查询与追溯. 提供丰富的状态监控指令, 可以用来撰写系统的健康监控脚本; 每次 Query 都需要有对应的 Log 记录, 包含但不限于 MES 传给系统的参数, 系统回传给 MES 的参数.
 
 ### 3. 场景支持
 
@@ -8330,9 +8348,9 @@ AMA 方案:
 
 提供可视化的开发工具与丰富的报表能力, 降低开发与运维门槛.
 
-- **可视化开发工具**: 提供快速、可视化的开发工具, 基于流程引擎开发 Rule, 支持调试、模拟及自定义组件开发;有详细的 Log 以及相应的 Log 分析工具, 有相应的系统异常报警机制.
+- **可视化开发工具**: 提供快速、可视化的开发工具, 基于流程引擎开发 Rule, 支持调试、模拟及自定义组件开发;有详细的 Log 以及相应的 Log 分析工具, 有相应的系统异常报警机制. 支持丰富的逻辑运算能力, 用以支持复杂的 dispatch rule 以及报表的设计和编写.
 - **外部数据导入**: 支持从外部系统导入的接口对接工具, 例如 Flat 文件、CSV 格式文件或者其他数据库.
-- **报表输出**: 提供丰富的报表, 可查看不派工的原因、系统性能、执行效率等, 并能定期生成, 以 Text/Excel/HTML 的格式保存到用户自定义的目录里.
+- **报表输出**: 提供丰富的报表, 可查看不派工的原因、系统性能、执行效率等, 并能定期生成, 以 Text/Excel/HTML 的格式保存到用户自定义的目录里. 支持基础报表数据 csv, 饼图, 折线图, 柱状图, 甘特图等.
 - **管理界面**: 配套的界面包括基础资料的设置、启用功能、参数设置等, 支持界面交互和数据集成展示;界面友好, 操作便捷, 具备相应的权限管理机制.
 
 #### 5.5 功能修改与发布
@@ -8347,12 +8365,18 @@ AMA 方案:
 
 支持高性能数据同步与系统级保障能力.
 
-- **实时数据同步**: 数据同步具有不弱于 Oracle OGG 的实时性同步能力.
+- **实时数据同步**: 数据同步具有不弱于 Oracle OGG 的实时性同步能力. 数据库同步 MES 数据库的数据, 数据延迟需要在秒级 (1 秒内).
 - **负载均衡**: 系统具有自动 Load Balance 的能力, 平均分配不同 Rule 的执行.
 - **缓存优先**: 在能使用缓存数据库的情况下, 优先使用缓存数据库.
 - **自动编译**: 具备自动编译的功能.
-- **版本控制与事务**: 支持版本控制及回退功能;支持事务及异常处理.
+- **版本控制与事务**: 支持版本控制及回退功能;支持事务及异常处理. 支持 Online 系统升级及快速 RollBack 至上一版本, 不影响生产.
 - **Server 异常接管**: 当有 Server 发生异常时, 其他 Server 能接过后续派工任务运行, 不影响生产.
+- **内置 Repository**: 包含内建的 Repository 用以支持 dispatch rule 的单独高速运行, 不需要额外单独的商用数据库.
+- **数据追溯**: Repository 数据有追溯历史数据的能力, 可以用内建的 event marker 在保存的数据生存周期内方便地看到数据变化, 追溯历史数据.
+- **支持 Cross Fab**: 能支持 Cross Fab, 即派工规则能同时读取多个 MES 的数据, 一个规则内能够整合 Cross Fab 的多个 MES 的 Lot 和机台等信息, 综合考虑派工.
+- **响应时间**: 提供高响应速度的规则计算能力, 规则运行时间在 5 秒以内.
+- **满足 20K/Month 产能要求**: AMA 系统需要满足 20K/Month 的产能要求.
+- **系统 Uptime ≥ 99.99%**: AMA 系统需要达成 99.99% 以上的 Uptime.
 
 ### 6. 全自动化场景细化
 
@@ -8499,6 +8523,16 @@ AMA 方案:
 
 - **Season Lot LoadPort 策略**: 若只有一个 LoadPort Available, 因传输的不可控, 允许一个 Lot 在 LoadPort 上, 一个预送到设备的 OHB 上; 至少需提供 Production + Season Lot 一起到达 LoadPorts 后, EAP 才能下 Jobs 给设备的全自动化功能.
 - **Idle Season/Recipe Change**: 支持 Idle Season/Recipe Change 场景.
+
+
+### 8. 智能化需求
+
+支持基于历史数据与 AI 的投料优化, NPW 水位预测与自动化执行异常诊断, 并预留 vFAB 北向接口.
+
+- **Wafer Start 投料智能优化**: 基于历史 Wafer Start 执行记录、MPS、FOSB 可用 Wafer 库存与 Sorter 执行情况, 由 AI 评估 Production/NPW Lot 自动下线与选片规则的实际执行效果, 就投料节奏、选片优先级与触发条件的调整给出建议, 并说明所依据的数据范围; 建议经模拟验证与人工确认后方可启用, 不自动写入规则库.
+- **NPW 水位智能预测**: 结合生产计划与历史 NPW 消耗规律, 由 AI 预测各站点 Dummy/Monitor/Season 等 NPW 的需求量与安全水位, 就水位阈值的设定给出建议并提前触发自动补充, 避免低水位或 Recycle 不足影响生产连续性.
+- **自动化执行异常智能诊断**: 针对 Wafer Start 未自动下线、NPW 低水位未触发补充、Monitor/Season 未按时分批到位、自动并批/合批异常等问题, 由 AI 关联分析 Event 触发记录、MES 交互日志与对象锁定状态, 给出可能原因的判断次序与排查路径; 同类异常按机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
+- **vFAB 北向接口预留**: 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Wafer Start 指令下发与执行完成/异常事件发布、NPW 水位与自动补充记录查询、自动化规则启用/停用与参数受控下发、预警与建议采纳结果回写等).
 
 # YMS
 
