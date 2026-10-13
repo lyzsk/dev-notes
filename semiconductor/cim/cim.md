@@ -2198,7 +2198,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - 中心多工艺平台并行、新设备分批导入，FDC 建模逐步推进，任一时点都存在已建模与未建模的设备和工艺条件
 
-▲模型全部设置(Spec/Group/Window/公式/数据转换)支持 Excel 导入导出:
+▲模型全部设置 (Spec/Group/Window/ 公式 / 数据转换) 支持 Excel 导入导出:
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
 
@@ -2210,7 +2210,7 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 - 此类组合判据会随监控体系完善持续出现，若每次都须另行定制，响应周期难以跟上工艺调整节奏
 
-▲Golden Tool 功能(偏离值 Std 计算、验机比对、Baseline、自动套用规格):
+▲Golden Tool 功能 (偏离值 Std 计算、验机比对、Baseline、自动套用规格):
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
 
@@ -3983,7 +3983,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **Recipe Group / 混跑 (Mix Run)**: 通过 Recipe Group 管理 Mix Run 混跑场景, 定义不同 Recipe 组之间的切换条件 (如 Idle Time, Recipe Change 等) , 确保工艺执行连续性. Recipe Group 管理层级位于机台分组之上.
 - **Recipe 管理**: 在 Recipe 配置页面增加 Wafer Process Time 和 Lot Track Time (Track In -> Track Out) 卡控来辅助识别机台是否异常, 而非在 Step 设置.
 - **Recipe 增加能量设置字段, 供光罩 Life Time 计算**: <mark>Recipe 设定需有能量设置字段, 以供光罩计算 life time 使用.</mark>
-- **Recipe 增加 Reticle Field 设定字段(可吃一张光罩上的多个 Field)**: <mark>Recipe 设定需有 Reticle Field 设定字段 (可吃一张光罩上的多个 Field).</mark>
+- **Recipe 增加 Reticle Field 设定字段(可支持配置/调用一张光罩上的多个 Field)**: <mark>Recipe 设定需有 Reticle Field 设定字段 (可吃一张光罩上的多个 Field).</mark>
 - **CMP Recipe 按 Pad No 与 Pad Life Time 区间设置 PPID, 派工时按 Pad Life Time 选择 PPID**: CMP 机台的 Recipe 可以根据 Pad No 跟 Pad Life Time 的区间来设置的 PPID; CMP 机台在派工时, 可以考虑 Pad Life Time 来选择对应的 PPID
 
 #### 2.6 Product (流程维度)
@@ -5826,7 +5826,7 @@ Recipe (配方建模管理) - ▲Recipe 增加能量设置字段, 供光罩 Life
 
 - 若只按使用次数计数，寿命估算偏离实际，估短了光罩提前下线，估长了光罩超期使用，影响曝光质量
 
-Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段(可吃一张光罩上的多个 Field):
+Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段 (可吃一张光罩上的多个 Field):
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
 
@@ -5850,7 +5850,7 @@ EQP 基本属性与设备组 - ▲数据清除与存档:
 
 - 若只能依赖厂商后台脚本处理，每次清理都要等待厂商支持，直接删除数据还会造成追溯断链
 
-Chamber Status Define (腔室状态定义) - ▲Chamber / EQP 状态优先级决定最终状态(含 Chamber Group):
+Chamber Status Define (腔室状态定义) - ▲Chamber / EQP 状态优先级决定最终状态 (含 Chamber Group):
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.5 Chamber Status Define (腔室状态定义)
 
@@ -5910,7 +5910,7 @@ Hold/Release (扣留及释放) - ▲邮件通知:
 
 - 若只有站内消息，不在系统前的人员无法及时获知，扣留批次滞留，处置时效依赖人工电话或口头转告
 
-分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13):
+分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9, 12/13):
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.10 分批 / 合批 (Split/Merge)
 
@@ -5994,13 +5994,13 @@ Strip（Wafer）Mapping 管理 - ▲EAP 联动:
 
 - 若 MES 只支持单一单位，后道须另建一套系统，前后道之间的谱系靠人工或接口拼接，Die 到 Wafer 的追溯容易断链，同一产品也须在两套系统中重复建模
 
-设备维护与效能 (PM/OEE) - ▲PM权限设置:
+设备维护与效能 (PM/OEE) - ▲PM 权限设置:
 
 @see: ## MES Function List → ### 41. 设备维护与效能 (PM/OEE)
 
 - 若查看与编辑不分离，要么把编辑权限放给过多人员，维护参数存在被误改的风险，要么收紧查看范围，相关人员只能转托他人查询
 
-APC / R2R 先进过程控制 - ▲支持 APC Pi-Lot(Auto Trigger)与 On Demand Pi-Lot(Manual Trigger)两大类:
+APC / R2R 先进过程控制 - ▲支持 APC Pi-Lot(Auto Trigger) 与 On Demand Pi-Lot(Manual Trigger) 两大类:
 
 @see: ## MES Function List → ### 43. APC / R2R 先进过程控制
 
@@ -8008,11 +8008,11 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 - 本项需针对 Machine 设置 Parts Life Time Interlock，超过 Interlock 的 Part 不允许上货到该机台，并在界面提示具体原因，以强制卡控代
 
-▲提供默认 Part 状态定义(FREE/INUSE/SCRAP 等 12 种):
+▲提供默认 Part 状态定义 (FREE/INUSE/SCRAP 等 12 种):
 
 @see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.8 Part 维护管理
 
-- 本项需提供 FREE、INUSE、SCRAP、SWAPPED、WAITREPAIR、REPAIRED、WAITOE、WAITRETURN、OutRepair、Repairing、C
+- 本项需提供 FREE, INUSE, SCRAP, SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, C
 
 ## RTD interview
 
