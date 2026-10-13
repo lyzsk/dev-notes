@@ -2180,78 +2180,6 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 # RMS
 
-▲智能化需求:
-
-@see: ## FDC Function List → ### 18. 智能化需求
-
-- 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
-
-▲非标接入:
-
-@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.7 通信协议
-
-- 若采集不到，这部分设备将处于监控之外，建模只能建立在残缺的数据之上，监控结论的可信度无法保证
-
-▲模型覆盖率查询:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 中心多工艺平台并行、新设备分批导入，FDC 建模逐步推进，任一时点都存在已建模与未建模的设备和工艺条件
-
-▲模型全部设置 (Spec/Group/Window/ 公式 / 数据转换) 支持 Excel 导入导出:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若只能手工逐项设置，既耗时，又易在复制中产生不一致，影响不同设备间监控结论的可比性
-
-▲以逻辑表达式基于 Summary Data 生成新的监控模型:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 此类组合判据会随监控体系完善持续出现，若每次都须另行定制，响应周期难以跟上工艺调整节奏
-
-▲Golden Tool 功能 (偏离值 Std 计算、验机比对、Baseline、自动套用规格):
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若各自孤立设定限值，验收、复机确认与异常定位都缺少统一尺度，限值维护量也随设备数量线性增长
-
-▲Auto Retarget(Offset 变更、事件触发、其他系统触发):
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若规格目标值不同步更新，将产生大量误报，掩盖真实异常
-
-▲MES 联动处置:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.9 报警联动处置
-
-- 若仅凭单一参数触发 OCAP，会产生不必要的停线等处置动作，造成产能损失，事后还须人工复核解除，结合其他参数联合判定可减少无效处置
-
-▲机台 Recipe 覆盖率统计报表:
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 中心多品种小批量、研发与中试并行，机台上运行的 Recipe 数量多、新增频繁，新 Recipe 投用后是否已纳入监控，难以凭人工掌握
-
-▲新设备上线与基准设备比较并汇总超 Spec 数据:
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 若依赖人工逐参数比对，验收周期长且结论因人而异，未被识别的偏离可能被带入正式作业
-
-▲查询数据转换为 Report(PDF / PPT):
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 若每次都须把查询结果另行整理成稿，既重复劳动，也易出现版本不一致，影响结论的准确传递
-
-▲Sensor 偏差值比较打分排序, 快速定位 Key Sensor:
-
-@see: ## FDC Function List → ### 14. 数据分析与报表 (Data Analysis & Reporting) → #### 14.2 追踪数据分析
-
-- 中心设备厂商多、机型代际跨度大，单台设备采集的 Sensor 数量多，而设备异常往往由少数关键参数的偏离引起
-
 ## RMS Architecture
 
 - 服务层
@@ -2435,6 +2363,78 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 @see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 防止单点故障，需支持高可用架构（分发和双活）
+
+▲智能化需求:
+
+@see: ## FDC Function List → ### 18. 智能化需求
+
+- 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
+
+▲非标接入:
+
+@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.7 通信协议
+
+- 若采集不到，这部分设备将处于监控之外，建模只能建立在残缺的数据之上，监控结论的可信度无法保证
+
+▲模型覆盖率查询:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 中心多工艺平台并行、新设备分批导入，FDC 建模逐步推进，任一时点都存在已建模与未建模的设备和工艺条件
+
+▲模型全部设置 (Spec/Group/Window/ 公式 / 数据转换) 支持 Excel 导入导出:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若只能手工逐项设置，既耗时，又易在复制中产生不一致，影响不同设备间监控结论的可比性
+
+▲以逻辑表达式基于 Summary Data 生成新的监控模型:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 此类组合判据会随监控体系完善持续出现，若每次都须另行定制，响应周期难以跟上工艺调整节奏
+
+▲Golden Tool 功能 (偏离值 Std 计算、验机比对、Baseline、自动套用规格):
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若各自孤立设定限值，验收、复机确认与异常定位都缺少统一尺度，限值维护量也随设备数量线性增长
+
+▲Auto Retarget(Offset 变更、事件触发、其他系统触发):
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若规格目标值不同步更新，将产生大量误报，掩盖真实异常
+
+▲MES 联动处置:
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.9 报警联动处置
+
+- 若仅凭单一参数触发 OCAP，会产生不必要的停线等处置动作，造成产能损失，事后还须人工复核解除，结合其他参数联合判定可减少无效处置
+
+▲机台 Recipe 覆盖率统计报表:
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 中心多品种小批量、研发与中试并行，机台上运行的 Recipe 数量多、新增频繁，新 Recipe 投用后是否已纳入监控，难以凭人工掌握
+
+▲新设备上线与基准设备比较并汇总超 Spec 数据:
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 若依赖人工逐参数比对，验收周期长且结论因人而异，未被识别的偏离可能被带入正式作业
+
+▲查询数据转换为 Report(PDF / PPT):
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 若每次都须把查询结果另行整理成稿，既重复劳动，也易出现版本不一致，影响结论的准确传递
+
+▲Sensor 偏差值比较打分排序, 快速定位 Key Sensor:
+
+@see: ## FDC Function List → ### 14. 数据分析与报表 (Data Analysis & Reporting) → #### 14.2 追踪数据分析
+
+- 中心设备厂商多、机型代际跨度大，单台设备采集的 Sensor 数量多，而设备异常往往由少数关键参数的偏离引起
 
 # RCM
 
@@ -6680,13 +6680,13 @@ SPC 判异规则 - ▲二次开发:
 
 - 数据需要支持签核业务协同
 
-# AMS
-
 ▲智能化需求:
 
 @see: ## SPC Function List → ### 4. 智能化需求
 
 - 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
+
+# AMS
 
 ## AMS interview
 
@@ -7971,19 +7971,6 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 - 备件领入即生成唯一识别号, 是 Parts 全生命周期跟踪 (使用 / 循环 / 报废) 的起点
 
-# RTD
-
-| Abbreviation | Full form             | Desc                          |
-| :----------- | :-------------------- | :---------------------------- |
-| RTD          | Real Time Dispatching | 实时派工系统                  |
-| SDR          | Sensor Decide Respond | 感知决策响应 (工厂自动化系统) |
-
-> Note:
->
-> RTD 主要业务是设置派工规则, SDR 根据规则响应派工
->
-> RTD 与 SDR 可以合并为一个系统
-
 ▲智能化需求:
 
 @see: ## PMS Function List → ### 3. 智能化需求
@@ -8012,7 +7999,20 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 @see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.8 Part 维护管理
 
-- 本项需提供 FREE, INUSE, SCRAP, SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing, C
+- 本项需提供 FREE, INUSE, SCRAP, SWAPPED, WAITREPAIR, REPAIRED, WAITOE, WAITRETURN, OutRepair, Repairing
+
+# RTD
+
+| Abbreviation | Full form             | Desc                          |
+| :----------- | :-------------------- | :---------------------------- |
+| RTD          | Real Time Dispatching | 实时派工系统                  |
+| SDR          | Sensor Decide Respond | 感知决策响应 (工厂自动化系统) |
+
+> Note:
+>
+> RTD 主要业务是设置派工规则, SDR 根据规则响应派工
+>
+> RTD 与 SDR 可以合并为一个系统
 
 ## RTD interview
 
