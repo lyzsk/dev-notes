@@ -6,8 +6,15 @@
     "核对": "gravitex=PC1 10/12 用户手配实测可用; kimi/glm 两套的 OpenAI 兼容地址与模型名未在 hermes 上实测, 首次切换后用 `hs test` 验一下"
   },
   "profiles": {
+    "cyx-gravitex": {
+      "desc": "gravitex 网关 · cyx key · claude-opus-5-5(10/13 起本机默认)",
+      "keyFile": "cyx-gravitex-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.gravitex.ai/v1",
+      "model": "claude-opus-5-5"
+    },
     "gravitex": {
-      "desc": "gravitex 网关 · claude-opus-5-5(PC1 现用, 首选)",
+      "desc": "gravitex 网关 · 原 key · claude-opus-5-5",
       "keyFile": "gravitex-api-key.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
