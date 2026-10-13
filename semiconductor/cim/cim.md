@@ -4648,7 +4648,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **使用后处理**: 监控批使用完成后可回母批、直接回收、废弃; 使用中量测值超标允许报废、回母批回收.
 - **源批管理**: 监控源批可回收 (Recycle)、降级 (Downgrade)、报废 (Scrap), 回收完成后清零当前使用次数并更新回收次数、总使用次数; 降级后批次编号重新生成. NPW Wafer 使用完毕后提供用户界面, 支持 By Wafer 选择处理方式 (Reuse, Recycle, Downgrade); Reuse 无需用户选择, 未到次数按 Flow 自动执行. 用户可定义设备内 / 设备外 NPW 片的使用类型、最大使用时间或最大使用次数, 设备外 NPW 需定义最大 Recycle 次数.
 - **EAP 协同**: 支持使用 EAP 操作并自动收值.
-- **数据查询**: <mark> 支持查询从 SPC 查询导入的 OFFLINE Chart 数据.</mark>
+- **数据查询**: <mark> 支持查询 SPC Offline Chart 的计算结果与判异结论, 作为监控是否合格、设备或腔体能否继续作业的依据.</mark>
 - **污染管控**: 支持污染等级管控.
 - **Monitor 管理**: 当 Monitor 前量测失败, 系统支持重新创建新的 Monitor Lot; 前量失败 Wafer 需经过 PE Action (拉去 Inuse Start / Inuse End / Recycle 站点) 后系统才会自动创建新的, 如继续 Flow 则不需要创建新的.
 
