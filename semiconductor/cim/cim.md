@@ -3209,7 +3209,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 
 ### 1. 基础功能模块 / 平台功能
 
-#### 1.1 数据收集
+#### 1.1 数据收集与计算
 
 支持工艺测量数据的自动收集、自定义量测项目配置及量测数据的检查与处理, 并提供可客制化扩充的计算能力.
 
@@ -3217,7 +3217,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **计算公式**: 提供最小值、最大值、平均值、标准差等计算公式, <mark> 并支持客制化扩充计算公式 </mark>.
 - **异常处理**: 提供量测资料的检查、过滤、补点以及超过规格 (OOS) 的处理流程; <mark> 可自定义异常量测数据以及客制化检查流程, 例如滤除低 GOF (goodness-of-fit) 量测数据不参与 R2R 反馈计算 </mark>.
 
-#### 1.2 控制器
+#### 1.2 控制器核心能力
 
 支持光刻、刻蚀、研磨、湿法、TRIM 等工艺模块的 R2R 控制器开发, 覆盖控制模型、反馈方式、特殊批次处理及管控验证等通用能力.
 
@@ -3235,7 +3235,16 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **反馈群组控制**: 支持反馈群组控制开发, 例如根据产品与配方作为群组进行控制.
 - **配置化适配**: 支持通过配置流程等方式对现有 Solution 进行适配.
 
-#### 1.3 协同及工具
+#### 1.3 Pilot Run
+
+支持依指定 Module 与条件自动触发 Pilot Run (又称 Send Ahead), 并与 MES 协同.
+
+- **触发条件**: 可设定 Pilot Triggering 的 Conditions, 例如 Wafer count、时间、Recipe idle [by Product group + flow + Step + Tool/Chamber] 或 by PPID.
+- **放行与场景**: 支持自动放行 Flag; <mark> 适用于 PM Pi-Run, YE Defect Pi-Run, Adhoc Pi-Run 及其他 Pilot 所需场景 </mark>.
+- **工序协同**: 支持 Future merge step, Future hold step 等.
+- **执行与回馈**: 支持全自动执行, 并可将结果回馈给 MES.
+
+#### 1.4 协同及工具
 
 支持统一的制程操作界面与周边业务接口整合, 并提供开发、权限、报表等配套工具.
 
@@ -3252,7 +3261,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **系统管理工具**: 提供必要的系统管理工具, 以及性能监控与报警机制.
 - **用户接入**: 支持 Web UI, 支持多浏览器访问, <mark> 登录支持接入 泛微 OA 验证 </mark>.
 
-#### 1.4 Workflow 开发与协同
+#### 1.5 Workflow 开发与协同
 
 支持图形化的流程开发, 调试与业务接口整合能力.
 
@@ -3260,15 +3269,6 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **调试与编辑**: 支持 workflow 及 sub workflow Debug, 图形组件快速定位, 图形组件多选 / 全选, 复制, 整体移动.
 - **流程开发验证**: 支持灵活的流程定义与复用，提供开发与验证工具,<mark> 支持 workflow 版本控制和版本间 Code 对比功能，支持 workflow 正向反向层级引用关系查看 </mark>.
 - **子流程**: 可定义子流程 (计算逻辑), 流程间可嵌套, 提高重用性.
-
-#### 1.5 Pilot Run
-
-支持依指定 Module 与条件自动触发 Pilot Run (又称 Send Ahead), 并与 MES 协同.
-
-- **触发条件**: 可设定 Pilot Triggering 的 Conditions, 例如 Wafer count、时间、Recipe idle [by Product group + flow + Step + Tool/Chamber] 或 by PPID.
-- **放行与场景**: 支持自动放行 Flag; <mark> 适用于 PM Pi-Run, YE Defect Pi-Run, Adhoc Pi-Run 及其他 Pilot 所需场景 </mark>.
-- **工序协同**: 支持 Future merge step, Future hold step 等.
-- **执行与回馈**: 支持全自动执行, 并可将结果回馈给 MES.
 
 ### 2. 区域的 APC 功能
 
