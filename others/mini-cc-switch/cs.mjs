@@ -107,6 +107,8 @@ if (isMain) {
         console.log("用法: cs <配置> [claude 参数] | cs file <配置> | cs set <配置> | cs menu(永久切换, 仅手动)");
     } else if (cmd === "file") {
         console.log(profileFile(rest[0]));
+    } else if (cmd === "current") {   // 只读: 打印 settings.json 现用哪套(没识别出来打印空行); 给 investment-tool 的 rotation.py 跟随用
+        console.log(currentDefault() || "");
     } else if (cmd === "menu") {
         await menu();
     } else if (cmd === "set") {
