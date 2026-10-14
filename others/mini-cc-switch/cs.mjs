@@ -16,7 +16,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles.json"), "utf8"));
+const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-claude.json"), "utf8"));
 // key 目录: 环境变量 > 从本工具目录逐级往上找第一个含 *-api-key.txt 的目录(10/12: 工具挪进 dev-notes/others 后, key 仍在 <dev>\)
 function findKeyDir() {
     let d = path.dirname(HERE);
@@ -77,9 +77,9 @@ export function setDefault(name) {
     fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2));
 }
 
-async function menu() {
+export async function menu() {
     const names = Object.keys(CFG.profiles), cur = currentDefault();
-    console.log(`\n  当前本机默认: ${cur ? `${cur}(${CFG.profiles[cur].desc})` : "未识别(不是这 4 套之一)"}\n`);
+    console.log(`\n  当前本机默认: ${cur ? `${cur}(${CFG.profiles[cur].desc})` : "未识别(不是这几套之一)"}\n`);
     names.forEach((n, i) => {
         const ok = fs.existsSync(path.join(KEY_DIR, CFG.profiles[n].keyFile));
         console.log(`  ${i + 1}. ${n.padEnd(10)} ${CFG.profiles[n].desc}${n === cur ? "  ← 当前" : ""}${ok ? "" : `  (缺 key 文件 ${CFG.profiles[n].keyFile})`}`);

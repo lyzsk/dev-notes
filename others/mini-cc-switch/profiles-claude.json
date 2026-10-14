@@ -6,7 +6,7 @@
   },
   "profiles": {
     "cyx-gravitex": {
-      "desc": "gravitex 网关 · cyx key · Claude Opus 5.5(10/13 起 PC1/PC2/PC3 本机默认; haiku 槽=fable 5.1 测试用)",
+      "desc": "provider: gravitex, key: cyx-gravitex, model: claude-opus-5-5",
       "keyFile": "cyx-gravitex-api-key.txt",
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
@@ -20,7 +20,7 @@
       }
     },
     "gravitex": {
-      "desc": "maas.gravitex.ai 网关 · Claude Opus 5.5(首选, 链质量基准)",
+      "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key.txt",
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
@@ -34,7 +34,7 @@
       }
     },
     "kimi-code": {
-      "desc": "Kimi coding · kimi-k3[1m] · key=kimi-code",
+      "desc": "provider: kimi, key: kimi-code, model: kimi-k3[1m]",
       "keyFile": "kimi-code-api-key.txt",
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
@@ -49,7 +49,7 @@
       }
     },
     "kimi-xhj": {
-      "desc": "Kimi coding · kimi-k3[1m] · key=xhj",
+      "desc": "provider: kimi, key: xhj-kimi, model: kimi-k3[1m]",
       "keyFile": "xhj-kimi-key.txt",
       "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
@@ -64,7 +64,7 @@
       }
     },
     "glm": {
-      "desc": "智谱 bigmodel · glm-5.3[1m]",
+      "desc": "provider: glm, key: glm, model: glm-5.3[1m]",
       "keyFile": "glm-api-key.txt",
       "env": {
         "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",

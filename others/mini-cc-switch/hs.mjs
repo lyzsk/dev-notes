@@ -14,7 +14,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles.json"), "utf8"));
+const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-hermes.json"), "utf8"));
 // key 目录: 环境变量 > 从本工具目录逐级往上找第一个含 *-api-key.txt 的目录(10/12: 工具挪进 dev-notes/others 后, key 仍在 <dev>\)
 function findKeyDir() {
     let d = path.dirname(HERE);
@@ -98,10 +98,34 @@ function list() {
 function after(name) {
     console.log(`\n  ✅ 已切到 ${name}(${CFG.profiles[name].desc})\n  旧配置已备份到 ${CONFIG}.bak-hs-*`);
     console.log("  新开的 hermes 会话生效; 已开的会话发 /new 或退出重开。");
-    console.log("  这台若跑着微信网关(仅 PC1): 网关要重启才换模型——非交易时段手动 `hermes gateway restart`。");
 }
 
-async function menu() {
+// 10/13 用户令: 切换后自动重启微信网关(原为手动 `hermes gateway restart`)。网关没在跑=跳过;
+// 交易日盘中(09:10~15:05)重启会让微信 hermes 断几十秒, 交互菜单里先问一句, 非交互(hs set)盘中不重启只提示
+export function gatewayRunning() {
+    return /Gateway process running/i.test(hermes(["gateway", "status"]).out);
+}
+const inTradingHours = () => {
+    const d = new Date(), hm = d.getHours() * 100 + d.getMinutes();
+    return d.getDay() >= 1 && d.getDay() <= 5 && hm >= 910 && hm <= 1505;
+};
+export async function restartGateway({ interactive = false } = {}) {
+    if (!gatewayRunning()) return console.log("  微信网关没在跑(本机不跑网关), 不用重启。");
+    if (inTradingHours()) {
+        if (!interactive) return console.log("  ⚠ 现在是交易时段, 未自动重启网关(会断微信几十秒); 收盘后跑 `hermes gateway restart`。");
+        const { createInterface } = await import("node:readline/promises");
+        const rl = createInterface({ input: process.stdin, output: process.stdout });
+        const a = (await rl.question("  现在是交易时段, 重启网关会让微信 hermes 断几十秒, 确定重启? (y/N): ")).trim().toLowerCase();
+        rl.close();
+        if (a !== "y") return console.log("  没重启。收盘后跑 `hermes gateway restart`。");
+    }
+    console.log("  正在重启微信网关(hermes gateway restart)...");
+    const r = hermes(["gateway", "restart"], { timeout: 120000 });
+    const ok = r.code === 0 && gatewayRunning();
+    console.log(ok ? "  ✅ 网关已重启, 新模型已生效。" : `  ❌ 网关重启可能没成功(exit ${r.code}), 手动跑 \`hermes gateway status\` 看一下:\n${r.out.slice(-400)}`);
+}
+
+export async function menu() {
     list();
     const names = Object.keys(CFG.profiles);
     const { createInterface } = await import("node:readline/promises");
@@ -112,6 +136,7 @@ async function menu() {
     const n = names[+a - 1];
     if (!n) return console.log(`  没有序号 ${a}, 没改。`);
     setProfile(n); after(n);
+    await restartGateway({ interactive: true });
 }
 
 const [cmd, ...rest] = process.argv.slice(2);
@@ -120,11 +145,12 @@ if (isMain) {
     try {
         if (!cmd || cmd === "list") list();
         else if (cmd === "menu") await menu();
-        else if (cmd === "set") { setProfile(rest[0]); after(rest[0]); }
+        else if (cmd === "set") { setProfile(rest[0]); after(rest[0]); await restartGateway(); }
+        else if (cmd === "restart") await restartGateway({ interactive: true });
         else if (cmd === "test") {
             const r = hermes(["chat", "-q", "只回复两个字: 收到"], { timeout: 120000 });
             console.log(r.out.slice(-600)); process.exit(r.code);
         }
-        else console.log("用法: hs list | hs set <配置> | hs test | hs menu");
+        else console.log("用法: hs list | hs set <配置>(切完自动重启网关) | hs test | hs restart | hs menu");
     } catch (e) { console.error("❌ " + e.message); process.exit(1); }
 }

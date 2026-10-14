@@ -7,35 +7,35 @@
   },
   "profiles": {
     "cyx-gravitex": {
-      "desc": "gravitex 网关 · cyx key · claude-opus-5-5(10/13 起本机默认)",
+      "desc": "provider: gravitex, key: cyx-gravitex, model: claude-opus-5-5",
       "keyFile": "cyx-gravitex-api-key.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
       "model": "claude-opus-5-5"
     },
     "gravitex": {
-      "desc": "gravitex 网关 · 原 key · claude-opus-5-5",
+      "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
       "model": "claude-opus-5-5"
     },
     "kimi-code": {
-      "desc": "Kimi coding · kimi-k3 · key=kimi-code(未实测)",
+      "desc": "provider: kimi, key: kimi-code, model: kimi-k3",
       "keyFile": "kimi-code-api-key.txt",
       "provider": "custom",
       "base_url": "https://api.kimi.com/coding/v1",
       "model": "kimi-k3"
     },
     "kimi-xhj": {
-      "desc": "Kimi coding · kimi-k3 · key=xhj(未实测)",
+      "desc": "provider: kimi, key: xhj-kimi, model: kimi-k3",
       "keyFile": "xhj-kimi-key.txt",
       "provider": "custom",
       "base_url": "https://api.kimi.com/coding/v1",
       "model": "kimi-k3"
     },
     "glm": {
-      "desc": "智谱 bigmodel · glm-5.3(未实测)",
+      "desc": "provider: glm, key: glm, model: glm-5.3",
       "keyFile": "glm-api-key.txt",
       "provider": "custom",
       "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",

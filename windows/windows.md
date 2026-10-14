@@ -34,7 +34,7 @@ download first, then deploy 选择 on 下载后再部署
 
 microsoft 365 应用企业版
 
-选完所有内容(word, excel, powerpoint, teams?), start deploy(右上角开始部署)
+选完所有内容 (word, excel, powerpoint, teams?), start deploy(右上角开始部署)
 
 ## step3
 
@@ -134,7 +134,7 @@ netstat -ano | findstr :portNumber
 taskkill /PID portNumber /F
 ```
 
-exe 进程查询 `tasklist` 或者`wmic process where "name='xxx.exe'" delete`
+exe 进程查询 `tasklist` 或者 `wmic process where "name='xxx.exe'" delete`
 
 ```
 taskkill /PID 25104 /F /T
@@ -156,5 +156,15 @@ component 下有 usb 信息
 
 # remote desktop
 
+前提: Settings - System - Remote Desktop 是 On 的
+
+## 方法一
+
 1. cmd `ipconfig` 填入 ipv4 地址, 创建点对点连接
 2. 连接 user/pass 为当前电脑的用户
+
+## 方法二
+
+win+r: `mstsc`
+
+Computer: TailScale 的 ip 地址

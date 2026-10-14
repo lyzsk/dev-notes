@@ -77,7 +77,7 @@ https://platform.kimi.com/ 的 key:
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
         "ANTHROPIC_MODEL": "claude-opus-5-5",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gpt-5.6-sol",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-fable-5-1",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
         "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
@@ -223,6 +223,14 @@ model:
     base_url: https://api.gravitex.ai/v1
     api_key: YOUR_API_KEY
 ```
+
+## hermes 网关
+
+`hermes gateway status`
+
+`hermes gateway restart`
+
+尽量别 `hermes gateway start`, 有可能启动两个网关
 
 # cmd 中文乱码解决
 
