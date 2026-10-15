@@ -1075,7 +1075,7 @@ AI 能力以内网私有化部署为主，机台控制指令、生产报文与�
 
 ### 标★
 
-★跑货流程控制:
+#### 1. ★跑货流程控制
 
 @see: ## EAP Function List → ### 1. 基本功能 → #### 1.1 跑货流程控制
 
@@ -1083,37 +1083,37 @@ AI 能力以内网私有化部署为主，机台控制指令、生产报文与�
 
 ### 标▲
 
-▲EAP 模板管理:
+#### 1. ▲EAP 模板管理
 
 @see: ## EAP Function List → ### 1. 基本功能 → #### 1.2 EAP 模板管理
 
 - 内置模板越多越好, 复用性高, 覆盖更多的EAP自动化跑货场景
 
-EAP UI / 客户端 - ▲异常干预:
+#### 2. EAP UI / 客户端 - ▲异常干预
 
 @see: ## EAP Function List → ### 1. 基本功能 → #### 1.3 EAP UI / 客户端
 
 - EAP 单点发指令给机台，比如: 机台与EAP断连(Down机)
 
-▲智能化需求:
+#### 3. ▲智能化需求
 
 @see: ## EAP Function List → ### 4. 智能化需求
 
 - 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
 
-EAP 运维 - ▲EAP 程序/进程监控、崩溃挂起自动重启与报警通知:
+#### 4. EAP 运维 - ▲EAP 程序/进程监控、崩溃挂起自动重启与报警通知
 
 @see: ## EAP Function List → ### 1. 基本功能 → #### 1.5 EAP 运维
 
 - 若无统一的采集定义，原始参数无法归集为关键参数统一管理，下游取用口径不一
 
-EAP 运维 - ▲EAP 程序部署、远程/在线升级与自动升级通知:
+#### 5. EAP 运维 - ▲EAP 程序部署、远程/在线升级与自动升级通知
 
 @see: ## EAP Function List → ### 1. 基本功能 → #### 1.5 EAP 运维
 
 - 若在机台有料时升级，可能中断在制批次
 
-设备状态及作业信息同步 - ▲专项设备作业支持:
+#### 6. 设备状态及作业信息同步 - ▲专项设备作业支持
 
 @see: ## EAP Function List → ### 2. 业务接口整合 → #### 2.1 设备状态及作业信息同步
 
@@ -2122,31 +2122,31 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ### 标★
 
-★参数计划配置:
+#### 1. ★参数计划配置
 
 @see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.6 参数计划配置
 
 - 涉及数据采集, by type/chamber 去采集数据属于 FDC 的核心功能, `支持以 Lot/Substrate/Step/Multi-Steps 或 Time Period 维度进行汇总;汇总参数配置完成后, 可通过历史数据仿真验证配置是否合理` 是用户直接需求的
 
-★图表联动与导出:
+#### 2. ★图表联动与导出
 
 @see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.11 图表联动与导出
 
 - 图标联动、数据导出、数据查看，是 FDC 用户核心基础功能, 支持个性化查询 `Running Data 添加只导出列表 List 的选项, 做 Summary 的数据, 不导出全部数据.` 是用户直接需求的
 
-★PT 中间件:
+#### 3. ★PT 中间件
 
 @see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.10 PT 中间件
 
 - EAP 和 FDC 数据分流基础，必备模块
 
-★系统模块:
+#### 4. ★系统模块
 
 @see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.11 系统模块
 
 - for FDC/EAP/MES 定制开发需求
 
-★工厂信息维护:
+#### 5. ★工厂信息维护
 
 @see: ## FDC Function List → ### 3. 设备管理 (Equipment Management) → #### 3.1 工厂信息维护
 
@@ -2154,29 +2154,101 @@ FDC 采集的 Raw Trace, Summary 与 Context 数据体量庞大且含工艺细�
 
 ### 标▲
 
-▲模型配置与实时侦测 / 跨片统计:
+#### 1. ▲模型配置与实时侦测 / 跨片统计
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
 
 - 方便整批 Lot 统一分析
 
-▲规格体系与自动限值:
+#### 2. ▲规格体系与自动限值
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.6 规格体系与自动限值
 
 - 防止配置变更导致数据丢失
 
-▲UVA 模型管理:
+#### 3. ▲UVA 模型管理
 
 @see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.7 UVA 模型管理
 
 - 强调单模型的复用性, 可以在业务场景中复用, 省略同 type 机台重复配置
 
-▲数据采集计划复制与移转:
+#### 4. ▲数据采集计划复制与移转
 
 @see: ## FDC Function List → ### 12. 数据收集 (Data Collection) → #### 12.2 数据采集计划复制与移转
 
 - 相关配置可以快速批量拷贝
+
+#### 5. ▲智能化需求
+
+@see: ## FDC Function List → ### 18. 智能化需求
+
+- 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
+
+#### 6. ▲非标接入
+
+@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.7 通信协议
+
+- 若采集不到，这部分设备将处于监控之外，建模只能建立在残缺的数据之上，监控结论的可信度无法保证
+
+#### 7. ▲模型覆盖率查询
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 中心多工艺平台并行、新设备分批导入，FDC 建模逐步推进，任一时点都存在已建模与未建模的设备和工艺条件
+
+#### 8. ▲模型全部设置 (Spec/Group/Window/ 公式 / 数据转换) 支持 Excel 导入导出
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若只能手工逐项设置，既耗时，又易在复制中产生不一致，影响不同设备间监控结论的可比性
+
+#### 9. ▲以逻辑表达式基于 Summary Data 生成新的监控模型
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 此类组合判据会随监控体系完善持续出现，若每次都须另行定制，响应周期难以跟上工艺调整节奏
+
+#### 10. ▲Golden Tool 功能 (偏离值 Std 计算、验机比对、Baseline、自动套用规格)
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若各自孤立设定限值，验收、复机确认与异常定位都缺少统一尺度，限值维护量也随设备数量线性增长
+
+#### 11. ▲Auto Retarget(Offset 变更、事件触发、其他系统触发)
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
+
+- 若规格目标值不同步更新，将产生大量误报，掩盖真实异常
+
+#### 12. ▲MES 联动处置
+
+@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.9 报警联动处置
+
+- 若仅凭单一参数触发 OCAP，会产生不必要的停线等处置动作，造成产能损失，事后还须人工复核解除，结合其他参数联合判定可减少无效处置
+
+#### 13. ▲机台 Recipe 覆盖率统计报表
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 中心多品种小批量、研发与中试并行，机台上运行的 Recipe 数量多、新增频繁，新 Recipe 投用后是否已纳入监控，难以凭人工掌握
+
+#### 14. ▲新设备上线与基准设备比较并汇总超 Spec 数据
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 若依赖人工逐参数比对，验收周期长且结论因人而异，未被识别的偏离可能被带入正式作业
+
+#### 15. ▲查询数据转换为 Report(PDF / PPT)
+
+@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
+
+- 若每次都须把查询结果另行整理成稿，既重复劳动，也易出现版本不一致，影响结论的准确传递
+
+#### 16. ▲Sensor 偏差值比较打分排序, 快速定位 Key Sensor
+
+@see: ## FDC Function List → ### 14. 数据分析与报表 (Data Analysis & Reporting) → #### 14.2 追踪数据分析
+
+- 中心设备厂商多、机型代际跨度大，单台设备采集的 Sensor 数量多，而设备异常往往由少数关键参数的偏离引起
 
 # RMS
 
@@ -2314,13 +2386,13 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ### 标★
 
-★:Recipe 管理 / 多种比对方式:
+#### 1. ★:Recipe 管理 / 多种比对方式
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - RMS 比对通用功能，必须满足
 
-★:Recipe 管理 / 校验与异常处理:
+#### 2. ★:Recipe 管理 / 校验与异常处理
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
@@ -2328,121 +2400,49 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 
 ### 标▲
 
-▲:Recipe 管理 /Pilot Run 验证:
+#### 1. ▲:Recipe 管理 /Pilot Run 验证
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.1 Recipe 管理
 
 - 支持 Pilot 转正式的策略
 
-▲:Recipe 解析模板库:
+#### 2. ▲:Recipe 解析模板库
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.4 Recipe 解析模板库
 
 - 提供多种机型的解析模板库，方便新机型的快速适配
 
-▲:EC 管理 (Equipment Constant)/ 多设备共享:
+#### 3. ▲:EC 管理 (Equipment Constant)/ 多设备共享
 
 @see: ## RMS Function List → ### 1. 基本功能 → #### 1.3 EC 管理 (Equipment Constant)
 
 - EC 设定须有复用性，支持导入导出
 
-▲:签核业务接口整合:
+#### 4. ▲:签核业务接口整合
 
 @see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.1 签核业务接口整合
 
 - 支持内部外部签核，批量签核，可视化签核
 
-▲:系统管理 / 比对方式配置:
+#### 5. ▲:系统管理 / 比对方式配置
 
 @see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 支持默认比对方式可配置化
 
-▲:系统管理 / 高可用架构:
+#### 6. ▲:系统管理 / 高可用架构
 
 @see: ## RMS Function List → ### 2. 系统管理和功能协同 → #### 2.2 系统管理
 
 - 防止单点故障，需支持高可用架构（分发和双活）
 
-▲智能化需求:
-
-@see: ## FDC Function List → ### 18. 智能化需求
-
-- 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
-
-▲非标接入:
-
-@see: ## FDC Function List → ### 4. 参数采集设置 (Data Collection Configuration) → #### 4.7 通信协议
-
-- 若采集不到，这部分设备将处于监控之外，建模只能建立在残缺的数据之上，监控结论的可信度无法保证
-
-▲模型覆盖率查询:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 中心多工艺平台并行、新设备分批导入，FDC 建模逐步推进，任一时点都存在已建模与未建模的设备和工艺条件
-
-▲模型全部设置 (Spec/Group/Window/ 公式 / 数据转换) 支持 Excel 导入导出:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若只能手工逐项设置，既耗时，又易在复制中产生不一致，影响不同设备间监控结论的可比性
-
-▲以逻辑表达式基于 Summary Data 生成新的监控模型:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 此类组合判据会随监控体系完善持续出现，若每次都须另行定制，响应周期难以跟上工艺调整节奏
-
-▲Golden Tool 功能 (偏离值 Std 计算、验机比对、Baseline、自动套用规格):
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若各自孤立设定限值，验收、复机确认与异常定位都缺少统一尺度，限值维护量也随设备数量线性增长
-
-▲Auto Retarget(Offset 变更、事件触发、其他系统触发):
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.5 模型配置与实时侦测
-
-- 若规格目标值不同步更新，将产生大量误报，掩盖真实异常
-
-▲MES 联动处置:
-
-@see: ## FDC Function List → ### 6. 模型管理 (Model Management) / 故障侦测 (Fault Detection) → #### 6.9 报警联动处置
-
-- 若仅凭单一参数触发 OCAP，会产生不必要的停线等处置动作，造成产能损失，事后还须人工复核解除，结合其他参数联合判定可减少无效处置
-
-▲机台 Recipe 覆盖率统计报表:
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 中心多品种小批量、研发与中试并行，机台上运行的 Recipe 数量多、新增频繁，新 Recipe 投用后是否已纳入监控，难以凭人工掌握
-
-▲新设备上线与基准设备比较并汇总超 Spec 数据:
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 若依赖人工逐参数比对，验收周期长且结论因人而异，未被识别的偏离可能被带入正式作业
-
-▲查询数据转换为 Report(PDF / PPT):
-
-@see: ## FDC Function List → ### 7. 报表分析 (Reporting & Analysis) → #### 7.12 报表自定义
-
-- 若每次都须把查询结果另行整理成稿，既重复劳动，也易出现版本不一致，影响结论的准确传递
-
-▲Sensor 偏差值比较打分排序, 快速定位 Key Sensor:
-
-@see: ## FDC Function List → ### 14. 数据分析与报表 (Data Analysis & Reporting) → #### 14.2 追踪数据分析
-
-- 中心设备厂商多、机型代际跨度大，单台设备采集的 Sensor 数量多，而设备异常往往由少数关键参数的偏离引起
-
-# RCM
-
-▲:智能化需求:
+#### 7. ▲:智能化需求
 
 @see: ## RMS Function List → ### 3. 智能化需求
 
 - 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
+
+# RCM
 
 ## RCM interview
 
@@ -2732,6 +2732,7 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 支持多系统通讯、影音记录及近远端切换, 扩展远程运维能力.
 
 - **多系统通讯**: 支持自定义开发与 PLC, MES, EAP, RMS 等系统的通讯功能, 可获取、处理、传送数据.
+- **vFAB 北向接口预留**: 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于远程会话开始 / 结束、Control 控制权获取 / 释放、InterLock 触发 / 解除、KVM 与机台断连 / 恢复、画面异常识别命中、侧录与录像文件生成、OCR 采集结果上报等事件发布, KVM 在线状态清单、当前 Control / View 会话清单与占用账号、各机台同时在线人数与操作等待人数、远程画面实时状态、OCR 识别结果等状态查询, 远程会话强制释放、Control 权限回收、InterLock 状态查询与联动、侧录启停等受控动作, 以及外部系统回写的会话记录归档标记与处置结果).
 - **影音与日志**: 支持录像、LOG 记录、截图功能; 有操作权限时按规则对画面进行侧录, 保存并记录侧录 log, 供之后多维度快捷查询; 支持保存机台当下的画面;支持 RCM 操作界面的视频录制, 支持视频画质配置与视频回放;保留远程控制端的鼠标 / 键盘操作记录, 保留截屏录像与录屏回放 (保留时间 30 自然日), 可用于大数据分析, 数据保留时间可设定, 默认一个月.
 - **RPA 融合**: 支持融合 RPA 功能, 后续使用此功能时可提供技术支持;RPA 支持运行脚本自定义, 用户提前在 RCM 客户端中编辑脚本, KVM 可按脚本内容进行代操, 例如检测到机台报警时自动消除报警并 Stop 机台, 或机台识别到特定讯息后自动执行切换 Recipe 脚本.
 - **近远端切换**: 设备端设置物理按钮, 实现远程和近端控制切换;本地 / 近端支持 Interlock (硬件, 机台附近), 本地 / 近端权限优先;支持本地 / 近端切换 Local 模式或 Remote 模式, 切换 Local 模式后仅本地 / 近端可操作, 切换 Remote 模式后可根据配置设定为仅远端操作或者远端与本地 / 近端均可操作 (需机台加装软件).
@@ -2790,6 +2791,12 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 在无 SECS 接口的老设备上以屏幕为接口, 以脚本与图像识别补充 EAP 无法覆盖的自动化场景.
 
 - **OCR 识别**: 支持文字图像识别, 用户提前在 RCM 客户端中设定需要采集的点位, 当机台画面处于对应界面时, KVM 识别对应区域的内容并上报至 RCM;例如设定定时任务识别机台画面中特定点位的数据, 以获取点位的数据变化情况.
+- **EAP 融合**: 支持实现模拟 EAP, 包含进出站、RMS 检查、FDC 数据收集等, 在无 SECS 接口的老设备上以屏幕为接口补齐自动化能力, 使 RCM 代操场景可向标准 EAP 行为对齐.
+- **画面语义与状态提取**: 在既有画面识别能力基础上, 针对无 SECS 接口的机台, 以画面为数据源识别界面文字、数值与状态图示 (机台状态、Run 货 Lot、报警文本、关键参数值), 结构化后供上层查询与留痕;识别结果附置信度, 低于阈值转人工确认.
+- **画面异常识别与预警**: 对已连接画面持续比对, 识别画面冻结、黑屏 / 蓝屏、弹窗持续未消除、界面长时间无变化等异常, 提示远程值守人员或触发侧录;作为连接状态提示的补充, 不替代硬件级断连判定.
+- **操作行为异常与智能检索**: 结合访问日志、操作日志与侧录录像, 识别偏离常态的操作序列 (异常时段集中进入、连续重复按键、跳过确认步骤), 输出提示与核查线索供审计复核;支持以自然语言检索访问、操作与侧录记录 (如某机台近一周被哪些账号操作过), 由 AI 转换为检索条件并整理结论与依据清单, 检索范围限内网数据.
+- **处置建议与知识沉淀**: 收到设备告警或画面异常时, AI 关联机台、报警代码、近期同类处置记录与作业规范, 给出处置建议与核查方向形成待复核清单, 实际处置动作仍由值班工程师执行, AI 不直接操作机台;将高频故障的画面特征、处置步骤与结果沉淀为可检索条目, 支持以自然语言查询指定机型 / 报警的历史处置方式与耗时, 辅助经验传承与新人上手.
+- **权限评估与会话诊断**: 定期复核角色、区域授权与机台权限分配, 识别长期未使用授权、权限与职责不匹配、区域划分与实际访问不符等情况, 给出核查建议, 权限调整仍由管理员按既有流程执行;会话卡顿、延迟升高或画面刷新异常时, AI 关联网络指标、KVM 连接信息与同网络其他机台表现, 给出成因排序 (网络拥塞、KVM 硬件、分辨率设置、机台端主机负载), 辅助定位.
 
 ### 3. 系统管理
 
@@ -5562,65 +5569,65 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 - **AI 诊断与归因**: <mark> Rework 与 Loop 异常预警: 识别返工与循环次数异常偏高的批次、站点与产品，输出返工根因线索与超限预警.数据：Rework 流程维度、Loop Control 循环控制、RRC 异常恢复单与返工履历.</mark>
 - **vFAB 北向接口预留**: <mark> 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Hold/Release, OCAP 触发与关闭、RRC/SRC 单据流转、派工模式切换、WIP 查询等).</mark>
 
-## MES 标注（10★73▲）
+## MES 标注（10★67▲）
 
 ### 标★
 
-★建模基础管控 (统一要求):
+#### 1. ★建模基础管控 (统一要求)
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.8 建模基础管控 (统一要求)
 
 - FAB 内 MES 运行的基础，MES 与其他系统协同运行时需要有统一的基础数据建模
 
-批次与载具关联管理 - ★装载规则:
+#### 2. 批次与载具关联管理 - ★装载规则
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.4 批次与载具关联管理
 
 - 中试线多 Lot 在同一个载具的场景比较多，且载具数量有限，需要有此功能
 
-★Run Card Type:
+#### 3. ★Run Card Type
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.1 Run Card Type
 
 - 属于制造业- 半导体领域特有的非标准处理流程，这个是 by type 的
 
-★SRC (批次科研调整 / 实验分片单):
+#### 4. ★SRC (批次科研调整 / 实验分片单)
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.3 SRC (批次科研调整 / 实验分片单)
 
 - 属于制造业- 半导体领域特有的非标准处理流程, 这个是具体能够配置的内容
 
-★RRC (异常恢复单):
+#### 5. ★RRC (异常恢复单)
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.4 RRC (异常恢复单)
 
 - 属于制造业- 半导体领域特有的非标准处理流程, 这个是具体能够配置的内容
 
-★NPW 定义:
+#### 6. ★NPW 定义
 
 @see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.3 NPW 定义
 
 - FAB 内区分 PW 和 NPW 的管理, 此为针对 NPW 定义
 
-★Season (机台暖机):
+#### 7. ★Season (机台暖机)
 
 @see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.5 Season (机台暖机)
 
 - FAB 内, 一般先 season 暖机后, 再 monitor/run 货, 比如机台 PM 结束后必须先 season
 
-★派工与自动化模式:
+#### 8. ★派工与自动化模式
 
 @see: ## MES Function List → ### 33. 派工与自动化模式
 
 - 支持 MES 切换自动化程度 (Auto1/2/3)
 
-★AGVC 模块:
+#### 9. ★AGVC 模块
 
 @see: ## MES Function List → ### 57. AGVC 模块
 
 - 用户需求 MES 中含有 AGVC 相关模块, 以适配自动化搬运场景
 
-★MCS 模块:
+#### 10. ★MCS 模块
 
 @see: ## MES Function List → ### 58. MCS 模块
 
@@ -5628,439 +5635,403 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 ### 标▲
 
-用户组与权限管理 - ▲统一权限认证:
+#### 1. 用户组与权限管理 - ▲统一权限认证
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
 
 - 通过 SSO 单点登录，统一 UAC 管控
 
-▲多层级模块化建模:
+#### 2. ▲多层级模块化建模
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.2 工艺流程建模
 
 - PTRO, product, top plan, route, oper
 
-▲多路径结构 (Multipath Flow):
+#### 3. ▲多路径结构 (Multipath Flow)
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.2 工艺流程建模
 
 - 同一条 flow, 创建不同分支, 根据工艺要求走不同的分支路径
 
-▲Recipe 与 PPID 对应:
+#### 4. ▲Recipe 与 PPID 对应
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
 
 - 特殊场景 Run card 中, recipe 与 PPID 可以人为指定
 
-▲ECS / 机台限制 (Tool Constraint):
+#### 5. ▲ECS / 机台限制 (Tool Constraint)
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.6 ECS / 机台限制 (Tool Constraint)
 
 - 支持多种的条件组合定义, 如产品 /Flow/LotID/LotType/StepID/Priority/StageID/Recipe/ 设备 / 腔室 /Reticle 等
 
-载具管理 - ▲交换载具 (Exchange Carrier):
+#### 6. 载具管理 - ▲交换载具 (Exchange Carrier)
 
 @see: ## MES Function List → ### 4. 载具管理
 
 - Lot 会在多平台业务之间流转，不重新下线时需要有更换载具的功能
 
-载具管理 - ▲多重载具嵌套管理:
+#### 7. 载具管理 - ▲多重载具嵌套管理
 
 @see: ## MES Function List → ### 4. 载具管理
 
 - 支持 Magazine→Boat→Substrate 的多层嵌套载具，因为封测现场的物流、追溯和作业都以载具层级实际发生——只有 1:1 映射嵌套关系并分层管控载具寿命与污染度，才能保证批次追溯不断链、交叉污染可防可控、设备自动化与批量过站高效账实一致
 
-Reticle 管理 - ▲Reticle Group
+#### 8. Reticle 管理 - ▲Reticle Group
 
 @see: ## MES Function List → ### 5. Reticle 管理
 
 - 当 reticle group 存在多 reticle 时, 默认使用第一个 reticle, 当第一个 reticle 不能使用时, 自动切换到第二个 reticle
 
-批次下线 (Wafer Start) - ▲首站 Non-Sorter 选项:
+#### 9. 批次下线 (Wafer Start) - ▲首站 Non-Sorter 选项
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.3 批次下线 (Wafer Start)
 
 - 支持 MES 账上下线 (不连 EAP 情况下 / 或断连情况下), 保持帐料一致
 
-FutureHold (计划扣留) - ▲Future action:
+#### 10. FutureHold (计划扣留) - ▲Future action
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.9 FutureHold (计划扣留)
 
 - Future Action 需包含 Future Change Product, Future Merge 场景下, 计划未来 lot 走向, small lot 也是一种 future split
 
-Reassign / 批次调整 - ▲By ProductChange Reassign:
+#### 11. Reassign / 批次调整 - ▲By ProductChange Reassign
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.19 Reassign / 批次调整
 
 - 实际场景中涉及不同工艺线, 需要切换 flow, 不再重新下线 (不会上传 ERP)
 
-▲RC Q-Time:
+#### 12. ▲RC Q-Time
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.5 RC Q-Time
 
 - Run card 情境下存在用户需求计算 Q-Time
 
-Equipment Monitor (机台监控) - ▲源批管理:
+#### 13. Equipment Monitor (机台监控) - ▲源批管理
 
 @see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.1 Equipment Monitor (机台监控)
 
 - 用户提出在 NPW 再使用过程中, 根据设定的次数, 自动更新使用次数、回收次数
 
-▲Pi-Lot 定义和执行:
+#### 14. ▲Pi-Lot 定义和执行
 
 @see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.1 Pi-Lot 定义和执行
 
 - 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
 
-▲Pi-Run 试跑模式:
+#### 15. ▲Pi-Run 试跑模式
 
 @see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.2 Pi-Run 试跑模式
 
 - 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
 
-▲Pi-Run 试跑单设定:
+#### 16. ▲Pi-Run 试跑单设定
 
 @see: ## MES Function List → ### 10. Pi-Lot / Pi-Run (先行批试跑) → #### 10.3 Pi-Run 试跑单设定
 
 - 机台需要在 Run 货前, 部分情况是 product 到某机台, 就是需要 Pi-Run 验证 main tool/sub tool/chamber/recipe 的合格情况
 
-▲治具管理:
+#### 17. ▲治具管理
 
 @see: ## MES Function List → ### 19. 治具管理
 
 - 封装测试场景下, 对治具全生命周期管理, 比如 prober card
 
-▲特殊材料管控 (锡膏、光刻胶):
+#### 18. ▲特殊材料管控 (锡膏、光刻胶)
 
 @see: ## MES Function List → ### 20. 物料及 BOM 管理 → #### 20.4 特殊材料管控 (锡膏、光刻胶)
 
 - 耗材相关全生命周期管理
 
-▲Wafer Mapping 管理:
+#### 19. ▲Wafer Mapping 管理
 
 @see: ## MES Function List → ### 25. Wafer Mapping 管理
 
 - 方便图形化追溯 wafer to die level 的 wafer 情况
 
-▲制造协同 (MCP):
+#### 20. ▲制造协同 (MCP)
 
 @see: ## MES Function List → ### 36. 制造协同 (MCP)
 
 - 跨工艺段、跨车间、跨厂区的平台业务员，客户的订单要拆成各段工单、料要在多个产线之间流转、质量要能一路追到单颗 Die
 
-▲MAP 模块 (Die 级追溯):
+#### 21. ▲MAP 模块 (Die 级追溯)
 
 @see: ## MES Function List → ### 37. MAP 模块 (Die 级追溯)
 
 - die level 的全生命周期
 
-▲智能化需求:
+#### 22. ▲智能化需求
 
 @see: ## MES Function List → ### 60. 智能化需求
 
 - 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
 
-厂区与组织架构建模 - ▲区域与设备对应:
+#### 23. 厂区与组织架构建模 - ▲区域与设备对应
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.1 厂区与组织架构建模
 
 - 若硬套固定层级，各维度归集口径不一致，报表须人工二次整理，权限也难与实际岗位区域对应
 
-厂区与组织架构建模 - ▲多工厂建模:
+#### 24. 厂区与组织架构建模 - ▲多工厂建模
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.1 厂区与组织架构建模
 
 - 若 MES 只能单厂建模，新工厂启用时须另建系统或重做模型，产品跨厂时的工艺流程、Recipe、物料清单与在制品状态只能依靠人工核对交接，易出现账实不符和追溯断链
 
-产品建模 - ▲产品组与 Reticle 设置:
+#### 25. 产品建模 - ▲产品组与 Reticle 设置
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.2 产品建模
 
 - 若系统不支持自动切换，某一组光罩不可用时批次只能停在光刻站等待，或由工程师临时改配置放行，前者损失光刻产能，后者存在用错光罩版次的风险
 
-设备建模 - ▲设备 Unit 定义:
+#### 26. 设备建模 - ▲设备 Unit 定义
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.3 设备建模
 
 - 若 MES 不管理 Unit 状态，某个槽体维护时，整台设备只能整体停机，或依靠人工记忆避让，前者损失产能，后者存在作业到不可用槽体的风险
 
-设备建模 - ▲N2-Purge/CDA 设备建模与安装位置分类, Purge 后实时更新 FOUP/Lot Q-Time:
+#### 27. 设备建模 - ▲N2-Purge/CDA 设备建模与安装位置分类, Purge 后实时更新 FOUP/Lot Q-Time
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.3 设备建模
 
 - 若不按位置分类建模、不随 Purge 完成刷新批次信息，Q-Time 只能人工登记或估算，超时批次可能未被拦截而流入后续站点
 
-设备建模 - ▲NTB / Exchanger 的 Port 与 Buffer Size 管理与维护:
+#### 28. 设备建模 - ▲NTB / Exchanger 的 Port 与 Buffer Size 管理与维护
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.3 设备建模
 
 - 中心自动化搬送环境下，此类缓冲设施若仅作普通存储点，Port 归属、Buffer 容量与模式约束无从表达，搬送目的地须人工指定，易致搬送异常与机台空等
 
-代码定义 (Code Define) - ▲条码配置:
+#### 29. 代码定义 (Code Define) - ▲条码配置
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.5 代码定义 (Code Define)
 
 - 若每新增一种条码形式都要等待开发改版，期间只能人工制作标签，存在贴错、读错的风险
 
-用户组与权限管理 - ▲操作证书管理:
+#### 30. 用户组与权限管理 - ▲操作证书管理
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
 
 - 若 MES 不做持证校验，是否持证只能靠现场管理人员核对，无证或证书过期人员操作关键设备的情况无法由系统拦截，误作业风险与事后追责都缺少依据
 
-用户组与权限管理 - ▲任职周期:
+#### 31. 用户组与权限管理 - ▲任职周期
 
 @see: ## MES Function List → ### 1. 工厂基础建模 → #### 1.9 用户组与权限管理
 
 - 若权限授权后长期有效，人员离岗后权限残留，须靠管理员人工逐个回收，遗漏时存在误操作与审计风险
 
-版本升级与在制批次处理 - ▲版本与历史:
+#### 32. 版本升级与在制批次处理 - ▲版本与历史
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.3 版本升级与在制批次处理
 
 - 若没有比对工具，只能人工逐站对照，流程站点多时耗时长且容易漏看，漏看的差异会直接误导在制批的处置决策
 
-Recipe (配方建模管理) - ▲Recipe 增加能量设置字段, 供光罩 Life Time 计算:
+#### 33. Recipe (配方建模管理) - ▲Recipe 增加能量设置字段, 供光罩 Life Time 计算
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
 
 - 若只按使用次数计数，寿命估算偏离实际，估短了光罩提前下线，估长了光罩超期使用，影响曝光质量
 
-Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段 (可吃一张光罩上的多个 Field):
+#### 34. Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段(可支持配置/调用一张光罩上的多个 Field)
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
 
 - 若 Recipe 只能以整张光罩为对象，本层用哪些 Field 只能记录在系统之外，由人工在机台侧选择，选错即造成曝光图形错误，且事后无法从系统追溯
 
-Rework (流程维度) - ▲超限授权:
+#### 35. Rework (流程维度) - ▲超限授权
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.7 Rework (流程维度)
 
 - 若系统没有受控放行通道，要么批次卡在返工上限无法处置，要么靠修改主数据临时放开上限，后者会同时放开其他批次的限制，且授权过程没有记录，无法满足审计要求
 
-Q-Time (容许时间) - ▲时间与动作设定:
+#### 36. Q-Time (容许时间) - ▲时间与动作设定
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.15 Q-Time (容许时间)
 
 - 若只有超时后的单一报警，工程师得到通知时批次已经超时，只能事后评估返工或报废，本可避免的超时变成质量损失
 
-EQP 基本属性与设备组 - ▲数据清除与存档:
+#### 37. EQP 基本属性与设备组 - ▲数据清除与存档
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.1 EQP 基本属性与设备组
 
 - 若只能依赖厂商后台脚本处理，每次清理都要等待厂商支持，直接删除数据还会造成追溯断链
 
-Chamber Status Define (腔室状态定义) - ▲Chamber / EQP 状态优先级决定最终状态 (含 Chamber Group):
+#### 38. Chamber Status Define (腔室状态定义) - ▲Chamber / EQP 状态优先级决定最终状态 (含 Chamber Group)
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.5 Chamber Status Define (腔室状态定义)
 
 - 若只能按固定规则聚合，可派工设备会被判为不可用而损失产能，或利用率统计失真须人工修正
 
-光刻机台 (Photo) - ▲当前层选定与上一层相同的 Chuck(28nm 以下高精度场景):
+#### 39. 光刻机台 (Photo) - ▲当前层选定与上一层相同的 Chuck(28nm 以下高精度场景)
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.11 光刻机台 (Photo)
 
 - 若 MES 不记录 Wafer 级 Chuck 履历，当前层只能随机分配或由人工查记录后指定，前后层不一致时套刻误差增大，直接影响良率，且事后难以定位原因
 
-光刻机台 (Photo) - ▲Litho 设备 FOUP Exchanger 作为运输自动化的缓冲区:
+#### 40. 光刻机台 (Photo) - ▲Litho 设备 FOUP Exchanger 作为运输自动化的缓冲区
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.11 光刻机台 (Photo)
 
 - 若 Exchanger 不纳入搬送缓冲管理，FOUP 只能等机台 Port 空出后再搬送，搬送等待与机台空等交替出现，瓶颈设备的有效产出下降
 
-化学机械研磨 (CMP) - ▲耗材期限校验:
+#### 41. 化学机械研磨 (CMP) - ▲耗材期限校验
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.13 化学机械研磨 (CMP)
 
 - 若开工前不由系统校验，耗材是否超期只能靠设备人员记录和提醒，一旦遗漏，批次已在超期耗材上完成研磨，只能事后返工或报废
 
-激光打码机台 (Laser Mark) - ▲自动打码:
+#### 42. 激光打码机台 (Laser Mark) - ▲自动打码
 
 @see: ## MES Function List → ### 3. 机台建模和管理 → #### 3.15 激光打码机台 (Laser Mark)
 
 - 若由人工在打码机上录入，容易出现错码、重码，一旦打错无法更正，整批的追溯数据都会受影响
 
-载具管理 - ▲分配载具 (Assign Carrier):
+#### 43. 载具管理 - ▲分配载具 (Assign Carrier)
 
 @see: ## MES Function List → ### 4. 载具管理
 
 - 若不能在分配时直接调整，只能撤销后重新分配，操作繁琐，现场也容易出现系统槽位与实物不一致，进而导致加工对象错误
 
-载具管理 - ▲槽位信息变更 (Change Slot Map Info):
+#### 44. 载具管理 - ▲槽位信息变更 (Change Slot Map Info)
 
 @see: ## MES Function List → ### 4. 载具管理
 
 - 若系统禁止修改，实物与系统记录不一致的情况只能长期存在，或由厂商在后台改数据，后者没有留痕，追溯链反而不可信
 
-Lot Plan / 批次创建 - ▲多订单类型:
+#### 45. Lot Plan / 批次创建 - ▲多订单类型
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.1 Lot Plan / 批次创建
 
 - 若 MES 只能按单一订单类型创建批次，其余类型的订单只能套用晶圆订单的字段变通处理，或在系统外管理，订单与批次之间的对应关系不完整，追溯断链
 
-批次下线 (Wafer Start) - ▲Zero Layer Wafers 作为 Wafer Start 原材料:
+#### 46. 批次下线 (Wafer Start) - ▲Zero Layer Wafers 作为 Wafer Start 原材料
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.3 批次下线 (Wafer Start)
 
 - 若 MES 的投料不区分零层片，只能把它当作普通硅片下线，投料时无法校验是否用对了片，存在用错片的风险
 
-Hold/Release (扣留及释放) - ▲邮件通知:
+#### 47. Hold/Release (扣留及释放) - ▲邮件通知
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.8 Hold/Release (扣留及释放)
 
 - 若只有站内消息，不在系统前的人员无法及时获知，扣留批次滞留，处置时效依赖人工电话或口头转告
 
-分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9, 12/13):
+#### 48. 分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13)
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.10 分批 / 合批 (Split/Merge)
 
 - 若拆批、合批全靠人工事务操作，每个批次在该站都要多次手工处理，效率低，且容易出现拆错片数、合批遗漏，造成批次错误加工或追溯不连续
 
-入 / 出库与出货 - ▲两段式入库:
+#### 49. 入 / 出库与出货 - ▲两段式入库
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.16 入 / 出库与出货
 
 - 若 MES 只有单步入库，制造部一操作即视为入库完成，实物是否已被仓库接收没有系统记录，账实不符时责任难以界定，入库信息不抛转 ERP，则库存账须人工重复录入
 
-Reassign / 批次调整 - ▲NPW/PW 管理:
+#### 50. Reassign / 批次调整 - ▲NPW/PW 管理
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.19 Reassign / 批次调整
 
 - 若系统不支持受控变更，只能报废重建批次或由后台改数据，前者割断批次履历，后者没有留痕
 
-SubconOut/In (委外加工) - ▲委外模式:
+#### 51. ▲SubconOut/In (委外加工)
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.21 SubconOut/In (委外加工)
 
 - 若 MES 只支持单次整段委外，多段往返的批次在出厂期间的状态、回厂后的续接站点只能在系统外记录，实物收发与系统状态脱节，追溯断链，对账也只能靠人工
 
-Equipment Monitor (机台监控) - ▲数据查询:
+#### 52. Equipment Monitor (机台监控) - ▲数据查询
 
 @see: ## MES Function List → ### 9. Non-Production Wafer (NPW: Monitor / Season / Dummy) → #### 9.1 Equipment Monitor (机台监控)
 
 - 若机台监控中看不到 SPC 离线图表，工程师须在两系统之间来回切换、人工对照设备与时间段，判断耗时且容易看错对象，状态异常的设备可能继续作业
 
-PRMS (光阻管理系统) - ▲Barcode 管理:
+#### 53. PRMS (光阻管理系统) - ▲Barcode 管理
 
 @see: ## MES Function List → ### 11. PRMS (光阻管理系统)
 
 - 中心多工艺平台并存，若不做解析转换，物料入厂使用时只能逐一人工对照录入，效率低且容易录错，条码关联一旦出错将导致物料错用，来料到使用的追溯也会断链
 
-OCAP FLOW 执行 - ▲签核协同:
+#### 54. OCAP FLOW 执行 - ▲签核协同
 
 @see: ## MES Function List → ### 12. OCAP (超规动作计划) → #### 12.2 OCAP FLOW 执行
 
 - 若两系统不对接，须人工在签核系统中重复填报批次信息，结论再由人工回到 MES 操作，信息容易错漏，批次等待时间拉长，异常处置记录与批次履历之间也无法关联追溯
 
-测试线管理 - ▲拆批 / 合批:
+#### 55. 测试线管理 - ▲拆批 / 合批
 
 @see: ## MES Function List → ### 17. 测试线管理 (Wafer Sort / FT / WAT / Bin) → #### 17.4 测试线管理
 
 - 若只能在等待状态下拆合批，现场须先解除 Hold 或结束作业再操作，异常片无法及时从批次中剥离，正常产品被一并滞留，改由人工线下拆并后补录，又会造成追溯断链
 
-CP 测试结果处理 (Wafer Sort/Probe) - ▲OCAP 分流:
+#### 56. CP 测试结果处理 (Wafer Sort/Probe) - ▲OCAP 分流
 
 @see: ## MES Function List → ### 17. 测试线管理 (Wafer Sort / FT / WAT / Bin) → #### 17.7 CP 测试结果处理 (Wafer Sort/Probe)
 
 - 中心多品种小批量、工程批多，若整批随异常片一起扣留，正常片须等到 OCAP 处置结束才能继续流片，研发与中试进度被无谓拖延，改由人工先拆批再放行，则操作繁琐，且存在拆错片号的风险
 
-FT 测试 - ▲返工计数:
+#### 57. FT 测试 - ▲返工计数
 
 @see: ## MES Function List → ### 17. 测试线管理 (Wafer Sort / FT / WAT / Bin) → #### 17.10 FT 测试
 
 - 中心先进封装与测试并存，若系统不计数、不提示，重测次数只能靠人工记录，超限重测难以及时发现，产品可靠性结论缺少依据，事后也无法向客户说明
 
-FT 测试 - ▲良品分流:
+#### 58. FT 测试 - ▲良品分流
 
 @see: ## MES Function List → ### 17. 测试线管理 (Wafer Sort / FT / WAT / Bin) → #### 17.10 FT 测试
 
 - 若系统不能按良品属性分仓，入库时只能整卷记为一类，再由人工拆分数量、分别调账，库存账与实物容易不符，不良品也存在被当作良品出库的风险
 
-物料及 BOM 管理 - ▲工序物料:
+#### 59. 物料及 BOM 管理 - ▲工序物料
 
 @see: ## MES Function List → ### 20. 物料及 BOM 管理
 
 - 若系统只能为工序绑定单一料号，缺料时要么停工待料，要么临时修改工序物料设置或绕过投料校验，存在错投物料的风险，实际用料也无法准确追溯
 
-Strip（Wafer）Mapping 管理 - ▲EAP 联动:
+#### 60. Strip（Wafer）Mapping 管理 - ▲EAP 联动
 
 @see: ## MES Function List → ### 26. Strip（Wafer）Mapping 管理
 
 - 中心先进封装与测试并存、设备厂商多，若不与 EAP 联动，Mapping 只能人工导入和维护，映射关系一旦错位，Die 级追溯即告失真
 
-双单位管理 (Wafer/Die) - ▲Wafer 与 Die 双单位管理:
+#### 61. ▲双单位管理 (Wafer/Die)
 
 @see: ## MES Function List → ### 38. 双单位管理 (Wafer/Die)
 
 - 若 MES 只支持单一单位，后道须另建一套系统，前后道之间的谱系靠人工或接口拼接，Die 到 Wafer 的追溯容易断链，同一产品也须在两套系统中重复建模
 
-设备维护与效能 (PM/OEE) - ▲PM 权限设置:
+#### 62. 设备维护与效能 (PM/OEE) - ▲PM 权限设置
 
 @see: ## MES Function List → ### 41. 设备维护与效能 (PM/OEE)
 
 - 若查看与编辑不分离，要么把编辑权限放给过多人员，维护参数存在被误改的风险，要么收紧查看范围，相关人员只能转托他人查询
 
-APC / R2R 先进过程控制 - ▲支持 APC Pi-Lot(Auto Trigger) 与 On Demand Pi-Lot(Manual Trigger) 两大类:
+#### 63. APC / R2R 先进过程控制 - ▲支持 APC Pi-Lot(Auto Trigger) 与 On Demand Pi-Lot(Manual Trigger) 两大类
 
 @see: ## MES Function List → ### 43. APC / R2R 先进过程控制
 
 - 若 MES 没有 Pi-Lot 对象，先导批只能当作普通批次由人工挑选、线下记录，验证结论与后续批次放行之间缺少系统关联，未经验证即批量作业的风险无法拦截
 
-APC / R2R 先进过程控制 - ▲APC Pi-Lot 触发处理逻辑: APC 条件 → RTD → 触发 Pi-Lot → 结果回传:
+#### 64. APC / R2R 先进过程控制 - ▲APC Pi-Lot 触发处理逻辑: APC 条件 → RTD → 触发 Pi-Lot → 结果回传
 
 @see: ## MES Function List → ### 43. APC / R2R 先进过程控制
 
 - 若三系统不打通，条件、挑批与结果均须人工传递，容易漏触发或错误触发，未经验证的批次可能直接作业，造成返工或报废
 
-APC / R2R 先进过程控制 - ▲Pi-Lot 失败后的异常处置: Remeasurement / Re-Pilot / Rework:
+#### 65. APC / R2R 先进过程控制 - ▲Pi-Lot 失败后的异常处置: Remeasurement / Re-Pilot / Rework
 
 @see: ## MES Function List → ### 43. APC / R2R 先进过程控制
 
 - 中心研发与中试并行、工程批多，若系统没有对应的处置路径，失败后只能由工程师线下判断、手工调整流程，处置过程不留记录，后续批次能否放行缺少依据，等待期间设备与批次同时滞留
 
-其他业务协同 - ▲与泛微门户协同:
+#### 66. ▲其他业务协同
 
 @see: ## MES Function List → ### 59. 其他业务协同
 
-- 若 MES 不接入门户，用户须在多个系统间分别登录，MES 待办与异常提醒无法在门户集中呈现，审批与异常响应依赖人工转告，时效难以保证
+- 与中心既有办公及业务系统（泛微门户、用友 ERP、WMS、PLM、帆软报表、文档档案、电子签章平台）的协同整组标▲, 评估投标方跨系统接口对接与业务贯通能力
 
-其他业务协同 - ▲与用友 ERP 协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若两侧不对接，工单完工与物料出入库须人工在 ERP 补录，数据滞后且易出错，财务账、库存账与生产实际不一致
-
-其他业务协同 - ▲与 WMS 协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若事务边界不清或未对接，出入库依赖人工传递，同一物料在两系统重复记账或漏记，造成账实不符、领料延误
-
-其他业务协同 - ▲与 PLM 协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若不对接，MES 主数据须人工重复录入，版本容易不一致，变更生效时机错配还会造成在制批使用错误版本的工艺或 BOM
-
-其他业务协同 - ▲与帆软报表协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若不对接，MES 数据须人工导出再加工，报表时效差、口径不一
-
-其他业务协同 - ▲与文档档案系统协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若不对接，现场调阅 SOP 可能取到过期版本，生产记录须人工整理归档，存在遗漏，追溯时难以完整调取
-
-其他业务协同 - ▲与电子签章平台协同:
-
-@see: ## MES Function List → ### 59. 其他业务协同
-
-- 若不对接，只能线下纸质签字或在其他系统另行签署，签署记录与 MES 单据脱节，追溯与审核时难以举证
-
-SRC (批次科研调整 / 实验分片单) - ▲触发分批:
+#### 67. SRC (批次科研调整 / 实验分片单) - ▲触发分批
 
 @see: ## MES Function List → ### 8. Run Card Management (SRC/RRC) → #### 8.3 SRC (批次科研调整 / 实验分片单)
 
@@ -6582,25 +6553,25 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标★
 
-★多源数据监控:
+#### 1. ★多源数据监控
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 属于制造业- 半导体领域支持数据采集 (Inline), 设备日常点检数据 (Offline), Reticle, Carrier 及厂务数据属于必须具备的数据源
 
-★判异准则与 Action:
+#### 2. ★判异准则与 Action
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 数值异常需要触发对应的 action，反馈给 MES 进行相关的处理
 
-★上下限判异:
+#### 3. ★上下限判异
 
 @see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 数值异常或超出上下限需要能触发对应的 action，反馈给 MES 进行相关的处理
 
-★OCAP 联动:
+#### 4. ★OCAP 联动
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
@@ -6608,79 +6579,79 @@ SBL 是 统计 Bin 的 Limit
 
 ### 标▲
 
-▲非侵入式变更:
+#### 1. ▲非侵入式变更
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - 数据流是单向的，Chart 是采集结果的记录，修改采集后的内容不影响后续数据收集
 
-▲特殊点排除:
+#### 2. ▲特殊点排除
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.1 数据采集
 
 - SRC、加量、重量的点不能用于正常点位计算
 
-▲Context 过滤定义:
+#### 3. ▲Context 过滤定义
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - chart 的点位数据信息量大，自定义过滤条件可以进行快速筛选
 
-▲违规告警邮件:
+#### 4. ▲违规告警邮件
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - chart 中数值违规，例如 OOS, OOC, OOW 需要支持邮件通知，能通知用户及时进行处理
 
-▲PM 后特殊管控:
+#### 5. ▲PM 后特殊管控
 
 @see: ## SPC Function List → ### 1. 基础设定 → #### 1.2 Chart 定义
 
 - 机台 PM 后的管控 Spec 会跟平时的 Spec 不一样，需要针对 PM 后的点位有特殊的 Spec
 
-SPC 判异规则 - ▲二次开发:
+#### 6. SPC 判异规则 - ▲二次开发
 
 @see: ## SPC Function List → ### 2. 规则设定与计算 → #### 2.1 SPC 判异规则
 
 - 针对多个机台会存在不一样的判断条件，需要客制化开发 rule
 
-▲设备状态叠加:
+#### 7. ▲设备状态叠加
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 设备 Down 或 PM 后，进行 monitor 的量测值需要进行特殊标记，可对其进行特殊的 SPEC 管控
 
-▲数据点详情:
+#### 8. ▲数据点详情
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将数据点的详情展示出来，供用户核对信息
 
-▲统计指标显示:
+#### 9. ▲统计指标显示
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.1 控制图分析 (图表管理)
 
 - 需要将 chart 的信息进行计算，能有各种计算值，针对不同的信息可以查看对应的计算值
 
-▲定期统计:
+#### 10. ▲定期统计
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据会用于数据报表分析，可以 by 多种维度
 
-▲数据过滤:
+#### 11. ▲数据过滤
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.2 报表统计
 
 - chart 的数据支持不需要计算进去的点数据过滤，能将用户判定出来的异常点过滤
 
-▲签核协同:
+#### 12. ▲签核协同
 
 @see: ## SPC Function List → ### 3. 分析和报表统计 → #### 3.3 ACL 计算
 
 - 数据需要支持签核业务协同
 
-▲智能化需求:
+#### 13. ▲智能化需求
 
 @see: ## SPC Function List → ### 4. 智能化需求
 
@@ -7431,6 +7402,15 @@ Alarm 通知标题与内容支持自定义模板; Email 通知内容支持 **HTM
 
 支持接收外部清除指令, 清除之前收到的符合指定条件的警报.
 
+### 19. 智能化需求
+- **告警噪声治理与规则优化建议**: <mark> 以 TopN 报表、同 Tool + Code 重复率、关闭时长分布与复发率为依据, AI 就告警规则的新增、合并、阈值调整、去重窗口与屏蔽条件设定提出优化建议, 并说明每条建议所依据的数据范围与样本量; 建议经仿真验证和人工确认后方可启用, 不自动写入规则库.</mark>
+- **报警簇识别与根因归因辅助**: <mark> 同一时段、同一机台或关联设备状态产生的多条报警, 由 AI 结合 Tool, Chamber, 设备状态屏蔽与设备 / 厂务事件做聚类, 识别成因相同的报警簇, 输出根因候选排序与建议核查方向, 形成待复核清单; 结论仅作排查线索, 不改变告警的闭环判定, 也不直接触发联动动作.</mark>
+- **误报识别与闭环质量监控**: <mark> 持续识别秒级关闭、同源高频重复、Closed 后短时复发等可疑闭环模式, 区分误报、无效告警与真实异常, 辅助屏蔽清单治理与规则收窄; 识别结果供规则评审与闭环率考核口径复核参考, 不自动终止任何告警.</mark>
+- **通知与升级策略优化建议**: <mark> 基于历史响应时长、升级触发记录与各渠道通知到达率, AI 就通知群组划分、升级时限设定与严重等级校准提出建议, 识别长期无人响应或升级失效的告警类型; 建议经人工确认后生效, 安全类告警的通知与升级链不在建议调整范围内.</mark>
+- **闭环绩效智能报告**: <mark> 按警报源、区域、严重等级维度汇总闭环率、MTTR 与复发率, 自动生成治理报告并列出需源头整改的 TopN 清单, 区分 Closed / Terminated 口径并标注数据依据; 报告数据取自既有统计报表功能, 不新增采集口径.</mark>
+- **自然语言告警查询与定时分析**: <mark> 支持值班与工程师以自然语言检索警报履历、通知报表与动作记录, 例如查询某机台近一个月 High 级以上告警的闭环情况, 由 AI 转换为检索条件并整理为结论与依据清单; 支持记忆常用查询并生成定时分析任务, 检索范围限于内网数据.</mark>
+- **vFAB 北向接口预留**: <mark> 支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于新警报触发与自动清除、警报状态变更 (响应 / 关闭 / 终止)、超时未确认自动升级、心跳中断告警、MES 联动动作执行结果、屏蔽规则生效与到期自动解除等事件发布, 当前 Open 警报清单与警报详情 (告警源 / Tool / Alarm Code / Severity / 时间)、告警规则与策略清单及启用状态、生效中屏蔽与抑制清单、通知群组与升级链配置、闭环率 / MTTR / TopN 统计等状态查询, 警报响应 / 关闭 / 终止、远程清除、手动屏蔽与解除、自动联动的人工确认回调、报警转单等受控动作, 以及处置说明与处置结果回写、误报标记与规则优化建议回写等).</mark>
+
 # PMS
 
 ## PMS interview
@@ -7933,7 +7913,7 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 ### 标★
 
-★使用情况保养:
+#### 1. ★使用情况保养
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.2 保养类型与触发机制
 
@@ -7941,61 +7921,61 @@ PMS 移动端能力, 覆盖平板 / 手机作业、拍照上传与移动知识�
 
 ### 标▲
 
-▲Trigger 参数:
+#### 1. ▲Trigger 参数
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.3 维修保养管理建立 (PM 模板与计划配置)
 
 - PM Trigger 的递增性 / 替换性参数是大小 PM 撞期时自动 Reset 计数、只做一次大 PM 的配置基础
 
-▲趋势分析:
+#### 2. ▲趋势分析
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.4 PM Checklist 建立与管理
 
 - Checklist 采集值具备 Report 趋势图, 便于观察设备状态劣化趋势
 
-▲时间预测:
+#### 3. ▲时间预测
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.6 保养计划规划 (排程与预警通知)
 
 - 按参数收值速率预测保养时间, 提前排程减少非计划停机
 
-▲合并执行:
+#### 4. ▲合并执行
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.7 维修保养执行
 
 - 周保养与月保养撞期时合并执行, 避免同一台设备一周内停机两次
 
-▲Parts 领入 (配件录入):
+#### 5. ▲Parts 领入 (配件录入)
 
 @see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.1 Parts 领入 (配件录入)
 
 - 备件领入即生成唯一识别号, 是 Parts 全生命周期跟踪 (使用 / 循环 / 报废) 的起点
 
-▲智能化需求:
+#### 6. ▲智能化需求
 
 @see: ## PMS Function List → ### 3. 智能化需求
 
 - 智能化能力整组标▲加分, 评估投标方的 AI 诊断、推荐与预测类能力及落地方案
 
-▲Early 预警列出所需 Parts, 勾选后自动生成领料单并与 ERP 交互:
+#### 7. ▲Early 预警列出所需 Parts, 勾选后自动生成领料单并与 ERP 交互
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.6 保养计划规划 (排程与预警通知)
 
 - 本项需在 PM Early 预警时列出该次 PM 所需 Parts，经工程师勾选后自动生成领料单，并与 ERP 交互完成领料
 
-▲提供机台数据、状态、权限组、Template、原因代码、Checklist 等录入工具:
+#### 8. ▲提供机台数据、状态、权限组、Template、原因代码、Checklist 等录入工具
 
 @see: ## PMS Function List → ### 1. PMS 维修保养管理 → #### 1.10 权限管理与 MES 整合
 
 - 本项需提供产品默认的录入工具，覆盖机台数据与状态转换、用户权限组、机台 Template、原因代码及其分组、Mobile Checklist 与标准 Checklist 等对象，支
 
-▲Machine 设置 Parts Life Time Interlock, 超限不可上货并提示原因:
+#### 9. ▲Machine 设置 Parts Life Time Interlock, 超限不可上货并提示原因
 
 @see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.5 Parts 逾期报警
 
 - 本项需针对 Machine 设置 Parts Life Time Interlock，超过 Interlock 的 Part 不允许上货到该机台，并在界面提示具体原因，以强制卡控代
 
-▲提供默认 Part 状态定义 (FREE/INUSE/SCRAP 等 12 种):
+#### 10. ▲提供默认 Part 状态定义 (FREE/INUSE/SCRAP 等 12 种)
 
 @see: ## PMS Function List → ### 2. PTMS 备件管理 (备品备件管理) → #### 2.8 Part 维护管理
 
