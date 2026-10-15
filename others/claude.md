@@ -8,7 +8,7 @@
 
 `set ANTHROPIC`
 
-`claude` / `claude --dangerously-skip-permissions`
+`claude` / `claude --dangerously-skip-permissions` / `claude -c --dangerously-skip-permissions`
 
 ## kimi
 
@@ -77,7 +77,7 @@ https://platform.kimi.com/ 的 key:
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
         "ANTHROPIC_MODEL": "claude-opus-5-5",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gpt-5.6-sol",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-fable-5-1",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
         "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
         "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
@@ -103,6 +103,26 @@ https://platform.kimi.com/ 的 key:
         "API_TIMEOUT_MS": "3000000"
     }
 }
+```
+
+## codex
+
+gravitex:
+
+`notepad %USERPROFILE%\.codex\config.toml`
+
+```toml
+model = "gpt-6-astra"
+model_provider = "openai-custom"
+personality = "pragmatic"
+model_reasoning_effort = "high"
+
+name = "GravitexAI"
+base_url = "https://api.gravitex.ai/v1"
+wire_api = "responses"
+
+Authorization = "Bearer YOUR_API_KEY"
+Content-Type = "application/json"
 ```
 
 # `/` 命令速查表
@@ -197,6 +217,40 @@ PowerShell:
 - 模型选套餐可用的 (k3)
 
 验证成功: `hermes` 随便测试 TUI 可以对话, 然后 `/exit`
+
+更精准的方法: poershell: `hermes config edit`
+
+```yml
+model:
+    default: kimi-k3
+    provider: kimi-coding
+    base_url: https://api.kimi.com/coding
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    default: glm-5.3
+    provider: zai
+    base_url: https://open.bigmodel.cn/api/coding/paas/v4
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    provider: custom
+    model: claude-opus-5-5
+    base_url: https://api.gravitex.ai/v1
+    api_key: YOUR_API_KEY
+```
+
+## hermes 网关
+
+`hermes gateway status`
+
+`hermes gateway restart`
+
+尽量别 `hermes gateway start`, 有可能启动两个网关
 
 # cmd 中文乱码解决
 

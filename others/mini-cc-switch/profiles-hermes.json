@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "用途": "Hermes Agent 多套网关/模型配置模板(10/12 用户令, 仿 switch-claude-settings), 由 hs.mjs 读取; 位置=<dev>\\switch-hermes-settings\\, 各机拷整个文件夹",
+    "key": "key 不存本文件: keyFile 指向 <dev>\\ 下同名 txt(与 switch-claude-settings 共用同一批 key 文件)",
+    "写入方式": "只经 `hermes config set model.*` 改 model 段(provider/model/default/base_url/api_key), 其它配置原样不动; 改前自动备份 config.yaml",
+    "核对": "gravitex=PC1 10/12 用户手配实测可用; kimi/glm 两套的 OpenAI 兼容地址与模型名未在 hermes 上实测, 首次切换后用 `hs test` 验一下"
+  },
+  "profiles": {
+    "cyx-gravitex": {
+      "desc": "provider: gravitex, key: cyx-gravitex, model: claude-opus-5-5",
+      "keyFile": "cyx-gravitex-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.gravitex.ai/v1",
+      "model": "claude-opus-5-5"
+    },
+    "gravitex": {
+      "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
+      "keyFile": "gravitex-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.gravitex.ai/v1",
+      "model": "claude-opus-5-5"
+    },
+    "kimi-code": {
+      "desc": "provider: kimi, key: kimi-code, model: kimi-k3",
+      "keyFile": "kimi-code-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.kimi.com/coding/v1",
+      "model": "kimi-k3"
+    },
+    "kimi-xhj": {
+      "desc": "provider: kimi, key: xhj-kimi, model: kimi-k3",
+      "keyFile": "xhj-kimi-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.kimi.com/coding/v1",
+      "model": "kimi-k3"
+    },
+    "glm": {
+      "desc": "provider: glm, key: glm, model: glm-5.3",
+      "keyFile": "glm-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "model": "glm-5.3"
+    }
+  }
+}

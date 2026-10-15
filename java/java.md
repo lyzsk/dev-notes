@@ -1667,3 +1667,11 @@ while(matcher.find()) {
     ...
 }
 ```
+
+# LocalDate, LocalTime, LocalDateTime
+
+`LocalDate`: YYYY-MM-DD 对应 MySQL `DATE`
+
+`LocalTime`: HH:mm:ss.SSS 对应 MySQL `TIME`
+
+`LocalDateTime`: YYYY-MM-DDTHH:mm:ss 对应 MySQL `DATETIME`/`TIMESTAMP`
