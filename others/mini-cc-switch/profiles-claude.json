@@ -19,6 +19,34 @@
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
       }
     },
+    "zgm-gravitex": {
+      "desc": "provider: gravitex, key: zgm-gravitex, model: claude-opus-5-5",
+      "keyFile": "zgm-gravitex-api-key.txt",
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+        "ANTHROPIC_MODEL": "claude-opus-5-5",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-fable-5-1",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
+        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
+      }
+    },
+    "xhj-gravitex": {
+      "desc": "provider: gravitex, key: xhj-gravitex, model: claude-opus-5-5",
+      "keyFile": "xhj-gravitex-api-key.txt",
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+        "ANTHROPIC_MODEL": "claude-opus-5-5",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-fable-5-1",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
+        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
+      }
+    },
     "gravitex": {
       "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key.txt",

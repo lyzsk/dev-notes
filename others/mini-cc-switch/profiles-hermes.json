@@ -13,6 +13,20 @@
       "base_url": "https://api.gravitex.ai/v1",
       "model": "claude-opus-5-5"
     },
+    "zgm-gravitex": {
+      "desc": "provider: gravitex, key: zgm-gravitex, model: claude-opus-5-5",
+      "keyFile": "zgm-gravitex-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.gravitex.ai/v1",
+      "model": "claude-opus-5-5"
+    },
+    "xhj-gravitex": {
+      "desc": "provider: gravitex, key: xhj-gravitex, model: claude-opus-5-5",
+      "keyFile": "xhj-gravitex-api-key.txt",
+      "provider": "custom",
+      "base_url": "https://api.gravitex.ai/v1",
+      "model": "claude-opus-5-5"
+    },
     "gravitex": {
       "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key.txt",
