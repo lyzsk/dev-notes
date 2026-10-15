@@ -3214,16 +3214,16 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 支持工艺测量数据的自动收集、自定义量测项目配置及量测数据的检查与处理, 并提供可客制化扩充的计算能力.
 
 - **数据收集**: 支持工艺测量数据的收集, 可自定义要收集的量测项目; 提供测量数据收集及过滤功能, 提供收值项目和机台下货参数的配置.
-- **计算公式**: 提供最小值、最大值、平均值、标准差等计算公式, <mark> 并支持客制化扩充计算公式 </mark>.
-- **异常处理**: 提供量测资料的检查、过滤、补点以及超过规格 (OOS) 的处理流程; <mark> 可自定义异常量测数据以及客制化检查流程, 例如滤除低 GOF (goodness-of-fit) 量测数据不参与 R2R 反馈计算 </mark>.
+- **计算公式**: 提供最小值、最大值、平均值、标准差等计算公式, 并支持客制化扩充计算公式.
+- **异常处理**: 提供量测资料的检查、过滤、补点以及超过规格 (OOS) 的处理流程; 可自定义异常量测数据以及客制化检查流程, 例如滤除低 GOF (goodness-of-fit) 量测数据不参与 R2R 反馈计算.
 
 #### 1.2 控制器核心能力
 
 支持光刻、刻蚀、研磨、湿法、TRIM 等工艺模块的 R2R 控制器开发, 覆盖控制模型、反馈方式、特殊批次处理及管控验证等通用能力.
 
-- **工艺覆盖**: 支持光刻、刻蚀、研磨、湿法、TRIM、炉管、薄膜、离子注入、载板 / 基板区与外延区等工艺模块, 可调整工艺流程参数, <mark> 客户可在产品现有基础上开发所需的工艺模块 </mark>;调整的参数基于机台的可调整参数及相关协同 (包括机台相关 license).
-- **反馈粒度**: 支持 Lot to Lot, Wafer to Wafer 控制并可切换, 支持前反馈 (Feedforward) 和后反馈 (Feedback); <mark> 支持 Chamber/Zone level,Batch-level, die-level 反馈控制的实施方案; 支持根据前值选择不同的生产 recipe, 支持多步骤的同一 Parameter 同时控制 </mark>.
-- **控制模型**: R2R Control Block 支持 MA (移动平均), WMA (加权移动平均), EWMA(指数加权移动平均), MPC(模型预测控制), LSSM(线性状态空间模型) 及 <mark> 其他客制化算法内置模型 </mark>, 提供 SISO/MIMO 等不同控制模型并能够切换;
+- **工艺覆盖**: 支持光刻、刻蚀、研磨、湿法、TRIM、炉管、薄膜、离子注入、载板 / 基板区与外延区等工艺模块, 可调整工艺流程参数, 客户可在产品现有基础上开发所需的工艺模块;调整的参数基于机台的可调整参数及相关协同 (包括机台相关 license).
+- **反馈粒度**: 支持 Lot to Lot, Wafer to Wafer 控制并可切换, 支持前反馈 (Feedforward) 和后反馈 (Feedback); <mark> 支持 Chamber/Zone level,Batch-level, die-level 反馈控制的实施方案 </mark>; 支持根据前值选择不同的生产 recipe, 支持多步骤的同一 Parameter 同时控制 .
+- **控制模型**: R2R Control Block 支持 MA (移动平均), WMA (加权移动平均), EWMA(指数加权移动平均), MPC(模型预测控制), LSSM(线性状态空间模型) 及其他客制化算法内置模型, 提供 SISO/MIMO 等不同控制模型并能够切换;
 - **自定义模型**: 支持用户开发自定义控制模型, 支持计算模型版本控制.
 - **Recipe 联动**: 支持 WET Run to Run, 根据前一步的量测膜厚选择下一步不同的 Process Recipe; 与 MES 的配方管理功能接口对接.
 - **特殊批次处理**: 支持 Pi Lot, Rework Lot、设备 PM, Runcard 及 Special Lot 等处理流程, 支持设备内置的 Rework 功能 (CMP); 用户可在 UI 上设定某种 Lot 或 Product 只跑对应的 Special R2R flow.
@@ -3241,7 +3241,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 
 - **触发条件**: 可设定 Pilot Triggering 的 Conditions, 例如 Wafer count、时间、Recipe idle [by Product group + flow + Step + Tool/Chamber] 或 by PPID.
 - **放行与场景**: 支持自动放行 Flag; <mark> 适用于 PM Pi-Run, YE Defect Pi-Run, Adhoc Pi-Run 及其他 Pilot 所需场景 </mark>.
-- **工序协同**: 支持 Future merge step, Future hold step 等.
+- **工序协同**: <mark> 支持 Future merge step, Future hold step 等 </mark>.
 - **执行与回馈**: 支持全自动执行, 并可将结果回馈给 MES.
 
 #### 1.4 协同及工具
@@ -3249,7 +3249,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 支持统一的制程操作界面与周边业务接口整合, 并提供开发、权限、报表等配套工具.
 
 - **统一界面**: 为不同的制程提供统一的界面, 提供友好的设计界面.
-- **业务接口协同**: <mark> 与 MES/SPC/FDC/RMS/AMA/AMS/ 泛微 / 报表 等周边业务接口协同 </mark>; 支持访问外部数据库, 按 Web Service 协议提供对外通讯;支持与光刻专用系统协同, 覆盖 CPE, DOMA, Files, BMMO OVL, BMMO Focus, LIS 等多种 Sub Recipe 类型.
+- **业务接口协同**: <mark> 与 MES/SPC/FDC/RMS/AMA/AMS/ 门户 / 报表 等周边业务接口协同 </mark>; 支持访问外部数据库, 按 Web Service 协议提供对外通讯;支持与光刻专用系统协同, 覆盖 CPE, DOMA, Files, BMMO OVL, BMMO Focus, LIS 等多种 Sub Recipe 类型.
 - **Dedication 功能**: 支持 Dedicate Chuck, Dedicate EQP 功能.
 - **二次开发**: 提供功能组件允许用户开发和集成自己的 APC 控制模块, 提供便捷高效的开发工具.
 - **权限管理**: 提供完善的权限管理机制和历史记录, 支持数据级的权限管理;支持用户群组及权限配置, 提供对象的 Owner (OwnerGroup);提供流程、参数表等对象的权限管理以及对象修改的历史记录.
@@ -3258,8 +3258,8 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **性能维护**: 提供高效的数据清理及恢复机制, 保障系统性能不随时间推移而下降; 支持多 Fab/ 多产线同时使用.
 - **执行监控**: 支持分 module R2R 执行情况的监控, Request 的数量及生命周期按不同控制器统计, 查询 R2R 计算执行失败履历;提供基于不同控制器 (Module + Stage + 关联机台) 的 Run 货历史记录查询与输出.
 - **配置接口**: 提供用户接口和定义功能, 实现对量测上下限、可调机参数预设值及上下限、控制模型的参数、周边系统协同设定等的配置.
-- **系统管理工具**: 提供必要的系统管理工具, 以及性能监控与报警机制.
-- **用户接入**: 支持 Web UI, 支持多浏览器访问, <mark> 登录支持接入 泛微 OA 验证 </mark>.
+- **系统管理工具**: <mark> 提供必要的系统管理工具, 以及性能监控与报警机制 </mark>.
+- **用户接入**: 支持 Web UI, 支持多浏览器访问, <mark> 登录支持接门户 OA 验证 </mark>.
 
 #### 1.5 Workflow 开发与协同
 
@@ -3278,14 +3278,14 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 
 - **CD 控制模型**: 采用 SISO EWMA Model, 支持 Lot 级别反馈 (FFFB); 支持 ASML, Canon, NIKON 等 Process 机型; 支持 CD-SEM 及 OCD 量测机型; 控制参数为 Dose, Focus, 输出参数为 CD.
 - **OVL 控制模型**: 采用 MSISO EWMA, 支持 Lot 级别反馈 (FFFB); 支持 Process 机型 ASML/CANON/NIKON, 支持 8/10 para 线性参数; 支持 HOPC/iHOPC 高阶参数; 支持 KT/YS 量测机型; 支持 FF, FB 的反馈方式.
-- **OVL 特性**: 支持 Chuck Dedication, Sub Recipe 指定及 Chuck to Chuck; 支持 Tool dedication 检查, Wafer 级别前层对准;支持分光罩反馈或双光罩 Offset 模式, 支持单光罩多重曝光功能;新增控制器时上下限可以放宽.
+- **OVL 特性**: 支持 Chuck Dedication, Sub Recipe 指定及 Chuck to Chuck; <mark> 支持 Tool dedication 检查, Wafer 级别前层对准 </mark>;支持分光罩反馈或双光罩 Offset 模式, 支持单光罩多重曝光功能;新增控制器时上下限可以放宽.
 - **控制情境**: 支持 PiLot run, Rework run, Normal run, Special run, Runcard run ,Risk run 等业务场景.
 - **参数管控**: 支持参数值最小调整阈值、tuning 参数变化量绝对值上限及上下限, 支持调整参数值截取 (根据上下限或变化量上下限), 支持固定值模式;支持 Special Run 特性, Special Run 时指定全部参数.
 - **Control Flag**: 支持 ON, FIX (固定值模式)、OFF 三种控制模式;其中 Litho CD 控制绪额外支持固定基线且不反馈模式.
 - **量测验证**: 支持量测数据 site 有效性检查、量测有效性检查及量测数据过滤与验证; 支持 wafer 数据有效性检测;支持其他后量信息 (如 wafer residual) 仅用于反馈滤除用途, 不参与反馈计算.
 - **反馈控制**: 支持反馈有效期控制, 反馈有效批次控制, 按 Lot Type 反馈, 量测可根据 Wafer Process Run 进行反馈, 支持根据最近的 run 货值计算返工 Lot 下货值;支持 Target/Dose sensitivity 变动侦测与 Dose vs CD slope 根据历史数据自动更新;支持返工批有条件地参与反馈;支持根据 Lot metrology 与 process run 进行反馈.
 - **其他功能**: 支持 Thread 状态控制, FEM 下货参数支持, Simulate 功能, 曝光记录手动补录;支持 LIS, 5DA 的数据整合.
-- **前馈补偿**: 支持光阻原料时效性前馈、Lens heating (透镜热效应) 前馈及 User offset 前馈, 均可通过配置启用.
+- **前馈补偿**: <mark> 支持光阻原料时效性前馈、Lens heating (透镜热效应) 前馈及 User offset 前馈, 均可通过配置启用 </mark>.
 - **第三方协同**: 支持 RTD, MES, AMS, AutoPilot, LIS, 5DA 等系统的协同.
 - **独立 UI**: 提供独立 UI 进行反馈条件设定、控制绪操作、Pi Run 操作, 以及 APC Workflow 数据结果的查询与验证;提供灵活的权限设置与必要的数据报表查询.
 - **人工干预与赋值**: 支持用户或 IT 导入修正数据并进行数据赋值, 或针对 Special Lot 在中途直接赋值 (overwrite 计算出的反馈值);支持设定跑 N 批货后通过人工干预判断 R2R 反馈结果后续是否继续使用, 并可设定 test 条件 (by Wafer 或 Lot 及 test 站点等), test pass 时自动判定继续使用 R2R 计算.
@@ -3305,10 +3305,10 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **维修处理**: 支持自动侦测维修及自动设置维修事件.
 - **异常切换**: 支持后量连续不合格时控制绪切换至 PiLot 状态.
 - **量测与顺序处理**: 支持工艺顺序与量测顺序不一致时的异常处理.
-- **Tracking 时间重置**: 支持重置 Tracking 时间.
+- **Tracking 时间重置**: <mark> 支持重置 Tracking 时间 </mark>.
 - **控制绪关联管理**: 提供控制绪关联管理功能.
 - **返工判定**: 支持自动计算返工次数并决定是否为返工 Lot/Wafer.
-- **第三方协同**: 支持 RTD, MES, AMS, AutoPilot, PMS 等系统的协同.
+- **第三方协同**: <mark> 支持 RTD, MES, AMS, AutoPilot, PMS 等系统的协同 </mark>.
 - **独立 UI**: 提供独立 UI 进行反馈条件设定、控制绪操作、PiRun 操作及控制绪 Run 货历史查询.
 
 #### 2.3 ETCH Controller
@@ -3340,7 +3340,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **数据与反馈控制**: 支持有效反馈的有效期控制, 输出预测, 量测数据 site 有效性检查, 量测有效检查, 最新量测反馈控制, 量测超期处理.
 - **参数管控**: 支持参数值最小调整阈值, tuning 参数的变化量绝对值上限, tuning 参数的上下限, 调整参数值的截取 (根据上下限或者变化量上下限), Control Flag: ON, FIX, OFF, 下货 tuning 参数连续超限处理, 手动调整 tuning parameter 下货值侦测, 手动调整 tuning parameter 参数的 delta 限制, 控制器 Enable/Disable.
 - **Batch 反馈方式**: Batch 级别反馈支持根据 Batch 中生产批反馈、根据 Batch 中 monitoring wafer 反馈, 以及根据 Batch 中 product lot 与 monitor wafer 混合反馈三种方式.
-- **关键设定侦测**: 支持关键设定侦测.
+- **关键设定侦测**: <mark> 支持关键设定侦测 </mark>.
 - **控制绪重置跟踪**: 支持控制绪重置跟踪.
 - **后量 Lot 类型处理**: 支持后量 Lot 类型处理.
 - **Batch 加工数量限制**: 支持 Batch 加工 Wafer 数量限制.
@@ -3349,8 +3349,8 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **Monitor Bias Control**: 在 Hybrid 控制的场景下, 单独 Tune Monitor 的 Target 偏移量.
 - **常压预补偿**: 支持 APCVD 根据常压变动预补偿 Diffusion Time.
 - **Loading Size 分群**: 支持 Loading Size Control 分群.
-- **Pre-mature FB**: 支持 Pre-mature FB.
-- **温度系数自动更新**: 支持 Thickness vs Zone 温度系数根据历史数据自动更新.
+- **Pre-mature FB**: <mark> 支持 Pre-mature FB</mark>.
+- **温度系数自动更新**: <mark> 支持 Thickness vs Zone 温度系数根据历史数据自动更新 </mark>.
 - **Linked Control**: 支持 Linked Control.
 - **Ratio Control**: 支持 Ratio Control.
 - **Furnace Tube-THK pre-tune**: 支持 Furnace Tube-THK pre-tune.
