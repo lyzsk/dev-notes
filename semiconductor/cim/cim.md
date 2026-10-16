@@ -5842,7 +5842,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 - 若只按使用次数计数，寿命估算偏离实际，估短了光罩提前下线，估长了光罩超期使用，影响曝光质量
 
-#### 34. Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段(可支持配置/调用一张光罩上的多个 Field)
+#### 34. Recipe (配方建模管理) - ▲Recipe 增加 Reticle Field 设定字段 (可支持配置 / 调用一张光罩上的多个 Field)
 
 @see: ## MES Function List → ### 2. 流程建模和管理 → #### 2.5 Recipe (配方建模管理)
 
@@ -5926,7 +5926,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 - 若只有站内消息，不在系统前的人员无法及时获知，扣留批次滞留，处置时效依赖人工电话或口头转告
 
-#### 48. 分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9、12/13)
+#### 48. 分批 / 合批 (Split/Merge) - ▲不支持满片过站的工艺: 入机台自动 Split、出机台自动 Merge(如 8/8/9, 12/13)
 
 @see: ## MES Function List → ### 6. Lot 管理 (批次全生命周期) → #### 6.10 分批 / 合批 (Split/Merge)
 
@@ -6038,7 +6038,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 
 @see: ## MES Function List → ### 59. 其他业务协同
 
-- 与中心既有办公及业务系统（泛微门户、用友 ERP、WMS、PLM、帆软报表、文档档案、电子签章平台）的协同整组标▲, 评估投标方跨系统接口对接与业务贯通能力
+- 与中心既有办公及业务系统（泛微门户、用友 ERP, WMS, PLM、帆软报表、文档档案、电子签章平台）的协同整组标▲, 评估投标方跨系统接口对接与业务贯通能力
 
 #### 67. SRC (批次科研调整 / 实验分片单) - ▲触发分批
 
@@ -7038,7 +7038,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持设备告警任务的可视化查看.
 
-- **任务查看**: 支持查看设备下的告警任务配置 (规则), 掌握设备告警策略部署情况.
+- **任务查看**: <mark> 支持查看设备下的告警任务配置 (规则), 掌握设备告警策略部署情况.</mark>
 
 #### 2.6 设备类型授权 (Equipment Type Authorization)
 
@@ -7061,7 +7061,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 <mark> 支持多来源警报接入的统一管理.本次建设覆盖 **CIM 域 16 个系统 (MES / EAP / RMS / RCM / SPC / FDC / APC / DMS / YMS / PMS / RPT / FMS / RTD / AMA / LIMS / QMS)、厂务域 (FMCS 各子系统, 含水 / 电相关告警)、机台告警 (含机台 Down 状态告警)、OA 域** 全部告警来源. </mark>
 
 - **警报源维护**: 支持警报源的新增, 编辑 (工厂 / 来源系统 / 访问控制 / 回调 / 描述等), 删除及启用 / 禁用.
-- **详情与历史**: 支持查看警报源详情及操作历史.
+- **详情与历史**: <mark> 支持查看警报源详情及操作历史.</mark>
 
 #### 3.2 警报分类 (Alarm Classification)
 
@@ -7172,10 +7172,10 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持钉钉、短信、邮件与报警看板等系统级参数配置.
 
-- **钉钉设置**: 支持钉钉机器人 / Webhook 等通知参数的配置.
-- **短信设置**: 支持短信平台 (移动云 MAS / 阿里云等) 发送参数的配置.
-- **邮件设置**: 支持 SMTP 邮件发送参数的配置.
-- **邮件模板设置**: 支持 Alarm 通知邮件模板的自定义配置.
+- **钉钉设置**: <mark> 支持钉钉机器人 / Webhook 等通知参数的配置.</mark>
+- **短信设置**: <mark> 支持短信平台 (移动云 MAS / 阿里云等) 发送参数的配置.</mark>
+- **邮件设置**: <mark> 支持 SMTP 邮件发送参数的配置.</mark>
+- **邮件模板设置**: <mark> 支持 Alarm 通知邮件模板的自定义配置.</mark>
 - **报警看板设置**: 支持报警看板显示内容与刷新参数的自定义配置.
 - **通用设置**: 支持系统通用参数的统一配置.
 
@@ -7272,11 +7272,11 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持厂务相关系统告警的统一接入.
 
-- **子系统覆盖**: 支持电力、纯水 (UPW)、特气 (Special Gas)、化学品 (Chemical)、空压 (CDA)、暖通 (HVAC)、环境监测、消防 / 门禁等厂务子系统告警接入.
-- **水电告警**: 厂务水 (纯水 UPW 水质 / 供水中断)、电 (停电 / 变配电异常) 相关告警全部接入, 级别不低于 High, 通知厂务 + 制造 + 设备三群组, 超时未确认自动升级.
-- **对接方式**: 支持通过 API / 数据库 / OPC 等方式与 FMCS 对接, 汇聚 PLC / SCADA 侧告警.
-- **安全类告警**: 特气泄漏、化学品泄漏、停电等安全类告警默认 Critical 级, 双通道通知 (短信 + 钉钉), 不进入任何屏蔽清单.
-- **值班协同**: 支持通知群组配置厂务 24h 联系人, 升级链路与厂务值班体系打通.
+- **子系统覆盖**: <mark> 支持电力、纯水 (UPW)、特气 (Special Gas)、化学品 (Chemical)、空压 (CDA)、暖通 (HVAC)、环境监测、消防 / 门禁等厂务子系统告警接入.</mark>
+- **水电告警**: <mark> 厂务水 (纯水 UPW 水质 / 供水中断)、电 (停电 / 变配电异常) 相关告警全部接入, 级别不低于 High, 通知厂务 + 制造 + 设备三群组, 超时未确认自动升级.</mark>
+- **对接方式**: <mark> 支持通过 API / 数据库 / OPC 等方式与 FMCS 对接, 汇聚 PLC / SCADA 侧告警.</mark>
+- **安全类告警**:<mark> 特气泄漏、化学品泄漏、停电等安全类告警默认 Critical 级, 双通道通知 (短信 + 钉钉), 不进入任何屏蔽清单.</mark>
+- **值班协同**: <mark> 支持通知群组配置厂务 24h 联系人, 升级链路与厂务值班体系打通.</mark>
 
 #### 10.3 机台告警接入
 
@@ -7292,9 +7292,9 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 支持 OA 系统相关告警信息的统一汇聚.
 
-- **告警汇聚**: 支持 OA 系统告警信息 (审批超时、流程异常、行政 / IT 通知等) 接入 AMS 统一管理.
-- **独立分类**: OA 类告警以独立 Alarm Source 与告警分类管理, 默认 Informational / Low 级, 以邮件 / 钉钉通知为主, 不参与 MES 联动.
-- **隔离统计**: OA 告警与生产 / 厂务告警隔离统计, 不影响生产告警的闭环率与 TopN 口径.
+- **告警汇聚**: <mark> 支持 OA 系统告警信息 (审批超时、流程异常、行政 / IT 通知等) 接入 AMS 统一管理.</mark>
+- **独立分类**: <mark>OA 类告警以独立 Alarm Source 与告警分类管理, 默认 Informational / Low 级, 以邮件 / 钉钉通知为主, 不参与 MES 联动.</mark>
+- **隔离统计**: <mark>OA 告警与生产 / 厂务告警隔离统计, 不影响生产告警的闭环率与 TopN 口径.</mark>
 
 #### 10.5 统一接入规范
 
@@ -7349,7 +7349,7 @@ AMS 侧证据:**通知报表 + 警报动作报表** —— 发了没、发给谁
 
 #### 14.1 按系统限定
 
-支持限定用户只能查看 / 处理特定 CIM 子系统 (如 MES) 上报的警报, 以及修改对应范围内的设定.
+<mark> 支持限定用户只能查看 / 处理特定 CIM 子系统 (如 MES) 上报的警报, 以及修改对应范围内的设定.</mark>
 
 #### 14.2 统一身份验证
 
@@ -8352,7 +8352,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 支持内置 Repository 与 MES 数据的实时同步, 保障规则高速运行.
 
 - **内置数据库**: 系统内置 Repository, 支撑派工规则独立高速运行, 无需额外商用数据库.
-- **MES 数据同步**: Repository 通过 Oracle Trigger 方式从 MES 及第三方系统实时同步数据, 派工规则不直接运行于 MES 等系统数据库, 对其负载影响小, Lot、EQP、Prod、Flow、History 等计算所需基础数据均纳入同步范围.
+- **MES 数据同步**: Repository 通过 Oracle Trigger 方式从 MES 及第三方系统实时同步数据, 派工规则不直接运行于 MES 等系统数据库, 对其负载影响小, Lot, EQP, Prod, Flow, History 等计算所需基础数据均纳入同步范围.
 - **数据追溯**: Repository 具备历史数据追溯能力, 可在数据生命周期内查看数据变化、追溯历史.
 - **不直读 MES DB**: 规则运行不直接读取 MES 数据库, 对既有系统数据库负载影响小.
 - **增量同步**: 除全表同步外, 支持选定列的数据同步.
@@ -8386,9 +8386,9 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持与外部系统的数据交互及事务异常处理机制.
 
-- **外部数据读取**: 支持通过文件或数据库直接读取 Scheduling、Planning、Reporting 等生产系统信息作为派工参考, 支持从外部系统导入数据 (Flat 文件、CSV 格式文件等).
+- **外部数据读取**: 支持通过文件或数据库直接读取 Scheduling, Planning, Reporting 等生产系统信息作为派工参考, 支持从外部系统导入数据 (Flat 文件、CSV 格式文件等).
 - **外部系统数据访问**: 支持外部系统数据的导入与访问, 包括 Flat 文件、CSV 格式文件及其他数据库.
-- **外部系统交互**: 支持与 MES、APC、PMS 等周边系统的直接交互与协同.
+- **外部系统交互**: 支持与 MES, APC, PMS 等周边系统的直接交互与协同.
 - **事务和异常机制**: 支持事务机制以保证数据一致性, 支持异常处理机制.
 
 #### 4.2 监控与运维
@@ -8403,15 +8403,15 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **管理便捷**: 支持多选、全选设备进行启动、停止等操作.
 - **操作记录查询**: 支持查询用户操作记录.
 
-### 5. Common派工规则
+### 5. Common 派工规则
 
 #### 5.1 基础优先级
 
 支持多维度的 Lot 派工优先级计算与排序规则.
 
-- **Qtime Urgency**: 支持基于用户提供的机台 Process Time、Cycle Time 数据, 对处于 Qtime 区间内的 Lot 计算紧急程度 (Qtime Urgency) 并据以派工.
+- **Qtime Urgency**: 支持基于用户提供的机台 Process Time, Cycle Time 数据, 对处于 Qtime 区间内的 Lot 计算紧急程度 (Qtime Urgency) 并据以派工.
 - **Remaining Qtime**: 对已触发 Qtime 的 Lot 计算剩余 Qtime, 低于阈值时自动提速 (Speedup, 提升优先级), 同时计算 Lot 在 Qtime 区间内各站的 Remaining Qtime 与 Remaining CT (按历史数据或用户提供) 比值, 低于阈值时自动提速, 实现 Auto Qtime Speedup.
-- **Critical Ratio**: 支持基于历史数据 (Process Time、Cycle Time 等) 或用户提供数据, 计算正常 Flow 上 Lot 的出货紧急程度 (Critical Ratio) 并据以派工.
+- **Critical Ratio**: 支持基于历史数据 (Process Time, Cycle Time 等) 或用户提供数据, 计算正常 Flow 上 Lot 的出货紧急程度 (Critical Ratio) 并据以派工.
 - **NPW 低库存自动提升**: NPW 可用库存低于安全存量时自动提升派工等级.
 - **Schedule Monitor**: 派工时优先安排临近到期的 Schedule Monitor.
 - **高等级 Lot 优先**: 支持用户提供高等级 Lot (Bullet Lot/Hot Lot) 的识别方式, 优先派工.
@@ -8422,7 +8422,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **Rule Sorting 自定义**: 每个 Lot 均具备用于排序的优先级标记, 按用户设定的 Sorting 规则排序, 各规则优先级由用户提供并可调整.
 - **FIFO**: 支持按先进先出规则派货.
 - **Future Merge**: 支持检查 Inline 分批的 Lot, 当存在 Future Merge 合批站且部分 Lot 已到站时, 未到站 Lot 优先派工.
-- **Pilot**: 针对 Litho、Etch、CMP 等 Pilot Lot 优先派工.
+- **Pilot**: 针对 Litho, Etch, CMP 等 Pilot Lot 优先派工.
 - **同 FOUP 多 Lot**: 机台允许时 (如同一 Recipe, 或机台允许不同 Recipe 同时上 Port), 支持同时派送同一 FOUP 中的全部 Lot.
 - **Season+Product 搭配**: 支持按 LotType 设定不单独派工的类型以支撑全自动化场景, 如 Season Lot 不单独派工, 当 Production Lot 需要 Season 时, 自动匹配 Season Lot 一同派工. Chamber IDLE Time: 派工选择 PPID 时考虑机台当前各 Chamber 的空闲时长, 优先选择空闲时间最长的 Chamber.
 
@@ -8445,10 +8445,10 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持 Qtime 的 WIP 卡控、人工管控、Loop 管控与产线平衡.
 
-- **Qtime WIP Control**: 支持基于历史或用户提供的机台及 Wafer 的 Process Time、Cycle Time 数据, 按 Process Flow 设定的 Qtime 区间, 结合区间内 Lot 与机台状况 (机台状态、Recipe 状态、PPID 状态、MES Constraint 等), 计算 Qtime 各站点可进入货量上限 (Limit), 在 Qtime 起始站点管控派货数量 (Block), 避免区间内 Lot 过多导致无可用机台而造成 Qtime Over, 实现 Auto Qtime Control (产能数据滚动更新, 并确保产能计算逻辑适配各类机型, 为制程 Qtime 触发提供数据支撑), 并支持 MES CSN 校验.
+- **Qtime WIP Control**: 支持基于历史或用户提供的机台及 Wafer 的 Process Time, Cycle Time 数据, 按 Process Flow 设定的 Qtime 区间, 结合区间内 Lot 与机台状况 (机台状态、Recipe 状态、PPID 状态、MES Constraint 等), 计算 Qtime 各站点可进入货量上限 (Limit), 在 Qtime 起始站点管控派货数量 (Block), 避免区间内 Lot 过多导致无可用机台而造成 Qtime Over, 实现 Auto Qtime Control (产能数据滚动更新, 并确保产能计算逻辑适配各类机型, 为制程 Qtime 触发提供数据支撑), 并支持 MES CSN 校验.
 - **Qtime Manual Control**: 支持用户提供各段 Qtime 触发 Speedup 的 Remaining Qtime 值及起始站点卡控的 WIP Limit, 计算 Lot 是否需要 Qtime Speedup 与 Qtime Control, 实现 Manual Qtime Speedup 与 Manual Qtime Control (优先级高于 Auto Control).
 - **Qtime Loop Control**: 派工考虑下游机台可用性, 当下游机台或 Chamber 因 Down 机或 Constraint 等原因全部不可用时, 将 Lot 停在安全站点等待, 避免长期等待导致 Qtime 超期.
-- **Line Balance**: 支持产线平衡功能, 基于用户提供的机台 Process Time、Cycle Time 数据及瓶颈机台群组、缺货与堆货设定, 使瓶颈机台群组从上游机台拉货, WIP 较少的瓶颈机台优先拉货, 瓶颈机台堆货时停止向其派货.
+- **Line Balance**: 支持产线平衡功能, 基于用户提供的机台 Process Time, Cycle Time 数据及瓶颈机台群组、缺货与堆货设定, 使瓶颈机台群组从上游机台拉货, WIP 较少的瓶颈机台优先拉货, 瓶颈机台堆货时停止向其派货.
 
 #### 5.5 Bullet Lot
 
@@ -8481,10 +8481,10 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 - **半自动选下工序 Stocker**: 半自动模式下, Lot 准备离开当前工序时, 由 MES 选择下道工序设备就近的 Stocker.
 - **Where Next**: 全自动模式下, Lot 从设备搬出时选择下一台设备, 可用则直接搬送, 否则基于减少搬送原则送往设备缓冲区或 Stocker.
-- **OHB Group 优先级**: 选择 Lot 下一目的地时, 优先顺序为下一机台的 Dedicated OHB、Bay OHB、Default Stocker, 默认顺序支持人工配置变更, 系统按配置执行, Sorter、Key Tool、Key Measure Tool 优先放置于对应机台就近位置.
+- **OHB Group 优先级**: 选择 Lot 下一目的地时, 优先顺序为下一机台的 Dedicated OHB, Bay OHB, Default Stocker, 默认顺序支持人工配置变更, 系统按配置执行, Sorter, Key Tool, Key Measure Tool 优先放置于对应机台就近位置.
 - **IDLE Time 优先**: 机台群内优先选择空闲时间最长的机台, 其次为未来最先空闲的机台.
-- **空目的机台**: Lot 无下一站对应机台时, 优先放置于当前机台对应的存储位置 (Dedicated OHB、Bay OHB、Default Stocker).
-- **空 Carrier**: 支持空 FOUP/FOSB 搬送至对应的空 FOUP Stocker 或空 FOSB Stocker, 支持按楼层/区域选择不同 Stocker.
+- **空目的机台**: Lot 无下一站对应机台时, 优先放置于当前机台对应的存储位置 (Dedicated OHB, Bay OHB, Default Stocker).
+- **空 Carrier**: 支持空 FOUP/FOSB 搬送至对应的空 FOUP Stocker 或空 FOSB Stocker, 支持按楼层 / 区域选择不同 Stocker.
 
 #### 5.8 Constraint 检查
 
@@ -8492,7 +8492,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 - **EQP Status Check**: 派工条件触发后, 系统检查机台其他状态与设置, 确保机台处于可派工状态.
 - **机台/LoadPort 可用检测**: 机台或 LoadPort 可用时系统自动检测, 将 Lot 派工至机台空闲的 LoadPort.
-- **EQP Constraint & Recipe Check**: 执行派工时检查 Lot 属性与机台限制, 限制内容包括机台状态、MES Normal Constraint、Recipe 状态、PPID 状态.
+- **EQP Constraint & Recipe Check**: 执行派工时检查 Lot 属性与机台限制, 限制内容包括机台状态、MES Normal Constraint, Recipe 状态、PPID 状态.
 - **MES Constraint 过滤**: 系统遵循 MES Rule, MES 传参时检查 Lot 属性与机台限制, 对存在 MES Constraint 的 Lot (即使 Reserve 也会失败、将被 MES 卡控) 进行过滤或标记 (附 MES Constraint Reason), 避免系统二次检查、浪费资源.
 - 业务功能涉及当前 Step 及未来 Step 计算时需考虑路宽, 确认通过 MES Constraint 校验.
 
@@ -8506,11 +8506,11 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **提前派工**: 支持优化派工时机, 如 Process End 前即可开始派货.
 - **MES 交互**: 回传 MES 的参数中, 所有可派 Lot 显示对应 Sorting, 所有不可派 Lot 显示对应原因 (Reason).
 - **功能开关**: 所有用户设定的功能均提供开关, 用于控制功能是否生效.
-- **Flow 数据**: 提供完整并定时更新的 Product Flow (与 MES 一致), 涵盖 Normal、Adhoc (SRC、RRC、Sorter、Rework 等) 情形.
-- **CT/PT 数据**: 计算 MES Lot 的 CT 与 PT 信息 (Product、Recipe、Step 等维度), 并提供手动维护数据接口. PM Window: 支持基于用户提供的机台 PM 时间、Process Time、Cycle Time 数据, 派货时避开 PM 窗口, 避免影响保养.
+- **Flow 数据**: 提供完整并定时更新的 Product Flow (与 MES 一致), 涵盖 Normal, Adhoc (SRC, RRC, Sorter, Rework 等) 情形.
+- **CT/PT 数据**: 计算 MES Lot 的 CT 与 PT 信息 (Product, Recipe, Step 等维度), 并提供手动维护数据接口. PM Window: 支持基于用户提供的机台 PM 时间、Process Time, Cycle Time 数据, 派货时避开 PM 窗口, 避免影响保养.
 - **Qtime PM Window**: 根据 PMS 计划 PM 开始时间计算 Qtime 最晚触发时间, 确保 Qtime 安全.
 
-### 6. Local派工规则
+### 6. Local 派工规则
 
 #### 6.1 CMP
 
@@ -8524,7 +8524,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持 Implanter 机台的 Setup Cost 与 Train Limit 管控.
 
-- **Setup Cost**: 支持基于用户提供的 Setup 定义与 Setup Cost, 派工时考虑 Implanter 机台不同 Source、Energy、Gas 之间的 Setup Cost, 优先选择 Setup Cost 最小的 Lot.
+- **Setup Cost**: 支持基于用户提供的 Setup 定义与 Setup Cost, 派工时考虑 Implanter 机台不同 Source, Energy, Gas 之间的 Setup Cost, 优先选择 Setup Cost 最小的 Lot.
 - **Train Limit**: 支持基于用户提供的 Setup 定义与 Train Limit, 控制同一组 Setup 内连续运行的 Wafer 数量, 超过 Limit 时改派其他 Setup 的 Lot.
 - **Recipe Group**: 适用于 Implant/TF, 按 Recipe Group 分配机台.
 
@@ -8571,18 +8571,18 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 支持 Sorter 机台的 Job 组织与负载均衡规则.
 
 - **Job Merge Seq**: 派工考虑 Sorter Job 信息, 同一 Job 内的 Lot 一起 Job Prep.
-- **Carrier Status Check**: 排序时综合考虑 Source Lot、Target Lot、Source Carrier、Target Carrier 的状况.
-- **Loading Balance**: 派工时考虑不同 Function (Wafer Start、Wafer Out、Inline Transfer、Adhoc Transfer) 对应的 Golden Tool 与对应水位.
+- **Carrier Status Check**: 排序时综合考虑 Source Lot, Target Lot, Source Carrier, Target Carrier 的状况.
+- **Loading Balance**: 派工时考虑不同 Function (Wafer Start, Wafer Out, Inline Transfer, Adhoc Transfer) 对应的 Golden Tool 与对应水位.
 - **大小批穿插**: Sorter 高 WIP (可定义阈值) 时将 Lot Size 纳入考虑, 执行大批与小批穿插上机台原则.
 
 #### 6.7 Wet&Diffusion
 
 支持 WET 与 Diffusion 之间的 Batch 预组与 Qtime 协同管控.
 
-- **WET-DIFF Q-time**: 考虑 WET 与 Diffusion 之间较短的 Qtime 及 Diffusion 机台 Batch Run、Process Time 较长的特性, 在 WET 环节对每个 Diffusion 机台做 Batch Preforming, 计算基于用户提供的 Diffusion 与 WET 的 Process Time、Cycle Time 数据, 覆盖 WET 至 Diffusion 间所有 Lot, 检查机台状态、Recipe 状态、PPID 状态与 MES Normal Constraint, Lot 尚在 WET 且 Qtime 未开始时按需调整 Preforming Batch.
+- **WET-DIFF Q-time**: 考虑 WET 与 Diffusion 之间较短的 Qtime 及 Diffusion 机台 Batch Run, Process Time 较长的特性, 在 WET 环节对每个 Diffusion 机台做 Batch Preforming, 计算基于用户提供的 Diffusion 与 WET 的 Process Time, Cycle Time 数据, 覆盖 WET 至 Diffusion 间所有 Lot, 检查机台状态、Recipe 状态、PPID 状态与 MES Normal Constraint, Lot 尚在 WET 且 Qtime 未开始时按需调整 Preforming Batch.
 - **WET Batch Lot 连续派工**: WET 机台派货时按 WET-DIFF Preforming 结果, 同一 Batch 内 Lot 连续派货, 避免进入 Diffusion 的时间间隔过长.
 - **Wet Form Batch**: WET 机台派货时检查 Form Batch 的最大、最小片数, 将可组批的 Lot 组批后一起上机台.
-- **Wet Recipe 组合派活**: 部分 WET 机台考虑酸槽/Recipe 组合派货, 判断最后一批 Recipe 并按 Recipe 组合比例派货 (视制程与 WIP 情况决定是否执行, 保留功能).
+- **Wet Recipe 组合派活**: 部分 WET 机台考虑酸槽 /Recipe 组合派货, 判断最后一批 Recipe 并按 Recipe 组合比例派货 (视制程与 WIP 情况决定是否执行, 保留功能).
 - **Batch Merge Priority**: 按 Batch 内 Lot 优先级确定 Batch 优先级, 含高优先级 Lot 或 Lot 数目较多的 Batch 优先.
 - **Diffusion Batch 派工**: Diffusion 机台派货时按 WET-DIFF Preforming 结果, 尽量将同一 Batch 内 Lot 一起 Job Prep.
 - **比对 Process 与 Q-time**: 基于用户提供的数据比对 Process Time 与 Qtime Limit, 控制 Batch 派货时间, 避免过早进入 Diffusion 的 Qtime Loop 造成超期.
@@ -8590,7 +8590,7 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 - **Diffusion Batch 等待阈值**: Furnace 机台派工时支持设定机台临近空闲时, 继续等待未到站 Production Lot 组批, 或将当前到站 Lot 先行组批上机台.
 - **Diffusion Batch Zone**: Form Batch 时考虑 Zone Inhibit 与 Loading Effect.
 - **≥2 Batch 时控 WET 派货**: 当 Diffusion 机台已有两个以上 Preformed Batch 时, 控制 WET 派货时间, 避免过早进入 Diffusion 造成 Over Qtime.
-- **Diffusion Batch Score**: 无 Qtime 场景亦支持 Form Batch, 综合考虑 Lot 优先级、Batch Size、Batch 等待时间等因素, 各因素权重可设定与调整.
+- **Diffusion Batch Score**: 无 Qtime 场景亦支持 Form Batch, 综合考虑 Lot 优先级、Batch Size, Batch 等待时间等因素, 各因素权重可设定与调整.
 - **Diffusion Manual Batch**: 支持用户手动 Form Batch, 系统优先采用用户组批结果.
 - **Diffusion Batch Recipe**: Furnace Preform Batch 支持按 MES 设定的 Layout Recipe, 在可行范围内尽量按最多片数组批.
 - **WET 瓶颈 Tank**: WET 排程时考虑瓶颈 Tank, 派工时保证瓶颈 Tank 不空闲.
@@ -8602,10 +8602,10 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持基于 AI 的派工规则调优、产线平衡分析与风险预测.
 
-- **派工规则智能调优**: 基于历史派工记录、Lot 实际等待时间与机台利用情况, 由 AI 评估各 Dispatch Rule (如 Qtime Urgency、Critical Ratio、FIFO、Bullet Lot 等) 的实际执行效果, 就 Rule 优先级排序与参数阈值的调整给出建议, 并说明每条建议所依据的数据范围与样本量, 建议经模拟验证与派工工程师确认后方可启用, 不自动写入规则库.
+- **派工规则智能调优**: 基于历史派工记录、Lot 实际等待时间与机台利用情况, 由 AI 评估各 Dispatch Rule (如 Qtime Urgency, Critical Ratio, FIFO, Bullet Lot 等) 的实际执行效果, 就 Rule 优先级排序与参数阈值的调整给出建议, 并说明每条建议所依据的数据范围与样本量, 建议经模拟验证与派工工程师确认后方可启用, 不自动写入规则库.
 - **Line Balance 智能分析**: 由 AI 分析各站点 WIP 分布、机台产能与在制流动趋势, 识别瓶颈站点与产能闲置区域, 输出 Line Balance 调整方向与预期效果说明, 供派工策略制定与复核参考.
 - **Qtime 超限风险预测**: 依据在制 Lot 的 Remaining Qtime、当前站点排队状况与机台可用状态, 由 AI 预测 Qtime 超限风险并提前推送预警, 同时给出可执行的派工调整建议 (如提前派工、更换机台、提升优先级), 供派工人员决策参考.
-- **Batch 组批智能推荐**: 针对 Furnace 等 Batch 类机台, 由 AI 依据在制 Lot 的到站预测、Qtime 余量与 Recipe 组合关系推荐组批方案与等待阈值, 平衡 Batch 满载率与 Qtime 超限风险, 供自动分批/并批规则调整参考.
+- **Batch 组批智能推荐**: 针对 Furnace 等 Batch 类机台, 由 AI 依据在制 Lot 的到站预测、Qtime 余量与 Recipe 组合关系推荐组批方案与等待阈值, 平衡 Batch 满载率与 Qtime 超限风险, 供自动分批 / 并批规则调整参考.
 
 #### 7.2 仿真预演
 
@@ -8617,13 +8617,13 @@ Function List 的 Local Rules 全是前道场景 (Litho/Furnace/Etch/CMP/Measure
 
 支持派工异常的智能归因与排查路径推荐.
 
-针对 Lot 长时间未派工、频繁插单/替换、机台 IDLE 时间偏高等异常, 由 AI 关联分析 Constraint 检查记录、Rule 命中日志与 MES 交互记录, 给出可能原因的判断次序与排查路径; 同类异常按站点与机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
+针对 Lot 长时间未派工、频繁插单 / 替换、机台 IDLE 时间偏高等异常, 由 AI 关联分析 Constraint 检查记录、Rule 命中日志与 MES 交互记录, 给出可能原因的判断次序与排查路径; 同类异常按站点与机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
 
 #### 7.4 vFAB 北向接口预留
 
 预留 vFAB 北向接口, 支撑上层系统的集成与协同.
 
-支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Rule 命中与派工执行事件发布、Lot 派工状态与站点排队情况查询、Rule 启用/停用与参数调整受控下发、Qtime 预警与调优建议采纳结果回写等).
+支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Rule 命中与派工执行事件发布、Lot 派工状态与站点排队情况查询、Rule 启用 / 停用与参数调整受控下发、Qtime 预警与调优建议采纳结果回写等).
 
 # AMA
 
@@ -8923,7 +8923,7 @@ AMA 方案:
 
 #### 2.2 数据同步与存储
 
-支持内置 Repository 与 RTD、MES 的数据同步能力.
+支持内置 Repository 与 RTD, MES 的数据同步能力.
 
 - **内置数据库**: 系统内置 Repository, 支撑派工规则独立高速运行, 无需额外商用数据库.
 - **数据追溯**: Repository 具备历史数据追溯能力, 可在数据生命周期内查看数据变化、追溯历史.
@@ -8959,7 +8959,7 @@ AMA 方案:
 - **机台配置**: 支持按机台配置功能启用状态.
 - **自动编译**: 具备规则自动编译能力.
 
-#### 3.3 Job管理
+#### 3.3 Job 管理
 
 支持 AMA Job 的应用管理、调度触发与通知协同.
 
@@ -8976,9 +8976,9 @@ AMA 方案:
 
 支持与 MES 等周边系统的直接交互与事件操作.
 
-- **外部数据读取**: 支持通过文件或数据库直接读取 Scheduling、Planning、Reporting 等生产系统信息作为派工参考, 支持从外部系统导入数据 (Flat 文件、CSV 格式文件等).
-- **外部系统交互**: 支持与 MES、APC、PMS 等周边系统 (ERP、MCS、SignOff、YMS) 的直接交互与协同.
-- **Trigger MES**: 支持派工系统对 MES 的更多事件操作 (如 Merge、Create Monitor Wafer、Auto Hold/Release 等).
+- **外部数据读取**: 支持通过文件或数据库直接读取 Scheduling, Planning, Reporting 等生产系统信息作为派工参考, 支持从外部系统导入数据 (Flat 文件、CSV 格式文件等).
+- **外部系统交互**: 支持与 MES, APC, PMS 等周边系统 (ERP, MCS, SignOff, YMS) 的直接交互与协同.
+- **Trigger MES**: 支持派工系统对 MES 的更多事件操作 (如 Merge, Create Monitor Wafer, Auto Hold/Release 等).
 - **实时交互**: 支持与各系统信息的实时交互.
 - **事务和异常机制**: 支持事务机制以保证数据一致性, 支持异常处理机制.
 
@@ -8999,7 +8999,7 @@ AMA 方案:
 支持多种触发方式驱动的全自动化派工与时效管控.
 
 - **LoadPort Trigger**: 遵循 Run 货 SOP, 及时将货送上设备 LoadPort.
-- **触发条件**: 派工触发条件包括定时触发与事件触发 (LoadPort/机台状态变化).
+- **触发条件**: 派工触发条件包括定时触发与事件触发 (LoadPort/ 机台状态变化).
 - **全自动化派工**: 支持 OHT 设备 Run 货全自动化.
 - **派工时机控制**: 通过派工选货与派工时机控制, 及时将货送达设备 LoadPort 以充分利用设备产能.
 - **Flow 自动跳转**: 支持 Flow 之间跳转后的执行全自动化.
@@ -9014,7 +9014,7 @@ AMA 方案:
 
 #### 5.3 Batch Run
 
-支持 Monitor、Season 与 Furnace 等场景的自动组批运行.
+支持 Monitor, Season 与 Furnace 等场景的自动组批运行.
 
 - **同 FOUP 多 Lot**: 支持同一机台多个 Monitor Lot 的自动组批 (Carpool).
 - **Monitor + Season**: 支持 Eqp Monitor (可搭配或不搭配 Season) 的自动化.
@@ -9024,7 +9024,7 @@ AMA 方案:
 
 支持 Pilot 自动准备与按水位的预搬送派工控制.
 
-- **机台类型与系统**: 支持与 R2R、RTD、MES 系统协同, 覆盖 CMP、LITHO、ETCH 类型机台.
+- **机台类型与系统**: 支持与 R2R, RTD, MES 系统协同, 覆盖 CMP, LITHO, ETCH 类型机台.
 - **Auto Pilot**: 依据 MES 及 R2R 管控的 Pilot 条件与 MES 交互, 当产品触碰 Pilot 条件时自动分出 Pilot, 分出后可按 What Next 规则自动派工.
 - **短 Process 机台**: 对 Process 时间较短的设备, 支持按预先定义的水位将货预先搬送至目标设备附近的 OHB.
 - **长 Process 机台**: 对 Process 时间较长的设备, 支持按预先定义的未加工 Wafer 数量与水位对目标设备进行派工控制.
@@ -9092,7 +9092,7 @@ AMA 方案:
 
 - **FOSB 转 FOUP / FOUP 转 FOUP / FOUP 转 FOSB**: 支持三种载具转换场景.
 - **Planned/Adhoc Transfer**: 支持 Planned 与 Adhoc 两类 Sorter Actions.
-- **1→N 与 N→1**: 支持 1→N、N→1 的分合批, 且 N 可大于 FOUP LoadPort 数目.
+- **1→N 与 N→1**: 支持 1→N, N→1 的分合批, 且 N 可大于 FOUP LoadPort 数目.
 - **自动选 FOUP**: Sorter 需要换 FOUP 时支持自动选择 FOUP.
 
 ### 7. NPW 管理
@@ -9125,11 +9125,11 @@ AMA 方案:
 
 支持 NPW 各 End 站点的自动处置、合批与降级.
 
-- **NPW InUseEnd 处置**: NPW 到达 InUseEnd 站点时, 系统根据 MES MaxUsedCount 与相关设置决定 Reuse、Recycle、Downgrade, 或等待同一 FOUP 中其他 Wafer 后再处置.
-- **NPW Recycle End 处置**: NPW 到达 RecycleEnd 站点时, 系统根据 MES MaxRecycleCount 与相关设置决定 Reuse、Reclaim 或 Downgrade, 并视需要执行 Split, 同时支持 Split 站点 Lot 的尾数片自动跳站至 Recycle 站点.
+- **NPW InUseEnd 处置**: NPW 到达 InUseEnd 站点时, 系统根据 MES MaxUsedCount 与相关设置决定 Reuse, Recycle, Downgrade, 或等待同一 FOUP 中其他 Wafer 后再处置.
+- **NPW Recycle End 处置**: NPW 到达 RecycleEnd 站点时, 系统根据 MES MaxRecycleCount 与相关设置决定 Reuse, Reclaim 或 Downgrade, 并视需要执行 Split, 同时支持 Split 站点 Lot 的尾数片自动跳站至 Recycle 站点.
 - **Recycle 量测 Fail 自动分批**: Recycle 后量测 Fail 的控片自动分批并 Hold 或重新 Recycle, 按各家 PE 需求设定.
 - **NPW Reclaim End Split**: NPW 到达 ReclaimEnd 站点时, 系统根据 MES MaxReclaimCount 相关设置决定 Reuse 或 Downgrade.
-- **FOUP 自动合批**: 储位/Free FOUP 数量达到警戒水位时触发, 按既定维护的规则 (如 Hold Time 等) 合批, 释放储位与 FOUP 给产线.
+- **FOUP 自动合批**: 储位 /Free FOUP 数量达到警戒水位时触发, 按既定维护的规则 (如 Hold Time 等) 合批, 释放储位与 FOUP 给产线.
 - **FOUP 自动合批规则**: 合批规则多规则可选 (按 Slot 位置合并、插空合并等), 适应不同场景.
 - **NPW Downgrade**: NPW 到达可 Downgrade 站点时, 若 MES 设有 Downgrade 产品对应表, 系统自动执行 Downgrade.
 
@@ -9152,20 +9152,20 @@ AMA 方案:
 
 支持基于 AI 的投料优化与 NPW 水位预测.
 
-- **Wafer Start 投料智能优化**: 基于历史 Wafer Start 执行记录、MPS、FOSB 可用 Wafer 库存与 Sorter 执行情况, 由 AI 评估 Production/NPW Lot 自动下线与选片规则的实际执行效果, 就投料节奏、选片优先级与触发条件的调整给出建议, 并说明所依据的数据范围, 建议经模拟验证与人工确认后方可启用, 不自动写入规则库.
+- **Wafer Start 投料智能优化**: 基于历史 Wafer Start 执行记录、MPS, FOSB 可用 Wafer 库存与 Sorter 执行情况, 由 AI 评估 Production/NPW Lot 自动下线与选片规则的实际执行效果, 就投料节奏、选片优先级与触发条件的调整给出建议, 并说明所依据的数据范围, 建议经模拟验证与人工确认后方可启用, 不自动写入规则库.
 - **NPW 水位智能预测**: 结合生产计划与历史 NPW 消耗规律, 由 AI 预测各站点 Dummy/Monitor/Season 等 NPW 的需求量与安全水位, 就水位阈值的设定给出建议并提前触发自动补充, 避免低水位或 Recycle 不足影响生产连续性.
 
 #### 8.2 智能诊断
 
 支持自动化执行异常的智能归因与排查路径推荐.
 
-针对 Wafer Start 未自动下线、NPW 低水位未触发补充、Monitor/Season 未按时分批到位、自动并批/合批异常等问题, 由 AI 关联分析 Event 触发记录、MES 交互日志与对象锁定状态, 给出可能原因的判断次序与排查路径; 同类异常按机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
+针对 Wafer Start 未自动下线、NPW 低水位未触发补充、Monitor/Season 未按时分批到位、自动并批 / 合批异常等问题, 由 AI 关联分析 Event 触发记录、MES 交互日志与对象锁定状态, 给出可能原因的判断次序与排查路径; 同类异常按机台类型归集, 沉淀为可检索的诊断条目, 供后续问题直接引用.
 
 #### 8.3 vFAB 北向接口预留
 
 预留 vFAB 北向接口, 支撑上层系统的集成与协同.
 
-支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Wafer Start 指令下发与执行完成/异常事件发布、NPW 水位与自动补充记录查询、自动化规则启用/停用与参数受控下发、预警与建议采纳结果回写等).
+支持事件、状态查询、受控动作、回写模型等接口预留 (包括但不限于 Wafer Start 指令下发与执行完成 / 异常事件发布、NPW 水位与自动补充记录查询、自动化规则启用 / 停用与参数受控下发、预警与建议采纳结果回写等).
 
 # YMS
 
