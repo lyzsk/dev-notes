@@ -1,50 +1,50 @@
 # CIM
 
 - CIM
-    - [CIM](#cim)
-    - [CIM-Terminology](#cim-terminology)
+  - [CIM](#cim)
+  - [CIM-Terminology](#cim-terminology)
 - EES
-    - [EAP](#eap)
-    - [FDC](#fdc)
-    - [RMS](#rms)
-    - [RCM](#rcm)
-    - [APC](#apc)
+  - [EAP](#eap)
+  - [FDC](#fdc)
+  - [RMS](#rms)
+  - [RCM](#rcm)
+  - [APC](#apc)
 - MES
-    - [MES](#mes)
-    - [SPC](#spc)
-    - [AMS](#ams)
-    - [PMS](#pms)
+  - [MES](#mes)
+  - [SPC](#spc)
+  - [AMS](#ams)
+  - [PMS](#pms)
 - AUTO
-    - [RTD](#rtd)
-    - [AMA](#ama)
+  - [RTD](#rtd)
+  - [AMA](#ama)
 - YMS
-    - [YMS](#yms)
-    - [DMS](#dms)
-    - [RPT](#rpt)
-    - [FMS](#fms)
+  - [YMS](#yms)
+  - [DMS](#dms)
+  - [RPT](#rpt)
+  - [FMS](#fms)
 - [FAQ](#FAQ)
 
 # CIM
 
 Computer Integrated Manufacturing(计算机集成制造)
 
-| 序号 | 系统 | 全称                                   | 中文全称         | 功能                                                                                                                                                             |
-| :--- | :--- | :------------------------------------- | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | EAP  | Equipment Automation Program           | 设备自动化程序   | 日常涉及机台自动化控制、SECS/GEM 通讯、机台指令下发与状态上报、数据采集与解析、机台联机 / 脱机管理等场景, 实现机台与 CIM 系统的实时交互                          |
-| 2    | MES  | Manufacturing Execution System         | 制造执行系统     | 日常涉及工单管理、批次追踪、过站管控、物料绑定、机台分配、生产历史记录等核心制造流程数字化, 是 FAB 生产执行的中枢系统                                            |
-| 3    | RMS  | Recipe Management System               | 配方管理系统     | 日常涉及配方创建、版本管理、上传下载、校验比对、权限管控、变更审批等流程数字化, 确保机台工艺参数的一致性与可追溯性                                               |
-| 4    | RCM  | Remote Control Management              | 远程控制管理     | 日常涉及设备远程监控、远程指令操作、异常远程诊断、远程软件升级、操作日志审计等场景, 减少人员进 FAB 频次并提升工作响应效率                                        |
-| 5    | SPC  | Statistical Process Control            | 统计过程控制     | 日常涉及 Inline/Offline 数据采集、控制图绘制、异常判定规则触发、OOC/OOS 处置、CPK 能力分析、SPC 报表生成等流程数字化, 保障工艺过程的统计稳定性                   |
-| 6    | FDC  | Fault Detection and Classification     | 故障检测与分类   | 日常涉及机台传感器数据实时采集、故障模型训练与部署、异常实时检测、根因分类标记、误报过滤、模型迭代优化等场景, 实现工艺异常的秒级预警                             |
-| 7    | APC  | Advanced Process Control               | 先进过程控制     | 日常涉及前馈 / 反馈控制模型运行、工艺参数自动调优、Run-to-Run 控制、虚拟量测预测、控制效果验证等场景, 实现工艺质量的自适应闭环调控                               |
-| 8    | DMS  | Defect Management System               | 缺陷管理系统     | 日常涉及晶圆缺陷数据与图像采集、缺陷自动分类、缺陷图生成、缺陷分析、重复缺陷识别等数字化流程, 为良率分析提供结构化缺陷数据基础                                   |
-| 9    | YMS  | Yield Management System                | 良率管理系统     | 日常涉及良率数据整合、多维度良率分析、低良率批次追溯、良率与工艺关联挖掘、良率趋势监控、改善措施追踪等数字化流程, 支撑良率持续提升的大数据决策                   |
-| 10   | PMS  | Preventive Maintenance System          | 预防性维护系统   | 日常涉及机台保养计划制定、Check List 派发与执行派发与执行、备件更换记录、保养结果确认、机台维保数据等全流程数字化管理                                            |
-| 11   | AMS  | Alarm Management System                | 告警管理系统     | 日常涉及告警规则配置、多源告警聚合、分级通知推送、告警确认与处理、历史告警查询、告警趋势分析与处理、历史告警查询、告警趋势分析等场景, 实现异常事件的统一闭环管理 |
-| 12   | RPT  | Reporting System                       | 报表系统         | 日常涉及自定义报表设计、定时报表生成、多维度数据提取、报表订阅与分发、历史数据导出等流程数字化, 满足各子系统和各层级用户的数据查询与分析需求                     |
-| 13   | FMS  | Factory Monitoring Sytem               | 工厂监控系统     | 日常涉及产线实时状态可视化、关键 KPI 看板展示、设备监控、异常滚动播报等场景, 为各层级用户提供即时洞察和高效运营的能力                                            |
-| 14   | RTD  | Real-Time Dispatching                  | 实时派工系统     | 日常涉及实时派工规则配置、实时派工响应、派工优先级动态调整、机台产能匹配、工序调度等场景, 优化产线流转效率与机台利用率                                           |
-| 15   | AMA  | Activity Management of Full-Automation | 全自动化控制平台 | 日常涉及天车任务调度、路径规划、FOUP 搬运执行、搬运异常处理等场景, 实现场内物料的自动化流转                                                                      |
+| 序号 | 系统  | 全称                                     | 中文全称     | 功能                                                                                       |
+| :- | :-- | :------------------------------------- | :------- | :--------------------------------------------------------------------------------------- |
+| 1  | EAP | Equipment Automation Program           | 设备自动化程序  | 日常涉及机台自动化控制、SECS/GEM 通讯、机台指令下发与状态上报、数据采集与解析、机台联机 / 脱机管理等场景, 实现机台与 CIM 系统的实时交互            |
+| 2  | MES | Manufacturing Execution System         | 制造执行系统   | 日常涉及工单管理、批次追踪、过站管控、物料绑定、机台分配、生产历史记录等核心制造流程数字化, 是 FAB 生产执行的中枢系统                           |
+| 3  | RMS | Recipe Management System               | 配方管理系统   | 日常涉及配方创建、版本管理、上传下载、校验比对、权限管控、变更审批等流程数字化, 确保机台工艺参数的一致性与可追溯性                               |
+| 4  | RCM | Remote Control Management              | 远程控制管理   | 日常涉及设备远程监控、远程指令操作、异常远程诊断、远程软件升级、操作日志审计等场景, 减少人员进 FAB 频次并提升工作响应效率                         |
+| 5  | SPC | Statistical Process Control            | 统计过程控制   | 日常涉及 Inline/Offline 数据采集、控制图绘制、异常判定规则触发、OOC/OOS 处置、CPK 能力分析、SPC 报表生成等流程数字化, 保障工艺过程的统计稳定性 |
+| 6  | FDC | Fault Detection and Classification     | 故障检测与分类  | 日常涉及机台传感器数据实时采集、故障模型训练与部署、异常实时检测、根因分类标记、误报过滤、模型迭代优化等场景, 实现工艺异常的秒级预警                      |
+| 7  | APC | Advanced Process Control               | 先进过程控制   | 日常涉及前馈 / 反馈控制模型运行、工艺参数自动调优、Run-to-Run 控制、虚拟量测预测、控制效果验证等场景, 实现工艺质量的自适应闭环调控                |
+| 8  | DMS | Defect Management System               | 缺陷管理系统   | 日常涉及晶圆缺陷数据与图像采集、缺陷自动分类、缺陷图生成、缺陷分析、重复缺陷识别等数字化流程, 为良率分析提供结构化缺陷数据基础                         |
+| 9  | YMS | Yield Management System                | 良率管理系统   | 日常涉及良率数据整合、多维度良率分析、低良率批次追溯、良率与工艺关联挖掘、良率趋势监控、改善措施追踪等数字化流程, 支撑良率持续提升的大数据决策                 |
+| 10 | PMS | Preventive Maintenance System          | 预防性维护系统  | 日常涉及机台保养计划制定、Check List 派发与执行派发与执行、备件更换记录、保养结果确认、机台维保数据等全流程数字化管理                         |
+| 11 | AMS | Alarm Management System                | 告警管理系统   | 日常涉及告警规则配置、多源告警聚合、分级通知推送、告警确认与处理、历史告警查询、告警趋势分析与处理、历史告警查询、告警趋势分析等场景, 实现异常事件的统一闭环管理        |
+| 12 | RPT | Reporting System                       | 报表系统     | 日常涉及自定义报表设计、定时报表生成、多维度数据提取、报表订阅与分发、历史数据导出等流程数字化, 满足各子系统和各层级用户的数据查询与分析需求                  |
+| 13 | FMS | Factory Monitoring Sytem               | 工厂监控系统   | 日常涉及产线实时状态可视化、关键 KPI 看板展示、设备监控、异常滚动播报等场景, 为各层级用户提供即时洞察和高效运营的能力                           |
+| 14 | RTD | Real-Time Dispatching                  | 实时派工系统   | 日常涉及实时派工规则配置、实时派工响应、派工优先级动态调整、机台产能匹配、工序调度等场景, 优化产线流转效率与机台利用率                             |
+| 15 | AMA | Activity Management of Full-Automation | 全自动化控制平台 | 日常涉及天车任务调度、路径规划、FOUP 搬运执行、搬运异常处理等场景, 实现场内物料的自动化流转                                        |
 
 ---
 
@@ -55,27 +55,24 @@ Computer Integrated Manufacturing(计算机集成制造)
 - RMS(Recipe Management System): 配方管理系统
 - RCM(Remote Control Management): 远程控制管理
 - APC(Advanced Process Control): 先进过程控制
-
 - MES(Manufacturing Execution System): 制造执行系统
 - SPC(Statistical Process Control): 统计过程控制
 - AMS(Alarm Management System): 告警管理系统
 - PMS(Preventive Maintenance System): 预防性维护系统
-
 - RTD(Real-Time Dispatching): 实时派工系统
 - AMA(Activity Management of Full-Automation): 全自动化控制平台
-
 - YMS(Yield Management System): 良率管理系统
 - DMS(Defect Management System): 缺陷管理系统
 - RPT(Reporting System): 报表系统
 - FMS(Factory Monitoring System): 工厂监控系统
 
-| 业务板块         | 包含子系统              | 对应小组 |
-| :--------------- | :---------------------- | :------- |
+| 业务板块     | 包含子系统                   | 对应小组    |
+| :------- | :---------------------- | :------ |
 | 设备自动化与控制 | EAP, FDC, RMS, RCM, APC | EAP 组   |
-| 生产执行与追踪   | MES, SPC, AMS, PMS      | MES 组   |
-| 智能调度与物流   | RTD, AMA                | RTD 组   |
-| 工程与质量管理   | YMS, DMS, RPT           | YMS 组   |
-| 实验室管理       | LIMS, FMS, QMS          | Others组 |
+| 生产执行与追踪  | MES, SPC, AMS, PMS      | MES 组   |
+| 智能调度与物流  | RTD, AMA                | RTD 组   |
+| 工程与质量管理  | YMS, DMS, RPT           | YMS 组   |
+| 实验室管理    | LIMS, FMS, QMS          | Others组 |
 
 ## 一套体系、五个业务域、六大要素
 
@@ -92,40 +89,40 @@ Computer Integrated Manufacturing(计算机集成制造)
 
 ## CIM Terminology
 
-| Abbreviation | Full form                           | Desc                                                                      |
-| :----------- | :---------------------------------- | :------------------------------------------------------------------------ |
-| BR           | Business Rule                       | 业务规则建模                                                              |
-| BSI          | backside illumination               | CMOS 背照式工艺                                                           |
-| CMP          | Chemical Mechanical Polishing       | 化学机械抛光 <br/> 目的是磨掉金属介质                                     |
-| DIFF         | Diffusion                           | 扩散, 可以长膜 <br/> 将掺杂源, 掺杂物和晶圆一起进行高温处理               |
-| CVD          | Chemical Vapor Deposition           | 化学气相沉积 <br/> 用于进行半导体材料设备的专用设备, 包括反应室, 供气系统 |
-| PVD          | Physical Vapor Deposition           | 物理气相沉积                                                              |
-| EPI          | Epitaxial                           | 外延层生长衬层, EPI-Wafer                                                 |
-| IMP          | Implant                             | 离子注入金属膜                                                            |
-| METAL        | metal-semiconductor(MS) contact     | 金属介质沉积                                                              |
-| PR           | PhotoResist                         | 光阻                                                                      |
-| PW           | Product wafer                       | 产品晶圆                                                                  |
-| SUP          | Support                             |                                                                           |
-| WAT          | Wafer Acceptance Test               | 晶圆可接受测试                                                            |
-| CP           | Chip probing                        | 针对 Wafer 的探针测试 <br/> 目的是剔除加工有故障的 Die                    |
-| IQC          | Incoming Quality Control            | 来料校验                                                                  |
-| IPQC         | In-Process Quality Control          | 制程校验                                                                  |
-| FQC          | Final Quality Control               | 成品校验                                                                  |
-| OQC          | Outgoing Quality Control            | 出货检测                                                                  |
-| RSP          | Reticle Pod                         | Carrier 的一种, 用于防止 Reticle                                          |
-| AMC          | Airborne Molecular Contamination    | 气态分子污染物                                                            |
-| RTP          | Rapid Thermal Processing            | 退火, 快速热处理                                                          |
-| RC           | RCP_CHANGE                          | 配方变化后, 需要 Season 进行测试                                          |
-| RI           | RCP_IDLE                            | 配方无变化, 闲置时间也需要放 Season 进行测试                              |
-| OOC          | Out of Cotrol                       | 管控线 [-99.5, 100.5]                                                     |
-| OOS          | Out of Specification                | 规格线 [-99, 101]                                                         |
-| OHB          | Over Head Buffer                    | 空中存储装置                                                              |
-| OHT          | Overhead Hoist Transfer             | 天车搬运系统                                                              |
-| OOA          | On-Orbit Assembly                   | 在轨组装, 打包                                                            |
-| STK          | Stocker                             | 晶圆盒储存库                                                              |
-| WPH          | Wafer Per Hour                      | 每小时晶圆数                                                              |
-| EOQC         | Electronic Outgoing Quality Control | 电子出货质量控制系统                                                      |
-| ERP          | Enterprise Resource Planning        | 企业资源经营计划                                                          |
+| Abbreviation | Full form                           | Desc                                        |
+| :----------- | :---------------------------------- | :------------------------------------------ |
+| BR           | Business Rule                       | 业务规则建模                                      |
+| BSI          | backside illumination               | CMOS 背照式工艺                                  |
+| CMP          | Chemical Mechanical Polishing       | 化学机械抛光 <br /> 目的是磨掉金属介质                     |
+| DIFF         | Diffusion                           | 扩散, 可以长膜 <br /> 将掺杂源, 掺杂物和晶圆一起进行高温处理        |
+| CVD          | Chemical Vapor Deposition           | 化学气相沉积 <br /> 用于进行半导体材料设备的专用设备, 包括反应室, 供气系统 |
+| PVD          | Physical Vapor Deposition           | 物理气相沉积                                      |
+| EPI          | Epitaxial                           | 外延层生长衬层, EPI-Wafer                          |
+| IMP          | Implant                             | 离子注入金属膜                                     |
+| METAL        | metal-semiconductor(MS) contact     | 金属介质沉积                                      |
+| PR           | PhotoResist                         | 光阻                                          |
+| PW           | Product wafer                       | 产品晶圆                                        |
+| SUP          | Support                             |                                             |
+| WAT          | Wafer Acceptance Test               | 晶圆可接受测试                                     |
+| CP           | Chip probing                        | 针对 Wafer 的探针测试 <br /> 目的是剔除加工有故障的 Die       |
+| IQC          | Incoming Quality Control            | 来料校验                                        |
+| IPQC         | In-Process Quality Control          | 制程校验                                        |
+| FQC          | Final Quality Control               | 成品校验                                        |
+| OQC          | Outgoing Quality Control            | 出货检测                                        |
+| RSP          | Reticle Pod                         | Carrier 的一种, 用于防止 Reticle                   |
+| AMC          | Airborne Molecular Contamination    | 气态分子污染物                                     |
+| RTP          | Rapid Thermal Processing            | 退火, 快速热处理                                   |
+| RC           | RCP_CHANGE                          | 配方变化后, 需要 Season 进行测试                       |
+| RI           | RCP_IDLE                            | 配方无变化, 闲置时间也需要放 Season 进行测试                 |
+| OOC          | Out of Cotrol                       | 管控线 [-99.5, 100.5]                          |
+| OOS          | Out of Specification                | 规格线 [-99, 101]                              |
+| OHB          | Over Head Buffer                    | 空中存储装置                                      |
+| OHT          | Overhead Hoist Transfer             | 天车搬运系统                                      |
+| OOA          | On-Orbit Assembly                   | 在轨组装, 打包                                    |
+| STK          | Stocker                             | 晶圆盒储存库                                      |
+| WPH          | Wafer Per Hour                      | 每小时晶圆数                                      |
+| EOQC         | Electronic Outgoing Quality Control | 电子出货质量控制系统                                  |
+| ERP          | Enterprise Resource Planning        | 企业资源经营计划                                    |
 
 - SSO(Single Sign-On, 单点登录) 是一种身份认证机制, 它允许用户只需登录一次, 就可以访问所有相互信任的应用系统, 而无需在每个系统中重复输入用户名和密码.
 - FTP(文件传输协议), 最传统、最底层的文件搬运工, 局限于非实时、无事务保证、需自行解析文件、错误处理困难
@@ -148,6 +145,7 @@ POC: Proof of Concept(概念验证)
 - **降低风险:** 在投入大量资金和人力进行全面开发之前, 先以最小成本试错, 避免"造出轮子却发现是方的".
 - **争取信任/预算:** 向管理层、客户或投资人展示实际效果, 作为立项或采购的依据.
 - **技术选型:** 当面临多个供应商或技术路线时, 通过 POC 实测对比性能、兼容性和易用性.
+
 
 2. POC 搭建的典型场景
 
@@ -291,6 +289,7 @@ chamber, header, tank 都是 unit level的
 header 一般是 CMP机台 的研磨头/一般指设备的一些气体或者液体的管道，分配头
 
 tank 一般是 WET设备的 酸槽/指一些储罐或者物料中间存储的容器
+
 
 ## EAP Terminology
 
@@ -893,6 +892,7 @@ EAP 流程:作业开始 → 扫随工单条码 + 扫辅材条码 → EAP 向 MES
 
 ## EAP Function List
 
+
 ### 1. 基本功能
 
 #### 1.1 跑货流程控制
@@ -1145,6 +1145,7 @@ AI 能力以内网私有化部署为主，机台控制指令、生产报文与�
 | 3   | 产线与产能规划 | 各产线产能规划; 启动 / 通线 / 出货 / 量产里程碑, 决定 EAP/FDC 实施批次与节奏                                 | MFG    | T-90 前  |
 | 4   | 系统规模估算   | 设备总台数与分布 (EAP Server 1:1 Tool, 单 Server 约 30 进程, 据此估算 Server 数量); 最高在线人数 (GUI 并发)  | IT     | T-90 前  |
 | 5   | FDC 覆盖目标   | FDC 覆盖的站点 / 机台范围与关键参数清单 (关键站覆盖率目标)                                                   | MFG    | T-90 前  |
+
 
 ### Phase 1 EQP 采购与验收 & EAP 前置准备 (T-90 ~ T-60)
 
@@ -2765,8 +2766,9 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 支持机台列表的收藏、加载与刷新管理.
 
 - **收藏列表**: 支持查看已收藏的机台列表;支持将常用机台添加到个人收藏夹, UI 登入后默认显示收藏的机台信息, 收藏的机台不受群组限制.
-- **权限化加载**: 按照设定权限加载用户可见的机台;RCM UI 上显示目前登入者的 USER NAME, IP 与登入时间, 接口界面按用户要求客制;登入后分割显示该用户拥有操作权限的机台, 不同用户登录后依据角色权限可见对应的机台及功能模块, 对于未开放的功能模块用户不可见.
+- **权限化加载**: 按照设定权限加载用户可见的机台;RCM UI 上显示目前登入者的 USER NAME, IP 与登入时间;登入后分割显示该用户拥有操作权限的机台, 不同用户登录后依据角色权限可见对应的机台及功能模块, 对于未开放的功能模块用户不可见.
 - **连接开关**: 提供连接宫格和断开宫格的开关.
+- **界面客制**: 接口界面按用户要求客制.
 - **动态刷新**: 在后台给用户添加 / 删除机台后, 用户无需退出即可刷新获取最新的机台列表;通过 RCM 客户端新增 / 删除 / 修改机台或 KVM 时, 自动通过服务端广播至所有已登录的 RCM 客户端, 或者通过按钮点击刷新, 进行实时更新.
 
 #### 2.6 宫格页面
@@ -2777,7 +2779,6 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - **连接轮播**: 开始连接后, 对选中的机台画面进行连接并轮播.
 - **操作页开启**: 双击画面或点击操作页按钮, 开启所选择画面的操作页.
 - **多机台同时登入**: 一人可同时登入多个远程机台.
-- **画面信息叠加**: 画面显示包括机台名称, 实时状态, 报警信息, Run 货 Lot 名称等信息.
 - **一机多主机**: 应对一个机台连接多台主机的情况, 提供特殊控制面板设计, 包含多个主机一个屏幕类型 (可切换) 与多个主机多个屏幕类型.
 
 #### 2.7 操作页
@@ -2794,9 +2795,12 @@ Recipe Body, Parameter 与设备常量属核心工艺资产，全部保存在内
 - **EAP 融合**: 支持实现模拟 EAP, 包含进出站、RMS 检查、FDC 数据收集等, 在无 SECS 接口的老设备上以屏幕为接口补齐自动化能力, 使 RCM 代操场景可向标准 EAP 行为对齐.
 - **画面语义与状态提取**: 在既有画面识别能力基础上, 针对无 SECS 接口的机台, 以画面为数据源识别界面文字、数值与状态图示 (机台状态、Run 货 Lot、报警文本、关键参数值), 结构化后供上层查询与留痕;识别结果附置信度, 低于阈值转人工确认.
 - **画面异常识别与预警**: 对已连接画面持续比对, 识别画面冻结、黑屏 / 蓝屏、弹窗持续未消除、界面长时间无变化等异常, 提示远程值守人员或触发侧录;作为连接状态提示的补充, 不替代硬件级断连判定.
-- **操作行为异常与智能检索**: 结合访问日志、操作日志与侧录录像, 识别偏离常态的操作序列 (异常时段集中进入、连续重复按键、跳过确认步骤), 输出提示与核查线索供审计复核;支持以自然语言检索访问、操作与侧录记录 (如某机台近一周被哪些账号操作过), 由 AI 转换为检索条件并整理结论与依据清单, 检索范围限内网数据.
-- **处置建议与知识沉淀**: 收到设备告警或画面异常时, AI 关联机台、报警代码、近期同类处置记录与作业规范, 给出处置建议与核查方向形成待复核清单, 实际处置动作仍由值班工程师执行, AI 不直接操作机台;将高频故障的画面特征、处置步骤与结果沉淀为可检索条目, 支持以自然语言查询指定机型 / 报警的历史处置方式与耗时, 辅助经验传承与新人上手.
-- **权限评估与会话诊断**: 定期复核角色、区域授权与机台权限分配, 识别长期未使用授权、权限与职责不匹配、区域划分与实际访问不符等情况, 给出核查建议, 权限调整仍由管理员按既有流程执行;会话卡顿、延迟升高或画面刷新异常时, AI 关联网络指标、KVM 连接信息与同网络其他机台表现, 给出成因排序 (网络拥塞、KVM 硬件、分辨率设置、机台端主机负载), 辅助定位.
+- **远程操作行为异常提示**: 结合访问日志、操作日志与侧录录像, 识别偏离常态的操作序列 (异常时段集中进入、连续重复按键、跳过确认步骤), 输出提示与核查线索供审计复核.
+- **审计与追溯的智能检索**: 支持以自然语言检索访问、操作与侧录记录 (如某机台近一周被哪些账号操作过), 由 AI 转换为检索条件并整理结论与依据清单;检索范围限内网数据.
+- **异常处置建议辅助**: 收到设备告警或画面异常时, AI 关联机台、报警代码、近期同类处置记录与作业规范, 给出处置建议与核查方向形成待复核清单;实际处置动作仍由值班工程师执行, AI 不直接操作机台.
+- **远程处置知识的沉淀与问答**: 将高频故障的画面特征、处置步骤与结果沉淀为可检索条目, 支持以自然语言查询指定机型 / 报警的历史处置方式与耗时, 辅助经验传承与新人上手.
+- **权限与访问模式的合理性评估**: 定期复核角色、区域授权与机台权限分配, 识别长期未使用授权、权限与职责不匹配、区域划分与实际访问不符等情况, 给出核查建议;权限调整仍由管理员按既有流程执行.
+- **远程会话质量的诊断辅助**: 会话卡顿、延迟升高或画面刷新异常时, AI 关联网络指标、KVM 连接信息与同网络其他机台表现, 给出成因排序 (网络拥塞、KVM 硬件、分辨率设置、机台端主机负载), 辅助定位.
 
 ### 3. 系统管理
 
@@ -3276,6 +3280,7 @@ PM 后设备状态跳变,旧模型可能完全不适用:
 - **调试与编辑**: 支持 workflow 及 sub workflow Debug, 图形组件快速定位, 图形组件多选 / 全选, 复制, 整体移动.
 - **流程开发验证**: 支持灵活的流程定义与复用，提供开发与验证工具,<mark> 支持 workflow 版本控制和版本间 Code 对比功能，支持 workflow 正向反向层级引用关系查看 </mark>.
 - **子流程**: 可定义子流程 (计算逻辑), 流程间可嵌套, 提高重用性.
+
 
 ### 2. 区域的 APC 功能
 
@@ -3920,6 +3925,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **登录日志与会话统计**: 提供类似 UAC 平台提供登录日志管理, 记录用户登录情况与在线 / 登录时长等会话信息.
 - **登录账号时效限制, 到期后不可登录使用**: 登入账号要有时效限制, 时间到后不可以登入使用
 
+
 ### 2. 流程建模和管理
 
 #### 2.1 Process Specification Editor
@@ -4116,6 +4122,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **变更签审与顺序校验**: 支持工艺制程信息变更签审后生效; 支持工段特定工序先后顺序校验.
 - **升版影响定位**: 工艺流程及其下各对象升版时定位影响范围 (SRC, Q-Time、在制批次、Pilot) 并反馈用户处理.
 - **导入即可生产**: 导入完成后可基于该产品 / 工艺流程进行正常流片生产.
+
 
 ### 3. 机台建模和管理
 
@@ -4331,6 +4338,7 @@ Litho 区特殊性 (前道最复杂的管控场景):
 - **信息查询**: 工程师可以使用此功能查看 Reticle 的详细信息, 用户可以根据 Reticle ID, Group, Pod and EQP 来选择 Reticle 的具体信息, 可以根据用户选择的不同条件进行查询; 支持模糊查询与分页显示; 光罩操作及使用记录历史可查询; 光罩检测机台整合 EAP 和 MES, MES 可查询光罩处理历史.
 - **Reticle Group**: 支持设定 ReticleGroup, 下面关联多个 Reticle; 需要 Reticle 组的概念, 可以将相同类型的光刻分组为一组, 实际在线使用时可以选择其中之一完成光刻; 系统可以查询每个产品的整套 Reticle 信息.
 - **装载端口**: 支持光罩装载端口管理 (通过配置管理) 及与 EAP 对接.
+
 
 ### 6. Lot 管理 (批次全生命周期)
 
@@ -5632,6 +5640,7 @@ MES 与 MCS (天车搬送控制) 系统的模块需求.
 @see: ## MES Function List → ### 58. MCS 模块
 
 - 用户需求 MES 中含有 AGVC 相关模块, 以适配自动化搬运场景
+
 
 ### 标▲
 
@@ -7659,6 +7668,7 @@ Alarm 通知标题与内容支持自定义模板; Email 通知内容支持 **HTM
 **设备与工艺理解力(不懂设备的人配不出合理的 PM 策略和 Checklist)、数据驱动的平衡能力(过保养浪费产能、欠保养赌质量,用故障与寿命数据找到平衡点)、跨系统整合力(PMS 的价值一半在与 MES/EAP/FDC/AMS 的联动,单打独斗的 PMS 只是个记事本)**.
 
 ## PMS Function List
+
 
 ### 1. PMS 维修保养管理
 
