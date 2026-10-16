@@ -2140,3 +2140,17 @@ Bug: 微信里 ClawBot 下面一行小字 "暂时无法连接", 手机上怎么�
 排查: tail `C:\Users\admin\AppData\Local\hermes\logs\gateway.log`,
 
 实际只要 cmd: `hermes gateway start` 就行了
+
+# 因为更新大量文件 IDEA 卡死
+
+尝试解决:
+
+1. 在 IDEA 左侧项目树里，选大文件放的目录和大量文件更新的目录逐个右键 → Mark Directory as → Excluded
+2. File → Invalidate Caches → Invalidate and Restart
+
+实际并没卵用, IDEA 的堆内存上限只有 2 GB
+
+看 logs 日志里连续报 Java heap space
+
+1. 在 `%APPDATA%\JetBrains\IdeaIC2025.2\idea64.exe.vmoptions` 里把堆内存调到 8 GB
+2. Task Manager -> 强制 End Task -> 重启
