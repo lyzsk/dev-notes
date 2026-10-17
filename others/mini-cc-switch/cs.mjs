@@ -21,7 +21,7 @@ const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-claude.json"), 
 function findKeyDir() {
     let d = path.dirname(HERE);
     for (let i = 0; i < 5; i++) {
-        try { if (fs.readdirSync(d).some((f) => /-api-key\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }
+        try { if (fs.readdirSync(d).some((f) => /-api-key(-[a-z0-9]+)?\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }   // 10/17: 别人的 key 改名 <provider>-api-key-<人名缩写>.txt
         const up = path.dirname(d);
         if (up === d) break;
         d = up;
