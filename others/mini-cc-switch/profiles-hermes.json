@@ -6,22 +6,22 @@
     "核对": "gravitex=PC1 10/12 用户手配实测可用; kimi/glm 两套的 OpenAI 兼容地址与模型名未在 hermes 上实测, 首次切换后用 `hs test` 验一下"
   },
   "profiles": {
-    "cyx-gravitex": {
-      "desc": "provider: gravitex, key: cyx-gravitex, model: claude-opus-5-5",
+    "gravitex-cyx": {
+      "desc": "provider: gravitex, key: gravitex-cyx, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key-cyx.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
       "model": "claude-opus-5-5"
     },
-    "zgm-gravitex": {
-      "desc": "provider: gravitex, key: zgm-gravitex, model: claude-opus-5-5",
+    "gravitex-zgm": {
+      "desc": "provider: gravitex, key: gravitex-zgm, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key-zgm.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
       "model": "claude-opus-5-5"
     },
-    "xhj-gravitex": {
-      "desc": "provider: gravitex, key: xhj-gravitex, model: claude-opus-5-5",
+    "gravitex-xhj": {
+      "desc": "provider: gravitex, key: gravitex-xhj, model: claude-opus-5-5",
       "keyFile": "gravitex-api-key-xhj.txt",
       "provider": "custom",
       "base_url": "https://api.gravitex.ai/v1",
@@ -41,8 +41,8 @@
       "base_url": "https://api.kimi.com/coding/v1",
       "model": "kimi-k3"
     },
-    "kimi-xhj": {
-      "desc": "provider: kimi, key: xhj-kimi, model: kimi-k3",
+    "kimi-code-xhj": {
+      "desc": "provider: kimi, key: kimi-code-xhj, model: kimi-k3",
       "keyFile": "kimi-code-api-key-xhj.txt",
       "provider": "custom",
       "base_url": "https://api.kimi.com/coding/v1",

@@ -92,7 +92,7 @@ function list() {
     console.log(`hermes 目录: ${HOME}\nkey 目录:    ${KEY_DIR}`);
     console.log(`当前 model 段: provider=${s.provider || "-"} model=${s.model || "-"} default=${s.default || "-"} base_url=${s.base_url || "-"} → ${cur || "未识别"}\n`);
     Object.entries(CFG.profiles).forEach(([n, p], i) =>
-        console.log(`  ${i + 1}. ${hasKey(p) ? "✅" : "❌"} ${n.padEnd(10)} ${p.desc}${n === cur ? "  ← 当前" : ""}${hasKey(p) ? "" : `  (缺 ${p.keyFile})`}`));
+        console.log(`  ${i + 1}. ${n.padEnd(14)} ${p.desc}${n === cur ? "  ← 当前" : ""}${hasKey(p) ? "" : `  (缺 key 文件 ${p.keyFile})`}`));   // 10/17: 和 cs 菜单一致, 不加 ✅
 }
 
 function after(name) {
