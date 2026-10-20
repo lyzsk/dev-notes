@@ -10,6 +10,8 @@
 
 `claude` / `claude --dangerously-skip-permissions` / `claude -c --dangerously-skip-permissions`
 
+受信任标记: `%USERPROFILE%\.claude.json` "projects" 对应目录的: `hasTrustDialogAccepted: true`
+
 ## kimi
 
 https://www.kimi.com/code 的 key:
