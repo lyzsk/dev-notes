@@ -105,25 +105,7 @@ https://platform.kimi.com/ 的 key:
 }
 ```
 
-## codex
-
-gravitex:
-
-`notepad %USERPROFILE%\.codex\config.toml`
-
-```toml
-model = "gpt-6-astra"
-model_provider = "openai-custom"
-personality = "pragmatic"
-model_reasoning_effort = "high"
-
-name = "GravitexAI"
-base_url = "https://api.gravitex.ai/v1"
-wire_api = "responses"
-
-Authorization = "Bearer YOUR_API_KEY"
-Content-Type = "application/json"
-```
+````
 
 # `/` 命令速查表
 
@@ -184,7 +166,7 @@ Content-Type = "application/json"
 
 ```powershell
 Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
-```
+````
 
 # 跳过方式
 
@@ -382,3 +364,23 @@ npm list -g --depth=0 | grep opencode
 # UIA
 
 UI Automation
+
+# codex
+
+gravitex:
+
+`notepad %USERPROFILE%\.codex\config.toml`
+
+```toml
+model = "gpt-6-astra"
+model_provider = "openai-custom"
+personality = "pragmatic"
+model_reasoning_effort = "high"
+
+name = "GravitexAI"
+base_url = "https://api.gravitex.ai/v1"
+wire_api = "responses"
+
+Authorization = "Bearer YOUR_API_KEY"
+Content-Type = "application/json"
+```

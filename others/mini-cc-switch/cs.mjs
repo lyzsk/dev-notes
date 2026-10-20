@@ -21,7 +21,7 @@ const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-claude.json"), 
 function findKeyDir() {
     let d = path.dirname(HERE);
     for (let i = 0; i < 5; i++) {
-        try { if (fs.readdirSync(d).some((f) => /-api-key\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }
+        try { if (fs.readdirSync(d).some((f) => /-api-key(-[a-z0-9]+)?\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }   // 10/17: 别人的 key 改名 <provider>-api-key-<人名缩写>.txt
         const up = path.dirname(d);
         if (up === d) break;
         d = up;
@@ -82,7 +82,7 @@ export async function menu() {
     console.log(`\n  当前本机默认: ${cur ? `${cur}(${CFG.profiles[cur].desc})` : "未识别(不是这几套之一)"}\n`);
     names.forEach((n, i) => {
         const ok = fs.existsSync(path.join(KEY_DIR, CFG.profiles[n].keyFile));
-        console.log(`  ${i + 1}. ${n.padEnd(10)} ${CFG.profiles[n].desc}${n === cur ? "  ← 当前" : ""}${ok ? "" : `  (缺 key 文件 ${CFG.profiles[n].keyFile})`}`);
+        console.log(`  ${i + 1}. ${n.padEnd(14)} ${CFG.profiles[n].desc}${n === cur ? "  ← 当前" : ""}${ok ? "" : `  (缺 key 文件 ${CFG.profiles[n].keyFile})`}`);
     });
     const { createInterface } = await import("node:readline/promises");
     const rl = createInterface({ input: process.stdin, output: process.stdout });
@@ -102,7 +102,7 @@ if (isMain) {
         console.log(`key 目录: ${KEY_DIR}`);
         for (const [n, p] of Object.entries(CFG.profiles)) {
             const ok = fs.existsSync(path.join(KEY_DIR, p.keyFile));
-            console.log(`  ${ok ? "✅" : "❌"} ${n.padEnd(10)} ${p.desc}${ok ? "" : `  (缺 ${p.keyFile})`}`);
+            console.log(`  ${ok ? "✅" : "❌"} ${n.padEnd(14)} ${p.desc}${ok ? "" : `  (缺 ${p.keyFile})`}`);
         }
         console.log("用法: cs <配置> [claude 参数] | cs file <配置> | cs set <配置> | cs menu(永久切换, 仅手动)");
     } else if (cmd === "file") {

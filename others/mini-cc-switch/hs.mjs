@@ -19,7 +19,7 @@ const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-hermes.json"), 
 function findKeyDir() {
     let d = path.dirname(HERE);
     for (let i = 0; i < 5; i++) {
-        try { if (fs.readdirSync(d).some((f) => /-api-key\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }
+        try { if (fs.readdirSync(d).some((f) => /-api-key(-[a-z0-9]+)?\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }   // 10/17: 别人的 key 改名 <provider>-api-key-<人名缩写>.txt
         const up = path.dirname(d);
         if (up === d) break;
         d = up;
@@ -92,7 +92,7 @@ function list() {
     console.log(`hermes 目录: ${HOME}\nkey 目录:    ${KEY_DIR}`);
     console.log(`当前 model 段: provider=${s.provider || "-"} model=${s.model || "-"} default=${s.default || "-"} base_url=${s.base_url || "-"} → ${cur || "未识别"}\n`);
     Object.entries(CFG.profiles).forEach(([n, p], i) =>
-        console.log(`  ${i + 1}. ${hasKey(p) ? "✅" : "❌"} ${n.padEnd(10)} ${p.desc}${n === cur ? "  ← 当前" : ""}${hasKey(p) ? "" : `  (缺 ${p.keyFile})`}`));
+        console.log(`  ${i + 1}. ${n.padEnd(14)} ${p.desc}${n === cur ? "  ← 当前" : ""}${hasKey(p) ? "" : `  (缺 key 文件 ${p.keyFile})`}`));   // 10/17: 和 cs 菜单一致, 不加 ✅
 }
 
 function after(name) {
