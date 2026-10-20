@@ -14,17 +14,18 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const CFG = JSON.parse(fs.readFileSync(path.join(HERE, "profiles-hermes.json"), "utf8"));
+const ROOT = path.dirname(HERE); // 10/20 重组: 代码在 key-switcher/scripts/，配置(profiles-*.json)在 key-switcher/ 根
+const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, "profiles-hermes.json"), "utf8"));
 // key 目录: 环境变量 > 从本工具目录逐级往上找第一个含 *-api-key.txt 的目录(10/12: 工具挪进 dev-notes/others 后, key 仍在 <dev>\)
 function findKeyDir() {
-    let d = path.dirname(HERE);
+    let d = path.dirname(ROOT);
     for (let i = 0; i < 5; i++) {
         try { if (fs.readdirSync(d).some((f) => /-api-key(-[a-z0-9]+)?\.txt$/i.test(f))) return d; } catch { /* 无权限跳过 */ }   // 10/17: 别人的 key 改名 <provider>-api-key-<人名缩写>.txt
         const up = path.dirname(d);
         if (up === d) break;
         d = up;
     }
-    return path.dirname(HERE);
+    return path.dirname(ROOT);
 }
 const KEY_DIR = process.env.HERMES_KEY_DIR || findKeyDir();
 const LOCAL = process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");

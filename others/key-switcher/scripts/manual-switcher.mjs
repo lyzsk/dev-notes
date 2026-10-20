@@ -1,6 +1,6 @@
-// ss.mjs — 配置切换总入口(2026-10-13 用户令: switch-claude-settings + switch-hermes-settings 合并为 mini-cc-switch)
+// manual-switcher.mjs — 手动切换总入口(2026-10-13 用户令: switch-claude-settings + switch-hermes-settings 合并; 10/20 目录 mini-cc-switch → key-switcher, ss.mjs → scripts/manual-switcher.mjs)
 // 第一步选切哪个(1=Claude Code / 2=Hermes) → 第二步选配置(provider/key/model, 同原菜单) → Hermes 切完自动重启微信网关
-// 双击「mini-cc-switch.cmd」即可; 命令行仍可单独用 cs.cmd / hs.cmd(用法见各自文件头)
+// 双击 key-switcher 根目录的「manual-switcher.cmd」即可; 命令行也可直接 node cs.mjs … / node hs.mjs …(用法见各自文件头; cs.cmd/hs.cmd 10/20 已删)
 import { createInterface } from "node:readline/promises";
 
 const rl = createInterface({ input: process.stdin, output: process.stdout });

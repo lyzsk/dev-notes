@@ -1,0 +1,109 @@
+{
+    "_meta": {
+        "用途": "Claude Code 多套 key/网关配置模板(10/11 用户给 3 套, 10/13 加 gravitex-cyx 共 5 套: kimi 2 key + gravitex + glm), 由 cs.mjs 读取; 位置=<dev>\\switch-claude-settings\\(不在任何项目里), 各机拷整个文件夹",
+        "key": "模板不含 key; keyFile=<dev>\\ 下的文件名(即本文件夹的上一级, 与 switch-claude-settings 同级), 运行时注入 ANTHROPIC_AUTH_TOKEN; 特殊机器可设环境变量 CLAUDE_KEY_DIR 覆盖",
+        "约束": "不改 ~/.claude/settings.json(10/9 用户立法); 交互用 claude --settings 叠加, 默认配置不变; cs set 永久切换仅用户手动执行",
+        "gravitex模板": "10/20 用户定的 gravitex 模板(4 套共用): 主模型/OPUS=claude-opus-5-5[1m], FABLE=claude-fable-5-1[1m], HAIKU=claude-sonnet-5-5[1m], SONNET=kimi-k3[1m](供 /model 切 kimi), MAX_CONTEXT=1000000, EFFORT=high; 不设 CLAUDE_CODE_SUBAGENT_MODEL——子代理跟随当前 CLI 模型(/model 切到哪就用哪); [1m] 是 Claude Code 侧标记, opus/fable 原生 1M, 保险起见都加; ANTHROPIC_AUTH_TOKEN 运行时按 keyFile 注入",
+        "子代理": "10/20 用户定: 所有配置都不设 CLAUDE_CODE_SUBAGENT_MODEL, 子代理跟随当前 CLI 模型; cs.mjs 也不再自动补这一项, cs set 会清掉 settings.json 里的旧值"
+    },
+    "profiles": {
+        "gravitex-cyx": {
+            "desc": "provider: gravitex, key: gravitex-cyx, model: claude-opus-5-5[1m]",
+            "keyFile": "gravitex-api-key-cyx.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
+                "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "gravitex-zgm": {
+            "desc": "provider: gravitex, key: gravitex-zgm, model: claude-opus-5-5[1m]",
+            "keyFile": "gravitex-api-key-zgm.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
+                "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "gravitex-xhj": {
+            "desc": "provider: gravitex, key: gravitex-xhj, model: claude-opus-5-5[1m]",
+            "keyFile": "gravitex-api-key-xhj.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
+                "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "gravitex": {
+            "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5[1m]",
+            "keyFile": "gravitex-api-key.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
+                "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "kimi-code": {
+            "desc": "provider: kimi, key: kimi-code, model: kimi-k3[1m]",
+            "keyFile": "kimi-code-api-key.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+                "ANTHROPIC_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
+                "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "kimi-code-xhj": {
+            "desc": "provider: kimi, key: kimi-code-xhj, model: kimi-k3[1m]",
+            "keyFile": "kimi-code-api-key-xhj.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
+                "ANTHROPIC_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
+                "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
+                "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
+                "CLAUDE_CODE_EFFORT_LEVEL": "high"
+            }
+        },
+        "glm": {
+            "desc": "provider: glm, key: glm, model: glm-5.3[1m]",
+            "keyFile": "glm-api-key.txt",
+            "env": {
+                "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
+                "ANTHROPIC_MODEL": "glm-5.3[1m]",
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-5.3-flash[1m]",
+                "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5.3[1m]",
+                "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.3[1m]",
+                "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000",
+                "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+                "API_TIMEOUT_MS": "3000000"
+            }
+        }
+    }
+}

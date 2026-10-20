@@ -76,11 +76,11 @@ https://platform.kimi.com/ 的 key:
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "claude-opus-5-5",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-fable-5-1",
-        "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "claude-opus-5-5",
+        "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
         "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
