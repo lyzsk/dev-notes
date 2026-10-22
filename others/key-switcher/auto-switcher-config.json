@@ -1,9 +1,9 @@
 {
     "weights": {
         "gravitex": 1,
-        "gravitex-xhj": 1,
-        "gravitex-cyx": 1,
-        "gravitex-zgm": 0.5
+        "gravitex-xhj": 0.4,
+        "gravitex-cyx": 0.4,
+        "gravitex-zgm": 0.2
     },
     "threshold_usd": 50,
     "interval_minutes": 15,

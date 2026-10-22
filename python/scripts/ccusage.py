@@ -4,7 +4,7 @@
 数字全部来自两台机器 ccusage 的真实输出，只做相加，不改任何数。
 
 用法：
-  python ccusage.py --since 20261010 --until 20261019            # 现场取数：本机 npx + SSH 到 PC1
+  python ccusage.py --since 20261010 --until 20261019            # 现场取数(PC1 / PC3 上都能跑, 结果都是 PC1 + PC3 合并): 在 PC1 = 本机 + SSH pc3; 在 PC3 = 本机 + SSH PC1
   python ccusage.py --pc1 a.json --pc3 b.json                     # 用已存的 JSON（ccusage daily --json 的输出）
   python ccusage.py ... --md                                      # 改为输出 markdown 按日合计表
   python ccusage.py ... --breakdown                               # 表格里按模型展开（同 ccusage daily --breakdown）
@@ -14,19 +14,43 @@
 import argparse, collections, json, subprocess, sys
 
 PC1_SSH = "admin@100.126.73.77"
+PC3_SSH = "pc3"                      # PC1 的 ~/.ssh/config 别名(100.79.46.1, 用户名带空格)
+PC1_HOST = "DESKTOP-3JCO3I1"          # PC1 的计算机名: 在 PC1 上跑 = 本机取 PC1、SSH 取 PC3; 在别处跑 = 本机取 PC3、SSH 取 PC1
 FIELDS = ("inputTokens", "outputTokens", "cacheCreationTokens", "cacheReadTokens")
+
+
+def on_pc1():
+    import socket
+    return socket.gethostname().upper() == PC1_HOST
 
 
 def fetch_local(since, until):
     cmd = f"npx -y ccusage@latest daily --since {since} --until {until} --json"
-    return json.loads(subprocess.run(cmd, shell=True, capture_output=True, text=True, encoding="utf-8").stdout)
+    p = subprocess.run(cmd, shell=True, capture_output=True, text=True, encoding="utf-8")
+    return _json(p.stdout, p.stderr, "本机")
+
+
+def fetch_ssh(host, since, until):
+    remote = f"npx -y ccusage@latest daily --since {since} --until {until} --json"
+    p = subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", host, remote],
+                       capture_output=True, text=True, encoding="utf-8")
+    return _json(p.stdout, p.stderr, f"SSH {host}")
+
+
+def _json(out, err, src):
+    """取第一个 { 起的 JSON(npx 可能在前面打提示行); 没有 JSON 就把 stderr 报出来, 不再只报 substring not found"""
+    i = (out or "").find("{")
+    if i < 0:
+        sys.exit(f"{src} 没拿到 ccusage JSON。stderr 末尾:\n{(err or '').strip()[-800:] or '(空)'}")
+    return json.loads(out[i:])
 
 
 def fetch_pc1(since, until):
-    remote = f"npx -y ccusage@latest daily --since {since} --until {until} --json"
-    out = subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", PC1_SSH, remote],
-                         capture_output=True, text=True, encoding="utf-8").stdout
-    return json.loads(out[out.index("{"):])
+    return fetch_local(since, until) if on_pc1() else fetch_ssh(PC1_SSH, since, until)
+
+
+def fetch_pc3(since, until):
+    return fetch_ssh(PC3_SSH, since, until) if on_pc1() else fetch_local(since, until)
 
 
 def merge(*reports):
@@ -141,14 +165,14 @@ def render_md(days):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--since"); ap.add_argument("--until")
-    ap.add_argument("--pc1", help="PC1 的 ccusage daily --json 文件；不给就 SSH 现场取")
-    ap.add_argument("--pc3", help="本机的 ccusage daily --json 文件；不给就本机现场取")
+    ap.add_argument("--pc1", help="PC1 的 ccusage daily --json 文件；不给就现场取(在 PC1 上 = 本机, 否则 SSH)")
+    ap.add_argument("--pc3", help="PC3 的 ccusage daily --json 文件；不给就现场取(在 PC1 上 = SSH pc3, 否则本机)")
     ap.add_argument("--md", action="store_true"); ap.add_argument("--breakdown", action="store_true")
     a = ap.parse_args()
     if (not a.pc1 or not a.pc3) and not (a.since and a.until):
         ap.error("现场取数需要 --since 和 --until")
     pc1 = json.load(open(a.pc1, encoding="utf-8")) if a.pc1 else fetch_pc1(a.since, a.until)
-    pc3 = json.load(open(a.pc3, encoding="utf-8")) if a.pc3 else fetch_local(a.since, a.until)
+    pc3 = json.load(open(a.pc3, encoding="utf-8")) if a.pc3 else fetch_pc3(a.since, a.until)
     days = merge(pc1, pc3)
     print(render_md(days) if a.md else render_table(days, a.breakdown))
 
