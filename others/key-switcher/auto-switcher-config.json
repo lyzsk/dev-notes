@@ -1,14 +1,14 @@
 {
-  "weights": {
-    "gravitex": 1,
-    "gravitex-xhj": 0.5,
-    "gravitex-cyx": 0.5,
-    "gravitex-zgm": 0
-  },
-  "threshold_usd": 50,
-  "interval_minutes": 15,
-  "jitter_minutes": 5,
-  "reserve_usd": 2,
-  "reserve_minutes": 10,
-  "cache_minutes": 10
+    "weights": {
+        "gravitex": 1,
+        "gravitex-xhj": 1,
+        "gravitex-cyx": 1,
+        "gravitex-zgm": 0.5
+    },
+    "threshold_usd": 50,
+    "interval_minutes": 15,
+    "jitter_minutes": 5,
+    "reserve_usd": 2,
+    "reserve_minutes": 10,
+    "cache_minutes": 10
 }
