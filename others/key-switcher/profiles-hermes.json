@@ -1,59 +1,67 @@
 {
-  "_meta": {
-    "用途": "Hermes Agent 多套网关/模型配置模板(10/12 用户令, 仿 switch-claude-settings), 由 hs.mjs 读取; 位置=<dev>\\switch-hermes-settings\\, 各机拷整个文件夹",
-    "key": "key 不存本文件: keyFile 指向 <dev>\\ 下同名 txt(与 switch-claude-settings 共用同一批 key 文件)",
-    "写入方式": "只经 `hermes config set model.*` 改 model 段(provider/model/default/base_url/api_key), 其它配置原样不动; 改前自动备份 config.yaml",
-    "核对": "gravitex=PC1 10/12 用户手配实测可用; kimi/glm 两套的 OpenAI 兼容地址与模型名未在 hermes 上实测, 首次切换后用 `hs test` 验一下"
-  },
-  "profiles": {
-    "gravitex-cyx": {
-      "desc": "provider: gravitex, key: gravitex-cyx, model: claude-opus-5-5",
-      "keyFile": "gravitex-api-key-cyx.txt",
-      "provider": "custom",
-      "base_url": "https://api.gravitex.ai/v1",
-      "model": "claude-opus-5-5"
+    "_meta": {
+        "用途": "Hermes Agent 多套网关/模型配置模板(10/12 用户令, 仿 switch-claude-settings), 由 hs.mjs 读取; 位置=<dev>\\switch-hermes-settings\\, 各机拷整个文件夹",
+        "key": "key 不存本文件: keyFile 指向 <dev>\\ 下同名 txt(与 switch-claude-settings 共用同一批 key 文件)",
+        "写入方式": "只经 `hermes config set model.*` 改 model 段(provider/model/default/base_url/api_key), 其它配置原样不动; 改前自动备份 config.yaml",
+        "核对": "gravitex=PC1 10/12 用户手配实测可用; kimi/glm 两套的 OpenAI 兼容地址与模型名未在 hermes 上实测, 首次切换后用 `hs test` 验一下",
+        "kimi(10/24)": "10/24 用户: 订阅两套模型 kimi-k3 → k3.1-pro(OpenAI 兼容 /chat/completions 10/24 发 1 token 实测可用); hermes 侧不加烧 token 的 API 那套"
     },
-    "gravitex-zgm": {
-      "desc": "provider: gravitex, key: gravitex-zgm, model: claude-opus-5-5",
-      "keyFile": "gravitex-api-key-zgm.txt",
-      "provider": "custom",
-      "base_url": "https://api.gravitex.ai/v1",
-      "model": "claude-opus-5-5"
-    },
-    "gravitex-xhj": {
-      "desc": "provider: gravitex, key: gravitex-xhj, model: claude-opus-5-5",
-      "keyFile": "gravitex-api-key-xhj.txt",
-      "provider": "custom",
-      "base_url": "https://api.gravitex.ai/v1",
-      "model": "claude-opus-5-5"
-    },
-    "gravitex": {
-      "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
-      "keyFile": "gravitex-api-key.txt",
-      "provider": "custom",
-      "base_url": "https://api.gravitex.ai/v1",
-      "model": "claude-opus-5-5"
-    },
-    "kimi-code": {
-      "desc": "provider: kimi, key: kimi-code, model: kimi-k3",
-      "keyFile": "kimi-code-api-key.txt",
-      "provider": "custom",
-      "base_url": "https://api.kimi.com/coding/v1",
-      "model": "kimi-k3"
-    },
-    "kimi-code-xhj": {
-      "desc": "provider: kimi, key: kimi-code-xhj, model: kimi-k3",
-      "keyFile": "kimi-code-api-key-xhj.txt",
-      "provider": "custom",
-      "base_url": "https://api.kimi.com/coding/v1",
-      "model": "kimi-k3"
-    },
-    "glm": {
-      "desc": "provider: glm, key: glm, model: glm-5.3",
-      "keyFile": "glm-api-key.txt",
-      "provider": "custom",
-      "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
-      "model": "glm-5.3"
+    "profiles": {
+        "gravitex-cyx": {
+            "desc": "provider: gravitex, key: gravitex-cyx, model: claude-opus-5-5",
+            "keyFile": "gravitex-api-key-cyx.txt",
+            "provider": "custom",
+            "base_url": "https://api.gravitex.ai/v1",
+            "model": "claude-opus-5-5"
+        },
+        "gravitex-zgm": {
+            "desc": "provider: gravitex, key: gravitex-zgm, model: claude-opus-5-5",
+            "keyFile": "gravitex-api-key-zgm.txt",
+            "provider": "custom",
+            "base_url": "https://api.gravitex.ai/v1",
+            "model": "claude-opus-5-5"
+        },
+        "gravitex-xhj": {
+            "desc": "provider: gravitex, key: gravitex-xhj, model: claude-opus-5-5",
+            "keyFile": "gravitex-api-key-xhj.txt",
+            "provider": "custom",
+            "base_url": "https://api.gravitex.ai/v1",
+            "model": "claude-opus-5-5"
+        },
+        "gravitex": {
+            "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5",
+            "keyFile": "gravitex-api-key.txt",
+            "provider": "custom",
+            "base_url": "https://api.gravitex.ai/v1",
+            "model": "claude-opus-5-5"
+        },
+        "kimi-code-k3": {
+            "desc": "provider: kimi 订阅, key: kimi-code, model: kimi-k3",
+            "keyFile": "kimi-code-api-key.txt",
+            "provider": "custom",
+            "base_url": "https://api.kimi.com/coding/v1",
+            "model": "kimi-k3"
+        },
+        "kimi-code": {
+            "desc": "provider: kimi 订阅, key: kimi-code, model: k3.1-pro",
+            "keyFile": "kimi-code-api-key.txt",
+            "provider": "custom",
+            "base_url": "https://api.kimi.com/coding/v1",
+            "model": "k3.1-pro"
+        },
+        "kimi-code-xhj": {
+            "desc": "provider: kimi 订阅, key: kimi-code-xhj, model: k3.1-pro",
+            "keyFile": "kimi-code-api-key-xhj.txt",
+            "provider": "custom",
+            "base_url": "https://api.kimi.com/coding/v1",
+            "model": "k3.1-pro"
+        },
+        "glm": {
+            "desc": "provider: glm, key: glm, model: glm-5.3",
+            "keyFile": "glm-api-key.txt",
+            "provider": "custom",
+            "base_url": "https://open.bigmodel.cn/api/coding/paas/v4",
+            "model": "glm-5.3"
+        }
     }
-  }
 }

@@ -14,56 +14,36 @@
 
 ## kimi
 
-https://www.kimi.com/code 的 key:
-
-<!-- ```json
-{
-    "env": {
-        "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
-        "ANTHROPIC_API_KEY": "sk-你的Key",
-        "ANTHROPIC_MODEL": "kimi-for-coding",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-for-coding",
-        "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-for-coding",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-for-coding",
-        "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-for-coding",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-for-coding",
-        "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "262144",
-        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "262144",
-        "CLAUDE_CODE_EFFORT_LEVEL": "high"
-    }
-}
-``` -->
+会员订阅 https://www.kimi.com/code 的 key:
 
 ```json
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.kimi.com/coding/",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "kimi-k3[1m]",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_MODEL": "k3.1-pro[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "k3.1-pro[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
-        "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "k3.1-pro[1m]",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
     }
 }
 ```
 
-https://platform.kimi.com/ 的 key:
+烧 token https://platform.kimi.com/ 的 key:
 
 ```json
 {
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.moonshot.cn/anthropic",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "kimi-k3[1m]",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_MODEL": "kimi-k3.1-pro[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k3.1-pro[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k3[1m]",
-        "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3[1m]",
-        "CLAUDE_CODE_SUBAGENT_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "kimi-k3.1-pro[1m]",
         "ENABLE_TOOL_SEARCH": "false",
         "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1048576",
         "CLAUDE_CODE_EFFORT_LEVEL": "high"
@@ -235,6 +215,20 @@ model:
 `hermes gateway restart`
 
 尽量别 `hermes gateway start`, 有可能启动两个网关
+
+## hermes 自动重启防止堵塞
+
+`%LOCALAPPDATA%\hermes\config.yaml`
+
+```yml
+session_reset:
+    mode: daily # 原 none = 会话从不重置; daily = 每天 at_hour 点重开会话(长期记忆 memories / skills 不受影响)
+    idle_minutes: 1440
+    at_hour: 4
+    notify: false # 重置时不发微信通知(省推送额度)
+```
+
+改完要重启网关才生效 `hermes gateway restart`
 
 # cmd 中文乱码解决
 
