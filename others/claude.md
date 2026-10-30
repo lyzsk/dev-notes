@@ -58,7 +58,7 @@
     "env": {
         "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+        "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
         "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
         "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",

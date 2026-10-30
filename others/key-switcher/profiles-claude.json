@@ -9,11 +9,11 @@
     },
     "profiles": {
         "gravitex-cyx": {
-            "desc": "provider: gravitex, key: gravitex-cyx, model: claude-opus-5-5[1m]",
+            "desc": "provider: gravitex, key: gravitex-cyx, model: claude-sonnet-5-5[1m]",
             "keyFile": "gravitex-api-key-cyx.txt",
             "env": {
                 "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
-                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
                 "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
@@ -23,11 +23,11 @@
             }
         },
         "gravitex-zgm": {
-            "desc": "provider: gravitex, key: gravitex-zgm, model: claude-opus-5-5[1m]",
+            "desc": "provider: gravitex, key: gravitex-zgm, model: claude-sonnet-5-5[1m]",
             "keyFile": "gravitex-api-key-zgm.txt",
             "env": {
                 "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
-                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
                 "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
@@ -37,11 +37,11 @@
             }
         },
         "gravitex-xhj": {
-            "desc": "provider: gravitex, key: gravitex-xhj, model: claude-opus-5-5[1m]",
+            "desc": "provider: gravitex, key: gravitex-xhj, model: claude-sonnet-5-5[1m]",
             "keyFile": "gravitex-api-key-xhj.txt",
             "env": {
                 "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
-                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
                 "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
@@ -51,11 +51,11 @@
             }
         },
         "gravitex": {
-            "desc": "provider: gravitex, key: gravitex, model: claude-opus-5-5[1m]",
+            "desc": "provider: gravitex, key: gravitex, model: claude-sonnet-5-5[1m]",
             "keyFile": "gravitex-api-key.txt",
             "env": {
                 "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
-                "ANTHROPIC_MODEL": "claude-opus-5-5[1m]",
+                "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
                 "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
                 "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",

@@ -3,7 +3,7 @@
         "gravitex": 1,
         "gravitex-xhj": 1,
         "gravitex-cyx": 1,
-        "gravitex-zgm": 1
+        "gravitex-zgm": 0
     },
     "threshold_usd": 50,
     "interval_minutes": 15,
