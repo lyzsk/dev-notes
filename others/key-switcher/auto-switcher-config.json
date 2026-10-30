@@ -1,8 +1,8 @@
 {
     "weights": {
         "gravitex": 1,
-        "gravitex-xhj": 1,
-        "gravitex-cyx": 1,
+        "gravitex-xhj": 0,
+        "gravitex-cyx": 0,
         "gravitex-zgm": 0
     },
     "threshold_usd": 50,
