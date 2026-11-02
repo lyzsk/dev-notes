@@ -171,6 +171,8 @@ const LIMIT_RE =
 const isLimitText = (t) => LIMIT_RE.test(t) && !/\[1308\]/.test(t);
 const kindOf = (t) =>
     /week|7[- ]?day|7 ?天|每周|本周|周额度/i.test(t) ? "7d" : "5h";
+// 10/31 用户批: 普通HTTP 429/overloaded不算5h/7d；只有响应正文含明确额度文本才允许切按量key。
+export const quotaKindFromBody = (t) => (isLimitText(t) ? kindOf(t) : null);
 const KIND_TEXT = { "5h": "5 小时", "7d": "7 天" };
 const KIND_MS = { "5h": 5 * H, "7d": 7 * 24 * H };
 function resetFromText(t, from) {
@@ -343,8 +345,9 @@ export async function probe(name) {
         const body = await r.text();
         const reset = resetFromText(body, t0) || resetFromHeaders(r.headers, t0);
         if (r.ok) return { result: "ok", status: r.status, reset: 0, msg: "" };
-        if (isLimitText(body) || r.status === 429)
-            return { result: kindOf(body), status: r.status, reset, msg: scrub(body) };
+        const quotaKind = quotaKindFromBody(body);
+        if (quotaKind)
+            return { result: quotaKind, status: r.status, reset, msg: scrub(body) };
         return {
             result: r.status === 401 || r.status === 403 ? "error" : "unknown",
             status: r.status,
@@ -432,10 +435,33 @@ async function probeAndRecord(cfg, st, n, events, ctx) {
 }
 
 // ---------------- 自动切换：计划任务每次跑的逻辑 ----------------
+// 切换后当前交互 CLI 还要 /model <模型> + 回车确认(订阅 k3.1-pro[1m] / 按量 kimi-k3.1-pro[1m] 模型名不同)；
+// settings.json 只影响新开的 CLI，缺这步 = 网关切了、正在跑的 CLI 模型没切(11/2 用户实测)
+function injectModel(target) {
+    const model = profiles()[target]?.env?.ANTHROPIC_MODEL;
+    if (!model) return;
+    const script = path.join(HERE, "cli-model.py");
+    // 优先显式指定/本机 anaconda；where python 可能找到微软商店假壳(WindowsApps)，必须排除
+    const py = [process.env.KIMI_CLI_PYTHON, path.join(os.homedir(), "anaconda3", "python.exe")]
+        .filter(Boolean)
+        .find((p) => fs.existsSync(p)) ||
+        (run("where", ["python"]).stdout || "").split(/\r?\n/).find((x) => x && !/WindowsApps/i.test(x));
+    if (!py) {
+        console.log("  没找到 python，跳过 CLI /model 注入（新开的 CLI 已用新配置）");
+        return;
+    }
+    const r = spawnSync(py, [script, `/model ${model}`], {
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: 30_000,
+    });
+    console.log(`  CLI 注入 /model ${model}: ${(r.stdout || r.stderr || "").trim() || `exit=${r.status}`}`);
+}
 function switchTo(target) {
     try {
         setDefault(target);
-        return [true, `settings.json 已切到 ${target}`];
+        injectModel(target);
+        return [true, `settings.json 已切到 ${target}，已向当前 CLI 发 /model`];
     } catch (e) {
         return [false, `切换失败: ${e.message}`];
     }
@@ -483,8 +509,12 @@ async function cmdRun(dry, only = null) {
         const k = keyState(st, cur);
         // 要不要探测当前这把：日志里有晚于它上次探测的新额度报错，或记录里它还在受限期（可能是手动切回来的）
         const fresh = events.some((e) => e.t > ms(k.last_probe?.time));
-        let limited = limitedNow(k, t);
-        if ((fresh || limited) && canProbe(cfg, k, t, false))
+        // 11/2 补丁(用户令): 轻探测(max_tokens=1)测不出真实限额——真实大请求 429 而探测 200。探测 ok 后 10 分钟内又攒 ≥2 条真实额度报错 → 以真实报错为准, 视为受限直接切, 不再探测
+        k.recent_errs = [...(k.recent_errs || []), ...events.map((e) => e.t)].filter((x) => t - x < 10 * 60_000);
+        const streak = k.recent_errs.length >= 2 && k.last_probe?.result === "ok";
+        let limited = limitedNow(k, t) || streak;
+        if (streak) note = `探测 ok 后 10 分钟内 ${k.recent_errs.length} 条真实额度报错，以真实报错为准（不再轻探测）`;
+        else if ((fresh || limited) && canProbe(cfg, k, t, false))
             limited = !(await probeAndRecord(cfg, st, cur, events, ctx)) && limitedNow(k, t);
         else if (fresh) note = `${cur} ${cfg.probe_cooldown_minutes} 分钟内探测过（${k.last_probe?.result}），这次不再探测`;
         if (limited) {
