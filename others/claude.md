@@ -261,6 +261,18 @@ session_reset:
 
 改完要重启网关才生效 `hermes gateway restart`
 
+## tailscale 卡死
+
+要么手动结束进程然后 `tailscale up --unattended`
+
+```cmd
+tailscale status
+Restart-Service Tailscale
+tailscale up --unattended
+tailscale status
+tailscale ping 100.xxx.xx.xx
+```
+
 # cmd 中文乱码解决
 
 已经是 65001(UTF-8) 依旧乱码

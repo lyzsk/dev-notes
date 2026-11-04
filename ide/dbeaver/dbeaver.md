@@ -16,4 +16,10 @@ dbeaver 连接时报错: `Public Key Retrieval is not allowed`
 
 ## Public Key Retrieval is not allowed
 
-Edit Connection - Driver settings - Driver properties - 添加`allowPublicKeyRetrieval = true`
+Edit Connection - Driver settings - Driver properties - 添加 `allowPublicKeyRetrieval = true`
+
+## 自动连接
+
+Edit Connection - Driver Settings - Default properties:
+
+添加 add new property: `autoReconnect = true`

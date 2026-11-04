@@ -699,3 +699,17 @@ diff.sort((o1, o2) => {
 # svg 图标
 
 https://www.iconfont.cn/
+
+# 可视化流程
+
+Archify: `npx skills add tt-a1i/archify -g`
+
+# pnpm
+
+`npm install -g pnpm@11.16.0`
+
+`pnpm -v`
+
+`pnpm install`
+
+`pnpm dev:antd`

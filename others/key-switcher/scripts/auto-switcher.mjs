@@ -87,9 +87,12 @@ const flag = (name) => {
     const i = argv.indexOf(name);
     return i >= 0 ? argv[i + 1] : undefined;
 };
-const FAKE_NOW = flag("--now") ? Date.parse(flag("--now").replace(" ", "T")) : null;
+const FAKE_NOW = flag("--now")
+    ? Date.parse(flag("--now").replace(" ", "T"))
+    : null;
 const nowMs = () => FAKE_NOW ?? Date.now();
-const fmt = (ms) => (ms ? new Date(ms).toLocaleString("sv-SE").slice(0, 19) : "");
+const fmt = (ms) =>
+    ms ? new Date(ms).toLocaleString("sv-SE").slice(0, 19) : "";
 const ms = (s) => (s ? Date.parse(String(s).replace(" ", "T")) : 0); // 本地时间字符串 → 毫秒
 const short = (s) => (s ? String(s).slice(5, 16) : "?"); // "10-25 17:30"
 const errln = (...a) => console.error(...a);
@@ -228,7 +231,13 @@ function readNewLines(f, from, size, onLine) {
             carry = Buffer.alloc(0);
         const buf = Buffer.alloc(8 << 20);
         while (pos < size) {
-            const n = fs.readSync(fd, buf, 0, Math.min(buf.length, size - pos), pos);
+            const n = fs.readSync(
+                fd,
+                buf,
+                0,
+                Math.min(buf.length, size - pos),
+                pos,
+            );
             if (n <= 0) break;
             pos += n;
             const chunk = Buffer.concat([carry, buf.subarray(0, n)]);
@@ -315,16 +324,34 @@ export async function probe(name) {
     // 返回 {result: ok | 5h | 7d | error | unknown, status, reset(毫秒，0=没给), msg}
     if (process.env.KIMI_FAKE_PROBE) {
         const r = JSON.parse(process.env.KIMI_FAKE_PROBE)[name] ?? "ok";
-        return { result: r, status: "fake", reset: 0, msg: "（模拟探测，没发请求）" };
+        return {
+            result: r,
+            status: "fake",
+            reset: 0,
+            msg: "（模拟探测，没发请求）",
+        };
     }
     const p = profiles()[name];
-    if (!p) return { result: "error", status: "", reset: 0, msg: `没有配置 ${name}` };
+    if (!p)
+        return {
+            result: "error",
+            status: "",
+            reset: 0,
+            msg: `没有配置 ${name}`,
+        };
     const kf = path.join(keyDir(), p.keyFile);
     if (!fs.existsSync(kf))
-        return { result: "error", status: "", reset: 0, msg: `缺 key 文件 ${p.keyFile}` };
-    const url =
-        p.env.ANTHROPIC_BASE_URL.replace(/\/+$/, "") + "/v1/messages";
-    const model = String(p.env.ANTHROPIC_MODEL || "").replace(/\[[^\]]*\]$/, "");
+        return {
+            result: "error",
+            status: "",
+            reset: 0,
+            msg: `缺 key 文件 ${p.keyFile}`,
+        };
+    const url = p.env.ANTHROPIC_BASE_URL.replace(/\/+$/, "") + "/v1/messages";
+    const model = String(p.env.ANTHROPIC_MODEL || "").replace(
+        /\[[^\]]*\]$/,
+        "",
+    );
     const t0 = nowMs();
     try {
         const r = await fetch(url, {
@@ -340,17 +367,27 @@ export async function probe(name) {
                 // 11/3 用户令: 轻探测(1 token)测不出限额, 改 10 token 真实负载探测(能触发生成路径即可, 100 太费额度)
                 max_tokens: 10,
                 messages: [
-                    { role: "user", content: "用大约一百个token简单介绍一下A股集合竞价的规则, 简短回答即可." },
+                    {
+                        role: "user",
+                        content:
+                            "用大约一百个token简单介绍一下A股集合竞价的规则, 简短回答即可.",
+                    },
                 ],
             }),
             signal: AbortSignal.timeout(30000),
         });
         const body = await r.text();
-        const reset = resetFromText(body, t0) || resetFromHeaders(r.headers, t0);
+        const reset =
+            resetFromText(body, t0) || resetFromHeaders(r.headers, t0);
         if (r.ok) return { result: "ok", status: r.status, reset: 0, msg: "" };
         const quotaKind = quotaKindFromBody(body);
         if (quotaKind)
-            return { result: quotaKind, status: r.status, reset, msg: scrub(body) };
+            return {
+                result: quotaKind,
+                status: r.status,
+                reset,
+                msg: scrub(body),
+            };
         return {
             result: r.status === 401 || r.status === 403 ? "error" : "unknown",
             status: r.status,
@@ -358,7 +395,12 @@ export async function probe(name) {
             msg: scrub(body),
         };
     } catch (e) {
-        return { result: "unknown", status: "", reset: 0, msg: scrub(e.message) };
+        return {
+            result: "unknown",
+            status: "",
+            reset: 0,
+            msg: scrub(e.message),
+        };
     }
 }
 
@@ -366,8 +408,11 @@ export async function probe(name) {
 // st.keys[名] = { limit_5h/limit_7d: {hit_at, reset_at, source, recovered_at?}, last_probe: {time, result, status, msg}, last_ok_at, next_probe_at, retries }
 const keyState = (st, n) => ((st.keys ||= {})[n] ||= {});
 const activeLimits = (k) =>
-    ["5h", "7d"].map((x) => k["limit_" + x]).filter((l) => l && !l.recovered_at);
-const resetAt = (k) => Math.max(0, ...activeLimits(k).map((l) => ms(l.reset_at)));
+    ["5h", "7d"]
+        .map((x) => k["limit_" + x])
+        .filter((l) => l && !l.recovered_at);
+const resetAt = (k) =>
+    Math.max(0, ...activeLimits(k).map((l) => ms(l.reset_at)));
 const limitedNow = (k, t) => activeLimits(k).length > 0 && resetAt(k) > t;
 const probedOkRecently = (cfg, k, t) =>
     k.last_probe?.result === "ok" &&
@@ -385,7 +430,12 @@ async function probeAndRecord(cfg, st, n, events, ctx) {
     const k = keyState(st, n),
         t = nowMs(),
         pr = await probe(n);
-    k.last_probe = { time: fmt(t), result: pr.result, status: pr.status, msg: pr.msg };
+    k.last_probe = {
+        time: fmt(t),
+        result: pr.result,
+        status: pr.status,
+        msg: pr.msg,
+    };
     console.log(
         `  探测 ${n}: ${pr.result}${pr.status ? ` (HTTP ${pr.status})` : ""}${pr.msg ? ` ${pr.msg}` : ""}`,
     );
@@ -401,7 +451,17 @@ async function probeAndRecord(cfg, st, n, events, ctx) {
         // 网络错误 / key 无效等：不算撞上限，按重试间隔晚点再探（间隔逐次拉长，免得一直探）
         k.next_probe_at = fmt(t + retryDelay(cfg, k.retries || 0));
         k.retries = (k.retries || 0) + 1;
-        ctx.log([fmt(t), ctx.cur, "probe_" + pr.result, n, "", "", "", "", pr.msg]);
+        ctx.log([
+            fmt(t),
+            ctx.cur,
+            "probe_" + pr.result,
+            n,
+            "",
+            "",
+            "",
+            "",
+            pr.msg,
+        ]);
         return false;
     }
     const kind = pr.result,
@@ -415,7 +475,17 @@ async function probeAndRecord(cfg, st, n, events, ctx) {
             old.source = pr.reset ? "kimi 返回" : "到点仍受限，往后推";
         } else if (pr.reset) old.reset_at = fmt(pr.reset);
         k.next_probe_at = old.reset_at;
-        ctx.log([fmt(t), ctx.cur, "still_" + kind, n, kind, old.hit_at, old.reset_at, "", pr.msg]);
+        ctx.log([
+            fmt(t),
+            ctx.cur,
+            "still_" + kind,
+            n,
+            kind,
+            old.hit_at,
+            old.reset_at,
+            "",
+            pr.msg,
+        ]);
         return false;
     }
     // 新撞上限：撞的时刻 = 日志里这次之后第一条同类报错的时间（晚于这把 key 上次探测正常），没有就用现在
@@ -425,15 +495,28 @@ async function probeAndRecord(cfg, st, n, events, ctx) {
     k["limit_" + kind] = {
         hit_at: fmt(hit),
         // 探测刚确认受限，推算出的恢复时刻却已过（日志里的报错太早）→ 至少等一个重试间隔；kimi 当场返回的重置时间照用
-        reset_at: fmt(pr.reset > t ? pr.reset : Math.max(reset, t + retryDelay(cfg, 0))),
-        source: pr.reset || ev?.reset ? "kimi 返回" : `撞上限 + ${KIND_TEXT[kind]}`,
+        reset_at: fmt(
+            pr.reset > t ? pr.reset : Math.max(reset, t + retryDelay(cfg, 0)),
+        ),
+        source:
+            pr.reset || ev?.reset ? "kimi 返回" : `撞上限 + ${KIND_TEXT[kind]}`,
     };
     k.next_probe_at = k["limit_" + kind].reset_at;
     delete k.retries;
     console.log(
         `  记录: ${n} 撞 ${KIND_TEXT[kind]}上限 ${short(fmt(hit))}，预计 ${short(k["limit_" + kind].reset_at)} 恢复`,
     );
-    ctx.log([fmt(t), ctx.cur, "hit_" + kind, n, kind, fmt(hit), k["limit_" + kind].reset_at, "", pr.msg]);
+    ctx.log([
+        fmt(t),
+        ctx.cur,
+        "hit_" + kind,
+        n,
+        kind,
+        fmt(hit),
+        k["limit_" + kind].reset_at,
+        "",
+        pr.msg,
+    ]);
     return false;
 }
 
@@ -445,12 +528,20 @@ function injectModel(target) {
     if (!model) return;
     const script = path.join(HERE, "cli-model.py");
     // 优先显式指定/本机 anaconda；where python 可能找到微软商店假壳(WindowsApps)，必须排除
-    const py = [process.env.KIMI_CLI_PYTHON, path.join(os.homedir(), "anaconda3", "python.exe")]
-        .filter(Boolean)
-        .find((p) => fs.existsSync(p)) ||
-        (run("where", ["python"]).stdout || "").split(/\r?\n/).find((x) => x && !/WindowsApps/i.test(x));
+    const py =
+        [
+            process.env.KIMI_CLI_PYTHON,
+            path.join(os.homedir(), "anaconda3", "python.exe"),
+        ]
+            .filter(Boolean)
+            .find((p) => fs.existsSync(p)) ||
+        (run("where", ["python"]).stdout || "")
+            .split(/\r?\n/)
+            .find((x) => x && !/WindowsApps/i.test(x));
     if (!py) {
-        console.log("  没找到 python，跳过 CLI /model 注入（新开的 CLI 已用新配置）");
+        console.log(
+            "  没找到 python，跳过 CLI /model 注入（新开的 CLI 已用新配置）",
+        );
         return;
     }
     const r = spawnSync(py, [script, `/model ${model}`], {
@@ -458,7 +549,9 @@ function injectModel(target) {
         windowsHide: true,
         timeout: 30_000,
     });
-    console.log(`  CLI 注入 /model ${model}: ${(r.stdout || r.stderr || "").trim() || `exit=${r.status}`}`);
+    console.log(
+        `  CLI 注入 /model ${model}: ${(r.stdout || r.stderr || "").trim() || `exit=${r.status}`}`,
+    );
 }
 function switchTo(target) {
     try {
@@ -476,7 +569,12 @@ async function pickSub(cfg, st, events, ctx, exclude) {
         if (n === exclude) continue;
         const k = keyState(st, n);
         if (limitedNow(k, t)) continue;
-        if (!activeLimits(k).length && !events.some((e) => e.t > ms(k.last_probe?.time)) && probedOkRecently(cfg, k, t)) return n;
+        if (
+            !activeLimits(k).length &&
+            !events.some((e) => e.t > ms(k.last_probe?.time)) &&
+            probedOkRecently(cfg, k, t)
+        )
+            return n;
         if (!canProbe(cfg, k, t)) continue;
         if (await probeAndRecord(cfg, st, n, events, ctx)) return n;
     }
@@ -489,7 +587,12 @@ async function pickApi(cfg, st, events, ctx, exclude) {
         if (n === exclude) continue;
         const k = keyState(st, n);
         if (limitedNow(k, t)) continue;
-        if (!activeLimits(k).length && !events.some((e) => e.t > ms(k.last_probe?.time)) && probedOkRecently(cfg, k, t)) return n;
+        if (
+            !activeLimits(k).length &&
+            !events.some((e) => e.t > ms(k.last_probe?.time)) &&
+            probedOkRecently(cfg, k, t)
+        )
+            return n;
         if (!canProbe(cfg, k, t)) continue;
         if (await probeAndRecord(cfg, st, n, events, ctx)) return n;
     }
@@ -505,9 +608,18 @@ async function cmdRun(dry, only = null) {
     const events = scanLogs(cfg, st, only);
     const tag = dry ? " (dry-run)" : "";
     if (events.length) {
-        st.events = [...(st.events || []), ...events.map((e) => ({ time: fmt(e.t), kind: e.kind, text: e.text }))].slice(-30);
+        st.events = [
+            ...(st.events || []),
+            ...events.map((e) => ({
+                time: fmt(e.t),
+                kind: e.kind,
+                text: e.text,
+            })),
+        ].slice(-30);
         const e = events[events.length - 1];
-        console.log(`${T} 日志里新出现 ${events.length} 条额度报错（最近 ${short(fmt(e.t))}，${KIND_TEXT[e.kind]}）: ${e.text}`);
+        console.log(
+            `${T} 日志里新出现 ${events.length} 条额度报错（最近 ${short(fmt(e.t))}，${KIND_TEXT[e.kind]}）: ${e.text}`,
+        );
     }
     let action = "keep",
         target = "",
@@ -516,7 +628,17 @@ async function cmdRun(dry, only = null) {
         // 当前不是 kimi-code / kimi-api（gravitex / glm / kimi-code-xhj / 认不出）：只记录，不探测不切换
         if (events.length) {
             action = "seen_not_kimi";
-            ctx.log([T, cur, action, "", events[events.length - 1].kind, fmt(events[0].t), "", "", events[events.length - 1].text]);
+            ctx.log([
+                T,
+                cur,
+                action,
+                "",
+                events[events.length - 1].kind,
+                fmt(events[0].t),
+                "",
+                "",
+                events[events.length - 1].text,
+            ]);
         }
         note = `当前 ${cur || "?"} 不归本工具管（只管 kimi-code ↔ kimi-api），不动`;
         delete st.parked;
@@ -526,30 +648,45 @@ async function cmdRun(dry, only = null) {
         // 要不要探测当前这把：日志里有晚于它上次探测的新额度报错，或记录里它还在受限期（可能是手动切回来的）
         const fresh = events.some((e) => e.t > ms(k.last_probe?.time));
         // 11/2 补丁(用户令): 轻探测(max_tokens=1)测不出真实限额——真实大请求 429 而探测 200。探测 ok 后 10 分钟内又攒 ≥2 条真实额度报错 → 以真实报错为准, 视为受限直接切, 不再探测
-        k.recent_errs = [...(k.recent_errs || []), ...events.map((e) => e.t)].filter((x) => t - x < 10 * 60_000);
-        const streak = k.recent_errs.length >= 2 && k.last_probe?.result === "ok";
+        k.recent_errs = [
+            ...(k.recent_errs || []),
+            ...events.map((e) => e.t),
+        ].filter((x) => t - x < 10 * 60_000);
+        const streak =
+            k.recent_errs.length >= 2 && k.last_probe?.result === "ok";
         let limited = limitedNow(k, t) || streak;
         if (streak) {
             note = `探测 ok 后 10 分钟内 ${k.recent_errs.length} 条真实额度报错，以真实报错为准（不再轻探测）`;
             // 11/3 补丁: 连击切换时必须作废旧探测 ok 缓存 + 落受限记录, 否则回切路径信 probedOkRecently 继续秒切回(抖动根因)
             const kind = events.length ? events[events.length - 1].kind : "5h";
             if (!k["limit_" + kind] || k["limit_" + kind].recovered_at)
-                k["limit_" + kind] = { hit_at: fmt(t), reset_at: fmt(t + 30 * 60_000), source: "真实报错连击(11/3 补丁)" };
+                k["limit_" + kind] = {
+                    hit_at: fmt(t),
+                    reset_at: fmt(t + 30 * 60_000),
+                    source: "真实报错连击(11/3 补丁)",
+                };
             else k["limit_" + kind].reset_at = fmt(t + 30 * 60_000);
             k.next_probe_at = k["limit_" + kind].reset_at;
             delete k.last_probe; // 回切路径不得再信过期的探测 ok
         } else if ((fresh || limited) && canProbe(cfg, k, t, false))
-            limited = !(await probeAndRecord(cfg, st, cur, events, ctx)) && limitedNow(k, t);
-        else if (fresh) note = `${cur} ${cfg.probe_cooldown_minutes} 分钟内探测过（${k.last_probe?.result}），这次不再探测`;
+            limited =
+                !(await probeAndRecord(cfg, st, cur, events, ctx)) &&
+                limitedNow(k, t);
+        else if (fresh)
+            note = `${cur} ${cfg.probe_cooldown_minutes} 分钟内探测过（${k.last_probe?.result}），这次不再探测`;
         if (limited) {
-            target = (await pickSub(cfg, st, events, ctx, cur)) || (await pickApi(cfg, st, events, ctx, cur));
+            target =
+                (await pickSub(cfg, st, events, ctx, cur)) ||
+                (await pickApi(cfg, st, events, ctx, cur));
             action = "switch";
         }
     } else if (cfg.apis.includes(cur)) {
         // 任一后备上都优先回订阅；当前后备也受限才沿 deepseek → kimi-api 顺序换下一把
         const k = keyState(st, cur);
         if (limitedNow(k, t)) {
-            target = (await pickSub(cfg, st, events, ctx, null)) || (await pickApi(cfg, st, events, ctx, cur));
+            target =
+                (await pickSub(cfg, st, events, ctx, null)) ||
+                (await pickApi(cfg, st, events, ctx, cur));
             if (target !== cur) action = "switch";
         } else {
             const sub = await pickSub(cfg, st, events, ctx, null);
@@ -564,7 +701,11 @@ async function cmdRun(dry, only = null) {
         }
         if (!target) {
             const due = cfg.subs
-                .map((n) => keyState(st, n).next_probe_at || fmt(resetAt(keyState(st, n))))
+                .map(
+                    (n) =>
+                        keyState(st, n).next_probe_at ||
+                        fmt(resetAt(keyState(st, n))),
+                )
                 .filter(Boolean)
                 .sort()[0];
             note = `订阅暂不可用${due ? `，最早 ${short(due)} 再探测` : ""}`;
@@ -575,14 +716,17 @@ async function cmdRun(dry, only = null) {
             const [ok, msg] = switchTo(target);
             if (!ok) action = "switch_failed";
             note = msg;
-            if (ok && cfg.apis.includes(target)) st.parked = { from: cur, at: T };
+            if (ok && cfg.apis.includes(target))
+                st.parked = { from: cur, at: T };
             if (ok && !cfg.apis.includes(target)) delete st.parked;
         }
         ctx.log([T, cur, action, "", "", "", "", target, note]);
     }
     // watch 的局部扫且什么都没发生：不刷屏（会话写日志很频繁）
     if (!(only && action === "keep" && !events.length))
-        console.log(`${T} 当前=${cur || "?"} → ${action}${target ? ` ${target}` : ""}${note ? `（${note}）` : ""}${tag}`);
+        console.log(
+            `${T} 当前=${cur || "?"} → ${action}${target ? ` ${target}` : ""}${note ? `（${note}）` : ""}${tag}`,
+        );
     // 判定后实际在用哪套（dry-run 假装切成功了），据此注册 / 取消"到点切回"的一次性计划任务
     const eff = action === "switch" || action === "return" ? target : cur;
     scheduleReturn(cfg, st, eff, dry, !only);
@@ -598,7 +742,9 @@ function nextReturnAt(cfg, st) {
     const ats = cfg.subs.map((n) => {
         const k = keyState(st, n);
         const due = ms(k.next_probe_at) || (limitedNow(k, t) ? resetAt(k) : t);
-        const cool = k.last_probe ? ms(k.last_probe.time) + cfg.probe_cooldown_minutes * 60_000 : 0;
+        const cool = k.last_probe
+            ? ms(k.last_probe.time) + cfg.probe_cooldown_minutes * 60_000
+            : 0;
         return Math.max(due, cool, t + 60_000);
     });
     return Math.min(...ats);
@@ -610,7 +756,10 @@ function scheduleReturn(cfg, st, eff, dry, verify) {
         // 已经在订阅（或不在 kimi 系）：取消还没到点的切回任务；已经过点的不删（可能正是它在跑这一次）
         if (old) {
             if (ms(old.at) > t) {
-                if (dry) console.log(`  (dry-run) 会删除一次性计划任务 ${RETURN_TASK}（原定 ${short(old.at)}）`);
+                if (dry)
+                    console.log(
+                        `  (dry-run) 会删除一次性计划任务 ${RETURN_TASK}（原定 ${short(old.at)}）`,
+                    );
                 else run("schtasks", ["/Delete", "/TN", RETURN_TASK, "/F"]);
             }
             delete st.return_task;
@@ -624,7 +773,10 @@ function scheduleReturn(cfg, st, eff, dry, verify) {
         const i = taskInfo(RETURN_TASK);
         if (i.exists && i.boundary.slice(0, 16) === at.slice(0, 16)) return;
     }
-    if (dry) console.log(`  (dry-run) 会注册一次性计划任务 ${RETURN_TASK} 于 ${at}（到点探测 ${cfg.subs.join("/")}，通了切回）`);
+    if (dry)
+        console.log(
+            `  (dry-run) 会注册一次性计划任务 ${RETURN_TASK} 于 ${at}（到点探测 ${cfg.subs.join("/")}，通了切回）`,
+        );
     else {
         const err = registerTask(RETURN_TASK, returnTaskXml(at));
         if (err) errln(`注册 ${RETURN_TASK} 失败: ${err}`);
@@ -636,9 +788,14 @@ function scheduleReturn(cfg, st, eff, dry, verify) {
 }
 
 // ---------------- 计划任务（用 XML 注册：时刻写法不受系统区域设置影响；全部 wscript //B + vbs 无窗口） ----------------
-const run = (exe, args) => spawnSync(exe, args, { encoding: "utf8", windowsHide: true });
+const run = (exe, args) =>
+    spawnSync(exe, args, { encoding: "utf8", windowsHide: true });
 const xmlEsc = (s) =>
-    String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
 const USER = `${process.env.USERDOMAIN || os.hostname()}\\${process.env.USERNAME || os.userInfo().username}`;
 function taskXml(triggers, args, limit) {
     // vbs 等 node 跑完才退出 → 常驻进程在跑时任务一直是"正在运行"，IgnoreNew 让每天的检查不会再起一个
@@ -660,7 +817,9 @@ function taskXml(triggers, args, limit) {
 }
 export function mainTaskXml(cfg) {
     // 登录时（延迟 1 分钟）+ 每天 daily_check_time 各拉起一次常驻进程；已经在跑就什么都不做（任务 IgnoreNew + 进程自己的单实例锁）
-    const hm = /^\d{1,2}:\d{2}$/.test(cfg.daily_check_time) ? cfg.daily_check_time.padStart(5, "0") : "08:30";
+    const hm = /^\d{1,2}:\d{2}$/.test(cfg.daily_check_time)
+        ? cfg.daily_check_time.padStart(5, "0")
+        : "08:30";
     return taskXml(
         `<LogonTrigger><Enabled>true</Enabled><UserId>${xmlEsc(USER)}</UserId><Delay>PT1M</Delay></LogonTrigger>` +
             `<CalendarTrigger><StartBoundary>${fmt(Date.now()).slice(0, 10)}T${hm}:00</StartBoundary><Enabled>true</Enabled><ScheduleByDay><DaysInterval>1</DaysInterval></ScheduleByDay></CalendarTrigger>`,
@@ -669,14 +828,23 @@ export function mainTaskXml(cfg) {
     );
 }
 export const returnTaskXml = (at) =>
-    taskXml(`<TimeTrigger><StartBoundary>${at.replace(" ", "T")}</StartBoundary><Enabled>true</Enabled></TimeTrigger>`, "run", "PT10M");
+    taskXml(
+        `<TimeTrigger><StartBoundary>${at.replace(" ", "T")}</StartBoundary><Enabled>true</Enabled></TimeTrigger>`,
+        "run",
+        "PT10M",
+    );
 function registerTask(name, xml) {
     // 返回 "" = 成功，否则是错误信息；XML 文件按 schtasks 要求写成 UTF-16 LE + BOM，用完删掉
     const f = path.join(DATA, `${name}.xml`);
-    fs.writeFileSync(f, Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from(xml, "utf16le")]));
+    fs.writeFileSync(
+        f,
+        Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from(xml, "utf16le")]),
+    );
     try {
         const r = run("schtasks", ["/Create", "/TN", name, "/XML", f, "/F"]);
-        return r.status === 0 ? "" : scrub(r.stderr || r.stdout || `退出码 ${r.status}`);
+        return r.status === 0
+            ? ""
+            : scrub(r.stderr || r.stdout || `退出码 ${r.status}`);
     } finally {
         fs.rmSync(f, { force: true });
     }
@@ -690,8 +858,13 @@ function taskInfo(name) {
     return {
         exists: true,
         enabled: !/<Enabled>false<\/Enabled>/.test(settings),
-        boundary: ((/<StartBoundary>([^<]*)<\/StartBoundary>/.exec(x) || [])[1] || "").replace("T", " "),
-        pathOk: x.replace(/&quot;/g, '"').toLowerCase().includes(VBS.toLowerCase()),
+        boundary: (
+            (/<StartBoundary>([^<]*)<\/StartBoundary>/.exec(x) || [])[1] || ""
+        ).replace("T", " "),
+        pathOk: x
+            .replace(/&quot;/g, '"')
+            .toLowerCase()
+            .includes(VBS.toLowerCase()),
     };
 }
 
@@ -722,7 +895,8 @@ function killWatcher() {
 async function cmdWatch(dry) {
     const cfg = loadConfig(),
         other = watcherPid();
-    if (other && other !== process.pid) return console.log(`常驻进程已在运行（pid ${other}），本次退出`);
+    if (other && other !== process.pid)
+        return console.log(`常驻进程已在运行（pid ${other}），本次退出`);
     if (!dry) {
         // 无窗口进程没有控制台：输出写进 data/auto-switcher-kimi-watch.log（超 1MB 清空重写）
         try {
@@ -736,11 +910,16 @@ async function cmdWatch(dry) {
         console.log = w;
         console.error = w;
     }
-    fs.writeFileSync(PIDF, JSON.stringify({ pid: process.pid, started: fmt(Date.now()) }));
+    fs.writeFileSync(
+        PIDF,
+        JSON.stringify({ pid: process.pid, started: fmt(Date.now()) }),
+    );
     process.on("exit", () => {
-        if (readJson(PIDF, {}).pid === process.pid) fs.rmSync(PIDF, { force: true });
+        if (readJson(PIDF, {}).pid === process.pid)
+            fs.rmSync(PIDF, { force: true });
     });
-    for (const s of ["SIGINT", "SIGTERM", "SIGBREAK"]) process.on(s, () => process.exit(0));
+    for (const s of ["SIGINT", "SIGTERM", "SIGBREAK"])
+        process.on(s, () => process.exit(0));
 
     // 所有判定串行跑（进程内排队 + 跨进程 .lock）；判定完按 state 里的 return_task 重设进程内的切回定时
     let chain = Promise.resolve(),
@@ -754,7 +933,9 @@ async function cmdWatch(dry) {
         if (!at) return;
         const d = Math.max(1000, ms(at) - nowMs());
         if (d < 2 ** 31 - 1) retTimer = setTimeout(() => once(null), d);
-        console.log(`  下次切回探测 ${at}（进程内定时；计划任务 ${RETURN_TASK} 兜底）`);
+        console.log(
+            `  下次切回探测 ${at}（进程内定时；计划任务 ${RETURN_TASK} 兜底）`,
+        );
     };
     const once = (only) =>
         (chain = chain
@@ -789,11 +970,14 @@ async function cmdWatch(dry) {
             setTimeout(startWatch, 60_000);
         }
     };
-    console.log(`${fmt(Date.now())} 常驻进程启动 pid ${process.pid}，监听 ${PROJECTS}${dry ? " (dry-run)" : ""}`);
+    console.log(
+        `${fmt(Date.now())} 常驻进程启动 pid ${process.pid}，监听 ${PROJECTS}${dry ? " (dry-run)" : ""}`,
+    );
     once(null); // 启动先全量增量扫一次，并按 state 恢复下次切回的定时 / 计划任务
     startWatch();
     setInterval(() => once(null), cfg.fallback_scan_minutes * 60_000); // 兜底：fs.watch 漏事件
-    if (flag("--exit-after")) setTimeout(() => process.exit(0), Number(flag("--exit-after")) * 1000); // 测试用
+    if (flag("--exit-after"))
+        setTimeout(() => process.exit(0), Number(flag("--exit-after")) * 1000); // 测试用
 }
 
 // ---------------- 开始 / 停止 ----------------
@@ -806,7 +990,11 @@ function taskStart() {
     run("schtasks", ["/End", "/TN", TASK]);
     const r = run("schtasks", ["/Run", "/TN", TASK]);
     if (r.status !== 0)
-        spawn("wscript.exe", ["//B", VBS, process.execPath, "watch"], { detached: true, stdio: "ignore", windowsHide: true }).unref();
+        spawn("wscript.exe", ["//B", VBS, process.execPath, "watch"], {
+            detached: true,
+            stdio: "ignore",
+            windowsHide: true,
+        }).unref();
     return `已开始：常驻进程已拉起，监听会话日志（登录时、每天 ${cfg.daily_check_time} 检查，不在就拉起）。`;
 }
 function taskStop() {
@@ -816,7 +1004,11 @@ function taskStop() {
         if (!taskInfo(n).exists) continue;
         run("schtasks", ["/End", "/TN", n]);
         const r = run("schtasks", ["/Delete", "/TN", n, "/F"]);
-        msgs.push(r.status === 0 ? `已删除计划任务 ${n}` : `删除计划任务 ${n} 失败（退出码 ${r.status}）`);
+        msgs.push(
+            r.status === 0
+                ? `已删除计划任务 ${n}`
+                : `删除计划任务 ${n} 失败（退出码 ${r.status}）`,
+        );
     }
     const st = loadState();
     if (st.return_task) {
@@ -841,8 +1033,10 @@ function taskStatusLine() {
     let s = `自动切换: ${pid ? `【运行中】 常驻进程 pid ${pid} 在监听会话日志` : i.exists ? "【常驻进程不在】（下次登录 / 每天检查时会拉起，选 1 立即拉起）" : "【未开始】"}`;
     if (i.exists && !i.enabled) s += "（计划任务被禁用了）";
     if (st.return_task) s += `，下次切回探测 ${short(st.return_task.at)}`;
-    if (st.last) s += `，上次判定 ${short(st.last.time)}（${ACT_TEXT[st.last.action] || st.last.action}${st.last.target ? " → " + st.last.target : ""}）`;
-    if (i.exists && !i.pathOk) s += "\n  注意: 计划任务指向的不是本目录，选 1 开始会改成这里";
+    if (st.last)
+        s += `，上次判定 ${short(st.last.time)}（${ACT_TEXT[st.last.action] || st.last.action}${st.last.target ? " → " + st.last.target : ""}）`;
+    if (i.exists && !i.pathOk)
+        s += "\n  注意: 计划任务指向的不是本目录，选 1 开始会改成这里";
     const g = taskInfo(GRAVITEX_TASK);
     if (g.exists && g.enabled)
         s +=
@@ -854,17 +1048,27 @@ function statusText(cfg = loadConfig()) {
     const st = loadState(),
         t = nowMs(),
         cur = current();
-    const L = [`  当前 settings.json: ${cur || "?"}${isKimi(cfg, cur) ? "" : "（不归本工具管，只管 kimi-code ↔ kimi-api）"}`];
+    const L = [
+        `  当前 settings.json: ${cur || "?"}${isKimi(cfg, cur) ? "" : "（不归本工具管，只管 kimi-code ↔ kimi-api）"}`,
+    ];
     if (cfg.apis.includes(cur))
-        L.push(`  在烧 token${st.parked ? `：本工具 ${short(st.parked.at)} 从 ${st.parked.from} 切过来` : "（手动选的）"}，订阅恢复后自动切回`);
+        L.push(
+            `  在烧 token${st.parked ? `：本工具 ${short(st.parked.at)} 从 ${st.parked.from} 切过来` : "（手动选的）"}，订阅恢复后自动切回`,
+        );
     const pid = watcherPid(),
         pinfo = readJson(PIDF, {});
-    L.push(`  常驻进程: ${pid ? `在（pid ${pid}，${short(pinfo.started)} 启动）` : "不在"}`);
+    L.push(
+        `  常驻进程: ${pid ? `在（pid ${pid}，${short(pinfo.started)} 启动）` : "不在"}`,
+    );
     const rt = taskInfo(RETURN_TASK);
     if (st.return_task)
         L.push(
             `  下次切回: ${st.return_task.at} 探测订阅，通了切回` +
-                (st.return_task.error ? `（计划任务注册失败: ${st.return_task.error}；只靠常驻进程定时）` : rt.exists ? `（计划任务 ${RETURN_TASK} 已挂 ${rt.boundary.slice(0, 16)}）` : "（计划任务里没找到，只靠常驻进程定时）"),
+                (st.return_task.error
+                    ? `（计划任务注册失败: ${st.return_task.error}；只靠常驻进程定时）`
+                    : rt.exists
+                      ? `（计划任务 ${RETURN_TASK} 已挂 ${rt.boundary.slice(0, 16)}）`
+                      : "（计划任务里没找到，只靠常驻进程定时）"),
         );
     else L.push("  下次切回: 没挂（不在 kimi-api 上）");
     for (const n of cfg.subs) {
@@ -879,39 +1083,70 @@ function statusText(cfg = loadConfig()) {
                     : `撞 ${KIND_TEXT[kind]}上限 ${short(l.hit_at)} → 预计 ${short(l.reset_at)} 恢复（${l.source}）${ms(l.reset_at) <= t ? "，已过点，待探测" : ""}`,
             );
         }
-        const state = limitedNow(k, t) ? "受限" : activeLimits(k).length ? "应已恢复（待探测确认）" : "可用";
+        const state = limitedNow(k, t)
+            ? "受限"
+            : activeLimits(k).length
+              ? "应已恢复（待探测确认）"
+              : "可用";
         L.push(`  ${n.padEnd(14)} ${state}${n === cur ? "  ← 当前" : ""}`);
         for (const x of lines) L.push(`      ${x}`);
-        if (k.last_probe) L.push(`      上次探测 ${short(k.last_probe.time)}: ${k.last_probe.result}${k.last_probe.status ? ` (HTTP ${k.last_probe.status})` : ""}`);
+        if (k.last_probe)
+            L.push(
+                `      上次探测 ${short(k.last_probe.time)}: ${k.last_probe.result}${k.last_probe.status ? ` (HTTP ${k.last_probe.status})` : ""}`,
+            );
     }
     const ev = (st.events || []).slice(-3);
     if (ev.length) {
         L.push("  最近日志里的额度报错:");
-        for (const e of ev) L.push(`      ${short(e.time)} ${KIND_TEXT[e.kind]}  ${e.text.slice(0, 90)}`);
+        for (const e of ev)
+            L.push(
+                `      ${short(e.time)} ${KIND_TEXT[e.kind]}  ${e.text.slice(0, 90)}`,
+            );
     }
-    if (st.last) L.push(`  上次判定 ${st.last.time}: ${ACT_TEXT[st.last.action] || st.last.action}${st.last.target ? " → " + st.last.target : ""}${st.last.note ? `（${st.last.note}）` : ""}`);
+    if (st.last)
+        L.push(
+            `  上次判定 ${st.last.time}: ${ACT_TEXT[st.last.action] || st.last.action}${st.last.target ? " → " + st.last.target : ""}${st.last.note ? `（${st.last.note}）` : ""}`,
+        );
     return L.join("\n");
 }
 
 // ---------------- 菜单 ----------------
 export async function menu() {
-    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    const rl = createInterface({
+        input: process.stdin,
+        output: process.stdout,
+    });
     try {
         for (;;) {
             const cfg = loadConfig(),
                 running = !!watcherPid();
-            console.log("\n========== auto-switcher-kimi（kimi 订阅撞额度自动切烧 token） ==========");
+            console.log("\n========== auto-switcher ==========");
             console.log("  " + taskStatusLine());
-            console.log(`  当前 settings.json: ${current() || "?"}　|　优先用订阅 ${cfg.subs.join(" → ")}，撞上限依次切 ${cfg.apis.join(" → ")}，恢复后切回`);
+            console.log(
+                `  当前 settings.json: ${current() || "?"}　|　优先用订阅 ${cfg.subs.join(" → ")}，撞上限依次切 ${cfg.apis.join(" → ")}，恢复后切回`,
+            );
             console.log("  ---------------------------------");
-            console.log(`  1. ${running ? "重新开始" : "开始"}自动切换（常驻无窗口进程监听会话日志，撞上限即切；到点自动切回）`);
-            console.log("  2. 查看状态（常驻进程、各订阅撞上限时间、预计恢复 / 下次切回时间）");
+            console.log(
+                `  1. ${running ? "重新开始" : "开始"}自动切换（常驻无窗口进程监听会话日志，撞上限即切；到点自动切回）`,
+            );
+            console.log(
+                "  2. 查看状态（常驻进程、各订阅撞上限时间、预计恢复 / 下次切回时间）",
+            );
             console.log("  3. 停止自动切换（删计划任务 + 结束常驻进程）");
             const v = (await rl.question("输入序号(回车=退出): ")).trim();
             if (!v) return;
             if (v === "1") {
-                const ok = (await rl.question("  确认开始? (y/回车=确认，n=取消): ")).trim().toLowerCase();
-                console.log("  " + (ok === "" || ok === "y" ? taskStart() : "已取消，没有改动"));
+                const ok = (
+                    await rl.question("  确认开始? (y/回车=确认，n=取消): ")
+                )
+                    .trim()
+                    .toLowerCase();
+                console.log(
+                    "  " +
+                        (ok === "" || ok === "y"
+                            ? taskStart()
+                            : "已取消，没有改动"),
+                );
             } else if (v === "2") console.log(statusText(cfg));
             else if (v === "3") console.log("  " + taskStop());
             else console.log("  没有这个选项");
@@ -927,20 +1162,27 @@ if (isMain) {
     const [cmd = "menu", ...rest] = argv;
     if (cmd === "menu") await menu();
     else if (cmd === "watch") await cmdWatch(DRY);
-    else if (cmd === "run") await withLock(() => cmdRun(DRY)); // 一次性切回任务 / 手动跑一次
-    else if (cmd === "status") console.log(taskStatusLine() + "\n" + statusText());
+    else if (cmd === "run")
+        await withLock(() => cmdRun(DRY)); // 一次性切回任务 / 手动跑一次
+    else if (cmd === "status")
+        console.log(taskStatusLine() + "\n" + statusText());
     else if (cmd === "start") console.log(taskStart());
     else if (cmd === "stop") console.log(taskStop());
     else if (cmd === "probe") {
         // 只探测、打印结果，不写状态不切换（每把订阅发一个 1 token 请求）
         const cfg = loadConfig();
-        const names = rest[0] && !rest[0].startsWith("--") ? [rest[0]] : cfg.subs;
+        const names =
+            rest[0] && !rest[0].startsWith("--") ? [rest[0]] : cfg.subs;
         for (const n of names) {
             const r = await probe(n);
-            console.log(`${n}: ${r.result}${r.status ? ` (HTTP ${r.status})` : ""}${r.reset ? ` 重置 ${fmt(r.reset)}` : ""}${r.msg ? ` ${r.msg}` : ""}`);
+            console.log(
+                `${n}: ${r.result}${r.status ? ` (HTTP ${r.status})` : ""}${r.reset ? ` 重置 ${fmt(r.reset)}` : ""}${r.msg ? ` ${r.msg}` : ""}`,
+            );
         }
     } else {
-        console.log("用法: node scripts/auto-switcher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]");
+        console.log(
+            "用法: node scripts/auto-switcher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]",
+        );
         process.exitCode = 1;
     }
 }
