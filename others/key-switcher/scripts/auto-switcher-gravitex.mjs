@@ -1,16 +1,16 @@
-// auto-swicher-gravitex.mjs — gravitex 多把 key 按比例自动轮换（原 key-balance；2026-10-20 用户定；只依赖 Node）
-// 目录: key-switcher/ 根 = auto-swicher-gravitex.cmd + auto-switcher-config.json + profiles-*.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
+// auto-switcher-gravitex.mjs — gravitex 多把 key 按比例自动轮换（原 key-balance；2026-10-20 用户定；只依赖 Node）
+// 目录: key-switcher/ 根 = auto-switcher-gravitex.cmd + auto-switcher-config.json + profiles-*.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
 //
 // 做什么: 按 auto-switcher-config.json 里的比例，让各 key 从基线起的「新增花费」最终贴近这个比例（如 1:0.5:0.5 → 花 $1000 时约 $500:$250:$250）。
 //   新增花费 = 当前累计花费 − 基线（第一次运行时记下的累计花费）；历史上谁用得多不追平。
 //   花费来源: gravitex(new-api) GET /api/usage/token/ 的 total_used ÷ 500,000 = 美元（gravitex 的计费口径）
-// 怎么用: 双击 auto-swicher-gravitex.cmd → 1 开始自动切换 / 2 设置比例 / 3 停止。双击本身不会开始切 key。
-//   自动切换 = Windows 计划任务 auto-switcher，每 interval_minutes 分钟用 scripts/auto-switcher-run.vbs 无窗口跑一次 `node auto-swicher-gravitex.mjs run --jitter`:
+// 怎么用: 双击 auto-switcher-gravitex.cmd → 1 开始自动切换 / 2 设置比例 / 3 停止。双击本身不会开始切 key。
+//   自动切换 = Windows 计划任务 auto-switcher，每 interval_minutes 分钟用 scripts/auto-switcher-run.vbs 无窗口跑一次 `node auto-switcher-gravitex.mjs run --jitter`:
 //   （60 的倍数 → 整点触发，如 60=每小时整点；其他按分钟，如 15 = 每小时 :00/:15/:30/:45；最小 5 分钟）
 //   每次检查: 算每把 key「应花多少」（总新增 × 比例占比）和「实际花了多少」→ 正在用的 key 多花超过它的阈值，
 //   就切到少花最多的那把（阈值按比例缩放: threshold_usd 是比例最大那把的阈值，比例 0.5 的 key 用一半）
 //   就切到少花最多的那把（改 ~/.claude/settings.json，新开的 Claude 会话、claude -p 用新 key）
-// 命令: node scripts/auto-swicher-gravitex.mjs menu | run [--dry-run] | start | stop | task | pick [--exclude a,b] [--dry-run]
+// 命令: node scripts/auto-switcher-gravitex.mjs menu | run [--dry-run] | start | stop | task | pick [--exclude a,b] [--dry-run]
 // 文件: 根/auto-switcher-config.json（比例，可提交）; data/auto-switcher-state.json、-log.csv、.lock（运行数据，整个 data/ 已 .gitignore）
 import fs from "node:fs";
 import path from "node:path";
@@ -28,10 +28,10 @@ const CONFIG = path.join(ROOT, "auto-switcher-config.json");
 const STATE = path.join(DATA, "auto-switcher-state.json");
 const LOG = path.join(DATA, "auto-switcher-log.csv");
 const LOCK = path.join(DATA, "auto-switcher.lock");
-const VBS = path.join(HERE, "auto-swicher-gravitex-run.vbs");
+const VBS = path.join(HERE, "auto-switcher-gravitex-run.vbs");
 const API = "https://api.gravitex.ai/api/usage/token/";
 const QUOTA_PER_USD = 500_000;
-const TASK = process.env.KB_TASK || "auto-swicher-gravitex"; // 测试时可换名
+const TASK = process.env.KB_TASK || "auto-switcher-gravitex"; // 测试时可换名
 const ORDER = ["gravitex", "gravitex-xhj", "gravitex-cyx", "gravitex-zgm"];
 const LABELS = {
     gravitex: "gravitex",
@@ -671,7 +671,7 @@ if (isMain) {
     else if (cmd === "task") console.log(taskStatusLine());
     else {
         console.log(
-            "用法: node scripts/auto-swicher-gravitex.mjs menu | run [--dry-run] | start | stop | task | pick [--exclude a,b] [--dry-run]",
+            "用法: node scripts/auto-switcher-gravitex.mjs menu | run [--dry-run] | start | stop | task | pick [--exclude a,b] [--dry-run]",
         );
         process.exitCode = 1;
     }

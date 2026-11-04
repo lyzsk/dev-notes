@@ -1,7 +1,7 @@
 // auto-switcher-kimi 的额度分类离线回归测试；不发网络请求。
 import test from "node:test";
 import assert from "node:assert/strict";
-import { quotaKindFromBody } from "./auto-swicher.mjs";
+import { quotaKindFromBody } from "./auto-switcher.mjs";
 
 test("普通 429 / overloaded / unrecognized_model 不算额度窗口", () => {
     assert.equal(quotaKindFromBody("Request rejected (429) · The engine is currently overloaded"), null);

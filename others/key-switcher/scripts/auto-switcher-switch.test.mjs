@@ -8,7 +8,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const SELF = path.join(HERE, "auto-swicher.mjs");
+const SELF = path.join(HERE, "auto-switcher.mjs");
 
 function fixture() {
     // 11/2 实测：12:58:39 报 5h → 12:58:41 单 token 探测 200 → 13:10/13:17 又报 5h
@@ -54,7 +54,7 @@ test("探测ok后仍连续报5h → 冷却内也先切 DeepSeek，并挂回切�
     const out = dryRun(fixture());
     assert.match(out, /探测 ok 后 10 分钟内 2 条真实额度报错/);
     assert.match(out, /当前=kimi-code → switch deepseek/);
-    assert.match(out, /会注册一次性计划任务 auto-swicher-return 于 2026-11-02 13:48/); // 11/3 连击真实报错后，受限记录按 13:18+30 分钟回探
+    assert.match(out, /会注册一次性计划任务 auto-switcher-return 于 2026-11-02 13:48/); // 11/3 连击真实报错后，受限记录按 13:18+30 分钟回探
 });
 
 test("普通429/overloaded 不触发额度切换", () => {

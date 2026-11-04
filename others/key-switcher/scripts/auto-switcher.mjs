@@ -1,5 +1,5 @@
-// auto-swicher.mjs — kimi 订阅撞额度自动切烧 token、到点切回订阅（2026-10-25 用户定；只依赖 Node）
-// 目录: key-switcher/ 根 = auto-swicher.cmd + profiles-claude.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
+// auto-switcher.mjs — kimi 订阅撞额度自动切烧 token、到点切回订阅（2026-10-25 用户定；只依赖 Node）
+// 目录: key-switcher/ 根 = auto-switcher.cmd + profiles-claude.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
 //
 // 做什么: 默认优先用 kimi 订阅 kimi-code（kimi-code-api-key.txt，有 5 小时窗口和 7 天两种用量上限）；撞上限后
 //   依次切到 DeepSeek（deepseek-api-key.txt）、kimi-api（kimi-api-key.txt），到预计恢复时刻再优先切回订阅。两次切换都改 ~/.claude/settings.json。
@@ -16,11 +16,11 @@
 //   在 kimi-api 上（不管是本工具切的还是手动选的）订阅一恢复就切回订阅。切换只走 cs.mjs 的 setDefault（改 ~/.claude/settings.json）。
 // 切回订阅: 切到 kimi-api 后，按预计恢复时刻注册一个一次性计划任务 auto-switcher-kimi-return（到点跑 run → 探测 → 通了切回 kimi-code，
 //   不通按 30/60/120/240 分钟再注册下一次）；常驻进程里同一时刻也有 setTimeout，计划任务兜底（进程挂了 / 重启后不丢，时刻存在 state 里）。
-// 怎么用: 双击 auto-swicher.cmd → 1 开始 / 2 查看状态 / 3 停止。双击本身不会切 key。
+// 怎么用: 双击 auto-switcher.cmd → 1 开始 / 2 查看状态 / 3 停止。双击本身不会切 key。
 //   1 开始 = 注册计划任务 auto-switcher-kimi（登录时 + 每天 daily_check_time 各拉起一次常驻进程；已在跑就什么都不做）并立即拉起；
 //   3 停止 = 删掉 auto-switcher-kimi 和 auto-switcher-kimi-return 两个计划任务并结束常驻进程。
 //   计划任务都用 wscript //B + scripts/auto-switcher-kimi-run.vbs 无窗口启动，不弹黑框。
-// 命令: node scripts/auto-swicher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]
+// 命令: node scripts/auto-switcher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]
 //   测试用: --now "2026-10-25 23:00"（假装现在是这个时刻）、--as <配置名>（仅 --dry-run，假装当前默认是它）、--exit-after <秒>（watch 跑这么久自动退出）、
 //   --dry-run 不写 state / 日志、不切换、不注册计划任务（只打印"会注册 / 会删除"）；
 //   环境变量 KIMI_FAKE_PROBE='{"kimi-code":"5h"}'（ok / 5h / 7d / error / unknown），不发请求，探测结果用这个、
@@ -47,13 +47,13 @@ const LOG = path.join(DATA, "auto-switcher-kimi-log.csv");
 const LOCK = path.join(DATA, "auto-switcher-kimi.lock");
 const PIDF = path.join(DATA, "auto-switcher-kimi-watch.pid");
 const WLOG = path.join(DATA, "auto-switcher-kimi-watch.log");
-const VBS = path.join(HERE, "auto-swicher-run.vbs");
+const VBS = path.join(HERE, "auto-switcher-run.vbs");
 const PROJECTS =
     process.env.KIMI_PROJECTS_DIR ||
     path.join(os.homedir(), ".claude", "projects");
-const TASK = process.env.KK_TASK || "auto-swicher"; // 常驻进程拉起任务（测试时可换名）
+const TASK = process.env.KK_TASK || "auto-switcher"; // 常驻进程拉起任务（测试时可换名）
 const RETURN_TASK = TASK + "-return"; // 一次性: 到预计恢复时刻探测并切回订阅
-const GRAVITEX_TASK = "auto-swicher-gravitex"; // 只读它的状态，用来提示两个同时开会打架
+const GRAVITEX_TASK = "auto-switcher-gravitex"; // 只读它的状态，用来提示两个同时开会打架
 const H = 3600_000;
 
 const DEFAULT_CONFIG = {
@@ -940,7 +940,7 @@ if (isMain) {
             console.log(`${n}: ${r.result}${r.status ? ` (HTTP ${r.status})` : ""}${r.reset ? ` 重置 ${fmt(r.reset)}` : ""}${r.msg ? ` ${r.msg}` : ""}`);
         }
     } else {
-        console.log("用法: node scripts/auto-swicher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]");
+        console.log("用法: node scripts/auto-switcher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]");
         process.exitCode = 1;
     }
 }
