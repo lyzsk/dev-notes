@@ -1,8 +1,8 @@
-// auto-switcher-kimi.mjs — kimi 订阅撞额度自动切烧 token、到点切回订阅（2026-10-25 用户定；只依赖 Node）
-// 目录: key-switcher/ 根 = auto-switcher-kimi.cmd + profiles-claude.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
+// auto-swicher.mjs — kimi 订阅撞额度自动切烧 token、到点切回订阅（2026-10-25 用户定；只依赖 Node）
+// 目录: key-switcher/ 根 = auto-swicher.cmd + profiles-claude.json；scripts/ = 代码；data/ = 运行数据(.gitignore)
 //
 // 做什么: 默认优先用 kimi 订阅 kimi-code（kimi-code-api-key.txt，有 5 小时窗口和 7 天两种用量上限）；撞上限后
-//   自动切到烧 token 的 kimi-api（kimi-api-key.txt），到预计恢复时刻再自动切回订阅。两次切换都改 ~/.claude/settings.json。
+//   依次切到 DeepSeek（deepseek-api-key.txt）、kimi-api（kimi-api-key.txt），到预计恢复时刻再优先切回订阅。两次切换都改 ~/.claude/settings.json。
 //   10/25 用户定: 只管 kimi-code ↔ kimi-api 两套，kimi-code-xhj 不参与（当前默认是 xhj 时也不动）。
 //   预计恢复 = 撞上限时刻 + 5 小时 / + 7 天（kimi 返回里带了重置时间就用返回的）；到点探测仍受限就按 30分/1时/2时/4时 往后推。
 // 怎么判定撞上限（两步，探测请求只在怀疑时发）:
@@ -16,11 +16,11 @@
 //   在 kimi-api 上（不管是本工具切的还是手动选的）订阅一恢复就切回订阅。切换只走 cs.mjs 的 setDefault（改 ~/.claude/settings.json）。
 // 切回订阅: 切到 kimi-api 后，按预计恢复时刻注册一个一次性计划任务 auto-switcher-kimi-return（到点跑 run → 探测 → 通了切回 kimi-code，
 //   不通按 30/60/120/240 分钟再注册下一次）；常驻进程里同一时刻也有 setTimeout，计划任务兜底（进程挂了 / 重启后不丢，时刻存在 state 里）。
-// 怎么用: 双击 auto-switcher-kimi.cmd → 1 开始 / 2 查看状态 / 3 停止。双击本身不会切 key。
+// 怎么用: 双击 auto-swicher.cmd → 1 开始 / 2 查看状态 / 3 停止。双击本身不会切 key。
 //   1 开始 = 注册计划任务 auto-switcher-kimi（登录时 + 每天 daily_check_time 各拉起一次常驻进程；已在跑就什么都不做）并立即拉起；
 //   3 停止 = 删掉 auto-switcher-kimi 和 auto-switcher-kimi-return 两个计划任务并结束常驻进程。
 //   计划任务都用 wscript //B + scripts/auto-switcher-kimi-run.vbs 无窗口启动，不弹黑框。
-// 命令: node scripts/auto-switcher-kimi.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]
+// 命令: node scripts/auto-swicher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]
 //   测试用: --now "2026-10-25 23:00"（假装现在是这个时刻）、--as <配置名>（仅 --dry-run，假装当前默认是它）、--exit-after <秒>（watch 跑这么久自动退出）、
 //   --dry-run 不写 state / 日志、不切换、不注册计划任务（只打印"会注册 / 会删除"）；
 //   环境变量 KIMI_FAKE_PROBE='{"kimi-code":"5h"}'（ok / 5h / 7d / error / unknown），不发请求，探测结果用这个、
@@ -47,18 +47,18 @@ const LOG = path.join(DATA, "auto-switcher-kimi-log.csv");
 const LOCK = path.join(DATA, "auto-switcher-kimi.lock");
 const PIDF = path.join(DATA, "auto-switcher-kimi-watch.pid");
 const WLOG = path.join(DATA, "auto-switcher-kimi-watch.log");
-const VBS = path.join(HERE, "auto-switcher-kimi-run.vbs");
+const VBS = path.join(HERE, "auto-swicher-run.vbs");
 const PROJECTS =
     process.env.KIMI_PROJECTS_DIR ||
     path.join(os.homedir(), ".claude", "projects");
-const TASK = process.env.KK_TASK || "auto-switcher-kimi"; // 常驻进程拉起任务（测试时可换名）
+const TASK = process.env.KK_TASK || "auto-swicher"; // 常驻进程拉起任务（测试时可换名）
 const RETURN_TASK = TASK + "-return"; // 一次性: 到预计恢复时刻探测并切回订阅
-const GRAVITEX_TASK = "auto-switcher"; // 只读它的状态，用来提示两个同时开会打架
+const GRAVITEX_TASK = "auto-swicher-gravitex"; // 只读它的状态，用来提示两个同时开会打架
 const H = 3600_000;
 
 const DEFAULT_CONFIG = {
-    subs: ["kimi-code"], // 订阅（10/25 用户定只用 kimi-code；写多个 = 按顺序轮，都撞上限才用 api）
-    api: "kimi-api", // 订阅撞上限时切到它（烧 token）
+    subs: ["kimi-code"], // 订阅优先（10/25 用户定只用 kimi-code；写多个 = 按顺序轮，都撞上限才进入后备）
+    apis: ["deepseek", "kimi-api"], // 后备顺序：DeepSeek 优先，仍不可用才用 kimi 按量
     debounce_seconds: 2.5, // 日志有新写入后等这么久再读（会话写日志很频繁，攒一批再处理）
     fallback_scan_minutes: 30, // fs.watch 漏事件的兜底：每隔这么久全量增量扫一次（只读本地）
     daily_check_time: "08:30", // 每天这个时刻检查常驻进程，不在就拉起（另外登录时也拉起）
@@ -152,7 +152,7 @@ function keyDir() {
 const profiles = () =>
     readJson(path.join(ROOT, "profiles-claude.json"), { profiles: {} })
         .profiles;
-const isKimi = (cfg, n) => n === cfg.api || cfg.subs.includes(n);
+const isKimi = (cfg, n) => cfg.apis.includes(n) || cfg.subs.includes(n);
 const current = () => {
     if (argv.includes("--dry-run") && flag("--as")) return flag("--as");
     try {
@@ -337,8 +337,11 @@ export async function probe(name) {
             },
             body: JSON.stringify({
                 model,
-                max_tokens: 1,
-                messages: [{ role: "user", content: "hi" }],
+                // 11/3 用户令: 轻探测(1 token)测不出限额, 改 10 token 真实负载探测(能触发生成路径即可, 100 太费额度)
+                max_tokens: 10,
+                messages: [
+                    { role: "user", content: "用大约一百个token简单介绍一下A股集合竞价的规则, 简短回答即可." },
+                ],
             }),
             signal: AbortSignal.timeout(30000),
         });
@@ -473,11 +476,24 @@ async function pickSub(cfg, st, events, ctx, exclude) {
         if (n === exclude) continue;
         const k = keyState(st, n);
         if (limitedNow(k, t)) continue;
-        if (!activeLimits(k).length && probedOkRecently(cfg, k, t)) return n;
+        if (!activeLimits(k).length && !events.some((e) => e.t > ms(k.last_probe?.time)) && probedOkRecently(cfg, k, t)) return n;
         if (!canProbe(cfg, k, t)) continue;
         if (await probeAndRecord(cfg, st, n, events, ctx)) return n;
     }
     return null;
+}
+async function pickApi(cfg, st, events, ctx, exclude) {
+    // 后备顺序固定为 deepseek → kimi-api；当前那把跳过，确认能用才切，不拿未知状态乱切
+    const t = nowMs();
+    for (const n of cfg.apis) {
+        if (n === exclude) continue;
+        const k = keyState(st, n);
+        if (limitedNow(k, t)) continue;
+        if (!activeLimits(k).length && !events.some((e) => e.t > ms(k.last_probe?.time)) && probedOkRecently(cfg, k, t)) return n;
+        if (!canProbe(cfg, k, t)) continue;
+        if (await probeAndRecord(cfg, st, n, events, ctx)) return n;
+    }
+    return cfg.apis.at(-1);
 }
 async function cmdRun(dry, only = null) {
     const cfg = loadConfig(),
@@ -513,19 +529,40 @@ async function cmdRun(dry, only = null) {
         k.recent_errs = [...(k.recent_errs || []), ...events.map((e) => e.t)].filter((x) => t - x < 10 * 60_000);
         const streak = k.recent_errs.length >= 2 && k.last_probe?.result === "ok";
         let limited = limitedNow(k, t) || streak;
-        if (streak) note = `探测 ok 后 10 分钟内 ${k.recent_errs.length} 条真实额度报错，以真实报错为准（不再轻探测）`;
-        else if ((fresh || limited) && canProbe(cfg, k, t, false))
+        if (streak) {
+            note = `探测 ok 后 10 分钟内 ${k.recent_errs.length} 条真实额度报错，以真实报错为准（不再轻探测）`;
+            // 11/3 补丁: 连击切换时必须作废旧探测 ok 缓存 + 落受限记录, 否则回切路径信 probedOkRecently 继续秒切回(抖动根因)
+            const kind = events.length ? events[events.length - 1].kind : "5h";
+            if (!k["limit_" + kind] || k["limit_" + kind].recovered_at)
+                k["limit_" + kind] = { hit_at: fmt(t), reset_at: fmt(t + 30 * 60_000), source: "真实报错连击(11/3 补丁)" };
+            else k["limit_" + kind].reset_at = fmt(t + 30 * 60_000);
+            k.next_probe_at = k["limit_" + kind].reset_at;
+            delete k.last_probe; // 回切路径不得再信过期的探测 ok
+        } else if ((fresh || limited) && canProbe(cfg, k, t, false))
             limited = !(await probeAndRecord(cfg, st, cur, events, ctx)) && limitedNow(k, t);
         else if (fresh) note = `${cur} ${cfg.probe_cooldown_minutes} 分钟内探测过（${k.last_probe?.result}），这次不再探测`;
         if (limited) {
-            target = (await pickSub(cfg, st, events, ctx, cur)) || cfg.api;
+            target = (await pickSub(cfg, st, events, ctx, cur)) || (await pickApi(cfg, st, events, ctx, cur));
             action = "switch";
         }
-    } else if (cur === cfg.api) {
-        // 默认优先用订阅：记录里订阅还在受限期就不探测；到了预计恢复时刻（或没有记录）才探测，确认能用就切回
-        target = await pickSub(cfg, st, events, ctx, null);
-        if (target) action = "return";
-        else {
+    } else if (cfg.apis.includes(cur)) {
+        // 任一后备上都优先回订阅；当前后备也受限才沿 deepseek → kimi-api 顺序换下一把
+        const k = keyState(st, cur);
+        if (limitedNow(k, t)) {
+            target = (await pickSub(cfg, st, events, ctx, null)) || (await pickApi(cfg, st, events, ctx, cur));
+            if (target !== cur) action = "switch";
+        } else {
+            const sub = await pickSub(cfg, st, events, ctx, null);
+            if (sub) {
+                target = sub;
+                action = "return";
+            } else {
+                // 订阅仍受限：不能停在最后的 kimi-api 上等，先落到优先级更高的可用后备
+                target = await pickApi(cfg, st, events, ctx, cur);
+                if (target !== cur) action = "switch";
+            }
+        }
+        if (!target) {
             const due = cfg.subs
                 .map((n) => keyState(st, n).next_probe_at || fmt(resetAt(keyState(st, n))))
                 .filter(Boolean)
@@ -538,8 +575,8 @@ async function cmdRun(dry, only = null) {
             const [ok, msg] = switchTo(target);
             if (!ok) action = "switch_failed";
             note = msg;
-            if (ok && target === cfg.api) st.parked = { from: cur, at: T };
-            if (ok && target !== cfg.api) delete st.parked;
+            if (ok && cfg.apis.includes(target)) st.parked = { from: cur, at: T };
+            if (ok && !cfg.apis.includes(target)) delete st.parked;
         }
         ctx.log([T, cur, action, "", "", "", "", target, note]);
     }
@@ -569,7 +606,7 @@ function nextReturnAt(cfg, st) {
 function scheduleReturn(cfg, st, eff, dry, verify) {
     const t = nowMs(),
         old = st.return_task;
-    if (eff !== cfg.api) {
+    if (!cfg.apis.includes(eff)) {
         // 已经在订阅（或不在 kimi 系）：取消还没到点的切回任务；已经过点的不删（可能正是它在跑这一次）
         if (old) {
             if (ms(old.at) > t) {
@@ -818,7 +855,7 @@ function statusText(cfg = loadConfig()) {
         t = nowMs(),
         cur = current();
     const L = [`  当前 settings.json: ${cur || "?"}${isKimi(cfg, cur) ? "" : "（不归本工具管，只管 kimi-code ↔ kimi-api）"}`];
-    if (cur === cfg.api)
+    if (cfg.apis.includes(cur))
         L.push(`  在烧 token${st.parked ? `：本工具 ${short(st.parked.at)} 从 ${st.parked.from} 切过来` : "（手动选的）"}，订阅恢复后自动切回`);
     const pid = watcherPid(),
         pinfo = readJson(PIDF, {});
@@ -865,7 +902,7 @@ export async function menu() {
                 running = !!watcherPid();
             console.log("\n========== auto-switcher-kimi（kimi 订阅撞额度自动切烧 token） ==========");
             console.log("  " + taskStatusLine());
-            console.log(`  当前 settings.json: ${current() || "?"}　|　优先用订阅 ${cfg.subs.join(" → ")}，撞上限切 ${cfg.api}，恢复后切回`);
+            console.log(`  当前 settings.json: ${current() || "?"}　|　优先用订阅 ${cfg.subs.join(" → ")}，撞上限依次切 ${cfg.apis.join(" → ")}，恢复后切回`);
             console.log("  ---------------------------------");
             console.log(`  1. ${running ? "重新开始" : "开始"}自动切换（常驻无窗口进程监听会话日志，撞上限即切；到点自动切回）`);
             console.log("  2. 查看状态（常驻进程、各订阅撞上限时间、预计恢复 / 下次切回时间）");
@@ -903,7 +940,7 @@ if (isMain) {
             console.log(`${n}: ${r.result}${r.status ? ` (HTTP ${r.status})` : ""}${r.reset ? ` 重置 ${fmt(r.reset)}` : ""}${r.msg ? ` ${r.msg}` : ""}`);
         }
     } else {
-        console.log("用法: node scripts/auto-switcher-kimi.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]");
+        console.log("用法: node scripts/auto-swicher.mjs menu | watch [--dry-run] | run [--dry-run] | status | start | stop | probe [配置名]");
         process.exitCode = 1;
     }
 }

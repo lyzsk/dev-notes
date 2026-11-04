@@ -51,20 +51,19 @@
 }
 ```
 
-## maas.gravitex.ai
+## deepseek
 
 ```json
 {
     "env": {
-        "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+        "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
         "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
-        "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
-        "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
-        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
-        "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
-        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
-        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
-        "CLAUDE_CODE_EFFORT_LEVEL": "high"
+        "ANTHROPIC_MODEL": "deepseek-flash[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-flash[1m]",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-flash[1m]",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "	deepseek-flash[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "deepseek-v4-pro[1m]",
+        "CLAUDE_CODE_EFFORT_LEVEL": "max"
     }
 }
 ```
@@ -87,7 +86,23 @@
 }
 ```
 
-````
+## maas.gravitex.ai
+
+```json
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "https://api.gravitex.ai",
+        "ANTHROPIC_AUTH_TOKEN": "YOUR_API_KEY",
+        "ANTHROPIC_MODEL": "claude-sonnet-5-5[1m]",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL": "claude-fable-5-1[1m]",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5[1m]",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k3[1m]",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-5-5[1m]",
+        "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "1000000",
+        "CLAUDE_CODE_EFFORT_LEVEL": "high"
+    }
+}
+```
 
 # `/` 命令速查表
 
@@ -148,7 +163,7 @@
 
 ```powershell
 Remove-Item "$env:USERPROFILE\.claude\projects\*\*.jsonl" -Force
-````
+```
 
 # 跳过方式
 
@@ -197,6 +212,22 @@ model:
     default: glm-5.3
     provider: zai
     base_url: https://open.bigmodel.cn/api/coding/paas/v4
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    "provider": "custom",
+    model: deepseek-flash
+    base_url: https://api.deepseek.com
+    api_key: YOUR_API_KEY
+```
+
+```yml
+model:
+    "provider": "custom",
+    model: deepseek-v4-pro
+    base_url: https://api.deepseek.com
     api_key: YOUR_API_KEY
 ```
 
