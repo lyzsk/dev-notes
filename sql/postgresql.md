@@ -6,4 +6,12 @@
 
 pgAdmin 4
 
+## DBeaver 连接
+
+Username: postgres
+
+Password: root
+
+记得 edit connection - 勾选 Show all databases
+
 ## version 17.11
