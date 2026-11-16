@@ -47,3 +47,19 @@ ssh -G git@gitlab.<company>.cn | Select-String "hostname|port|identityfile|ident
 ssh -T git@github.com
 ssh -T git@gitlab.company.com
 ```
+
+# Personal access tokens
+
+打开 Access - Personal access tokens - Add new tokens
+
+# 迁移项目
+
+```git
+rm -rf .git
+
+git init -b master
+git add -A
+git commit -m "init project"
+git remote add origin [gitlab_url]
+git push -uf origin master
+```
