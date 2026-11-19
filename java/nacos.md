@@ -29,8 +29,6 @@ nacos.core.auth.plugin.nacos.token.secret.key=GcaD2uKDVLbhqHseKVDnReMF0YIgMchhaN
 nacos.plugin.auth.nacos.token.secret.key=GcaD2uKDVLbhqHseKVDnReMF0YIgMchhaNZ3SipPB0c=
 ```
 
-http://localhost:8848/nacos 账号 nacos/nacos
-
 Derby 单机版本没有 admin, 需要 `application.properties` 加:
 
 ```yml
@@ -41,3 +39,16 @@ nacos.core.auth.admin.enabled=false
 防止注册请求抢跑:
 
 `spring.cloud.nacos.discovery.fail-fast: false`
+
+```cmd
+set NACOS_USERNAME=nacos
+set NACOS_PASSWORD=nacos
+```
+
+并且配置: `nacos.core.auth.enabled=true`
+
+浏览器访问 (Nacos 3.3.0):
+
+http://localhost:8080/
+
+账号 nacos/nacos

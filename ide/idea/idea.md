@@ -147,7 +147,7 @@ Settings -> Editor -> Code Style -> Java:
 
 Settings -> Editor -> Code style:
 
-- Hard wrap at: 80, 并勾选 Wrap on typing
+- Hard wrap at: 100, 并勾选 Wrap on typing
 
 ### 关闭自动换行
 
