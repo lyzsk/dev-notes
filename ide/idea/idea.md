@@ -327,3 +327,11 @@ IDEA 快速配置 (但是要检查很多东西, 不太好用):
 `var`: 自动填充 new 的对象的类型, etc.
 
 `serr`: `system.err.println()`
+
+# Run Config
+
+Run - Edit Configuration... - + Application
+
+`+ -> Application`
+
+`+ → Compound`
