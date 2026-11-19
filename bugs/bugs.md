@@ -2154,3 +2154,22 @@ Bug: 微信里 ClawBot 下面一行小字 "暂时无法连接", 手机上怎么�
 
 1. 在 `%APPDATA%\JetBrains\IdeaIC2025.2\idea64.exe.vmoptions` 里把堆内存调到 8 GB
 2. Task Manager -> 强制 End Task -> 重启
+
+# nacos 启动报错
+
+```cmd
+C:\Users\admin\dev\nacos\bin>startup.cmd -m standalone
+Please set the JAVA_HOME variable in your environment, We need java(x64)! jdk8 or later is better!
+```
+
+单cmd解决:
+
+```cmd
+set "JAVA_HOME=C:\Program Files\Java\jdk-17.0.18"
+"%JAVA_HOME%\bin\java.exe" -version
+startup.cmd -m standalone
+```
+
+永久解决: cmd 添加 user environment
+
+`setx JAVA_HOME "C:\Program Files\Java\jdk-17.0.18"`
