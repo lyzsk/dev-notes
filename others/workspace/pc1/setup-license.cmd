@@ -2,12 +2,12 @@
 chcp 65001 >nul
 setlocal EnableExtensions EnableDelayedExpansion
 rem ============================================================
-rem  PC1 - workspace 项目路径：C:\admin\dev\workspace
+rem  PC1 - workspace 项目路径（本机实测）：C:\Users\admin\dev\workspace
 rem ============================================================
 
-set "ROOT=C:\admin\dev\workspace"
+set "ROOT=C:\Users\admin\dev\workspace"
 set "KEYDIR=C:\Users\admin\workspace-license-keys"
-set "LICDIR=C:\admin\dev\workspace\license-data"
+set "LICDIR=%ROOT%\license-data"
 set "CLI=%ROOT%\tools\license-cli\license-cli.mjs"
 
 set "REDIS="
@@ -28,13 +28,29 @@ echo.
 if not exist "%CLI%" (
     echo [ERROR] 找不到签发脚本：%CLI%
     echo 请确认 PC1 已同步 workspace 项目。
+    pause
     exit /b 1
 )
 if not exist "%LICDIR%" mkdir "%LICDIR%"
 
-set /p PASSPHRASE=请输入私钥口令（不要使用登录密码）:
+<nul set /p "=请输入私钥口令: "
+set "PASSPHRASE="
+set "WS_PWFILE=%TEMP%\workspace-license-pass-%RANDOM%%RANDOM%.tmp"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0read-passphrase.ps1"
+if errorlevel 1 (
+    echo [ERROR] 读取口令失败，请重试。
+    if exist "%WS_PWFILE%" del /q "%WS_PWFILE%"
+    set "WS_PWFILE="
+    pause
+    exit /b 1
+)
+if exist "%WS_PWFILE%" for /f "usebackq delims=" %%i in ("%WS_PWFILE%") do set "PASSPHRASE=%%i"
+if exist "%WS_PWFILE%" del /q "%WS_PWFILE%"
+set "WS_PWFILE="
+echo.
 if "%PASSPHRASE%"=="" (
     echo [ERROR] 口令不能为空
+    pause
     exit /b 1
 )
 set "LICENSE_KEY_PASSPHRASE=%PASSPHRASE%"
@@ -43,7 +59,11 @@ if not exist "%KEYDIR%\license-private.key" (
     echo.
     echo [1/4] 生成 PC1 密钥对...
     node "%CLI%" keygen --out "%KEYDIR%"
-    if errorlevel 1 exit /b 1
+    if errorlevel 1 (
+        echo [ERROR] keygen 失败，请检查 node 和私钥口令。
+        pause
+        exit /b 1
+    )
 ) else (
     echo.
     echo [1/4] 已存在 PC1 密钥对，跳过生成
@@ -63,12 +83,9 @@ echo 公钥或文件路径变更后，必须重启 workspace-system。
 echo.
 pause
 
-set "MACHINE="
-set /p MACHINE=请输入 PC1 机器码（从 license:state 或 /api/system/license/machine-code 获取）:
-if "%MACHINE%"=="" (
-    echo [ERROR] 机器码不能为空
-    exit /b 1
-)
+set "MACHINE=sha256:6ad72d3e964384fd62a3fb468e6af2109d80a271d04d82ad892be5b33249be6b"
+set /p INPUT_MACHINE=机器码（直接回车使用当前值）:
+if not "%INPUT_MACHINE%"=="" set "MACHINE=%INPUT_MACHINE%"
 
 set "LICENSE_ID=lic-20261120"
 set /p INPUT_ID=License ID（回车使用 %LICENSE_ID%）:
@@ -89,7 +106,11 @@ if not "%INPUT_SERIAL%"=="" set "SERIAL=%INPUT_SERIAL%"
 echo.
 echo [3/4] 签发 7 天 License...
 node "%CLI%" issue --key "%KEYDIR%\license-private.key" --machine "%MACHINE%" --license-id "%LICENSE_ID%" --serial %SERIAL% --hours 168 --features workflow,todo,org-sync --out "%LICDIR%\license.json"
-if errorlevel 1 exit /b 1
+if errorlevel 1 (
+    echo [ERROR] 签发失败，请查看上方 node 报错。
+    pause
+    exit /b 1
+)
 
 echo.
 echo [4/4] 重启 PC1 的 workspace-system 后等待 60 秒，检查 license:state。

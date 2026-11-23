@@ -1,8 +1,8 @@
 ﻿$ErrorActionPreference = "Stop"
 
-$Root = "C:\admin\dev\workspace"
+$Root = "C:\Users\admin\dev\workspace"
 $KeyDir = "C:\Users\admin\workspace-license-keys"
-$LicenseDir = "C:\admin\dev\workspace\license-data"
+$LicenseDir = Join-Path $Root "license-data"
 $Cli = Join-Path $Root "tools\license-cli\license-cli.mjs"
 $DefaultUrl = "http://localhost:61115"
 

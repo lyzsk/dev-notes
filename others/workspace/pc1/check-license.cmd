@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 setlocal EnableExtensions
-rem PC1 - workspace 项目路径：C:\admin\dev\workspace
+rem PC1 - workspace 项目路径（本机实测）：C:\Users\admin\dev\workspace
 
 set "REDIS="
 for %%p in ("D:\dev\redis\redis-cli.exe" "C:\Program Files\Redis\redis-cli.exe" "C:\Redis\redis-cli.exe" "C:\Users\admin\redis\redis-cli.exe") do (
