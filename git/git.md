@@ -230,3 +230,33 @@ git gc --prune=now --aggressive
 
 git push --force origin master
 ```
+
+# 一个 repository 配置 github + gitlab
+
+```cmd
+git remote add gitlab ssh://git@gitlab.<company>.cn:2222/huangsichu/workspace.git
+git remote add gitlab https://gitlab.<company>.cn/huangsichu/workspace.git
+```
+
+`git push gitlab master` / 新仓库: `git push gitlab master --force`
+
+```cmd
+git push origin master
+git push gitlab master
+git pull origin master
+git pull gitlab master
+```
+
+验证:
+
+```cmd
+git remote -v
+git branch -vv
+git ls-remote --heads gitlab
+```
+
+注意, gitlab 的默认分支可能是 `main`, 所以需要:
+
+1. 设置 → 仓库 → 分支默认值
+2. 代码 → 分支 → 删除受保护的分支 `main`
+3. `git fetch --prune gitlab`
